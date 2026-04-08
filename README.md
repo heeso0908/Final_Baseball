@@ -26,6 +26,7 @@ Final_Baseball/
 ├── uv.lock                # 프로젝트 패키지 버전 고정 파일
 ├── .python-version        # 프로젝트 Python 버전 정보
 └── README.md              # 프로젝트 소개 문서
+```
 
 ---
 
