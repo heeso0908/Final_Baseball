@@ -30,17 +30,74 @@ Final_Baseball/
 
 ---
 
-## 📦 설치 패키지
+## 🚀 환경 설정 (uv)
 
-본 프로젝트에서는 아래 패키지를 사용합니다.
+본 프로젝트는 [uv](https://docs.astral.sh/uv/)로 패키지를 관리합니다.
 
-- `pandas`
-- `numpy`
-- `matplotlib`
-- `jupyter`
-- `ipykernel`
-- `pybaseball`
-- `plotly`
-- `scikit-learn`
-- `seaborn`
-- `scipy`
+### uv 설치 (처음 한 번만)
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### 프로젝트 환경 세팅
+```bash
+# 저장소 클론 후
+git clone <repo-url>
+cd Final_Baseball
+
+# 가상환경 생성 + 패키지 설치 (한 번에)
+uv sync
+```
+
+### Jupyter 커널 등록
+```bash
+.venv/bin/python -m ipykernel install --user --name final-baseball --display-name "final-baseball (3.12.12)"
+```
+
+이후 VSCode 또는 Jupyter에서 커널을 `final-baseball (3.12.12)`로 선택하면 됩니다.
+
+---
+
+## 📁 파일 구조
+
+```bash
+Final_Baseball/
+├── Data/                        # 원본 데이터
+├── Notebooks/
+│   └── 지소윤/
+│       ├── 0.애매한 팀 찾기.ipynb
+│       ├── 1.데이터수집.ipynb
+│       ├── 2.데이터_전처리.ipynb    # 공통 전처리 파이프라인
+│       ├── 3.EDA.ipynb
+│       ├── 4.심층분석.ipynb
+│       ├── 5.simulation.ipynb
+│       ├── 6.ml.ipynb
+│       ├── data/                  # 분석용 CSV (gitignore — 별도 공유)
+│       └── baseball_kinematics/   # 투수 포즈 분석 서브 프로젝트
+│           ├── pose_extractor_yolo.py   # YOLO + MediaPipe 포즈 추출
+│           ├── pose_preprocessor.py     # 포즈 데이터 전처리
+│           ├── release_detector.py      # 릴리즈 포인트 감지
+│           ├── run_analysis.py          # 키네마틱 지표 계산
+│           ├── run_batch_pose.py        # 배치 실행
+│           ├── trim_videos.py           # 투구 영상 트리밍
+│           ├── download_walks.py        # 볼넷 영상 다운로드
+│           ├── download_strikeouts.py   # 삼진 영상 다운로드
+│           ├── leiter_kinematics_analysis.ipynb  # 볼넷 vs 삼진 분석
+│           └── _archive/               # 미사용 구버전 코드
+├── Reports/
+├── pyproject.toml               # 의존성 정의
+├── uv.lock                      # 패키지 버전 고정
+└── .python-version              # Python 3.12.12
+```
+
+> `data/`, `pose_output/`, `videos/` 폴더는 용량 문제로 git에서 제외됩니다. 팀 공유 드라이브를 통해 별도로 받아주세요.
+
+---
+
+## 📦 주요 패키지
+
+- `pandas` / `numpy` / `scipy` — 데이터 처리
+- `matplotlib` / `seaborn` / `plotly` — 시각화
+- `scikit-learn` — 머신러닝
+- `pybaseball` — MLB Statcast 데이터 수집
+- `mediapipe` / `opencv-python` / `ultralytics` — 포즈 추출 (baseball_kinematics)
