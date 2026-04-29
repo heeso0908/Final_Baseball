@@ -28,3 +28,8 @@ collection_output/
 # 데이터 파일
 *.csv
 **/data/
+
+# 단, 프로젝트 Data 폴더의 csv는 Git에 포함
+!Data/
+!Data/*.csv
+!Data/**/*.csv
