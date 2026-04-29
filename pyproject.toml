@@ -24,4 +24,6 @@ dependencies = [
     "statsmodels>=0.14.6",
     "xgboost>=2.0.0",
     "streamlit-extras>=1.5.0",
+    "optuna>=4.8.0",
+    "pymoo>=0.6.1.6",
 ]
