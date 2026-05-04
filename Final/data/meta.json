@@ -1,0 +1,48 @@
+{
+  "project": "TEX 2025 잔차 분석",
+  "pitchers": {
+    "Leiter": {
+      "role": "Starter",
+      "situation": "SO vs Walk",
+      "n_a": 7,
+      "n_b": 6
+    },
+    "Webb": {
+      "role": "Starter",
+      "situation": "SO vs Walk",
+      "n_a": 7,
+      "n_b": 5
+    },
+    "Garcia": {
+      "role": "Closer",
+      "situation": "SV vs BS",
+      "n_a": 6,
+      "n_b": 7
+    },
+    "Armstrong": {
+      "role": "Reliever",
+      "situation": "SV vs BS",
+      "n_a": 7,
+      "n_b": 7
+    },
+    "Jackson": {
+      "role": "Reliever",
+      "situation": "SV vs BS",
+      "n_a": 6,
+      "n_b": 7
+    }
+  },
+  "methodology": {
+    "pose_models": [
+      "MotionBERT",
+      "MotionAGFormer"
+    ],
+    "main_metrics": [
+      "HSS at FP",
+      "Hip peak 3D",
+      "Trunk peak 3D",
+      "Trunk/Hip ratio"
+    ],
+    "fps": "~59"
+  }
+}

@@ -11,9 +11,9 @@ import pandas as pd
 
 from . import simulation_core
 
-_REPO_ROOT = Path(__file__).resolve().parents[5]
-_DATA_DIR = _REPO_ROOT / "Data"
-_OUTPUT_DIR = _REPO_ROOT / "Final" / "output"
+_APP_ROOT = Path(__file__).resolve().parent.parent
+_DATA_DIR = _APP_ROOT / "data_raw"
+_OUTPUT_DIR = _APP_ROOT / "output"
 
 # 사용자가 자주 쓰는 팀 호칭 → MLB 약자
 _TEAM_ALIAS = {

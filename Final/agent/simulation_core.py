@@ -24,8 +24,8 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-_REPO_ROOT = Path(__file__).resolve().parents[5]
-_DATA_DIR = _REPO_ROOT / "Data"
+_APP_ROOT = Path(__file__).resolve().parent.parent
+_DATA_DIR = _APP_ROOT / "data_raw"
 
 MODEL_FEATURES = [
     'sv_pct', 'SV_pg', 'onerun_wp', 'xi_wp', 'home_away_diff',
@@ -109,13 +109,13 @@ def _ensure_loaded() -> None:
     lasso = Lasso(alpha=best_lasso_a, max_iter=5000).fit(X_sc, y)
 
     rf = RandomForestRegressor(
-        n_estimators=500, min_samples_leaf=5, random_state=42, n_jobs=-1
+        n_estimators=500, min_samples_leaf=5, random_state=42, n_jobs=1
     ).fit(X_raw, y)
 
     xgb_m = xgb.XGBRegressor(
         n_estimators=100, learning_rate=0.03, max_depth=2,
         subsample=0.7, colsample_bytree=0.7, min_child_weight=3,
-        random_state=42, verbosity=0,
+        random_state=42, verbosity=0, n_jobs=1,
     ).fit(X_raw, y)
 
     feat_std = train[MODEL_FEATURES].std()
