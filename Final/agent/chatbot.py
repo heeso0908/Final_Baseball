@@ -27,7 +27,7 @@ from pydantic_ai import Agent
 
 from agent import tools
 
-load_dotenv()
+load_dotenv(Path(__file__).resolve().parent.parent / '.env')
 
 _PROMPT_PATH = Path(__file__).parent / "system_prompt.md"
 
@@ -38,7 +38,7 @@ _PROMPT_PATH = Path(__file__).parent / "system_prompt.md"
 
 TIER_CONFIG: dict[str, dict] = {
     "basic": {
-        "label": "\uf46c Basic",
+        "label": ' Basic',
         "name": "Basic",
         "tagline": "사전 시나리오·게임로그 조회",
         "tools": {"lookup_pareto", "query_gamelog"},
@@ -50,7 +50,7 @@ TIER_CONFIG: dict[str, dict] = {
         ),
     },
     "plus": {
-        "label": "\uf3e6 Plus",
+        "label": ' Plus',
         "name": "Plus",
         "tagline": "+ 자유 시나리오·팀 비교",
         "tools": {
@@ -59,9 +59,9 @@ TIER_CONFIG: dict[str, dict] = {
         },
         "prompt_suffix": "",  # 표준 프롬프트 그대로
     },
-    "pro": {
-        "label": "\uf4b5 Pro",
-        "name": "Pro",
+    "premium": {
+        "label": ' Premium',
+        "name": "premium",
         "tagline": "+ 이식 시뮬·historical",
         "tools": {
             "lookup_pareto", "query_gamelog",
@@ -69,7 +69,7 @@ TIER_CONFIG: dict[str, dict] = {
             "swap_team_pitching", "query_team_history",
         },
         "prompt_suffix": (
-            "\n\n## 응답 깊이 (Pro 플랜)\n"
+            "\n\n## 응답 깊이 (Premium 플랜)\n"
             "- 가능하면 도구 2-3개를 조합해 다각도로 답변합니다.\n"
             "- 시뮬 결과는 historical(`query_team_history`) 또는 경쟁팀(`compare_team_2025`)과 "
             "교차 검증 후 제시합니다.\n"
@@ -222,7 +222,7 @@ def render():
     if not os.getenv("GEMINI_API_KEY"):
         st.error(
             "환경 변수 `GEMINI_API_KEY`가 설정되어 있지 않습니다. "
-            "프로젝트 루트의 `.env` 파일을 확인하세요."
+            "`Final/.env` 파일을 확인하세요."
         )
         st.stop()
 
@@ -237,25 +237,41 @@ def render():
         st.markdown("""
 <style>
 
+section[data-testid="stSidebar"] {
+    --agent-card-x: 0px;
+    --agent-card-gap: 7px;
+    --agent-title-gap: 12px;
+    --agent-note-gap: 14px;
+    --agent-card-min-height: 48px;
+    --agent-card-padding-y: 10px;
+    --agent-card-padding-x: 12px;
+    --agent-card-radius: 10px;
+    --agent-card-bg: rgba(255,255,255,0.08);
+    --agent-card-border: rgba(255,255,255,0.16);
+}
+
 section[data-testid="stSidebar"] .agent-sidebar-list {
-    width: calc(100% - 16px) !important;
-    margin: 8px 8px 8px 8px !important;
+    width: calc(100% - (var(--agent-card-x) * 2)) !important;
+    margin: var(--agent-title-gap) var(--agent-card-x) 8px var(--agent-card-x) !important;
     padding: 0 !important;
     box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--agent-card-gap) !important;
 }
 
 section[data-testid="stSidebar"] .agent-sidebar-row {
     width: 100% !important;
-    min-height: 34px !important;
+    min-height: var(--agent-card-min-height) !important;
     box-sizing: border-box !important;
     display: flex !important;
     align-items: center !important;
     gap: 8px !important;
-    background: rgba(255,255,255,0.07) !important;
-    border: 1px solid rgba(255,255,255,0.12) !important;
-    border-radius: 8px !important;
-    padding: 8px 10px !important;
-    margin: 0 0 7px 0 !important;
+    background: var(--agent-card-bg) !important;
+    border: 1px solid var(--agent-card-border) !important;
+    border-radius: var(--agent-card-radius) !important;
+    padding: var(--agent-card-padding-y) var(--agent-card-padding-x) !important;
+    margin: 0 !important;
     color: rgba(255,255,255,0.90) !important;
     font-size: 12px !important;
     font-weight: 600 !important;
@@ -278,26 +294,84 @@ section[data-testid="stSidebar"] .agent-sidebar-code {
     line-height: 1.4 !important;
 }
 
+section[data-testid="stSidebar"] [data-testid="stVerticalBlock"]:has(.agent-control-zone) {
+    gap: 0 !important;
+}
+
+section[data-testid="stSidebar"] .element-container:has(.agent-control-zone),
+section[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.agent-control-zone) {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 /* chatbot settings: element-container siblings after agent-control-zone marker */
+section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container:has([data-testid="stButton"]),
+section[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.agent-control-zone) ~ [data-testid="stElementContainer"]:has([data-testid="stButton"]) {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container [data-testid="stButton"] {
-    width: calc(100% - 16px) !important;
-    margin: 0 8px !important;
+    width: calc(100% - (var(--agent-card-x) * 2)) !important;
+    margin: 0 var(--agent-card-x) var(--agent-card-gap) var(--agent-card-x) !important;
     padding: 0 !important;
     box-sizing: border-box !important;
 }
 
+section[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.agent-control-zone) ~ [data-testid="stElementContainer"] [data-testid="stButton"] {
+    width: calc(100% - (var(--agent-card-x) * 2)) !important;
+    margin: 0 var(--agent-card-x) var(--agent-card-gap) var(--agent-card-x) !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container:has(h3) + .element-container:has([data-testid="stButton"]) [data-testid="stButton"],
+section[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.agent-control-zone) ~ [data-testid="stElementContainer"]:has(h3) + [data-testid="stElementContainer"]:has([data-testid="stButton"]) [data-testid="stButton"] {
+    margin-top: var(--agent-title-gap) !important;
+}
+
+section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container:has([data-testid="stButton"]):last-child [data-testid="stButton"],
+section[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.agent-control-zone) ~ [data-testid="stElementContainer"]:has([data-testid="stButton"]):last-child [data-testid="stButton"] {
+    margin-bottom: 0 !important;
+}
+
 section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container [data-testid="stButton"] > button {
     width: 100% !important;
-    min-height: 34px !important;
+    min-height: var(--agent-card-min-height) !important;
     box-sizing: border-box !important;
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
     margin: 0 !important;
-    padding: 8px 10px !important;
-    background: rgba(255,255,255,0.07) !important;
-    border: 1px solid rgba(255,255,255,0.12) !important;
-    border-radius: 8px !important;
+    padding: var(--agent-card-padding-y) var(--agent-card-padding-x) !important;
+    background: var(--agent-card-bg) !important;
+    border: 1px solid var(--agent-card-border) !important;
+    border-radius: var(--agent-card-radius) !important;
+    color: rgba(255,255,255,0.90) !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    text-align: left !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.agent-control-zone) ~ [data-testid="stElementContainer"] [data-testid="stButton"] > button {
+    width: 100% !important;
+    min-height: var(--agent-card-min-height) !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    margin: 0 !important;
+    padding: var(--agent-card-padding-y) var(--agent-card-padding-x) !important;
+    background: var(--agent-card-bg) !important;
+    border: 1px solid var(--agent-card-border) !important;
+    border-radius: var(--agent-card-radius) !important;
     color: rgba(255,255,255,0.90) !important;
     font-size: 12px !important;
     font-weight: 600 !important;
@@ -340,10 +414,42 @@ section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .
     cursor: default !important;
 }
 
+section[data-testid="stSidebar"] [data-baseweb="radio-group"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--agent-card-gap) !important;
+}
+
+section[data-testid="stSidebar"] [data-baseweb="radio-group"] > * {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stRadio"] {
+    width: calc(100% - (var(--agent-card-x) * 2)) !important;
+    margin: var(--agent-title-gap) var(--agent-card-x) 8px var(--agent-card-x) !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stRadio"] div[role="radiogroup"] label {
+    align-items: center !important;
+    min-height: var(--agent-card-min-height) !important;
+    padding: var(--agent-card-padding-y) var(--agent-card-padding-x) !important;
+    border-radius: var(--agent-card-radius) !important;
+    background: var(--agent-card-bg) !important;
+    border-color: var(--agent-card-border) !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+}
+
+section[data-testid="stSidebar"] .agent-sidebar-note {
+    margin: var(--agent-note-gap) var(--agent-card-x) 2px var(--agent-card-x) !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
         st.markdown("### 구독 플랜")
-        st.caption("\uf46d 데모 모드 — 실제 결제 없음")
 
         tier = st.radio(
             "플랜 선택",
@@ -359,36 +465,35 @@ section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .
             st.session_state.current_tier = tier
 
         st.markdown("---")
+        st.markdown('<div class="agent-control-zone" style="display:none">x</div>', unsafe_allow_html=True)
         st.markdown("### 챗봇 설정")
         _model = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
 
-        with st.container():
-            st.markdown('<div class="agent-control-zone" style="display:none">x</div>', unsafe_allow_html=True)
-            st.button(
+        st.button(
                 f"\uf4f1\u2002Model: {_model}",
                 key="agent_model_display",
                 use_container_width=True,
                 disabled=True,
-            )
+        )
     
-            if st.button(
+        if st.button(
                 "\uf78a\u2002대화 초기화",
                 key="agent_reset_btn",
                 use_container_width=True,
-            ):
-                st.session_state.chat_messages = []
-                st.session_state.agent_history = None
-                st.rerun()
+        ):
+            st.session_state.chat_messages = []
+            st.session_state.agent_history = None
+            st.rerun()
     
-            if st.button(
+        if st.button(
                 "\uf116\u2002Agent 재로드",
                 key="agent_reload_btn",
                 use_container_width=True,
-            ):
-                get_agent.clear()
-                st.session_state.chat_messages = []
-                st.session_state.agent_history = None
-                st.rerun()
+        ):
+            get_agent.clear()
+            st.session_state.chat_messages = []
+            st.session_state.agent_history = None
+            st.rerun()
     
         st.markdown("---")
         st.markdown("### 사용 가능한 도구")
@@ -409,7 +514,7 @@ section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .
             '<div class="agent-sidebar-list">' + "".join(tool_rows) + '</div>',
             unsafe_allow_html=True,
         )
-        if tier != "pro":
+        if tier != "premium":
             locked = [n for n in TOOL_DESCRIPTIONS if n not in enabled]
             if locked:
                 st.markdown(
