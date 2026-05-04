@@ -1,0 +1,680 @@
+player_id,name,Date,Home Tm,Away Tm,W,L,G,GS,SV,IP,H,R,ER,HR,BB,SO,game_ERA,game_WHIP
+542888,Shawn Armstrong,2025-03-27,Texas Rangers,Boston Red Sox,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+543135,Nathan Eovaldi,2025-03-27,Texas Rangers,Boston Red Sox,0,0,1,1,0,6.0,3,2,2,1,0,9,3.0,0.5
+676395,Robert Garcia,2025-03-27,Texas Rangers,Boston Red Sox,0,0,1,0,0,0.2,0,0,0,0,2,0,0.0,3.0
+592426,Luke Jackson,2025-03-27,Texas Rangers,Boston Red Sox,0,1,1,0,0,0.1,2,3,3,1,1,1,81.0,9.0
+455119,Chris Martin,2025-03-27,Texas Rangers,Boston Red Sox,0,0,1,0,0,1.1,1,0,0,0,0,2,0.0,0.75
+542888,Shawn Armstrong,2025-03-28,Texas Rangers,Boston Red Sox,0,0,1,0,0,1.0,1,0,0,0,0,2,0.0,1.0
+687847,Marc Church,2025-03-28,Texas Rangers,Boston Red Sox,0,0,1,0,0,0.1,1,0,0,0,1,0,0.0,6.0
+592426,Luke Jackson,2025-03-28,Texas Rangers,Boston Red Sox,0,0,1,0,1,1.0,0,0,0,0,0,0,0.0,0.0
+683004,Jack Leiter,2025-03-28,Texas Rangers,Boston Red Sox,1,0,1,1,0,5.0,5,1,1,0,1,4,1.8,1.2
+571948,Hoby Milner,2025-03-28,Texas Rangers,Boston Red Sox,0,0,1,0,0,0.2,1,0,0,0,0,1,0.0,1.5
+657097,Jacob Webb,2025-03-28,Texas Rangers,Boston Red Sox,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+642520,Gerson Garabito,2025-03-29,Texas Rangers,Boston Red Sox,0,0,1,0,0,2.0,2,0,0,0,0,2,0.0,1.0
+676395,Robert Garcia,2025-03-29,Texas Rangers,Boston Red Sox,0,0,1,0,0,1.0,1,1,1,0,1,1,9.0,2.0
+641816,Tyler Mahle,2025-03-29,Texas Rangers,Boston Red Sox,0,0,1,1,0,1.2,2,1,1,0,4,3,5.4,3.6
+455119,Chris Martin,2025-03-29,Texas Rangers,Boston Red Sox,0,0,1,0,1,1.0,0,0,0,0,0,2,0.0,0.0
+571948,Hoby Milner,2025-03-29,Texas Rangers,Boston Red Sox,1,0,1,0,0,1.1,1,0,0,0,1,1,0.0,1.5
+657097,Jacob Webb,2025-03-29,Texas Rangers,Boston Red Sox,0,0,1,0,0,2.0,1,1,1,1,0,2,4.5,0.5
+542888,Shawn Armstrong,2025-03-30,Texas Rangers,Boston Red Sox,1,0,1,0,0,1.0,1,2,1,0,1,1,9.0,2.0
+676395,Robert Garcia,2025-03-30,Texas Rangers,Boston Red Sox,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+592426,Luke Jackson,2025-03-30,Texas Rangers,Boston Red Sox,0,0,1,0,1,1.0,1,0,0,0,1,1,0.0,2.0
+455119,Chris Martin,2025-03-30,Texas Rangers,Boston Red Sox,0,0,1,0,0,1.0,1,0,0,0,1,2,0.0,2.0
+594798,Jacob deGrom,2025-03-30,Texas Rangers,Boston Red Sox,0,0,1,1,0,5.0,2,0,0,0,2,6,0.0,0.8
+687847,Marc Church,2025-03-31,Cincinnati Reds,Texas Rangers,0,0,1,0,0,1.1,0,0,0,0,2,2,0.0,1.5
+642520,Gerson Garabito,2025-03-31,Cincinnati Reds,Texas Rangers,0,0,1,0,0,2.2,7,8,4,1,0,3,13.5,2.62
+677958,Kumar Rocker,2025-03-31,Cincinnati Reds,Texas Rangers,0,1,1,1,0,3.0,7,6,6,2,2,3,18.0,3.0
+543135,Nathan Eovaldi,2025-04-01,Cincinnati Reds,Texas Rangers,1,0,1,1,0,9.0,4,0,0,0,0,8,0.0,0.44
+676395,Robert Garcia,2025-04-02,Cincinnati Reds,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+592426,Luke Jackson,2025-04-02,Cincinnati Reds,Texas Rangers,0,0,1,0,1,1.0,1,0,0,0,0,1,0.0,1.0
+683004,Jack Leiter,2025-04-02,Cincinnati Reds,Texas Rangers,1,0,1,1,0,5.0,1,0,0,0,0,6,0.0,0.2
+455119,Chris Martin,2025-04-02,Cincinnati Reds,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+657097,Jacob Webb,2025-04-02,Cincinnati Reds,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+542888,Shawn Armstrong,2025-04-04,Texas Rangers,Tampa Bay Rays,0,0,1,0,0,1.1,3,2,2,0,0,2,13.5,2.25
+676395,Robert Garcia,2025-04-04,Texas Rangers,Tampa Bay Rays,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+592426,Luke Jackson,2025-04-04,Texas Rangers,Tampa Bay Rays,0,0,1,0,1,1.0,0,0,0,0,0,2,0.0,0.0
+641816,Tyler Mahle,2025-04-04,Texas Rangers,Tampa Bay Rays,1,0,1,1,0,5.0,1,0,0,0,2,5,0.0,0.6
+455119,Chris Martin,2025-04-04,Texas Rangers,Tampa Bay Rays,0,0,1,0,0,0.2,1,0,0,0,0,1,0.0,1.5
+676395,Robert Garcia,2025-04-05,Texas Rangers,Tampa Bay Rays,1,0,1,0,0,0.1,0,0,0,0,0,0,0.0,0.0
+592426,Luke Jackson,2025-04-05,Texas Rangers,Tampa Bay Rays,0,0,1,0,1,1.0,1,0,0,0,0,0,0.0,1.0
+455119,Chris Martin,2025-04-05,Texas Rangers,Tampa Bay Rays,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+657097,Jacob Webb,2025-04-05,Texas Rangers,Tampa Bay Rays,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+594798,Jacob deGrom,2025-04-05,Texas Rangers,Tampa Bay Rays,0,0,1,1,0,5.2,8,4,4,2,0,3,6.35,1.41
+687847,Marc Church,2025-04-06,Texas Rangers,Tampa Bay Rays,0,0,1,0,0,1.0,1,2,2,0,1,1,18.0,2.0
+571948,Hoby Milner,2025-04-06,Texas Rangers,Tampa Bay Rays,0,0,1,0,0,2.0,0,0,0,0,0,2,0.0,0.0
+677958,Kumar Rocker,2025-04-06,Texas Rangers,Tampa Bay Rays,0,0,1,1,0,5.0,6,1,1,0,0,1,1.8,1.2
+657097,Jacob Webb,2025-04-06,Texas Rangers,Tampa Bay Rays,1,0,1,0,0,1.0,0,0,0,0,1,2,0.0,1.0
+543135,Nathan Eovaldi,2025-04-07,Chicago Cubs,Texas Rangers,0,1,1,1,0,4.2,4,3,3,0,2,4,5.79,1.29
+642520,Gerson Garabito,2025-04-07,Chicago Cubs,Texas Rangers,0,0,1,0,0,3.1,6,4,4,0,1,3,10.8,2.1
+542888,Shawn Armstrong,2025-04-08,Chicago Cubs,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,1,1,0.0,1.0
+687847,Marc Church,2025-04-08,Chicago Cubs,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,2,1,0.0,3.0
+571578,Patrick Corbin,2025-04-08,Chicago Cubs,Texas Rangers,0,0,1,1,0,4.0,5,3,3,1,2,0,6.75,1.75
+455119,Chris Martin,2025-04-08,Chicago Cubs,Texas Rangers,0,1,1,0,0,0.2,1,4,0,0,1,2,0.0,3.0
+571948,Hoby Milner,2025-04-08,Chicago Cubs,Texas Rangers,0,0,1,0,0,0.1,1,0,0,0,0,0,0.0,3.0
+657097,Jacob Webb,2025-04-08,Chicago Cubs,Texas Rangers,0,0,1,0,0,1.0,4,3,3,0,0,1,27.0,4.0
+676395,Robert Garcia,2025-04-09,Chicago Cubs,Texas Rangers,0,0,1,0,0,1.1,1,1,1,0,0,1,6.75,0.75
+592426,Luke Jackson,2025-04-09,Chicago Cubs,Texas Rangers,0,0,1,0,0,0.2,1,0,0,0,0,0,0.0,1.5
+641816,Tyler Mahle,2025-04-09,Chicago Cubs,Texas Rangers,1,0,1,1,0,7.0,2,1,1,0,1,4,1.29,0.43
+687847,Marc Church,2025-04-11,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+455119,Chris Martin,2025-04-11,Seattle Mariners,Texas Rangers,0,1,1,0,0,1.1,2,2,2,1,0,1,13.5,1.5
+571948,Hoby Milner,2025-04-11,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.2,0,0,0,0,0,2,0.0,0.0
+594798,Jacob deGrom,2025-04-11,Seattle Mariners,Texas Rangers,0,0,1,1,0,4.0,3,3,3,2,4,4,6.75,1.75
+542888,Shawn Armstrong,2025-04-12,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,2,0.0,1.0
+676961,Caleb Boushley,2025-04-12,Seattle Mariners,Texas Rangers,0,0,1,0,0,3.2,5,5,5,1,2,3,12.27,1.91
+677958,Kumar Rocker,2025-04-12,Seattle Mariners,Texas Rangers,0,1,1,1,0,3.1,5,4,3,0,2,2,8.1,2.1
+543135,Nathan Eovaldi,2025-04-13,Seattle Mariners,Texas Rangers,0,1,1,1,0,5.0,5,3,2,1,0,3,3.6,1.0
+676395,Robert Garcia,2025-04-13,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+571948,Hoby Milner,2025-04-13,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+657097,Jacob Webb,2025-04-13,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+676395,Robert Garcia,2025-04-15,Texas Rangers,Los Angeles Angels,0,0,1,0,0,0.2,1,0,0,0,0,0,0.0,1.5
+592426,Luke Jackson,2025-04-15,Texas Rangers,Los Angeles Angels,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+641816,Tyler Mahle,2025-04-15,Texas Rangers,Los Angeles Angels,1,0,1,1,0,6.0,3,0,0,0,2,9,0.0,0.83
+455119,Chris Martin,2025-04-15,Texas Rangers,Los Angeles Angels,0,0,1,0,0,0.1,0,0,0,0,0,0,0.0,0.0
+657097,Jacob Webb,2025-04-15,Texas Rangers,Los Angeles Angels,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+542888,Shawn Armstrong,2025-04-16,Texas Rangers,Los Angeles Angels,0,0,1,0,0,1.1,1,0,0,0,0,2,0.0,0.75
+571578,Patrick Corbin,2025-04-16,Texas Rangers,Los Angeles Angels,1,0,1,1,0,5.1,5,1,1,0,1,6,1.69,1.12
+592426,Luke Jackson,2025-04-16,Texas Rangers,Los Angeles Angels,0,0,1,0,1,1.0,0,0,0,0,0,0,0.0,0.0
+657097,Jacob Webb,2025-04-16,Texas Rangers,Los Angeles Angels,0,0,1,0,0,1.1,0,0,0,0,0,1,0.0,0.0
+676395,Robert Garcia,2025-04-17,Texas Rangers,Los Angeles Angels,0,0,1,0,1,1.0,0,0,0,0,0,1,0.0,0.0
+455119,Chris Martin,2025-04-17,Texas Rangers,Los Angeles Angels,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+677958,Kumar Rocker,2025-04-17,Texas Rangers,Los Angeles Angels,1,0,1,1,0,7.0,5,3,3,0,0,8,3.86,0.71
+542888,Shawn Armstrong,2025-04-18,Texas Rangers,Los Angeles Dodgers,0,0,1,0,0,0.2,1,0,0,0,1,0,0.0,3.0
+571948,Hoby Milner,2025-04-18,Texas Rangers,Los Angeles Dodgers,0,0,1,0,0,1.1,1,2,2,0,1,1,13.5,1.5
+594798,Jacob deGrom,2025-04-18,Texas Rangers,Los Angeles Dodgers,0,1,1,1,0,7.0,3,1,1,1,1,7,1.29,0.57
+543135,Nathan Eovaldi,2025-04-19,Texas Rangers,Los Angeles Dodgers,0,0,1,1,0,6.0,5,3,2,1,0,7,3.0,0.83
+676395,Robert Garcia,2025-04-19,Texas Rangers,Los Angeles Dodgers,0,0,1,0,0,1.0,1,0,0,0,1,2,0.0,2.0
+657097,Jacob Webb,2025-04-19,Texas Rangers,Los Angeles Dodgers,1,0,1,0,0,2.0,0,0,0,0,0,1,0.0,0.0
+641816,Tyler Mahle,2025-04-20,Texas Rangers,Los Angeles Dodgers,0,0,1,1,0,7.0,2,0,0,0,3,4,0.0,0.71
+455119,Chris Martin,2025-04-20,Texas Rangers,Los Angeles Dodgers,0,1,1,0,0,1.0,1,1,1,0,1,0,9.0,2.0
+571948,Hoby Milner,2025-04-20,Texas Rangers,Los Angeles Dodgers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+542888,Shawn Armstrong,2025-04-22,Athletics,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,1,1,0.0,1.5
+571578,Patrick Corbin,2025-04-22,Athletics,Texas Rangers,1,0,1,1,0,5.0,7,2,2,2,2,4,3.6,1.8
+676395,Robert Garcia,2025-04-22,Athletics,Texas Rangers,0,0,1,0,0,0.1,0,0,0,0,0,0,0.0,0.0
+592426,Luke Jackson,2025-04-22,Athletics,Texas Rangers,0,0,1,0,1,1.0,0,0,0,0,0,0,0.0,0.0
+571948,Hoby Milner,2025-04-22,Athletics,Texas Rangers,0,0,1,0,0,1.0,2,1,1,0,1,1,9.0,3.0
+657097,Jacob Webb,2025-04-22,Athletics,Texas Rangers,0,0,1,0,0,1.0,2,2,2,2,0,0,18.0,2.0
+676961,Caleb Boushley,2025-04-23,Athletics,Texas Rangers,0,0,1,0,0,2.0,1,0,0,0,0,3,0.0,0.5
+656641,Jacob Latz,2025-04-23,Athletics,Texas Rangers,0,0,1,0,0,4.1,2,0,0,0,3,2,0.0,1.15
+677958,Kumar Rocker,2025-04-23,Athletics,Texas Rangers,0,1,1,1,0,1.2,7,5,5,1,1,2,27.0,4.8
+676395,Robert Garcia,2025-04-24,Athletics,Texas Rangers,0,0,1,0,0,0.2,1,0,0,0,0,0,0.0,1.5
+592426,Luke Jackson,2025-04-24,Athletics,Texas Rangers,0,1,1,0,0,1.0,2,2,1,0,1,1,9.0,3.0
+455119,Chris Martin,2025-04-24,Athletics,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+571948,Hoby Milner,2025-04-24,Athletics,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,1,2,0.0,1.5
+594798,Jacob deGrom,2025-04-24,Athletics,Texas Rangers,0,0,1,1,0,5.1,6,2,2,0,0,6,3.38,1.12
+543135,Nathan Eovaldi,2025-04-25,San Francisco Giants,Texas Rangers,1,0,1,1,0,6.0,3,0,0,0,1,7,0.0,0.67
+676395,Robert Garcia,2025-04-25,San Francisco Giants,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,3,0.0,0.0
+592426,Luke Jackson,2025-04-25,San Francisco Giants,Texas Rangers,0,0,1,0,1,0.2,0,0,0,0,0,1,0.0,0.0
+455119,Chris Martin,2025-04-25,San Francisco Giants,Texas Rangers,0,0,1,0,0,1.1,1,0,0,0,0,2,0.0,0.75
+542888,Shawn Armstrong,2025-04-26,San Francisco Giants,Texas Rangers,0,0,1,0,0,1.2,1,0,0,0,0,2,0.0,0.6
+656641,Jacob Latz,2025-04-26,San Francisco Giants,Texas Rangers,0,0,1,0,0,0.0,1,0,0,0,0,0,,
+641816,Tyler Mahle,2025-04-26,San Francisco Giants,Texas Rangers,0,0,1,1,0,5.0,8,2,2,0,1,1,3.6,1.8
+571948,Hoby Milner,2025-04-26,San Francisco Giants,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+657097,Jacob Webb,2025-04-26,San Francisco Giants,Texas Rangers,0,1,1,0,0,0.2,1,1,1,0,2,0,13.5,4.5
+676961,Caleb Boushley,2025-04-27,San Francisco Giants,Texas Rangers,0,0,1,0,0,2.0,0,0,0,0,0,0,0.0,0.0
+676395,Robert Garcia,2025-04-27,San Francisco Giants,Texas Rangers,0,0,1,0,0,0.2,1,0,0,0,0,0,0.0,1.5
+592426,Luke Jackson,2025-04-27,San Francisco Giants,Texas Rangers,0,1,1,0,0,0.0,1,1,0,0,0,0,,
+656641,Jacob Latz,2025-04-27,San Francisco Giants,Texas Rangers,0,0,1,0,0,1.1,1,0,0,0,0,0,0.0,0.75
+683004,Jack Leiter,2025-04-27,San Francisco Giants,Texas Rangers,0,0,1,1,0,3.1,2,2,2,0,4,3,5.4,1.8
+455119,Chris Martin,2025-04-27,San Francisco Giants,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+542888,Shawn Armstrong,2025-04-28,Texas Rangers,Athletics,0,0,1,0,0,2.0,0,0,0,0,2,1,0.0,1.0
+571578,Patrick Corbin,2025-04-28,Texas Rangers,Athletics,0,1,1,1,0,4.2,7,2,2,0,1,5,3.86,1.71
+571948,Hoby Milner,2025-04-28,Texas Rangers,Athletics,0,0,1,0,0,1.0,1,0,0,0,1,0,0.0,2.0
+657097,Jacob Webb,2025-04-28,Texas Rangers,Athletics,0,0,1,0,0,1.1,0,0,0,0,0,2,0.0,0.0
+641540,Dane Dunning,2025-04-29,Texas Rangers,Athletics,0,0,1,0,1,3.0,4,2,2,1,2,3,6.0,2.0
+594798,Jacob deGrom,2025-04-29,Texas Rangers,Athletics,1,0,1,1,0,6.0,4,0,0,0,0,7,0.0,0.67
+542888,Shawn Armstrong,2025-04-30,Texas Rangers,Athletics,0,0,1,0,0,0.2,1,1,1,1,0,1,13.5,1.5
+543135,Nathan Eovaldi,2025-04-30,Texas Rangers,Athletics,0,0,1,1,0,6.0,6,1,1,0,0,8,1.5,1.0
+676395,Robert Garcia,2025-04-30,Texas Rangers,Athletics,0,1,1,0,0,0.2,1,1,1,0,0,0,13.5,1.5
+592426,Luke Jackson,2025-04-30,Texas Rangers,Athletics,0,0,1,0,0,0.1,2,4,4,1,2,1,108.0,12.0
+455119,Chris Martin,2025-04-30,Texas Rangers,Athletics,0,0,1,0,0,1.1,1,0,0,0,0,0,0.0,0.75
+542888,Shawn Armstrong,2025-05-01,Texas Rangers,Athletics,0,0,1,0,0,1.0,1,1,1,0,2,0,9.0,3.0
+656641,Jacob Latz,2025-05-01,Texas Rangers,Athletics,0,0,1,0,0,1.0,0,0,0,0,1,2,0.0,1.0
+641816,Tyler Mahle,2025-05-01,Texas Rangers,Athletics,0,1,1,1,0,6.0,5,1,1,0,1,6,1.5,1.0
+571948,Hoby Milner,2025-05-01,Texas Rangers,Athletics,0,0,1,0,0,0.2,1,0,0,0,0,1,0.0,1.5
+657097,Jacob Webb,2025-05-01,Texas Rangers,Athletics,0,0,1,0,0,0.1,1,1,1,0,1,0,27.0,6.0
+676961,Caleb Boushley,2025-05-02,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+656641,Jacob Latz,2025-05-02,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.2,4,4,4,1,1,0,21.6,3.0
+683004,Jack Leiter,2025-05-02,Texas Rangers,Seattle Mariners,0,1,1,1,0,4.1,8,6,6,2,2,2,12.46,2.31
+571578,Patrick Corbin,2025-05-03,Texas Rangers,Seattle Mariners,0,0,1,1,0,5.2,5,1,1,1,2,2,1.59,1.24
+676395,Robert Garcia,2025-05-03,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.1,2,0,0,0,0,0,0.0,1.5
+455119,Chris Martin,2025-05-03,Texas Rangers,Seattle Mariners,0,1,1,0,0,1.0,2,1,1,0,0,0,9.0,2.0
+571948,Hoby Milner,2025-05-03,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+592426,Luke Jackson,2025-05-04,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+571948,Hoby Milner,2025-05-04,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.0,0,0,0,0,1,0,0.0,1.0
+657097,Jacob Webb,2025-05-04,Texas Rangers,Seattle Mariners,0,0,1,0,0,2.0,1,0,0,0,0,0,0.0,0.5
+594798,Jacob deGrom,2025-05-04,Texas Rangers,Seattle Mariners,1,0,1,1,0,5.0,3,1,1,0,2,3,1.8,1.0
+542888,Shawn Armstrong,2025-05-06,Boston Red Sox,Texas Rangers,0,0,1,0,0,1.1,0,0,0,0,0,1,0.0,0.0
+543135,Nathan Eovaldi,2025-05-06,Boston Red Sox,Texas Rangers,1,0,1,1,0,6.0,5,1,1,0,1,7,1.5,1.0
+676395,Robert Garcia,2025-05-06,Boston Red Sox,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,0,2,0.0,0.0
+455119,Chris Martin,2025-05-06,Boston Red Sox,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,2,0.0,1.0
+676961,Caleb Boushley,2025-05-07,Boston Red Sox,Texas Rangers,0,0,1,0,0,1.0,1,1,1,1,0,1,9.0,1.0
+676395,Robert Garcia,2025-05-07,Boston Red Sox,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+641816,Tyler Mahle,2025-05-07,Boston Red Sox,Texas Rangers,0,0,1,1,0,5.0,4,2,2,2,1,0,3.6,1.0
+571948,Hoby Milner,2025-05-07,Boston Red Sox,Texas Rangers,0,0,1,0,0,0.1,3,1,1,0,0,0,27.0,9.0
+657097,Jacob Webb,2025-05-07,Boston Red Sox,Texas Rangers,0,1,1,0,0,0.2,2,2,2,0,0,0,27.0,3.0
+656641,Jacob Latz,2025-05-08,Boston Red Sox,Texas Rangers,0,0,1,0,0,2.2,3,1,1,1,0,4,3.38,1.12
+683004,Jack Leiter,2025-05-08,Boston Red Sox,Texas Rangers,0,1,1,1,0,5.1,3,4,4,0,4,3,6.75,1.31
+571578,Patrick Corbin,2025-05-09,Detroit Tigers,Texas Rangers,0,1,1,1,0,7.0,3,2,2,0,4,3,2.57,1.0
+657097,Jacob Webb,2025-05-09,Detroit Tigers,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,1,2,0.0,1.0
+542888,Shawn Armstrong,2025-05-10,Detroit Tigers,Texas Rangers,0,0,1,0,0,1.1,1,1,1,0,0,0,6.75,0.75
+592426,Luke Jackson,2025-05-10,Detroit Tigers,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,2,1,0.0,2.0
+571948,Hoby Milner,2025-05-10,Detroit Tigers,Texas Rangers,0,0,1,0,0,1.2,1,0,0,0,0,2,0.0,0.6
+594798,Jacob deGrom,2025-05-10,Detroit Tigers,Texas Rangers,1,0,1,1,0,5.0,5,2,2,2,1,10,3.6,1.2
+543135,Nathan Eovaldi,2025-05-11,Detroit Tigers,Texas Rangers,1,0,1,1,0,7.0,2,0,0,0,1,7,0.0,0.43
+676395,Robert Garcia,2025-05-11,Detroit Tigers,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,0,0,0.0,0.0
+656641,Jacob Latz,2025-05-11,Detroit Tigers,Texas Rangers,0,0,1,0,0,0.1,2,1,1,0,1,1,27.0,9.0
+455119,Chris Martin,2025-05-11,Detroit Tigers,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+676395,Robert Garcia,2025-05-12,Texas Rangers,Colorado Rockies,0,0,1,0,0,0.2,0,0,0,0,1,1,0.0,1.5
+592426,Luke Jackson,2025-05-12,Texas Rangers,Colorado Rockies,0,0,1,0,0,0.0,1,0,0,0,0,0,,
+641816,Tyler Mahle,2025-05-12,Texas Rangers,Colorado Rockies,1,0,1,1,0,6.1,4,1,1,0,1,5,1.42,0.79
+455119,Chris Martin,2025-05-12,Texas Rangers,Colorado Rockies,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+657097,Jacob Webb,2025-05-12,Texas Rangers,Colorado Rockies,0,0,1,0,1,1.0,1,0,0,0,1,0,0.0,2.0
+542888,Shawn Armstrong,2025-05-13,Texas Rangers,Colorado Rockies,0,0,1,0,1,1.0,0,0,0,0,0,3,0.0,0.0
+683004,Jack Leiter,2025-05-13,Texas Rangers,Colorado Rockies,1,0,1,1,0,6.0,2,1,1,0,3,5,1.5,0.83
+455119,Chris Martin,2025-05-13,Texas Rangers,Colorado Rockies,0,0,1,0,0,0.0,1,0,0,0,0,0,,
+571948,Hoby Milner,2025-05-13,Texas Rangers,Colorado Rockies,0,0,1,0,0,2.0,2,0,0,0,0,0,0.0,1.0
+676961,Caleb Boushley,2025-05-14,Texas Rangers,Colorado Rockies,0,0,1,0,0,2.1,3,0,0,0,1,4,0.0,1.71
+571578,Patrick Corbin,2025-05-14,Texas Rangers,Colorado Rockies,1,0,1,1,0,6.0,4,3,3,2,1,9,4.5,0.83
+676395,Robert Garcia,2025-05-14,Texas Rangers,Colorado Rockies,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+542888,Shawn Armstrong,2025-05-15,Texas Rangers,Houston Astros,0,0,1,0,1,1.0,0,0,0,0,1,0,0.0,1.0
+594798,Jacob deGrom,2025-05-15,Texas Rangers,Houston Astros,1,0,1,1,0,8.0,5,0,0,0,1,7,0.0,0.75
+542888,Shawn Armstrong,2025-05-16,Texas Rangers,Houston Astros,0,1,1,0,0,0.0,2,4,4,1,2,0,,
+543135,Nathan Eovaldi,2025-05-16,Texas Rangers,Houston Astros,0,0,1,1,0,5.2,2,0,0,0,3,5,0.0,0.88
+571948,Hoby Milner,2025-05-16,Texas Rangers,Houston Astros,0,0,1,0,0,1.0,2,2,2,0,0,0,18.0,2.0
+668390,Cole Winn,2025-05-16,Texas Rangers,Houston Astros,0,0,1,0,0,2.1,3,0,0,0,0,1,0.0,1.29
+676395,Robert Garcia,2025-05-17,Texas Rangers,Houston Astros,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+641816,Tyler Mahle,2025-05-17,Texas Rangers,Houston Astros,1,0,1,1,0,6.0,5,1,1,0,2,3,1.5,1.17
+455119,Chris Martin,2025-05-17,Texas Rangers,Houston Astros,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+657097,Jacob Webb,2025-05-17,Texas Rangers,Houston Astros,0,0,1,0,0,1.0,0,0,0,0,2,2,0.0,2.0
+676395,Robert Garcia,2025-05-18,Texas Rangers,Houston Astros,0,1,1,0,0,1.0,1,1,1,1,1,0,9.0,2.0
+592426,Luke Jackson,2025-05-18,Texas Rangers,Houston Astros,0,0,1,0,0,1.0,0,0,0,0,1,1,0.0,1.0
+683004,Jack Leiter,2025-05-18,Texas Rangers,Houston Astros,0,0,1,1,0,7.0,3,3,3,1,2,4,3.86,0.71
+455119,Chris Martin,2025-05-18,Texas Rangers,Houston Astros,0,0,1,0,0,0.0,0,0,0,0,0,0,,
+676961,Caleb Boushley,2025-05-20,New York Yankees,Texas Rangers,0,0,1,0,0,2.0,3,2,2,1,1,2,9.0,2.0
+571578,Patrick Corbin,2025-05-20,New York Yankees,Texas Rangers,0,1,1,1,0,5.0,5,3,3,1,2,3,5.4,1.4
+657097,Jacob Webb,2025-05-20,New York Yankees,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+676395,Robert Garcia,2025-05-21,New York Yankees,Texas Rangers,0,0,1,0,0,0.2,0,1,1,0,2,1,13.5,3.0
+592426,Luke Jackson,2025-05-21,New York Yankees,Texas Rangers,0,1,1,0,0,0.2,2,1,1,1,0,0,13.5,3.0
+594798,Jacob deGrom,2025-05-21,New York Yankees,Texas Rangers,0,0,1,1,0,7.0,3,2,2,1,1,9,2.57,0.57
+542888,Shawn Armstrong,2025-05-22,New York Yankees,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+543135,Nathan Eovaldi,2025-05-22,New York Yankees,Texas Rangers,0,1,1,1,0,6.0,5,1,1,1,1,6,1.5,1.0
+571948,Hoby Milner,2025-05-22,New York Yankees,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+676961,Caleb Boushley,2025-05-23,Chicago White Sox,Texas Rangers,0,0,1,0,0,1.0,3,1,0,0,0,1,0.0,3.0
+656641,Jacob Latz,2025-05-23,Chicago White Sox,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+641816,Tyler Mahle,2025-05-23,Chicago White Sox,Texas Rangers,0,1,1,1,0,5.0,5,3,3,0,3,3,5.4,1.6
+668390,Cole Winn,2025-05-23,Chicago White Sox,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+676961,Caleb Boushley,2025-05-24,Chicago White Sox,Texas Rangers,0,0,1,0,0,2.0,4,2,2,1,0,2,9.0,2.0
+592426,Luke Jackson,2025-05-24,Chicago White Sox,Texas Rangers,0,0,1,0,0,0.1,0,0,0,0,1,0,0.0,3.0
+683004,Jack Leiter,2025-05-24,Chicago White Sox,Texas Rangers,0,0,1,1,0,5.0,6,2,2,1,5,3,3.6,2.2
+571948,Hoby Milner,2025-05-24,Chicago White Sox,Texas Rangers,0,1,1,0,0,0.0,0,3,0,0,0,0,,
+657097,Jacob Webb,2025-05-24,Chicago White Sox,Texas Rangers,0,0,1,0,0,0.2,3,3,3,0,2,1,40.5,7.5
+542888,Shawn Armstrong,2025-05-25,Chicago White Sox,Texas Rangers,1,0,1,0,0,1.1,0,0,0,0,0,3,0.0,0.0
+571578,Patrick Corbin,2025-05-25,Chicago White Sox,Texas Rangers,0,0,1,1,0,5.1,5,3,3,2,1,6,5.06,1.12
+676395,Robert Garcia,2025-05-25,Chicago White Sox,Texas Rangers,0,0,1,0,1,1.0,2,1,1,0,0,1,9.0,2.0
+592426,Luke Jackson,2025-05-25,Chicago White Sox,Texas Rangers,0,0,1,0,0,0.2,1,0,0,0,0,0,0.0,1.5
+656641,Jacob Latz,2025-05-25,Chicago White Sox,Texas Rangers,0,0,1,0,0,0.2,1,0,0,0,0,1,0.0,1.5
+571948,Hoby Milner,2025-05-26,Texas Rangers,Toronto Blue Jays,0,0,1,0,0,2.0,1,0,0,0,1,1,0.0,1.0
+657097,Jacob Webb,2025-05-26,Texas Rangers,Toronto Blue Jays,0,0,1,0,0,0.2,1,0,0,0,0,0,0.0,1.5
+668390,Cole Winn,2025-05-26,Texas Rangers,Toronto Blue Jays,0,0,1,0,0,1.0,1,0,0,0,1,0,0.0,2.0
+594798,Jacob deGrom,2025-05-26,Texas Rangers,Toronto Blue Jays,0,1,1,1,0,5.1,5,2,2,1,2,0,3.38,1.31
+542888,Shawn Armstrong,2025-05-27,Texas Rangers,Toronto Blue Jays,0,0,1,0,0,1.2,0,0,0,0,2,0,0.0,1.2
+543135,Nathan Eovaldi,2025-05-27,Texas Rangers,Toronto Blue Jays,0,0,1,1,0,2.0,2,0,0,0,1,2,0.0,1.5
+676395,Robert Garcia,2025-05-27,Texas Rangers,Toronto Blue Jays,0,0,1,0,1,1.0,0,0,0,0,0,2,0.0,0.0
+592426,Luke Jackson,2025-05-27,Texas Rangers,Toronto Blue Jays,1,0,1,0,0,1.0,0,0,0,0,1,0,0.0,1.0
+656641,Jacob Latz,2025-05-27,Texas Rangers,Toronto Blue Jays,0,0,1,0,0,3.0,2,0,0,0,2,4,0.0,1.33
+571948,Hoby Milner,2025-05-27,Texas Rangers,Toronto Blue Jays,0,0,1,0,0,0.1,0,0,0,0,0,0,0.0,0.0
+676395,Robert Garcia,2025-05-28,Texas Rangers,Toronto Blue Jays,0,0,1,0,0,1.0,1,0,0,0,0,2,0.0,1.0
+592426,Luke Jackson,2025-05-28,Texas Rangers,Toronto Blue Jays,0,0,1,0,0,0.2,1,0,0,0,0,1,0.0,1.5
+641816,Tyler Mahle,2025-05-28,Texas Rangers,Toronto Blue Jays,0,0,1,1,0,6.0,4,0,0,0,3,5,0.0,1.17
+571948,Hoby Milner,2025-05-28,Texas Rangers,Toronto Blue Jays,0,0,1,0,0,0.1,0,0,0,0,0,1,0.0,0.0
+657097,Jacob Webb,2025-05-28,Texas Rangers,Toronto Blue Jays,0,1,1,0,0,1.0,2,2,2,1,0,0,18.0,2.0
+542888,Shawn Armstrong,2025-05-30,Texas Rangers,St. Louis Cardinals,0,0,1,0,0,0.1,0,0,0,0,0,0,0.0,0.0
+676961,Caleb Boushley,2025-05-30,Texas Rangers,St. Louis Cardinals,0,0,1,0,1,3.0,2,1,1,0,0,4,3.0,0.67
+683004,Jack Leiter,2025-05-30,Texas Rangers,St. Louis Cardinals,1,0,1,1,0,5.2,3,0,0,0,2,6,0.0,0.88
+571578,Patrick Corbin,2025-05-31,Texas Rangers,St. Louis Cardinals,0,1,1,1,0,5.1,3,2,2,0,2,3,3.38,0.94
+571948,Hoby Milner,2025-05-31,Texas Rangers,St. Louis Cardinals,0,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+657097,Jacob Webb,2025-05-31,Texas Rangers,St. Louis Cardinals,0,0,1,0,0,1.0,1,0,0,0,1,0,0.0,2.0
+668390,Cole Winn,2025-05-31,Texas Rangers,St. Louis Cardinals,0,0,1,0,0,1.2,0,0,0,0,1,2,0.0,0.6
+542888,Shawn Armstrong,2025-06-01,Texas Rangers,St. Louis Cardinals,0,0,1,0,0,0.2,1,0,0,0,0,0,0.0,1.5
+592426,Luke Jackson,2025-06-01,Texas Rangers,St. Louis Cardinals,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+571948,Hoby Milner,2025-06-01,Texas Rangers,St. Louis Cardinals,0,0,1,0,0,1.1,0,0,0,0,0,1,0.0,0.0
+594798,Jacob deGrom,2025-06-01,Texas Rangers,St. Louis Cardinals,1,0,1,1,0,6.0,4,1,1,0,3,4,1.5,1.17
+676051,Codi Heuer,2025-06-03,Tampa Bay Rays,Texas Rangers,0,0,1,0,0,1.1,1,1,1,1,0,1,6.75,0.75
+656641,Jacob Latz,2025-06-03,Tampa Bay Rays,Texas Rangers,0,0,1,0,0,1.1,2,0,0,0,0,3,0.0,1.5
+641816,Tyler Mahle,2025-06-03,Tampa Bay Rays,Texas Rangers,0,1,1,1,0,5.1,5,4,4,1,2,5,6.75,1.31
+542888,Shawn Armstrong,2025-06-04,Tampa Bay Rays,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+571948,Hoby Milner,2025-06-04,Tampa Bay Rays,Texas Rangers,0,0,1,0,0,1.1,1,0,0,0,0,2,0.0,0.75
+677958,Kumar Rocker,2025-06-04,Tampa Bay Rays,Texas Rangers,0,1,1,1,0,3.1,6,5,5,1,2,5,13.5,2.4
+657097,Jacob Webb,2025-06-04,Tampa Bay Rays,Texas Rangers,0,0,1,0,0,1.1,1,0,0,0,0,2,0.0,0.75
+668390,Cole Winn,2025-06-04,Tampa Bay Rays,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,1,1,0.0,1.0
+542888,Shawn Armstrong,2025-06-05,Tampa Bay Rays,Texas Rangers,0,0,1,0,0,0.1,0,0,0,0,0,1,0.0,0.0
+676395,Robert Garcia,2025-06-05,Tampa Bay Rays,Texas Rangers,0,1,1,0,0,0.2,4,3,3,0,1,0,40.5,7.5
+656641,Jacob Latz,2025-06-05,Tampa Bay Rays,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+683004,Jack Leiter,2025-06-05,Tampa Bay Rays,Texas Rangers,0,0,1,1,0,5.0,3,1,1,1,1,6,1.8,0.8
+571948,Hoby Milner,2025-06-05,Tampa Bay Rays,Texas Rangers,0,0,1,0,0,1.2,0,0,0,0,0,3,0.0,0.0
+571578,Patrick Corbin,2025-06-06,Washington Nationals,Texas Rangers,0,1,1,1,0,8.0,5,2,2,1,0,2,2.25,0.62
+592426,Luke Jackson,2025-06-07,Washington Nationals,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,1,0,0.0,2.0
+455119,Chris Martin,2025-06-07,Washington Nationals,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+594798,Jacob deGrom,2025-06-07,Washington Nationals,Texas Rangers,1,0,1,1,0,7.0,2,0,0,0,0,8,0.0,0.29
+542888,Shawn Armstrong,2025-06-08,Washington Nationals,Texas Rangers,0,0,1,0,0,0.2,1,0,0,0,0,1,0.0,1.5
+676395,Robert Garcia,2025-06-08,Washington Nationals,Texas Rangers,0,0,1,0,1,1.1,1,0,0,0,0,2,0.0,0.75
+656641,Jacob Latz,2025-06-08,Washington Nationals,Texas Rangers,0,0,1,1,0,3.1,2,2,2,1,2,7,5.4,1.2
+571948,Hoby Milner,2025-06-08,Washington Nationals,Texas Rangers,0,0,1,0,0,2.0,2,0,0,0,0,1,0.0,1.0
+657097,Jacob Webb,2025-06-08,Washington Nationals,Texas Rangers,1,0,1,0,0,1.2,1,0,0,0,0,0,0.0,0.6
+542888,Shawn Armstrong,2025-06-10,Minnesota Twins,Texas Rangers,0,0,1,0,0,1.1,1,0,0,0,0,1,0.0,0.75
+676961,Caleb Boushley,2025-06-10,Minnesota Twins,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+641816,Tyler Mahle,2025-06-10,Minnesota Twins,Texas Rangers,1,0,1,1,0,5.2,10,4,4,1,1,3,6.35,1.94
+668390,Cole Winn,2025-06-10,Minnesota Twins,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,1,0,0.0,1.0
+676961,Caleb Boushley,2025-06-11,Minnesota Twins,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+592426,Luke Jackson,2025-06-11,Minnesota Twins,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+656641,Jacob Latz,2025-06-11,Minnesota Twins,Texas Rangers,0,0,1,0,0,1.0,3,2,2,0,0,0,18.0,3.0
+683004,Jack Leiter,2025-06-11,Minnesota Twins,Texas Rangers,0,1,1,1,0,4.0,5,4,4,1,4,3,9.0,2.25
+657097,Jacob Webb,2025-06-11,Minnesota Twins,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+571578,Patrick Corbin,2025-06-12,Minnesota Twins,Texas Rangers,1,0,1,1,0,5.0,6,3,3,0,3,6,5.4,1.8
+455119,Chris Martin,2025-06-12,Minnesota Twins,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+571948,Hoby Milner,2025-06-12,Minnesota Twins,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+668390,Cole Winn,2025-06-12,Minnesota Twins,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+542888,Shawn Armstrong,2025-06-13,Texas Rangers,Chicago White Sox,0,0,1,1,0,3.0,0,0,0,0,0,5,0.0,0.0
+676395,Robert Garcia,2025-06-13,Texas Rangers,Chicago White Sox,0,0,1,0,1,1.0,1,0,0,0,2,1,0.0,3.0
+592426,Luke Jackson,2025-06-13,Texas Rangers,Chicago White Sox,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+455119,Chris Martin,2025-06-13,Texas Rangers,Chicago White Sox,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+571948,Hoby Milner,2025-06-13,Texas Rangers,Chicago White Sox,0,0,1,0,0,0.1,3,1,1,0,0,0,27.0,9.0
+657097,Jacob Webb,2025-06-13,Texas Rangers,Chicago White Sox,1,0,1,0,0,2.0,1,0,0,0,0,1,0.0,0.5
+668390,Cole Winn,2025-06-13,Texas Rangers,Chicago White Sox,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+676961,Caleb Boushley,2025-06-14,Texas Rangers,Chicago White Sox,0,0,1,0,0,1.0,1,1,1,0,0,3,9.0,1.0
+676395,Robert Garcia,2025-06-14,Texas Rangers,Chicago White Sox,0,0,1,0,0,0.1,1,0,0,0,0,1,0.0,3.0
+592426,Luke Jackson,2025-06-14,Texas Rangers,Chicago White Sox,0,0,1,0,0,0.2,1,1,1,0,0,1,13.5,1.5
+656641,Jacob Latz,2025-06-14,Texas Rangers,Chicago White Sox,1,0,1,0,0,2.0,0,0,0,0,2,3,0.0,1.0
+571948,Hoby Milner,2025-06-14,Texas Rangers,Chicago White Sox,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+594798,Jacob deGrom,2025-06-14,Texas Rangers,Chicago White Sox,0,0,1,1,0,6.0,5,2,2,0,0,6,3.0,0.83
+592426,Luke Jackson,2025-06-15,Texas Rangers,Chicago White Sox,0,0,1,0,1,1.0,0,0,0,0,0,1,0.0,0.0
+677958,Kumar Rocker,2025-06-15,Texas Rangers,Chicago White Sox,1,0,1,1,0,5.0,4,0,0,0,1,6,0.0,1.0
+657097,Jacob Webb,2025-06-15,Texas Rangers,Chicago White Sox,0,0,1,0,0,1.1,2,1,1,1,1,3,6.75,2.25
+668390,Cole Winn,2025-06-15,Texas Rangers,Chicago White Sox,0,0,1,0,0,1.2,2,0,0,0,0,2,0.0,1.2
+676961,Caleb Boushley,2025-06-17,Texas Rangers,Kansas City Royals,0,0,1,0,0,3.1,0,0,0,0,0,3,0.0,0.0
+683004,Jack Leiter,2025-06-17,Texas Rangers,Kansas City Royals,0,1,1,1,0,5.2,8,6,6,3,2,4,9.53,1.76
+542888,Shawn Armstrong,2025-06-18,Texas Rangers,Kansas City Royals,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+571578,Patrick Corbin,2025-06-18,Texas Rangers,Kansas City Royals,0,1,1,1,0,5.0,6,4,4,1,2,4,7.2,1.6
+592426,Luke Jackson,2025-06-18,Texas Rangers,Kansas City Royals,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+571948,Hoby Milner,2025-06-18,Texas Rangers,Kansas City Royals,0,0,1,0,0,1.0,1,2,2,0,2,1,18.0,3.0
+657097,Jacob Webb,2025-06-18,Texas Rangers,Kansas City Royals,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+542888,Shawn Armstrong,2025-06-19,Texas Rangers,Kansas City Royals,0,1,1,1,0,1.0,1,2,2,1,1,1,18.0,2.0
+676395,Robert Garcia,2025-06-19,Texas Rangers,Kansas City Royals,0,0,1,0,0,1.0,1,1,1,1,0,1,9.0,1.0
+656641,Jacob Latz,2025-06-19,Texas Rangers,Kansas City Royals,0,0,1,0,0,5.2,3,1,1,1,1,0,1.59,0.71
+668390,Cole Winn,2025-06-19,Texas Rangers,Kansas City Royals,0,0,1,0,0,1.1,1,0,0,0,2,0,0.0,2.25
+676395,Robert Garcia,2025-06-20,Pittsburgh Pirates,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+455119,Chris Martin,2025-06-20,Pittsburgh Pirates,Texas Rangers,0,0,1,0,0,1.0,2,0,0,0,0,0,0.0,2.0
+571948,Hoby Milner,2025-06-20,Pittsburgh Pirates,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,2,0.0,1.0
+594798,Jacob deGrom,2025-06-20,Pittsburgh Pirates,Texas Rangers,1,0,1,1,0,6.0,5,2,2,0,1,7,3.0,1.0
+542888,Shawn Armstrong,2025-06-21,Pittsburgh Pirates,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+455119,Chris Martin,2025-06-21,Pittsburgh Pirates,Texas Rangers,0,0,1,0,1,1.0,0,0,0,0,0,2,0.0,0.0
+571948,Hoby Milner,2025-06-21,Pittsburgh Pirates,Texas Rangers,0,0,1,0,0,1.2,0,0,0,0,0,2,0.0,0.0
+677958,Kumar Rocker,2025-06-21,Pittsburgh Pirates,Texas Rangers,1,0,1,1,0,5.1,5,2,2,0,3,4,3.38,1.5
+676961,Caleb Boushley,2025-06-22,Pittsburgh Pirates,Texas Rangers,0,0,1,0,0,4.0,10,5,5,0,1,1,11.25,2.75
+683004,Jack Leiter,2025-06-22,Pittsburgh Pirates,Texas Rangers,0,1,1,1,0,4.0,5,3,3,0,2,2,6.75,1.75
+571578,Patrick Corbin,2025-06-23,Baltimore Orioles,Texas Rangers,0,1,1,1,0,5.0,9,5,5,1,0,6,9.0,1.8
+641540,Dane Dunning,2025-06-23,Baltimore Orioles,Texas Rangers,0,0,1,0,0,2.0,2,1,1,0,2,2,4.5,2.0
+657097,Jacob Webb,2025-06-23,Baltimore Orioles,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+676395,Robert Garcia,2025-06-24,Baltimore Orioles,Texas Rangers,0,0,1,0,1,1.0,0,0,0,0,0,1,0.0,0.0
+592426,Luke Jackson,2025-06-24,Baltimore Orioles,Texas Rangers,1,0,1,0,0,1.1,0,0,0,0,0,1,0.0,0.0
+656641,Jacob Latz,2025-06-24,Baltimore Orioles,Texas Rangers,0,0,1,1,0,6.0,1,2,2,0,3,4,3.0,0.67
+455119,Chris Martin,2025-06-24,Baltimore Orioles,Texas Rangers,0,0,1,0,0,0.0,3,3,3,3,0,0,,
+571948,Hoby Milner,2025-06-24,Baltimore Orioles,Texas Rangers,0,0,1,0,0,1.2,0,0,0,0,1,2,0.0,0.6
+657097,Jacob Webb,2025-06-25,Baltimore Orioles,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+668390,Cole Winn,2025-06-25,Baltimore Orioles,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+594798,Jacob deGrom,2025-06-25,Baltimore Orioles,Texas Rangers,1,0,1,1,0,7.0,1,0,0,0,2,7,0.0,0.43
+542888,Shawn Armstrong,2025-06-27,Texas Rangers,Seattle Mariners,0,1,1,0,0,1.0,1,1,0,0,0,0,0.0,1.0
+543135,Nathan Eovaldi,2025-06-27,Texas Rangers,Seattle Mariners,0,0,1,1,0,3.0,5,3,3,0,2,2,9.0,2.33
+676395,Robert Garcia,2025-06-27,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+592426,Luke Jackson,2025-06-27,Texas Rangers,Seattle Mariners,0,0,1,0,0,2.0,1,1,0,0,1,1,0.0,1.0
+455119,Chris Martin,2025-06-27,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+571948,Hoby Milner,2025-06-27,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+657097,Jacob Webb,2025-06-27,Texas Rangers,Seattle Mariners,0,0,1,0,0,2.0,5,1,1,0,1,0,4.5,3.0
+668390,Cole Winn,2025-06-27,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.0,2,1,1,0,1,1,9.0,3.0
+542888,Shawn Armstrong,2025-06-28,Texas Rangers,Seattle Mariners,1,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+676395,Robert Garcia,2025-06-28,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+455119,Chris Martin,2025-06-28,Texas Rangers,Seattle Mariners,0,0,1,0,0,0.2,1,0,0,0,0,1,0.0,1.5
+571948,Hoby Milner,2025-06-28,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.1,0,0,0,0,0,0,0.0,0.0
+677958,Kumar Rocker,2025-06-28,Texas Rangers,Seattle Mariners,0,0,1,1,0,6.0,4,2,2,1,1,6,3.0,0.83
+592426,Luke Jackson,2025-06-29,Texas Rangers,Seattle Mariners,0,0,1,0,0,1.2,3,2,1,0,3,1,5.4,3.6
+656641,Jacob Latz,2025-06-29,Texas Rangers,Seattle Mariners,0,0,1,0,0,2.1,1,0,0,0,1,4,0.0,0.86
+683004,Jack Leiter,2025-06-29,Texas Rangers,Seattle Mariners,0,0,1,1,0,6.0,7,1,1,0,0,7,1.5,1.17
+668390,Cole Winn,2025-06-29,Texas Rangers,Seattle Mariners,0,1,1,0,0,2.0,2,3,2,1,1,0,9.0,1.5
+542888,Shawn Armstrong,2025-06-30,Texas Rangers,Baltimore Orioles,0,0,1,0,0,1.0,1,1,1,1,0,1,9.0,1.0
+571578,Patrick Corbin,2025-06-30,Texas Rangers,Baltimore Orioles,0,0,1,1,0,6.0,8,3,3,0,1,6,4.5,1.5
+676395,Robert Garcia,2025-06-30,Texas Rangers,Baltimore Orioles,0,0,1,0,0,1.0,1,2,1,1,0,2,9.0,1.0
+455119,Chris Martin,2025-06-30,Texas Rangers,Baltimore Orioles,0,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+571948,Hoby Milner,2025-06-30,Texas Rangers,Baltimore Orioles,0,1,1,0,0,1.0,3,4,3,0,2,0,27.0,5.0
+657097,Jacob Webb,2025-06-30,Texas Rangers,Baltimore Orioles,0,0,1,0,0,1.0,1,0,0,0,0,3,0.0,1.0
+656641,Jacob Latz,2025-07-01,Texas Rangers,Baltimore Orioles,0,0,1,0,1,3.0,2,0,0,0,0,3,0.0,0.67
+594798,Jacob deGrom,2025-07-01,Texas Rangers,Baltimore Orioles,1,0,1,1,0,6.0,5,2,2,1,1,6,3.0,1.0
+641540,Dane Dunning,2025-07-02,Texas Rangers,Baltimore Orioles,0,0,1,0,1,3.0,2,0,0,0,1,1,0.0,1.0
+543135,Nathan Eovaldi,2025-07-02,Texas Rangers,Baltimore Orioles,1,0,1,1,0,5.0,2,0,0,0,1,5,0.0,0.6
+657097,Jacob Webb,2025-07-02,Texas Rangers,Baltimore Orioles,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+542888,Shawn Armstrong,2025-07-04,San Diego Padres,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+676395,Robert Garcia,2025-07-04,San Diego Padres,Texas Rangers,0,1,1,0,0,0.2,2,1,0,0,1,2,0.0,4.5
+455119,Chris Martin,2025-07-04,San Diego Padres,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,1,1,0.0,2.0
+571948,Hoby Milner,2025-07-04,San Diego Padres,Texas Rangers,0,0,1,0,0,0.2,2,0,0,0,0,2,0.0,3.0
+677958,Kumar Rocker,2025-07-04,San Diego Padres,Texas Rangers,0,0,1,1,0,5.1,4,2,2,1,2,4,3.38,1.12
+657097,Jacob Webb,2025-07-04,San Diego Padres,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,1,0,0.0,2.0
+542888,Shawn Armstrong,2025-07-05,San Diego Padres,Texas Rangers,0,0,1,0,1,0.1,0,0,0,0,0,0,0.0,0.0
+571578,Patrick Corbin,2025-07-05,San Diego Padres,Texas Rangers,1,0,1,1,0,6.0,6,2,2,1,1,3,3.0,1.17
+676395,Robert Garcia,2025-07-05,San Diego Padres,Texas Rangers,0,0,1,0,0,0.2,2,0,0,0,1,2,0.0,4.5
+592426,Luke Jackson,2025-07-05,San Diego Padres,Texas Rangers,0,0,1,0,0,0.0,1,2,2,0,2,0,,
+455119,Chris Martin,2025-07-05,San Diego Padres,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+571948,Hoby Milner,2025-07-05,San Diego Padres,Texas Rangers,0,0,1,0,0,1.1,1,0,0,0,0,1,0.0,0.75
+592426,Luke Jackson,2025-07-06,San Diego Padres,Texas Rangers,0,0,1,0,0,1.1,0,0,0,0,0,1,0.0,0.0
+656641,Jacob Latz,2025-07-06,San Diego Padres,Texas Rangers,0,0,1,0,0,3.0,5,2,2,0,3,1,6.0,2.67
+683004,Jack Leiter,2025-07-06,San Diego Padres,Texas Rangers,0,1,1,1,0,3.2,5,2,2,0,2,5,4.91,1.91
+542888,Shawn Armstrong,2025-07-07,Los Angeles Angels,Texas Rangers,0,0,1,0,0,1.0,3,2,2,0,0,0,18.0,3.0
+455119,Chris Martin,2025-07-07,Los Angeles Angels,Texas Rangers,0,1,1,0,0,1.1,2,1,1,0,1,1,6.75,2.25
+571948,Hoby Milner,2025-07-07,Los Angeles Angels,Texas Rangers,0,0,1,0,0,0.0,0,0,0,0,1,0,,
+657097,Jacob Webb,2025-07-07,Los Angeles Angels,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+594798,Jacob deGrom,2025-07-07,Los Angeles Angels,Texas Rangers,0,0,1,1,0,5.0,5,3,3,1,2,5,5.4,1.4
+641540,Dane Dunning,2025-07-08,Los Angeles Angels,Texas Rangers,0,0,1,0,0,2.0,0,0,0,0,0,3,0.0,0.0
+543135,Nathan Eovaldi,2025-07-08,Los Angeles Angels,Texas Rangers,1,0,1,1,0,6.0,5,1,0,0,0,6,0.0,0.83
+542888,Shawn Armstrong,2025-07-09,Los Angeles Angels,Texas Rangers,0,0,1,0,0,1.2,0,0,0,0,0,0,0.0,0.0
+592426,Luke Jackson,2025-07-09,Los Angeles Angels,Texas Rangers,0,1,1,0,0,1.0,4,3,3,1,0,0,27.0,4.0
+455119,Chris Martin,2025-07-09,Los Angeles Angels,Texas Rangers,0,0,1,0,0,0.2,1,0,0,0,0,0,0.0,1.5
+677958,Kumar Rocker,2025-07-09,Los Angeles Angels,Texas Rangers,0,0,1,1,0,4.1,6,6,6,3,1,2,12.46,1.62
+657097,Jacob Webb,2025-07-09,Los Angeles Angels,Texas Rangers,0,0,1,0,0,0.1,1,2,0,0,0,0,0.0,3.0
+571578,Patrick Corbin,2025-07-10,Los Angeles Angels,Texas Rangers,1,0,1,1,0,5.0,7,2,2,1,2,6,3.6,1.8
+641540,Dane Dunning,2025-07-10,Los Angeles Angels,Texas Rangers,0,0,1,0,0,0.2,1,1,1,1,0,1,13.5,1.5
+656641,Jacob Latz,2025-07-10,Los Angeles Angels,Texas Rangers,0,0,1,0,0,3.1,2,1,1,0,1,6,2.7,0.9
+542888,Shawn Armstrong,2025-07-11,Houston Astros,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+676395,Robert Garcia,2025-07-11,Houston Astros,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+683004,Jack Leiter,2025-07-11,Houston Astros,Texas Rangers,1,0,1,1,0,5.1,5,3,3,1,4,6,5.06,1.69
+455119,Chris Martin,2025-07-11,Houston Astros,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,2,0.0,1.0
+571948,Hoby Milner,2025-07-11,Houston Astros,Texas Rangers,0,0,1,0,0,1.0,2,0,0,0,0,0,0.0,2.0
+676395,Robert Garcia,2025-07-12,Houston Astros,Texas Rangers,0,1,1,0,0,1.0,0,2,1,0,2,1,9.0,2.0
+592426,Luke Jackson,2025-07-12,Houston Astros,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,1,1,0.0,1.0
+455119,Chris Martin,2025-07-12,Houston Astros,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+571948,Hoby Milner,2025-07-12,Houston Astros,Texas Rangers,0,0,1,0,0,0.1,1,0,0,0,0,0,0.0,3.0
+657097,Jacob Webb,2025-07-12,Houston Astros,Texas Rangers,0,0,1,0,0,1.0,1,1,1,1,0,1,9.0,1.0
+594798,Jacob deGrom,2025-07-12,Houston Astros,Texas Rangers,0,0,1,1,0,6.0,4,2,2,2,1,8,3.0,0.83
+542888,Shawn Armstrong,2025-07-13,Houston Astros,Texas Rangers,0,0,1,0,0,1.1,1,0,0,0,0,1,0.0,0.75
+543135,Nathan Eovaldi,2025-07-13,Houston Astros,Texas Rangers,1,0,1,1,0,7.2,5,1,1,1,1,8,1.17,0.78
+542888,Shawn Armstrong,2025-07-18,Texas Rangers,Detroit Tigers,0,0,1,0,0,1.1,0,0,0,0,1,0,0.0,0.75
+571578,Patrick Corbin,2025-07-18,Texas Rangers,Detroit Tigers,0,0,1,1,0,5.2,3,0,0,0,2,6,0.0,0.88
+676395,Robert Garcia,2025-07-18,Texas Rangers,Detroit Tigers,0,0,1,0,1,1.0,1,0,0,0,0,2,0.0,1.0
+455119,Chris Martin,2025-07-18,Texas Rangers,Detroit Tigers,1,0,1,0,0,1.0,0,0,0,0,1,1,0.0,1.0
+571948,Hoby Milner,2025-07-19,Texas Rangers,Detroit Tigers,0,0,1,0,0,0.2,1,0,0,0,1,1,0.0,3.0
+677958,Kumar Rocker,2025-07-19,Texas Rangers,Detroit Tigers,1,0,1,1,0,6.1,1,0,0,0,3,5,0.0,0.63
+657097,Jacob Webb,2025-07-19,Texas Rangers,Detroit Tigers,0,0,1,0,0,2.0,1,1,1,1,0,0,4.5,0.5
+676961,Caleb Boushley,2025-07-20,Texas Rangers,Detroit Tigers,0,0,1,0,0,1.1,0,0,0,0,1,2,0.0,0.75
+592426,Luke Jackson,2025-07-20,Texas Rangers,Detroit Tigers,0,0,1,0,0,1.2,0,0,0,0,1,1,0.0,0.6
+656641,Jacob Latz,2025-07-20,Texas Rangers,Detroit Tigers,0,0,1,1,0,5.0,6,1,1,0,2,3,1.8,1.6
+455119,Chris Martin,2025-07-20,Texas Rangers,Detroit Tigers,0,1,1,0,0,0.2,3,1,1,0,0,1,13.5,4.5
+571948,Hoby Milner,2025-07-20,Texas Rangers,Detroit Tigers,0,0,1,0,0,0.1,0,0,0,0,0,1,0.0,0.0
+542888,Shawn Armstrong,2025-07-21,Texas Rangers,Athletics,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+683004,Jack Leiter,2025-07-21,Texas Rangers,Athletics,1,0,1,1,0,6.0,4,2,2,1,4,7,3.0,1.33
+571948,Hoby Milner,2025-07-21,Texas Rangers,Athletics,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+668390,Cole Winn,2025-07-21,Texas Rangers,Athletics,0,0,1,0,0,1.0,0,0,0,0,1,1,0.0,1.0
+542888,Shawn Armstrong,2025-07-22,Texas Rangers,Athletics,0,0,1,0,0,1.0,1,0,0,0,0,3,0.0,1.0
+676395,Robert Garcia,2025-07-22,Texas Rangers,Athletics,0,0,1,0,0,1.0,1,1,0,0,1,1,0.0,2.0
+592426,Luke Jackson,2025-07-22,Texas Rangers,Athletics,0,0,1,0,0,1.0,2,0,0,0,0,0,0.0,2.0
+594798,Jacob deGrom,2025-07-22,Texas Rangers,Athletics,1,0,1,1,0,6.0,3,1,1,1,1,9,1.5,0.67
+571578,Patrick Corbin,2025-07-23,Texas Rangers,Athletics,0,0,1,1,0,5.2,5,1,1,0,0,7,1.59,0.88
+676395,Robert Garcia,2025-07-23,Texas Rangers,Athletics,0,0,1,0,1,1.0,1,0,0,0,0,2,0.0,1.0
+592351,Jon Gray,2025-07-23,Texas Rangers,Athletics,1,0,1,0,0,2.0,1,0,0,0,0,0,0.0,0.5
+571948,Hoby Milner,2025-07-23,Texas Rangers,Athletics,0,0,1,0,0,0.1,0,0,0,0,0,1,0.0,0.0
+542888,Shawn Armstrong,2025-07-25,Texas Rangers,Atlanta Braves,0,0,1,0,0,0.1,0,0,0,0,0,0,0.0,0.0
+676961,Caleb Boushley,2025-07-25,Texas Rangers,Atlanta Braves,0,0,1,0,0,0.1,2,2,2,0,2,0,54.0,12.0
+543135,Nathan Eovaldi,2025-07-25,Texas Rangers,Atlanta Braves,1,0,1,1,0,5.0,3,0,0,0,4,7,0.0,1.4
+676395,Robert Garcia,2025-07-25,Texas Rangers,Atlanta Braves,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+656641,Jacob Latz,2025-07-25,Texas Rangers,Atlanta Braves,0,0,1,0,0,0.1,1,1,1,1,1,0,27.0,6.0
+571948,Hoby Milner,2025-07-25,Texas Rangers,Atlanta Braves,0,0,1,0,0,1.1,0,0,0,0,0,2,0.0,0.0
+657097,Jacob Webb,2025-07-25,Texas Rangers,Atlanta Braves,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+542888,Shawn Armstrong,2025-07-26,Texas Rangers,Atlanta Braves,1,0,1,0,0,2.0,1,1,1,0,0,2,4.5,0.5
+592351,Jon Gray,2025-07-26,Texas Rangers,Atlanta Braves,0,0,1,0,0,3.0,1,1,1,1,0,3,3.0,0.33
+656641,Jacob Latz,2025-07-26,Texas Rangers,Atlanta Braves,0,0,1,0,0,1.0,1,0,0,0,2,0,0.0,3.0
+677958,Kumar Rocker,2025-07-26,Texas Rangers,Atlanta Braves,0,0,1,1,0,4.0,5,3,3,0,3,5,6.75,2.0
+676961,Caleb Boushley,2025-07-27,Texas Rangers,Atlanta Braves,0,0,1,0,0,2.0,1,0,0,0,1,1,0.0,1.0
+683004,Jack Leiter,2025-07-27,Texas Rangers,Atlanta Braves,1,0,1,1,0,6.0,2,1,1,0,3,7,1.5,0.83
+668390,Cole Winn,2025-07-27,Texas Rangers,Atlanta Braves,0,0,1,0,0,1.0,1,0,0,0,0,3,0.0,1.0
+657097,Jacob Webb,2025-07-28,Los Angeles Angels,Texas Rangers,0,0,1,0,0,1.2,2,1,1,1,0,4,5.4,1.2
+668390,Cole Winn,2025-07-28,Los Angeles Angels,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+594798,Jacob deGrom,2025-07-28,Los Angeles Angels,Texas Rangers,0,1,1,1,0,5.1,7,5,5,2,1,8,8.44,1.5
+542888,Shawn Armstrong,2025-07-29,Los Angeles Angels,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+676961,Caleb Boushley,2025-07-29,Los Angeles Angels,Texas Rangers,0,0,1,0,0,1.2,0,1,1,0,1,1,5.4,0.6
+571578,Patrick Corbin,2025-07-29,Los Angeles Angels,Texas Rangers,0,0,1,1,0,5.0,3,3,2,0,3,6,3.6,1.2
+592351,Jon Gray,2025-07-29,Los Angeles Angels,Texas Rangers,0,1,1,0,0,0.2,3,4,4,0,3,1,54.0,9.0
+542888,Shawn Armstrong,2025-07-30,Los Angeles Angels,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+543135,Nathan Eovaldi,2025-07-30,Los Angeles Angels,Texas Rangers,1,0,1,1,0,7.0,6,1,1,0,2,4,1.29,1.14
+676395,Robert Garcia,2025-07-30,Los Angeles Angels,Texas Rangers,0,0,1,0,1,1.0,0,0,0,0,0,2,0.0,0.0
+571948,Hoby Milner,2025-07-30,Los Angeles Angels,Texas Rangers,0,0,1,0,0,0.1,2,2,2,1,0,1,54.0,6.0
+681168,Luis Curvelo,2025-07-31,Seattle Mariners,Texas Rangers,0,0,1,0,0,2.0,1,0,0,0,0,3,0.0,0.5
+656641,Jacob Latz,2025-07-31,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.1,2,3,2,0,1,1,13.5,2.25
+677958,Kumar Rocker,2025-07-31,Seattle Mariners,Texas Rangers,0,1,1,1,0,4.2,6,3,3,2,2,3,5.79,1.71
+543056,Danny Coulombe,2025-08-01,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+676395,Robert Garcia,2025-08-01,Seattle Mariners,Texas Rangers,0,1,1,0,0,0.0,2,2,2,1,0,0,,
+683004,Jack Leiter,2025-08-01,Seattle Mariners,Texas Rangers,0,0,1,1,0,4.1,3,2,2,0,3,7,4.15,1.38
+664208,Phil Maton,2025-08-01,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,1,1,0.0,1.0
+571948,Hoby Milner,2025-08-01,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.2,2,0,0,0,1,0,0.0,1.8
+542888,Shawn Armstrong,2025-08-02,Seattle Mariners,Texas Rangers,0,0,1,0,0,0.1,0,0,0,0,0,1,0.0,0.0
+543056,Danny Coulombe,2025-08-02,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,2,2,0.0,3.0
+681168,Luis Curvelo,2025-08-02,Seattle Mariners,Texas Rangers,1,0,1,0,0,1.1,0,0,0,0,0,1,0.0,0.0
+676395,Robert Garcia,2025-08-02,Seattle Mariners,Texas Rangers,0,0,1,0,0,0.2,2,2,1,1,0,1,13.5,3.0
+518876,Merrill Kelly,2025-08-02,Seattle Mariners,Texas Rangers,0,0,1,1,0,5.2,4,2,2,0,0,6,3.18,0.71
+664208,Phil Maton,2025-08-02,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+668390,Cole Winn,2025-08-02,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,1,1,0.0,1.0
+571948,Hoby Milner,2025-08-03,Seattle Mariners,Texas Rangers,0,0,1,0,0,2.0,1,0,0,0,0,2,0.0,0.5
+668390,Cole Winn,2025-08-03,Seattle Mariners,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+594798,Jacob deGrom,2025-08-03,Seattle Mariners,Texas Rangers,0,1,1,1,0,5.0,4,5,5,3,3,5,9.0,1.4
+571578,Patrick Corbin,2025-08-04,Texas Rangers,New York Yankees,0,0,1,1,0,3.0,6,3,3,1,3,3,9.0,3.0
+543056,Danny Coulombe,2025-08-04,Texas Rangers,New York Yankees,1,0,1,0,0,1.0,0,0,0,0,1,0,0.0,1.0
+681168,Luis Curvelo,2025-08-04,Texas Rangers,New York Yankees,0,0,1,0,0,1.0,0,0,0,0,1,0,0.0,1.0
+592351,Jon Gray,2025-08-04,Texas Rangers,New York Yankees,0,0,1,0,0,5.0,4,2,2,1,0,5,3.6,0.8
+543135,Nathan Eovaldi,2025-08-05,Texas Rangers,New York Yankees,1,0,1,1,0,8.0,1,0,0,0,0,6,0.0,0.12
+664208,Phil Maton,2025-08-05,Texas Rangers,New York Yankees,0,0,1,0,1,1.0,1,0,0,0,0,1,0.0,1.0
+542888,Shawn Armstrong,2025-08-06,Texas Rangers,New York Yankees,0,0,1,0,0,0.1,1,0,0,0,1,0,0.0,6.0
+676395,Robert Garcia,2025-08-06,Texas Rangers,New York Yankees,0,1,1,0,0,0.2,2,1,1,1,0,1,13.5,3.0
+683004,Jack Leiter,2025-08-06,Texas Rangers,New York Yankees,0,0,1,1,0,3.1,3,2,1,0,4,3,2.7,2.1
+571948,Hoby Milner,2025-08-06,Texas Rangers,New York Yankees,0,0,1,0,0,2.2,0,0,0,0,1,1,0.0,0.38
+668390,Cole Winn,2025-08-06,Texas Rangers,New York Yankees,0,0,1,0,0,2.0,0,0,0,0,2,0,0.0,1.0
+681168,Luis Curvelo,2025-08-08,Texas Rangers,Philadelphia Phillies,0,0,1,0,0,2.0,4,5,5,1,2,2,22.5,3.0
+676395,Robert Garcia,2025-08-08,Texas Rangers,Philadelphia Phillies,0,0,1,0,0,1.1,1,0,0,0,2,3,0.0,2.25
+518876,Merrill Kelly,2025-08-08,Texas Rangers,Philadelphia Phillies,0,1,1,1,0,4.1,5,4,4,2,5,4,8.31,2.31
+668390,Cole Winn,2025-08-08,Texas Rangers,Philadelphia Phillies,0,0,1,0,0,1.1,1,0,0,0,0,0,0.0,0.75
+542888,Shawn Armstrong,2025-08-09,Texas Rangers,Philadelphia Phillies,0,0,1,0,0,1.2,0,0,0,0,0,2,0.0,0.0
+543056,Danny Coulombe,2025-08-09,Texas Rangers,Philadelphia Phillies,0,0,1,0,0,0.2,1,0,0,0,1,1,0.0,3.0
+594798,Jacob deGrom,2025-08-09,Texas Rangers,Philadelphia Phillies,0,1,1,1,0,6.2,6,3,3,0,1,8,4.05,1.05
+571578,Patrick Corbin,2025-08-10,Texas Rangers,Philadelphia Phillies,0,1,1,1,0,4.1,4,3,3,1,3,1,6.23,1.62
+676395,Robert Garcia,2025-08-10,Texas Rangers,Philadelphia Phillies,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+664208,Phil Maton,2025-08-10,Texas Rangers,Philadelphia Phillies,0,0,1,0,0,1.0,1,1,1,0,0,0,9.0,1.0
+571948,Hoby Milner,2025-08-10,Texas Rangers,Philadelphia Phillies,0,0,1,0,0,0.2,1,0,0,0,0,1,0.0,1.5
+668390,Cole Winn,2025-08-10,Texas Rangers,Philadelphia Phillies,0,0,1,0,0,2.0,0,0,0,0,0,1,0.0,0.0
+542888,Shawn Armstrong,2025-08-11,Texas Rangers,Arizona Diamondbacks,0,0,1,0,0,1.0,1,0,0,0,0,2,0.0,1.0
+543056,Danny Coulombe,2025-08-11,Texas Rangers,Arizona Diamondbacks,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+543135,Nathan Eovaldi,2025-08-11,Texas Rangers,Arizona Diamondbacks,0,0,1,1,0,5.0,8,5,5,3,1,3,9.0,1.8
+592351,Jon Gray,2025-08-11,Texas Rangers,Arizona Diamondbacks,0,0,1,0,0,1.0,2,1,1,1,0,0,9.0,2.0
+664208,Phil Maton,2025-08-11,Texas Rangers,Arizona Diamondbacks,1,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+571948,Hoby Milner,2025-08-11,Texas Rangers,Arizona Diamondbacks,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+542888,Shawn Armstrong,2025-08-12,Texas Rangers,Arizona Diamondbacks,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+543056,Danny Coulombe,2025-08-12,Texas Rangers,Arizona Diamondbacks,0,1,1,0,0,1.0,1,1,1,1,0,2,9.0,1.0
+676395,Robert Garcia,2025-08-12,Texas Rangers,Arizona Diamondbacks,0,0,1,0,0,1.0,2,1,1,0,0,1,9.0,2.0
+683004,Jack Leiter,2025-08-12,Texas Rangers,Arizona Diamondbacks,0,0,1,1,0,5.0,4,1,1,1,2,3,1.8,1.2
+668390,Cole Winn,2025-08-12,Texas Rangers,Arizona Diamondbacks,0,0,1,0,0,1.0,1,0,0,0,0,3,0.0,1.0
+681168,Luis Curvelo,2025-08-13,Texas Rangers,Arizona Diamondbacks,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+518876,Merrill Kelly,2025-08-13,Texas Rangers,Arizona Diamondbacks,0,0,1,1,0,6.0,7,2,2,1,1,5,3.0,1.33
+664208,Phil Maton,2025-08-13,Texas Rangers,Arizona Diamondbacks,0,1,1,0,0,1.1,2,4,4,2,1,3,27.0,2.25
+571948,Hoby Milner,2025-08-13,Texas Rangers,Arizona Diamondbacks,0,0,1,0,0,0.2,0,0,0,0,1,0,0.0,1.5
+542888,Shawn Armstrong,2025-08-15,Toronto Blue Jays,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,0,0,0.0,0.0
+543056,Danny Coulombe,2025-08-15,Toronto Blue Jays,Texas Rangers,0,0,1,0,0,0.0,3,3,3,0,0,0,,
+676395,Robert Garcia,2025-08-15,Toronto Blue Jays,Texas Rangers,0,0,1,0,0,0.1,2,2,2,1,0,0,54.0,6.0
+664208,Phil Maton,2025-08-15,Toronto Blue Jays,Texas Rangers,0,1,1,0,0,1.0,1,1,1,0,2,2,9.0,3.0
+668390,Cole Winn,2025-08-15,Toronto Blue Jays,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+594798,Jacob deGrom,2025-08-15,Toronto Blue Jays,Texas Rangers,0,0,1,1,0,5.0,2,0,0,0,0,5,0.0,0.4
+571578,Patrick Corbin,2025-08-16,Toronto Blue Jays,Texas Rangers,0,1,1,1,0,2.1,8,7,7,1,2,2,27.0,4.29
+681168,Luis Curvelo,2025-08-16,Toronto Blue Jays,Texas Rangers,0,0,1,0,0,1.1,1,0,0,0,0,0,0.0,0.75
+592351,Jon Gray,2025-08-16,Toronto Blue Jays,Texas Rangers,0,0,1,0,0,2.1,4,4,4,2,3,3,15.43,3.0
+542888,Shawn Armstrong,2025-08-17,Toronto Blue Jays,Texas Rangers,0,0,1,0,1,1.1,0,0,0,0,0,1,0.0,0.0
+543135,Nathan Eovaldi,2025-08-17,Toronto Blue Jays,Texas Rangers,1,0,1,1,0,7.0,5,2,2,2,0,6,2.57,0.71
+571948,Hoby Milner,2025-08-17,Toronto Blue Jays,Texas Rangers,0,0,1,0,0,0.1,2,2,2,1,0,1,54.0,6.0
+668390,Cole Winn,2025-08-17,Toronto Blue Jays,Texas Rangers,0,0,1,0,0,0.1,0,0,0,0,2,1,0.0,6.0
+676961,Caleb Boushley,2025-08-18,Kansas City Royals,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+681168,Luis Curvelo,2025-08-18,Kansas City Royals,Texas Rangers,0,0,1,0,0,1.1,1,1,1,1,1,1,6.75,1.5
+676395,Robert Garcia,2025-08-18,Kansas City Royals,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,1,1,0.0,2.0
+683004,Jack Leiter,2025-08-18,Kansas City Royals,Texas Rangers,0,1,1,1,0,3.2,6,3,3,2,3,5,7.36,2.45
+664208,Phil Maton,2025-08-18,Kansas City Royals,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+543056,Danny Coulombe,2025-08-19,Kansas City Royals,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+518876,Merrill Kelly,2025-08-19,Kansas City Royals,Texas Rangers,0,0,1,1,0,6.0,2,2,2,2,0,3,3.0,0.33
+571948,Hoby Milner,2025-08-19,Kansas City Royals,Texas Rangers,0,1,1,0,0,0.0,3,1,1,0,0,0,,
+668390,Cole Winn,2025-08-19,Kansas City Royals,Texas Rangers,0,0,1,0,0,1.1,1,2,2,1,1,2,13.5,1.5
+542888,Shawn Armstrong,2025-08-20,Kansas City Royals,Texas Rangers,0,0,1,0,0,1.1,2,0,0,0,1,3,0.0,2.25
+676961,Caleb Boushley,2025-08-20,Kansas City Royals,Texas Rangers,0,0,1,1,0,3.0,5,3,3,1,3,1,9.0,2.67
+656641,Jacob Latz,2025-08-20,Kansas City Royals,Texas Rangers,0,0,1,0,0,3.1,1,0,0,0,1,4,0.0,0.6
+571948,Hoby Milner,2025-08-20,Kansas City Royals,Texas Rangers,1,0,1,0,0,1.1,0,0,0,0,0,1,0.0,0.0
+571578,Patrick Corbin,2025-08-21,Kansas City Royals,Texas Rangers,0,0,1,1,0,3.2,7,4,4,1,2,2,9.82,2.45
+543056,Danny Coulombe,2025-08-21,Kansas City Royals,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,1,0,0.0,1.5
+681168,Luis Curvelo,2025-08-21,Kansas City Royals,Texas Rangers,0,0,1,0,0,1.1,1,1,1,0,3,3,6.75,3.0
+676395,Robert Garcia,2025-08-21,Kansas City Royals,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,1,1,0.0,1.0
+657097,Jacob Webb,2025-08-21,Kansas City Royals,Texas Rangers,0,1,1,0,0,1.1,1,1,1,1,1,0,6.75,1.5
+543135,Nathan Eovaldi,2025-08-22,Texas Rangers,Cleveland Guardians,0,0,1,1,0,7.0,4,1,1,0,0,9,1.29,0.57
+676395,Robert Garcia,2025-08-22,Texas Rangers,Cleveland Guardians,1,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+664208,Phil Maton,2025-08-22,Texas Rangers,Cleveland Guardians,0,0,1,0,0,1.0,1,0,0,0,0,3,0.0,1.0
+571948,Hoby Milner,2025-08-22,Texas Rangers,Cleveland Guardians,0,0,1,0,0,0.0,2,2,2,0,0,0,,
+681168,Luis Curvelo,2025-08-23,Texas Rangers,Cleveland Guardians,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+683004,Jack Leiter,2025-08-23,Texas Rangers,Cleveland Guardians,1,0,1,1,0,7.0,2,0,0,0,0,10,0.0,0.29
+657097,Jacob Webb,2025-08-23,Texas Rangers,Cleveland Guardians,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+543056,Danny Coulombe,2025-08-24,Texas Rangers,Cleveland Guardians,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+518876,Merrill Kelly,2025-08-24,Texas Rangers,Cleveland Guardians,1,0,1,1,0,7.0,4,0,0,0,2,8,0.0,0.86
+571948,Hoby Milner,2025-08-24,Texas Rangers,Cleveland Guardians,0,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+681168,Luis Curvelo,2025-08-25,Texas Rangers,Los Angeles Angels,0,0,1,0,0,1.0,1,1,1,0,1,1,9.0,2.0
+676395,Robert Garcia,2025-08-25,Texas Rangers,Los Angeles Angels,0,0,1,0,0,1.0,1,0,0,0,0,2,0.0,1.0
+657097,Jacob Webb,2025-08-25,Texas Rangers,Los Angeles Angels,0,0,1,0,0,2.0,2,1,1,1,1,2,4.5,1.5
+594798,Jacob deGrom,2025-08-25,Texas Rangers,Los Angeles Angels,0,1,1,1,0,5.0,3,2,2,1,2,7,3.6,1.0
+571578,Patrick Corbin,2025-08-26,Texas Rangers,Los Angeles Angels,1,0,1,1,0,8.0,3,0,0,0,1,8,0.0,0.5
+543056,Danny Coulombe,2025-08-26,Texas Rangers,Los Angeles Angels,0,0,1,0,0,0.1,3,3,3,2,0,0,81.0,9.0
+664208,Phil Maton,2025-08-26,Texas Rangers,Los Angeles Angels,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+542888,Shawn Armstrong,2025-08-27,Texas Rangers,Los Angeles Angels,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+676961,Caleb Boushley,2025-08-27,Texas Rangers,Los Angeles Angels,0,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+681168,Luis Curvelo,2025-08-27,Texas Rangers,Los Angeles Angels,0,0,1,0,0,1.0,2,1,1,0,1,3,9.0,3.0
+656641,Jacob Latz,2025-08-27,Texas Rangers,Los Angeles Angels,0,0,1,1,0,4.1,4,2,2,1,1,5,4.15,1.15
+657097,Jacob Webb,2025-08-27,Texas Rangers,Los Angeles Angels,1,0,1,0,0,1.2,0,0,0,0,1,2,0.0,0.6
+542888,Shawn Armstrong,2025-08-29,Athletics,Texas Rangers,0,0,1,0,1,1.2,0,0,0,0,1,0,0.0,0.6
+683004,Jack Leiter,2025-08-29,Athletics,Texas Rangers,1,0,1,1,0,6.0,5,2,2,0,2,7,3.0,1.17
+571948,Hoby Milner,2025-08-29,Athletics,Texas Rangers,0,0,1,0,0,1.1,0,0,0,0,0,1,0.0,0.0
+676395,Robert Garcia,2025-08-30,Athletics,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+518876,Merrill Kelly,2025-08-30,Athletics,Texas Rangers,1,0,1,1,0,6.1,6,3,3,2,0,2,4.26,0.95
+664208,Phil Maton,2025-08-30,Athletics,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,1,2,0.0,2.0
+657097,Jacob Webb,2025-08-30,Athletics,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+542888,Shawn Armstrong,2025-08-31,Athletics,Texas Rangers,0,0,1,0,0,0.2,2,1,1,0,0,0,13.5,3.0
+676961,Caleb Boushley,2025-08-31,Athletics,Texas Rangers,0,0,1,0,0,0.1,4,4,4,0,0,1,108.0,12.0
+681168,Luis Curvelo,2025-08-31,Athletics,Texas Rangers,0,0,1,0,0,2.0,0,0,0,0,0,2,0.0,0.0
+664208,Phil Maton,2025-08-31,Athletics,Texas Rangers,0,0,1,0,0,1.0,1,1,1,0,1,2,9.0,2.0
+594798,Jacob deGrom,2025-08-31,Athletics,Texas Rangers,1,0,1,1,0,5.0,2,0,0,0,1,6,0.0,0.6
+542888,Shawn Armstrong,2025-09-01,Arizona Diamondbacks,Texas Rangers,0,0,1,0,1,1.0,0,0,0,0,0,2,0.0,0.0
+571578,Patrick Corbin,2025-09-01,Arizona Diamondbacks,Texas Rangers,0,0,1,1,0,5.2,5,5,5,3,1,5,7.94,1.06
+455119,Chris Martin,2025-09-01,Arizona Diamondbacks,Texas Rangers,1,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+657097,Jacob Webb,2025-09-01,Arizona Diamondbacks,Texas Rangers,0,0,1,0,0,2.1,1,0,0,0,0,2,0.0,0.43
+676961,Caleb Boushley,2025-09-02,Arizona Diamondbacks,Texas Rangers,0,0,1,0,0,1.1,1,0,0,0,0,2,0.0,0.75
+681168,Luis Curvelo,2025-09-02,Arizona Diamondbacks,Texas Rangers,0,0,1,0,0,0.2,1,0,0,0,0,1,0.0,1.5
+656641,Jacob Latz,2025-09-02,Arizona Diamondbacks,Texas Rangers,0,0,1,1,0,5.1,5,2,2,0,2,1,3.38,1.31
+571948,Hoby Milner,2025-09-02,Arizona Diamondbacks,Texas Rangers,0,1,1,0,0,0.2,3,3,3,1,0,0,40.5,4.5
+676395,Robert Garcia,2025-09-03,Arizona Diamondbacks,Texas Rangers,0,0,1,0,0,1.2,0,0,0,0,0,2,0.0,0.0
+683004,Jack Leiter,2025-09-03,Arizona Diamondbacks,Texas Rangers,0,1,1,1,0,6.0,3,2,2,0,3,8,3.0,1.0
+455119,Chris Martin,2025-09-03,Arizona Diamondbacks,Texas Rangers,0,0,1,0,0,0.1,0,0,0,0,0,0,0.0,0.0
+542888,Shawn Armstrong,2025-09-05,Texas Rangers,Houston Astros,0,0,1,0,0,1.1,0,0,0,0,0,0,0.0,0.0
+676395,Robert Garcia,2025-09-05,Texas Rangers,Houston Astros,1,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+518876,Merrill Kelly,2025-09-05,Texas Rangers,Houston Astros,0,0,1,1,0,7.0,5,1,1,0,1,7,1.29,0.86
+455119,Chris Martin,2025-09-05,Texas Rangers,Houston Astros,0,0,1,0,0,1.0,3,2,2,1,0,1,18.0,3.0
+664208,Phil Maton,2025-09-05,Texas Rangers,Houston Astros,0,0,1,0,0,1.2,1,0,0,0,1,3,0.0,1.2
+676961,Caleb Boushley,2025-09-06,Texas Rangers,Houston Astros,0,0,1,0,0,1.0,5,5,2,0,1,2,18.0,6.0
+681168,Luis Curvelo,2025-09-06,Texas Rangers,Houston Astros,0,0,1,0,0,0.2,2,0,0,0,0,1,0.0,3.0
+571948,Hoby Milner,2025-09-06,Texas Rangers,Houston Astros,0,0,1,0,0,0.0,2,3,3,0,0,0,,
+668390,Cole Winn,2025-09-06,Texas Rangers,Houston Astros,0,0,1,0,0,1.2,1,0,0,0,1,1,0.0,1.2
+594798,Jacob deGrom,2025-09-06,Texas Rangers,Houston Astros,0,1,1,1,0,5.1,5,3,3,2,2,8,5.06,1.31
+542888,Shawn Armstrong,2025-09-07,Texas Rangers,Houston Astros,0,0,1,0,1,1.1,0,0,0,0,0,1,0.0,0.0
+571578,Patrick Corbin,2025-09-07,Texas Rangers,Houston Astros,0,0,1,1,0,5.2,3,1,1,0,1,5,1.59,0.71
+676395,Robert Garcia,2025-09-07,Texas Rangers,Houston Astros,0,0,1,0,0,0.2,1,0,0,0,0,0,0.0,1.5
+664208,Phil Maton,2025-09-07,Texas Rangers,Houston Astros,1,0,1,0,0,1.1,1,1,1,0,0,2,6.75,0.75
+656641,Jacob Latz,2025-09-08,Texas Rangers,Milwaukee Brewers,1,0,1,1,0,5.2,3,0,0,0,1,4,0.0,0.71
+455119,Chris Martin,2025-09-08,Texas Rangers,Milwaukee Brewers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+657097,Jacob Webb,2025-09-08,Texas Rangers,Milwaukee Brewers,0,0,1,0,0,1.0,2,0,0,0,1,0,0.0,3.0
+668390,Cole Winn,2025-09-08,Texas Rangers,Milwaukee Brewers,0,0,1,0,0,1.1,1,0,0,0,0,0,0.0,0.75
+542888,Shawn Armstrong,2025-09-09,Texas Rangers,Milwaukee Brewers,0,0,1,0,1,1.0,2,1,1,1,0,0,9.0,2.0
+681168,Luis Curvelo,2025-09-09,Texas Rangers,Milwaukee Brewers,0,0,1,0,0,0.1,0,0,0,0,0,0,0.0,0.0
+676395,Robert Garcia,2025-09-09,Texas Rangers,Milwaukee Brewers,0,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+683004,Jack Leiter,2025-09-09,Texas Rangers,Milwaukee Brewers,0,0,1,1,0,4.2,7,3,3,0,2,4,5.79,1.93
+664208,Phil Maton,2025-09-09,Texas Rangers,Milwaukee Brewers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+571948,Hoby Milner,2025-09-09,Texas Rangers,Milwaukee Brewers,1,0,1,0,0,1.0,1,0,0,0,0,0,0.0,1.0
+542888,Shawn Armstrong,2025-09-10,Texas Rangers,Milwaukee Brewers,0,0,1,0,0,1.1,0,0,0,0,1,2,0.0,0.75
+676395,Robert Garcia,2025-09-10,Texas Rangers,Milwaukee Brewers,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+518876,Merrill Kelly,2025-09-10,Texas Rangers,Milwaukee Brewers,1,0,1,1,0,5.2,10,3,3,2,0,6,4.76,1.76
+664208,Phil Maton,2025-09-10,Texas Rangers,Milwaukee Brewers,0,0,1,0,1,0.2,0,0,0,0,0,1,0.0,0.0
+571948,Hoby Milner,2025-09-10,Texas Rangers,Milwaukee Brewers,0,0,1,0,0,0.1,0,0,0,0,0,0,0.0,0.0
+676395,Robert Garcia,2025-09-12,New York Mets,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,1,0.0,1.0
+664208,Phil Maton,2025-09-12,New York Mets,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,2,0.0,0.0
+594798,Jacob deGrom,2025-09-12,New York Mets,Texas Rangers,1,0,1,1,0,7.0,4,3,3,1,0,2,3.86,0.57
+542888,Shawn Armstrong,2025-09-13,New York Mets,Texas Rangers,0,0,1,0,1,0.2,1,0,0,0,0,2,0.0,1.5
+571578,Patrick Corbin,2025-09-13,New York Mets,Texas Rangers,0,0,1,1,0,4.1,6,1,0,0,2,5,0.0,1.85
+455119,Chris Martin,2025-09-13,New York Mets,Texas Rangers,0,0,1,0,0,1.1,1,0,0,0,1,1,0.0,1.5
+664208,Phil Maton,2025-09-13,New York Mets,Texas Rangers,1,0,1,0,0,0.2,1,0,0,0,0,2,0.0,1.5
+571948,Hoby Milner,2025-09-13,New York Mets,Texas Rangers,0,0,1,0,0,1.1,1,1,1,1,0,1,6.75,0.75
+668390,Cole Winn,2025-09-13,New York Mets,Texas Rangers,0,0,1,0,0,0.2,1,0,0,0,0,2,0.0,1.5
+542888,Shawn Armstrong,2025-09-14,New York Mets,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,2,0.0,1.0
+681168,Luis Curvelo,2025-09-14,New York Mets,Texas Rangers,0,1,1,0,0,0.0,1,3,2,1,1,0,,
+676395,Robert Garcia,2025-09-14,New York Mets,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+656641,Jacob Latz,2025-09-14,New York Mets,Texas Rangers,0,0,1,1,0,4.2,2,1,1,0,4,4,1.93,1.29
+571948,Hoby Milner,2025-09-14,New York Mets,Texas Rangers,0,0,1,0,0,0.2,1,0,0,0,0,0,0.0,1.5
+657097,Jacob Webb,2025-09-14,New York Mets,Texas Rangers,0,0,1,0,0,1.0,1,0,0,0,0,2,0.0,1.0
+668390,Cole Winn,2025-09-14,New York Mets,Texas Rangers,0,0,1,0,0,0.2,1,1,1,1,0,0,13.5,1.5
+605218,Carl Edwards Jr.,2025-09-15,Houston Astros,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+683004,Jack Leiter,2025-09-15,Houston Astros,Texas Rangers,0,1,1,1,0,6.2,5,6,3,1,1,4,4.05,0.9
+657097,Jacob Webb,2025-09-15,Houston Astros,Texas Rangers,0,0,1,0,0,0.1,1,0,0,0,0,0,0.0,3.0
+543056,Danny Coulombe,2025-09-16,Houston Astros,Texas Rangers,0,0,1,0,0,0.2,0,0,0,0,1,1,0.0,1.5
+605218,Carl Edwards Jr.,2025-09-16,Houston Astros,Texas Rangers,0,0,1,0,0,2.0,0,0,0,0,2,3,0.0,1.0
+518876,Merrill Kelly,2025-09-16,Houston Astros,Texas Rangers,0,1,1,1,0,3.0,9,6,6,0,1,1,18.0,3.33
+455119,Chris Martin,2025-09-16,Houston Astros,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+668390,Cole Winn,2025-09-16,Houston Astros,Texas Rangers,0,0,1,0,0,1.1,1,0,0,0,1,1,0.0,1.5
+542888,Shawn Armstrong,2025-09-17,Houston Astros,Texas Rangers,0,0,1,0,0,1.2,0,0,0,0,0,2,0.0,0.0
+676395,Robert Garcia,2025-09-17,Houston Astros,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,1,0.0,0.0
+664208,Phil Maton,2025-09-17,Houston Astros,Texas Rangers,0,0,1,0,0,0.1,0,0,0,0,0,0,0.0,0.0
+594798,Jacob deGrom,2025-09-17,Houston Astros,Texas Rangers,0,1,1,1,0,5.0,6,5,5,2,1,6,9.0,1.4
+542888,Shawn Armstrong,2025-09-19,Texas Rangers,Miami Marlins,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+571578,Patrick Corbin,2025-09-19,Texas Rangers,Miami Marlins,0,1,1,0,0,1.0,3,3,2,0,0,0,18.0,3.0
+676395,Robert Garcia,2025-09-19,Texas Rangers,Miami Marlins,0,0,1,0,0,0.1,3,1,1,1,0,1,27.0,9.0
+656641,Jacob Latz,2025-09-19,Texas Rangers,Miami Marlins,0,0,1,0,0,0.2,1,0,0,0,1,0,0.0,3.0
+641816,Tyler Mahle,2025-09-19,Texas Rangers,Miami Marlins,0,0,1,1,0,4.2,4,0,0,0,1,6,0.0,1.07
+455119,Chris Martin,2025-09-19,Texas Rangers,Miami Marlins,0,0,1,0,0,0.2,0,0,0,0,0,1,0.0,0.0
+664208,Phil Maton,2025-09-19,Texas Rangers,Miami Marlins,0,0,1,0,0,1.2,1,0,0,0,0,0,0.0,0.6
+571948,Hoby Milner,2025-09-19,Texas Rangers,Miami Marlins,0,0,1,0,0,0.1,2,2,1,0,1,0,27.0,9.0
+668390,Cole Winn,2025-09-19,Texas Rangers,Miami Marlins,0,0,1,0,0,1.2,0,0,0,0,0,2,0.0,0.0
+543056,Danny Coulombe,2025-09-20,Texas Rangers,Miami Marlins,0,0,1,0,0,0.2,1,0,0,0,1,0,0.0,3.0
+683004,Jack Leiter,2025-09-20,Texas Rangers,Miami Marlins,0,1,1,1,0,5.2,8,4,4,2,1,4,6.35,1.59
+455119,Chris Martin,2025-09-20,Texas Rangers,Miami Marlins,0,0,1,0,0,0.1,0,0,0,0,0,0,0.0,0.0
+571948,Hoby Milner,2025-09-20,Texas Rangers,Miami Marlins,0,0,1,0,0,0.2,1,0,0,0,1,0,0.0,3.0
+657097,Jacob Webb,2025-09-20,Texas Rangers,Miami Marlins,0,0,1,0,0,1.2,0,0,0,0,0,3,0.0,0.0
+542888,Shawn Armstrong,2025-09-21,Texas Rangers,Miami Marlins,0,0,1,0,0,0.2,1,0,0,0,0,1,0.0,1.5
+676395,Robert Garcia,2025-09-21,Texas Rangers,Miami Marlins,0,0,1,0,0,1.1,0,0,0,0,0,1,0.0,0.0
+518876,Merrill Kelly,2025-09-21,Texas Rangers,Miami Marlins,0,1,1,1,0,4.1,7,3,3,0,0,4,6.23,1.62
+656641,Jacob Latz,2025-09-21,Texas Rangers,Miami Marlins,0,0,1,0,0,0.2,1,0,0,0,0,0,0.0,1.5
+664208,Phil Maton,2025-09-21,Texas Rangers,Miami Marlins,0,0,1,0,0,0.2,1,0,0,0,0,2,0.0,1.5
+668390,Cole Winn,2025-09-21,Texas Rangers,Miami Marlins,0,0,1,0,0,1.1,1,1,1,0,0,1,6.75,0.75
+571578,Patrick Corbin,2025-09-23,Texas Rangers,Minnesota Twins,0,1,1,1,0,3.2,5,2,2,0,2,2,4.91,1.91
+543056,Danny Coulombe,2025-09-23,Texas Rangers,Minnesota Twins,0,0,1,0,0,1.1,1,0,0,0,2,1,0.0,2.25
+455119,Chris Martin,2025-09-23,Texas Rangers,Minnesota Twins,0,0,1,0,0,0.2,0,0,0,0,1,1,0.0,1.5
+571948,Hoby Milner,2025-09-23,Texas Rangers,Minnesota Twins,0,0,1,0,0,0.0,2,2,2,0,1,0,,
+657097,Jacob Webb,2025-09-23,Texas Rangers,Minnesota Twins,0,0,1,0,0,1.1,0,0,0,0,1,1,0.0,0.75
+668390,Cole Winn,2025-09-23,Texas Rangers,Minnesota Twins,0,0,1,0,0,2.0,1,0,0,0,0,2,0.0,0.5
+542888,Shawn Armstrong,2025-09-24,Texas Rangers,Minnesota Twins,0,0,1,0,0,1.0,2,1,1,0,0,1,9.0,2.0
+676395,Robert Garcia,2025-09-24,Texas Rangers,Minnesota Twins,1,0,1,0,0,2.0,1,0,0,0,0,1,0.0,0.5
+664208,Phil Maton,2025-09-24,Texas Rangers,Minnesota Twins,0,0,1,0,1,1.0,0,0,0,0,0,1,0.0,0.0
+594798,Jacob deGrom,2025-09-24,Texas Rangers,Minnesota Twins,0,0,1,1,0,5.0,2,1,1,1,1,8,1.8,0.6
+641816,Tyler Mahle,2025-09-25,Texas Rangers,Minnesota Twins,0,1,1,1,0,5.0,5,1,1,1,1,4,1.8,1.2
+455119,Chris Martin,2025-09-25,Texas Rangers,Minnesota Twins,0,0,1,0,0,0.2,5,3,3,1,0,1,40.5,7.5
+571948,Hoby Milner,2025-09-25,Texas Rangers,Minnesota Twins,0,0,1,0,0,1.1,0,0,0,0,0,1,0.0,0.0
+657097,Jacob Webb,2025-09-25,Texas Rangers,Minnesota Twins,0,0,1,0,0,2.0,0,0,0,0,0,3,0.0,0.0
+542888,Shawn Armstrong,2025-09-26,Cleveland Guardians,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+683004,Jack Leiter,2025-09-26,Cleveland Guardians,Texas Rangers,1,0,1,1,0,7.0,4,2,2,1,1,10,2.57,0.71
+664208,Phil Maton,2025-09-26,Cleveland Guardians,Texas Rangers,0,0,1,0,0,1.0,1,1,1,0,1,1,9.0,2.0
+542888,Shawn Armstrong,2025-09-27,Cleveland Guardians,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,1,0,0.0,1.0
+676395,Robert Garcia,2025-09-27,Cleveland Guardians,Texas Rangers,0,1,1,0,0,0.2,1,1,1,0,2,0,13.5,4.5
+656641,Jacob Latz,2025-09-27,Cleveland Guardians,Texas Rangers,0,0,1,1,0,5.1,5,2,2,1,0,6,3.38,0.94
+657097,Jacob Webb,2025-09-27,Cleveland Guardians,Texas Rangers,0,0,1,0,0,1.2,0,0,0,0,0,2,0.0,0.0
+571578,Patrick Corbin,2025-09-28,Cleveland Guardians,Texas Rangers,0,0,1,1,0,4.0,4,3,3,0,2,5,6.75,1.5
+692030,Jose Corniell,2025-09-28,Cleveland Guardians,Texas Rangers,0,1,1,0,0,1.2,3,4,3,1,1,1,16.2,2.4
+543056,Danny Coulombe,2025-09-28,Cleveland Guardians,Texas Rangers,0,0,1,0,0,1.0,0,0,0,0,0,0,0.0,0.0
+681168,Luis Curvelo,2025-09-28,Cleveland Guardians,Texas Rangers,0,0,1,0,0,1.0,2,1,1,0,0,1,9.0,2.0
+571948,Hoby Milner,2025-09-28,Cleveland Guardians,Texas Rangers,0,0,1,0,0,1.1,2,1,1,1,1,2,6.75,2.25

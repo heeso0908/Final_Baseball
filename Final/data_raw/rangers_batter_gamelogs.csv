@@ -1,0 +1,1716 @@
+player_id,name,pos,Date,Home Tm,Away Tm,PA,AB,R,H,2B,3B,HR,RBI,BB,SO,SB,CS,HBP,game_AVG,game_OBP,game_SLG,game_OPS
+669394,Jake Burger,1B,2025-03-27,Texas Rangers,Boston Red Sox,4,3,1,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+666969,Adolis García,RF,2025-03-27,Texas Rangers,Boston Red Sox,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-03-27,Texas Rangers,Boston Red Sox,4,4,0,1,1,0,0,1,0,0,0,0,0,0.25,0.25,0.5,0.75
+673962,Josh Jung,3B,2025-03-27,Texas Rangers,Boston Red Sox,4,4,0,2,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+694671,Wyatt Langford,LF,2025-03-27,Texas Rangers,Boston Red Sox,4,3,0,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+592626,Joc Pederson,1B,2025-03-27,Texas Rangers,Boston Red Sox,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+607680,Kevin Pillar,CF,2025-03-27,Texas Rangers,Boston Red Sox,3,3,1,2,0,0,0,1,0,0,0,0,0,0.667,0.667,0.667,1.334
+608369,Corey Seager,SS,2025-03-27,Texas Rangers,Boston Red Sox,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-03-27,Texas Rangers,Boston Red Sox,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-03-27,Texas Rangers,Boston Red Sox,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-03-28,Texas Rangers,Boston Red Sox,3,3,1,1,1,0,0,1,0,1,0,0,0,0.333,0.333,0.667,1.0
+666969,Adolis García,RF,2025-03-28,Texas Rangers,Boston Red Sox,4,2,0,0,0,0,0,0,2,0,1,0,0,0.0,0.5,0.0,0.5
+641680,Jonah Heim,C,2025-03-28,Texas Rangers,Boston Red Sox,3,3,2,2,0,0,2,2,0,0,0,0,0,0.667,0.667,2.667,3.334
+673962,Josh Jung,3B,2025-03-28,Texas Rangers,Boston Red Sox,3,3,0,1,0,0,0,1,0,0,0,0,0,0.333,0.333,0.333,0.666
+694671,Wyatt Langford,LF,2025-03-28,Texas Rangers,Boston Red Sox,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+592626,Joc Pederson,1B,2025-03-28,Texas Rangers,Boston Red Sox,3,3,1,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+607680,Kevin Pillar,CF,2025-03-28,Texas Rangers,Boston Red Sox,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-03-28,Texas Rangers,Boston Red Sox,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+543760,Marcus Semien,2B,2025-03-28,Texas Rangers,Boston Red Sox,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-03-28,Texas Rangers,Boston Red Sox,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+665750,Leody Taveras,CF,2025-03-28,Texas Rangers,Boston Red Sox,3,2,0,1,0,0,0,0,1,1,1,0,0,0.5,0.667,0.5,1.167
+669394,Jake Burger,1B,2025-03-29,Texas Rangers,Boston Red Sox,4,3,0,0,0,0,0,0,0,0,0,0,1,0.0,0.25,0.0,0.25
+677649,Ezequiel Duran,SS,2025-03-29,Texas Rangers,Boston Red Sox,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-03-29,Texas Rangers,Boston Red Sox,4,3,1,3,2,0,1,3,0,0,0,0,1,1.0,1.0,2.667,3.667
+641680,Jonah Heim,C,2025-03-29,Texas Rangers,Boston Red Sox,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-03-29,Texas Rangers,Boston Red Sox,4,4,1,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+592626,Joc Pederson,1B,2025-03-29,Texas Rangers,Boston Red Sox,4,2,0,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+608369,Corey Seager,SS,2025-03-29,Texas Rangers,Boston Red Sox,4,4,1,2,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+543760,Marcus Semien,2B,2025-03-29,Texas Rangers,Boston Red Sox,4,4,0,1,0,0,0,1,0,1,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-03-29,Texas Rangers,Boston Red Sox,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+665750,Leody Taveras,CF,2025-03-29,Texas Rangers,Boston Red Sox,3,3,1,1,0,0,0,0,0,0,1,0,0,0.333,0.333,0.333,0.666
+669394,Jake Burger,1B,2025-03-30,Texas Rangers,Boston Red Sox,3,3,1,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+677649,Ezequiel Duran,SS,2025-03-30,Texas Rangers,Boston Red Sox,3,2,0,0,0,0,0,1,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-03-30,Texas Rangers,Boston Red Sox,3,3,1,1,0,0,1,1,0,0,0,0,0,0.333,0.333,1.333,1.666
+543309,Kyle Higashioka,C,2025-03-30,Texas Rangers,Boston Red Sox,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+694671,Wyatt Langford,LF,2025-03-30,Texas Rangers,Boston Red Sox,4,4,1,2,0,0,1,1,0,0,0,0,0,0.5,0.5,1.25,1.75
+680716,Jonathan Ornelas,SS,2025-03-30,Texas Rangers,Boston Red Sox,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-03-30,Texas Rangers,Boston Red Sox,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-03-30,Texas Rangers,Boston Red Sox,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+665750,Leody Taveras,CF,2025-03-30,Texas Rangers,Boston Red Sox,3,3,0,1,0,0,0,0,0,2,0,0,0,0.333,0.333,0.333,0.666
+669394,Jake Burger,1B,2025-03-31,Cincinnati Reds,Texas Rangers,4,4,1,1,0,0,1,2,0,1,0,0,0,0.25,0.25,1.0,1.25
+677649,Ezequiel Duran,SS,2025-03-31,Cincinnati Reds,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-03-31,Cincinnati Reds,Texas Rangers,2,2,0,1,1,0,0,0,0,0,0,0,0,0.5,0.5,1.0,1.5
+641680,Jonah Heim,C,2025-03-31,Cincinnati Reds,Texas Rangers,4,4,0,2,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+694671,Wyatt Langford,LF,2025-03-31,Cincinnati Reds,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+680716,Jonathan Ornelas,SS,2025-03-31,Cincinnati Reds,Texas Rangers,1,0,0,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+592626,Joc Pederson,1B,2025-03-31,Cincinnati Reds,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+607680,Kevin Pillar,CF,2025-03-31,Cincinnati Reds,Texas Rangers,2,2,1,1,1,0,0,0,0,0,0,0,0,0.5,0.5,1.0,1.5
+608369,Corey Seager,SS,2025-03-31,Cincinnati Reds,Texas Rangers,3,2,0,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+543760,Marcus Semien,2B,2025-03-31,Cincinnati Reds,Texas Rangers,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+669701,Josh Smith,SS,2025-03-31,Cincinnati Reds,Texas Rangers,4,3,1,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+665750,Leody Taveras,CF,2025-03-31,Cincinnati Reds,Texas Rangers,4,4,0,0,0,0,0,1,0,2,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-04-01,Cincinnati Reds,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-01,Cincinnati Reds,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-04-01,Cincinnati Reds,Texas Rangers,4,2,0,0,0,0,0,0,2,0,0,0,0,0.0,0.5,0.0,0.5
+694671,Wyatt Langford,LF,2025-04-01,Cincinnati Reds,Texas Rangers,4,4,1,2,0,0,1,1,0,0,0,0,0,0.5,0.5,1.25,1.75
+592626,Joc Pederson,1B,2025-04-01,Cincinnati Reds,Texas Rangers,4,2,0,1,1,0,0,0,1,0,0,0,1,0.5,0.75,1.0,1.75
+608369,Corey Seager,SS,2025-04-01,Cincinnati Reds,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+543760,Marcus Semien,2B,2025-04-01,Cincinnati Reds,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-04-01,Cincinnati Reds,Texas Rangers,4,4,0,1,0,0,0,0,0,1,1,0,0,0.25,0.25,0.25,0.5
+665750,Leody Taveras,CF,2025-04-01,Cincinnati Reds,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-04-02,Cincinnati Reds,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-04-02,Cincinnati Reds,Texas Rangers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-02,Cincinnati Reds,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-04-02,Cincinnati Reds,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-04-02,Cincinnati Reds,Texas Rangers,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+592626,Joc Pederson,1B,2025-04-02,Cincinnati Reds,Texas Rangers,4,4,1,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+543760,Marcus Semien,2B,2025-04-02,Cincinnati Reds,Texas Rangers,4,3,0,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+669701,Josh Smith,SS,2025-04-02,Cincinnati Reds,Texas Rangers,3,3,0,1,1,0,0,1,0,2,0,0,0,0.333,0.333,0.667,1.0
+665750,Leody Taveras,CF,2025-04-02,Cincinnati Reds,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-04-04,Texas Rangers,Tampa Bay Rays,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-04,Texas Rangers,Tampa Bay Rays,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-04-04,Texas Rangers,Tampa Bay Rays,3,3,1,1,1,0,0,1,0,1,0,0,0,0.333,0.333,0.667,1.0
+694671,Wyatt Langford,LF,2025-04-04,Texas Rangers,Tampa Bay Rays,4,2,0,0,0,0,0,1,0,0,1,0,1,0.0,0.333,0.0,0.333
+592626,Joc Pederson,1B,2025-04-04,Texas Rangers,Tampa Bay Rays,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+608369,Corey Seager,SS,2025-04-04,Texas Rangers,Tampa Bay Rays,4,3,0,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+543760,Marcus Semien,2B,2025-04-04,Texas Rangers,Tampa Bay Rays,4,4,1,1,0,0,0,1,0,1,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-04-04,Texas Rangers,Tampa Bay Rays,3,3,2,2,0,0,1,1,0,0,0,0,0,0.667,0.667,1.667,2.334
+665750,Leody Taveras,CF,2025-04-04,Texas Rangers,Tampa Bay Rays,3,3,1,1,0,0,0,1,0,0,2,0,0,0.333,0.333,0.333,0.666
+669394,Jake Burger,1B,2025-04-05,Texas Rangers,Tampa Bay Rays,4,4,1,1,0,0,1,3,0,2,0,0,0,0.25,0.25,1.0,1.25
+666969,Adolis García,RF,2025-04-05,Texas Rangers,Tampa Bay Rays,4,2,1,0,0,0,0,0,1,0,1,0,1,0.0,0.5,0.0,0.5
+641680,Jonah Heim,C,2025-04-05,Texas Rangers,Tampa Bay Rays,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-04-05,Texas Rangers,Tampa Bay Rays,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-04-05,Texas Rangers,Tampa Bay Rays,4,3,2,1,0,0,1,2,1,1,0,0,0,0.333,0.5,1.333,1.833
+592626,Joc Pederson,1B,2025-04-05,Texas Rangers,Tampa Bay Rays,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+607680,Kevin Pillar,CF,2025-04-05,Texas Rangers,Tampa Bay Rays,1,1,1,1,0,0,0,0,0,0,1,0,0,1.0,1.0,1.0,2.0
+608369,Corey Seager,SS,2025-04-05,Texas Rangers,Tampa Bay Rays,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-04-05,Texas Rangers,Tampa Bay Rays,4,3,1,1,0,0,1,1,1,2,0,0,0,0.333,0.5,1.333,1.833
+669701,Josh Smith,SS,2025-04-05,Texas Rangers,Tampa Bay Rays,4,1,0,0,0,0,0,0,3,1,1,0,0,0.0,0.75,0.0,0.75
+665750,Leody Taveras,CF,2025-04-05,Texas Rangers,Tampa Bay Rays,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-04-06,Texas Rangers,Tampa Bay Rays,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-06,Texas Rangers,Tampa Bay Rays,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-04-06,Texas Rangers,Tampa Bay Rays,4,4,1,2,0,0,0,1,0,0,1,0,0,0.5,0.5,0.5,1.0
+694671,Wyatt Langford,LF,2025-04-06,Texas Rangers,Tampa Bay Rays,4,3,0,0,0,0,0,0,1,1,1,0,0,0.0,0.25,0.0,0.25
+592626,Joc Pederson,1B,2025-04-06,Texas Rangers,Tampa Bay Rays,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+608369,Corey Seager,SS,2025-04-06,Texas Rangers,Tampa Bay Rays,4,4,1,1,0,0,1,1,0,1,0,0,0,0.25,0.25,1.0,1.25
+543760,Marcus Semien,2B,2025-04-06,Texas Rangers,Tampa Bay Rays,4,4,0,0,0,0,0,1,0,2,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-04-06,Texas Rangers,Tampa Bay Rays,4,4,2,3,1,0,0,0,0,1,1,0,0,0.75,0.75,1.0,1.75
+665750,Leody Taveras,CF,2025-04-06,Texas Rangers,Tampa Bay Rays,3,3,0,1,0,0,0,1,0,2,1,0,0,0.333,0.333,0.333,0.666
+669394,Jake Burger,1B,2025-04-07,Chicago Cubs,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-04-07,Chicago Cubs,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-07,Chicago Cubs,Texas Rangers,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+641680,Jonah Heim,C,2025-04-07,Chicago Cubs,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-04-07,Chicago Cubs,Texas Rangers,3,3,0,2,0,0,0,0,0,0,0,0,0,0.667,0.667,0.667,1.334
+694671,Wyatt Langford,LF,2025-04-07,Chicago Cubs,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+680716,Jonathan Ornelas,SS,2025-04-07,Chicago Cubs,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+607680,Kevin Pillar,CF,2025-04-07,Chicago Cubs,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-04-07,Chicago Cubs,Texas Rangers,3,3,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-04-07,Chicago Cubs,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-04-07,Chicago Cubs,Texas Rangers,3,2,0,0,0,0,0,0,1,1,0,1,0,0.0,0.333,0.0,0.333
+665750,Leody Taveras,CF,2025-04-07,Chicago Cubs,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-08,Chicago Cubs,Texas Rangers,4,4,1,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-04-08,Chicago Cubs,Texas Rangers,4,4,0,1,0,0,0,2,0,3,1,0,0,0.25,0.25,0.25,0.5
+673962,Josh Jung,3B,2025-04-08,Chicago Cubs,Texas Rangers,4,4,1,3,1,1,0,1,0,1,0,0,0,0.75,0.75,1.5,2.25
+694671,Wyatt Langford,LF,2025-04-08,Chicago Cubs,Texas Rangers,4,4,1,2,1,0,1,1,0,2,0,0,0,0.5,0.5,1.5,2.0
+592626,Joc Pederson,1B,2025-04-08,Chicago Cubs,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+607680,Kevin Pillar,CF,2025-04-08,Chicago Cubs,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-04-08,Chicago Cubs,Texas Rangers,5,5,0,2,0,0,0,0,0,0,0,0,0,0.4,0.4,0.4,0.8
+543760,Marcus Semien,2B,2025-04-08,Chicago Cubs,Texas Rangers,5,5,0,0,0,0,0,1,0,0,0,1,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-04-08,Chicago Cubs,Texas Rangers,4,3,2,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+665750,Leody Taveras,CF,2025-04-08,Chicago Cubs,Texas Rangers,4,4,1,2,0,1,0,1,0,1,0,0,0,0.5,0.5,1.0,1.5
+669394,Jake Burger,1B,2025-04-09,Chicago Cubs,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+666969,Adolis García,RF,2025-04-09,Chicago Cubs,Texas Rangers,4,4,0,1,0,0,0,1,0,1,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-04-09,Chicago Cubs,Texas Rangers,4,4,1,2,0,0,1,2,0,0,0,0,0,0.5,0.5,1.25,1.75
+543309,Kyle Higashioka,C,2025-04-09,Chicago Cubs,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-04-09,Chicago Cubs,Texas Rangers,4,4,1,1,1,0,0,1,0,0,0,0,0,0.25,0.25,0.5,0.75
+607680,Kevin Pillar,CF,2025-04-09,Chicago Cubs,Texas Rangers,4,4,1,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+608369,Corey Seager,SS,2025-04-09,Chicago Cubs,Texas Rangers,5,5,2,2,0,0,2,2,0,2,0,0,0,0.4,0.4,1.6,2.0
+543760,Marcus Semien,2B,2025-04-09,Chicago Cubs,Texas Rangers,5,4,1,1,0,0,0,0,1,0,0,0,0,0.25,0.4,0.25,0.65
+665750,Leody Taveras,CF,2025-04-09,Chicago Cubs,Texas Rangers,4,4,0,2,0,0,0,0,0,2,0,1,0,0.5,0.5,0.5,1.0
+669394,Jake Burger,1B,2025-04-11,Seattle Mariners,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+666969,Adolis García,RF,2025-04-11,Seattle Mariners,Texas Rangers,4,2,1,1,1,0,0,0,1,0,1,0,1,0.5,0.75,1.0,1.75
+687957,Dustin Harris,LF,2025-04-11,Seattle Mariners,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-04-11,Seattle Mariners,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+673962,Josh Jung,3B,2025-04-11,Seattle Mariners,Texas Rangers,4,4,1,2,0,0,1,3,0,0,1,0,0,0.5,0.5,1.25,1.75
+592626,Joc Pederson,1B,2025-04-11,Seattle Mariners,Texas Rangers,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+607680,Kevin Pillar,CF,2025-04-11,Seattle Mariners,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-04-11,Seattle Mariners,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+543760,Marcus Semien,2B,2025-04-11,Seattle Mariners,Texas Rangers,5,5,0,1,1,0,0,0,0,0,0,0,0,0.2,0.2,0.4,0.6
+669701,Josh Smith,SS,2025-04-11,Seattle Mariners,Texas Rangers,4,4,1,2,1,0,0,0,0,1,0,0,0,0.5,0.5,0.75,1.25
+665750,Leody Taveras,CF,2025-04-11,Seattle Mariners,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-04-12,Seattle Mariners,Texas Rangers,4,4,0,1,0,0,0,1,0,1,0,0,0,0.25,0.25,0.25,0.5
+677649,Ezequiel Duran,SS,2025-04-12,Seattle Mariners,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+666969,Adolis García,RF,2025-04-12,Seattle Mariners,Texas Rangers,4,4,0,2,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+687957,Dustin Harris,LF,2025-04-12,Seattle Mariners,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+641680,Jonah Heim,C,2025-04-12,Seattle Mariners,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-04-12,Seattle Mariners,Texas Rangers,4,4,1,2,1,0,0,0,0,1,0,0,0,0.5,0.5,0.75,1.25
+592626,Joc Pederson,1B,2025-04-12,Seattle Mariners,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+607680,Kevin Pillar,CF,2025-04-12,Seattle Mariners,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+608369,Corey Seager,SS,2025-04-12,Seattle Mariners,Texas Rangers,4,4,0,2,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+543760,Marcus Semien,2B,2025-04-12,Seattle Mariners,Texas Rangers,4,3,1,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+669701,Josh Smith,SS,2025-04-12,Seattle Mariners,Texas Rangers,4,4,0,2,0,0,0,1,0,0,0,0,0,0.5,0.5,0.5,1.0
+665750,Leody Taveras,CF,2025-04-12,Seattle Mariners,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-04-13,Seattle Mariners,Texas Rangers,3,3,0,1,1,0,0,0,0,2,0,0,0,0.333,0.333,0.667,1.0
+666969,Adolis García,RF,2025-04-13,Seattle Mariners,Texas Rangers,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+687957,Dustin Harris,LF,2025-04-13,Seattle Mariners,Texas Rangers,3,3,1,1,0,0,1,1,0,0,0,0,0,0.333,0.333,1.333,1.666
+543309,Kyle Higashioka,C,2025-04-13,Seattle Mariners,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-04-13,Seattle Mariners,Texas Rangers,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-04-13,Seattle Mariners,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-04-13,Seattle Mariners,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-04-13,Seattle Mariners,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+665750,Leody Taveras,CF,2025-04-13,Seattle Mariners,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-04-15,Texas Rangers,Los Angeles Angels,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-15,Texas Rangers,Los Angeles Angels,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-04-15,Texas Rangers,Los Angeles Angels,4,3,1,1,1,0,0,0,1,2,0,0,0,0.333,0.5,0.667,1.167
+543309,Kyle Higashioka,C,2025-04-15,Texas Rangers,Los Angeles Angels,3,3,0,1,1,0,0,1,0,1,0,0,0,0.333,0.333,0.667,1.0
+673962,Josh Jung,3B,2025-04-15,Texas Rangers,Los Angeles Angels,4,4,1,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+607680,Kevin Pillar,CF,2025-04-15,Texas Rangers,Los Angeles Angels,4,4,0,2,1,0,0,0,0,1,0,0,0,0.5,0.5,0.75,1.25
+608369,Corey Seager,SS,2025-04-15,Texas Rangers,Los Angeles Angels,4,3,1,2,1,0,0,0,1,0,0,0,0,0.667,0.75,1.0,1.75
+543760,Marcus Semien,2B,2025-04-15,Texas Rangers,Los Angeles Angels,4,3,0,0,0,0,0,1,0,0,0,0,0,0.0,0.0,0.0,0.0
+665750,Leody Taveras,CF,2025-04-15,Texas Rangers,Los Angeles Angels,3,3,1,1,0,0,0,0,0,0,1,0,0,0.333,0.333,0.333,0.666
+669394,Jake Burger,1B,2025-04-16,Texas Rangers,Los Angeles Angels,4,4,1,3,0,0,0,1,0,0,0,0,0,0.75,0.75,0.75,1.5
+666969,Adolis García,RF,2025-04-16,Texas Rangers,Los Angeles Angels,4,4,0,2,1,0,0,0,0,0,1,0,0,0.5,0.5,0.75,1.25
+687957,Dustin Harris,LF,2025-04-16,Texas Rangers,Los Angeles Angels,4,4,1,1,1,0,0,0,0,2,0,0,0,0.25,0.25,0.5,0.75
+641680,Jonah Heim,C,2025-04-16,Texas Rangers,Los Angeles Angels,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+673962,Josh Jung,3B,2025-04-16,Texas Rangers,Los Angeles Angels,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-04-16,Texas Rangers,Los Angeles Angels,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+607680,Kevin Pillar,CF,2025-04-16,Texas Rangers,Los Angeles Angels,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-04-16,Texas Rangers,Los Angeles Angels,4,4,0,3,0,0,0,2,0,0,0,0,0,0.75,0.75,0.75,1.5
+543760,Marcus Semien,2B,2025-04-16,Texas Rangers,Los Angeles Angels,4,3,0,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+665750,Leody Taveras,CF,2025-04-16,Texas Rangers,Los Angeles Angels,4,4,1,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+669394,Jake Burger,1B,2025-04-17,Texas Rangers,Los Angeles Angels,4,3,1,1,0,0,0,0,0,1,0,0,1,0.333,0.5,0.333,0.833
+666969,Adolis García,RF,2025-04-17,Texas Rangers,Los Angeles Angels,4,3,1,1,0,0,1,2,0,2,0,0,0,0.333,0.333,1.333,1.666
+687957,Dustin Harris,LF,2025-04-17,Texas Rangers,Los Angeles Angels,4,4,1,2,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+543309,Kyle Higashioka,C,2025-04-17,Texas Rangers,Los Angeles Angels,4,4,0,2,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+673962,Josh Jung,3B,2025-04-17,Texas Rangers,Los Angeles Angels,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+592626,Joc Pederson,1B,2025-04-17,Texas Rangers,Los Angeles Angels,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-04-17,Texas Rangers,Los Angeles Angels,4,3,1,2,0,0,1,1,1,0,0,0,0,0.667,0.75,1.667,2.417
+543760,Marcus Semien,2B,2025-04-17,Texas Rangers,Los Angeles Angels,4,4,1,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+665750,Leody Taveras,CF,2025-04-17,Texas Rangers,Los Angeles Angels,3,3,0,1,1,0,0,2,0,0,0,0,0,0.333,0.333,0.667,1.0
+669394,Jake Burger,1B,2025-04-18,Texas Rangers,Los Angeles Dodgers,3,3,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-18,Texas Rangers,Los Angeles Dodgers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+687957,Dustin Harris,LF,2025-04-18,Texas Rangers,Los Angeles Dodgers,3,3,0,2,1,0,0,0,0,1,0,1,0,0.667,0.667,1.0,1.667
+641680,Jonah Heim,C,2025-04-18,Texas Rangers,Los Angeles Dodgers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-04-18,Texas Rangers,Los Angeles Dodgers,4,4,0,1,1,0,0,0,0,2,0,0,0,0.25,0.25,0.5,0.75
+592626,Joc Pederson,1B,2025-04-18,Texas Rangers,Los Angeles Dodgers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+607680,Kevin Pillar,CF,2025-04-18,Texas Rangers,Los Angeles Dodgers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-04-18,Texas Rangers,Los Angeles Dodgers,4,4,0,2,1,0,0,0,0,1,0,0,0,0.5,0.5,0.75,1.25
+543760,Marcus Semien,2B,2025-04-18,Texas Rangers,Los Angeles Dodgers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+665750,Leody Taveras,CF,2025-04-18,Texas Rangers,Los Angeles Dodgers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-04-19,Texas Rangers,Los Angeles Dodgers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-19,Texas Rangers,Los Angeles Dodgers,4,4,1,1,0,0,1,2,0,1,0,0,0,0.25,0.25,1.0,1.25
+687957,Dustin Harris,LF,2025-04-19,Texas Rangers,Los Angeles Dodgers,3,2,1,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+543309,Kyle Higashioka,C,2025-04-19,Texas Rangers,Los Angeles Dodgers,3,3,1,2,0,0,1,2,0,1,0,0,0,0.667,0.667,1.667,2.334
+673962,Josh Jung,3B,2025-04-19,Texas Rangers,Los Angeles Dodgers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-04-19,Texas Rangers,Los Angeles Dodgers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-04-19,Texas Rangers,Los Angeles Dodgers,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+543760,Marcus Semien,2B,2025-04-19,Texas Rangers,Los Angeles Dodgers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-04-19,Texas Rangers,Los Angeles Dodgers,4,3,1,1,1,0,0,0,1,1,0,0,0,0.333,0.5,0.667,1.167
+665750,Leody Taveras,CF,2025-04-19,Texas Rangers,Los Angeles Dodgers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-04-20,Texas Rangers,Los Angeles Dodgers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-20,Texas Rangers,Los Angeles Dodgers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+687957,Dustin Harris,LF,2025-04-20,Texas Rangers,Los Angeles Dodgers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-04-20,Texas Rangers,Los Angeles Dodgers,3,2,0,1,0,0,0,0,1,0,0,0,0,0.5,0.667,0.5,1.167
+673962,Josh Jung,3B,2025-04-20,Texas Rangers,Los Angeles Dodgers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-04-20,Texas Rangers,Los Angeles Dodgers,4,3,0,1,0,0,0,0,1,1,1,1,0,0.333,0.5,0.333,0.833
+607680,Kevin Pillar,CF,2025-04-20,Texas Rangers,Los Angeles Dodgers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-04-20,Texas Rangers,Los Angeles Dodgers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-04-20,Texas Rangers,Los Angeles Dodgers,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+669701,Josh Smith,SS,2025-04-20,Texas Rangers,Los Angeles Dodgers,4,4,0,3,0,0,0,0,0,1,0,0,0,0.75,0.75,0.75,1.5
+669394,Jake Burger,1B,2025-04-22,Athletics,Texas Rangers,4,3,1,1,0,0,1,1,1,0,0,0,0,0.333,0.5,1.333,1.833
+666969,Adolis García,RF,2025-04-22,Athletics,Texas Rangers,5,5,1,2,1,0,0,1,0,2,0,0,0,0.4,0.4,0.6,1.0
+641680,Jonah Heim,C,2025-04-22,Athletics,Texas Rangers,2,1,0,0,0,0,0,0,1,0,0,0,0,0.0,0.5,0.0,0.5
+543309,Kyle Higashioka,C,2025-04-22,Athletics,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-04-22,Athletics,Texas Rangers,5,4,0,0,0,0,0,0,1,0,0,0,0,0.0,0.2,0.0,0.2
+694671,Wyatt Langford,LF,2025-04-22,Athletics,Texas Rangers,5,4,1,3,0,0,1,1,1,1,1,0,0,0.75,0.8,1.5,2.3
+592626,Joc Pederson,1B,2025-04-22,Athletics,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-04-22,Athletics,Texas Rangers,4,4,2,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+543760,Marcus Semien,2B,2025-04-22,Athletics,Texas Rangers,5,3,1,2,0,0,1,4,1,0,0,0,0,0.667,0.75,1.667,2.417
+669701,Josh Smith,SS,2025-04-22,Athletics,Texas Rangers,5,4,2,1,0,0,1,1,1,1,0,0,0,0.25,0.4,1.0,1.4
+665750,Leody Taveras,CF,2025-04-22,Athletics,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+605113,Nick Ahmed,SS,2025-04-23,Athletics,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-04-23,Athletics,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,1,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-23,Athletics,Texas Rangers,4,4,0,0,0,0,0,1,0,1,0,0,0,0.0,0.0,0.0,0.0
+687957,Dustin Harris,LF,2025-04-23,Athletics,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-04-23,Athletics,Texas Rangers,4,4,0,1,1,0,0,0,0,2,0,0,0,0.25,0.25,0.5,0.75
+543309,Kyle Higashioka,C,2025-04-23,Athletics,Texas Rangers,3,3,0,2,0,0,0,0,0,1,0,0,0,0.667,0.667,0.667,1.334
+673962,Josh Jung,3B,2025-04-23,Athletics,Texas Rangers,4,4,0,1,1,0,0,0,0,0,0,0,0,0.25,0.25,0.5,0.75
+694671,Wyatt Langford,LF,2025-04-23,Athletics,Texas Rangers,4,3,1,1,0,0,1,1,1,2,0,0,0,0.333,0.5,1.333,1.833
+592626,Joc Pederson,1B,2025-04-23,Athletics,Texas Rangers,1,1,0,1,1,0,0,0,0,0,0,0,0,1.0,1.0,2.0,3.0
+607680,Kevin Pillar,CF,2025-04-23,Athletics,Texas Rangers,3,3,1,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+543760,Marcus Semien,2B,2025-04-23,Athletics,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-04-23,Athletics,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-04-24,Athletics,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-24,Athletics,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-04-24,Athletics,Texas Rangers,4,4,1,1,0,0,1,1,0,1,0,0,0,0.25,0.25,1.0,1.25
+673962,Josh Jung,3B,2025-04-24,Athletics,Texas Rangers,4,4,1,1,0,0,1,1,0,0,0,0,0,0.25,0.25,1.0,1.25
+694671,Wyatt Langford,LF,2025-04-24,Athletics,Texas Rangers,5,5,0,3,0,0,0,0,0,0,0,0,0,0.6,0.6,0.6,1.2
+592626,Joc Pederson,1B,2025-04-24,Athletics,Texas Rangers,4,2,0,0,0,0,0,0,1,0,0,0,1,0.0,0.5,0.0,0.5
+543760,Marcus Semien,2B,2025-04-24,Athletics,Texas Rangers,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+669701,Josh Smith,SS,2025-04-24,Athletics,Texas Rangers,5,4,0,0,0,0,0,0,1,0,0,0,0,0.0,0.2,0.0,0.2
+665750,Leody Taveras,CF,2025-04-24,Athletics,Texas Rangers,4,4,1,1,0,0,1,1,0,2,0,0,0,0.25,0.25,1.0,1.25
+669394,Jake Burger,1B,2025-04-25,San Francisco Giants,Texas Rangers,3,3,1,1,1,0,0,0,0,2,0,0,0,0.333,0.333,0.667,1.0
+666969,Adolis García,RF,2025-04-25,San Francisco Giants,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+687957,Dustin Harris,LF,2025-04-25,San Francisco Giants,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-04-25,San Francisco Giants,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-04-25,San Francisco Giants,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,1,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-04-25,San Francisco Giants,Texas Rangers,4,4,0,3,2,0,0,1,0,0,0,0,0,0.75,0.75,1.25,2.0
+592626,Joc Pederson,1B,2025-04-25,San Francisco Giants,Texas Rangers,4,3,0,1,0,0,0,1,1,1,0,0,0,0.333,0.5,0.333,0.833
+543760,Marcus Semien,2B,2025-04-25,San Francisco Giants,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-04-25,San Francisco Giants,Texas Rangers,4,4,1,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+665750,Leody Taveras,CF,2025-04-25,San Francisco Giants,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+605113,Nick Ahmed,SS,2025-04-26,San Francisco Giants,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-04-26,San Francisco Giants,Texas Rangers,4,2,0,0,0,0,0,2,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-04-26,San Francisco Giants,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+543309,Kyle Higashioka,C,2025-04-26,San Francisco Giants,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+673962,Josh Jung,3B,2025-04-26,San Francisco Giants,Texas Rangers,4,3,0,2,0,0,0,0,1,0,1,0,0,0.667,0.75,0.667,1.417
+694671,Wyatt Langford,LF,2025-04-26,San Francisco Giants,Texas Rangers,4,4,1,1,1,0,0,0,0,2,0,0,0,0.25,0.25,0.5,0.75
+592626,Joc Pederson,1B,2025-04-26,San Francisco Giants,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+607680,Kevin Pillar,CF,2025-04-26,San Francisco Giants,Texas Rangers,4,4,1,1,0,0,0,0,0,0,2,0,0,0.25,0.25,0.25,0.5
+543760,Marcus Semien,2B,2025-04-26,San Francisco Giants,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-04-26,San Francisco Giants,Texas Rangers,4,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+665750,Leody Taveras,CF,2025-04-26,San Francisco Giants,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+605113,Nick Ahmed,SS,2025-04-27,San Francisco Giants,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-04-27,San Francisco Giants,Texas Rangers,4,4,1,1,1,0,0,0,0,2,0,0,0,0.25,0.25,0.5,0.75
+666969,Adolis García,RF,2025-04-27,San Francisco Giants,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+687957,Dustin Harris,LF,2025-04-27,San Francisco Giants,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-04-27,San Francisco Giants,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+673962,Josh Jung,3B,2025-04-27,San Francisco Giants,Texas Rangers,2,2,0,1,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+592626,Joc Pederson,1B,2025-04-27,San Francisco Giants,Texas Rangers,4,4,1,2,1,1,0,0,0,2,0,0,0,0.5,0.5,1.25,1.75
+543760,Marcus Semien,2B,2025-04-27,San Francisco Giants,Texas Rangers,4,4,0,1,0,0,0,2,0,1,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-04-27,San Francisco Giants,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+665750,Leody Taveras,CF,2025-04-27,San Francisco Giants,Texas Rangers,3,3,0,2,2,0,0,0,0,0,0,0,0,0.667,0.667,1.333,2.0
+669394,Jake Burger,1B,2025-04-28,Texas Rangers,Athletics,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+666969,Adolis García,RF,2025-04-28,Texas Rangers,Athletics,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+687957,Dustin Harris,LF,2025-04-28,Texas Rangers,Athletics,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-04-28,Texas Rangers,Athletics,4,4,0,2,0,0,0,1,0,0,0,0,0,0.5,0.5,0.5,1.0
+543309,Kyle Higashioka,C,2025-04-28,Texas Rangers,Athletics,3,3,1,1,1,0,0,0,0,1,0,0,0,0.333,0.333,0.667,1.0
+673962,Josh Jung,3B,2025-04-28,Texas Rangers,Athletics,4,3,0,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+694671,Wyatt Langford,LF,2025-04-28,Texas Rangers,Athletics,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-04-28,Texas Rangers,Athletics,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+607680,Kevin Pillar,CF,2025-04-28,Texas Rangers,Athletics,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-04-28,Texas Rangers,Athletics,4,3,0,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+669701,Josh Smith,SS,2025-04-28,Texas Rangers,Athletics,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+605113,Nick Ahmed,SS,2025-04-29,Texas Rangers,Athletics,1,0,1,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+669394,Jake Burger,1B,2025-04-29,Texas Rangers,Athletics,5,3,3,2,1,0,0,1,1,0,0,0,1,0.667,0.8,1.0,1.8
+666969,Adolis García,RF,2025-04-29,Texas Rangers,Athletics,5,4,2,2,1,0,0,3,1,2,0,0,0,0.5,0.6,0.75,1.35
+687957,Dustin Harris,LF,2025-04-29,Texas Rangers,Athletics,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-04-29,Texas Rangers,Athletics,6,5,3,2,0,0,0,0,1,0,0,0,0,0.4,0.5,0.4,0.9
+543309,Kyle Higashioka,C,2025-04-29,Texas Rangers,Athletics,6,6,0,1,1,0,0,3,0,1,0,0,0,0.167,0.167,0.333,0.5
+673962,Josh Jung,3B,2025-04-29,Texas Rangers,Athletics,5,4,1,1,0,0,0,1,1,3,0,0,0,0.25,0.4,0.25,0.65
+694671,Wyatt Langford,LF,2025-04-29,Texas Rangers,Athletics,5,4,1,1,1,0,0,3,1,0,0,0,0,0.25,0.4,0.5,0.9
+543760,Marcus Semien,2B,2025-04-29,Texas Rangers,Athletics,5,4,2,3,0,0,0,1,1,0,0,0,0,0.75,0.8,0.75,1.55
+669701,Josh Smith,SS,2025-04-29,Texas Rangers,Athletics,5,4,1,3,0,0,0,2,1,1,1,0,0,0.75,0.8,0.75,1.55
+665750,Leody Taveras,CF,2025-04-29,Texas Rangers,Athletics,5,4,1,3,0,0,0,1,1,0,0,0,0,0.75,0.8,0.75,1.55
+669394,Jake Burger,1B,2025-04-30,Texas Rangers,Athletics,5,5,0,0,0,0,0,0,0,4,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-04-30,Texas Rangers,Athletics,4,4,0,2,0,0,0,1,0,1,0,0,0,0.5,0.5,0.5,1.0
+641680,Jonah Heim,C,2025-04-30,Texas Rangers,Athletics,4,3,0,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+673962,Josh Jung,3B,2025-04-30,Texas Rangers,Athletics,4,4,0,2,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+694671,Wyatt Langford,LF,2025-04-30,Texas Rangers,Athletics,5,5,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-04-30,Texas Rangers,Athletics,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+543760,Marcus Semien,2B,2025-04-30,Texas Rangers,Athletics,4,3,1,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+669701,Josh Smith,SS,2025-04-30,Texas Rangers,Athletics,5,4,0,1,0,0,0,0,1,0,0,0,0,0.25,0.4,0.25,0.65
+665750,Leody Taveras,CF,2025-04-30,Texas Rangers,Athletics,4,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+605113,Nick Ahmed,SS,2025-05-01,Texas Rangers,Athletics,2,2,0,0,0,0,0,0,0,0,1,0,0,0.0,0.0,0.0,0.0
+571466,Tucker Barnhart,C,2025-05-01,Texas Rangers,Athletics,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-05-01,Texas Rangers,Athletics,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+666969,Adolis García,RF,2025-05-01,Texas Rangers,Athletics,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-05-01,Texas Rangers,Athletics,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-05-01,Texas Rangers,Athletics,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-05-01,Texas Rangers,Athletics,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+607680,Kevin Pillar,CF,2025-05-01,Texas Rangers,Athletics,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-05-01,Texas Rangers,Athletics,4,2,0,1,0,0,0,0,2,1,1,0,0,0.5,0.75,0.5,1.25
+669701,Josh Smith,SS,2025-05-01,Texas Rangers,Athletics,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+665750,Leody Taveras,CF,2025-05-01,Texas Rangers,Athletics,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+571466,Tucker Barnhart,C,2025-05-02,Texas Rangers,Seattle Mariners,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+688760,Blaine Crim,1B,2025-05-02,Texas Rangers,Seattle Mariners,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-02,Texas Rangers,Seattle Mariners,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+687957,Dustin Harris,LF,2025-05-02,Texas Rangers,Seattle Mariners,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-05-02,Texas Rangers,Seattle Mariners,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+673962,Josh Jung,3B,2025-05-02,Texas Rangers,Seattle Mariners,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-05-02,Texas Rangers,Seattle Mariners,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+680716,Jonathan Ornelas,SS,2025-05-02,Texas Rangers,Seattle Mariners,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-05-02,Texas Rangers,Seattle Mariners,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-05-02,Texas Rangers,Seattle Mariners,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-05-02,Texas Rangers,Seattle Mariners,4,4,1,1,0,0,1,1,0,0,0,0,0,0.25,0.25,1.0,1.25
+665750,Leody Taveras,CF,2025-05-02,Texas Rangers,Seattle Mariners,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-03,Texas Rangers,Seattle Mariners,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+687957,Dustin Harris,LF,2025-05-03,Texas Rangers,Seattle Mariners,2,0,0,0,0,0,0,0,2,0,1,0,0,,1.0,,1.0
+641680,Jonah Heim,C,2025-05-03,Texas Rangers,Seattle Mariners,4,4,0,2,0,0,0,1,0,0,0,0,0,0.5,0.5,0.5,1.0
+673962,Josh Jung,3B,2025-05-03,Texas Rangers,Seattle Mariners,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+694671,Wyatt Langford,LF,2025-05-03,Texas Rangers,Seattle Mariners,4,3,0,1,0,0,0,0,1,1,0,1,0,0.333,0.5,0.333,0.833
+592626,Joc Pederson,1B,2025-05-03,Texas Rangers,Seattle Mariners,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+607680,Kevin Pillar,CF,2025-05-03,Texas Rangers,Seattle Mariners,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-05-03,Texas Rangers,Seattle Mariners,4,4,1,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+543760,Marcus Semien,2B,2025-05-03,Texas Rangers,Seattle Mariners,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+669701,Josh Smith,SS,2025-05-03,Texas Rangers,Seattle Mariners,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+688760,Blaine Crim,1B,2025-05-04,Texas Rangers,Seattle Mariners,4,2,1,0,0,0,0,0,1,2,0,0,1,0.0,0.5,0.0,0.5
+666969,Adolis García,RF,2025-05-04,Texas Rangers,Seattle Mariners,4,4,0,2,0,0,0,2,0,1,0,1,0,0.5,0.5,0.5,1.0
+641680,Jonah Heim,C,2025-05-04,Texas Rangers,Seattle Mariners,4,3,1,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+673962,Josh Jung,3B,2025-05-04,Texas Rangers,Seattle Mariners,4,3,1,1,0,0,0,1,1,0,0,0,0,0.333,0.5,0.333,0.833
+694671,Wyatt Langford,LF,2025-05-04,Texas Rangers,Seattle Mariners,5,3,1,0,0,0,0,1,1,0,0,0,0,0.0,0.25,0.0,0.25
+592626,Joc Pederson,1B,2025-05-04,Texas Rangers,Seattle Mariners,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-05-04,Texas Rangers,Seattle Mariners,5,5,1,2,0,0,0,2,0,0,0,0,0,0.4,0.4,0.4,0.8
+543760,Marcus Semien,2B,2025-05-04,Texas Rangers,Seattle Mariners,4,4,1,1,0,0,0,1,0,2,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-05-04,Texas Rangers,Seattle Mariners,5,5,2,4,0,1,0,1,0,0,0,0,0,0.8,0.8,1.2,2.0
+665750,Leody Taveras,CF,2025-05-04,Texas Rangers,Seattle Mariners,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+694497,Evan Carter,CF,2025-05-06,Boston Red Sox,Texas Rangers,5,5,1,2,0,0,0,0,0,1,0,0,0,0.4,0.4,0.4,0.8
+688760,Blaine Crim,1B,2025-05-06,Boston Red Sox,Texas Rangers,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-06,Boston Red Sox,Texas Rangers,5,3,0,3,0,0,0,1,1,0,0,0,0,1.0,1.0,1.0,2.0
+641680,Jonah Heim,C,2025-05-06,Boston Red Sox,Texas Rangers,4,4,1,2,0,0,0,1,0,1,0,0,0,0.5,0.5,0.5,1.0
+673962,Josh Jung,3B,2025-05-06,Boston Red Sox,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-05-06,Boston Red Sox,Texas Rangers,5,5,1,1,0,0,0,1,0,1,0,0,0,0.2,0.2,0.2,0.4
+592626,Joc Pederson,1B,2025-05-06,Boston Red Sox,Texas Rangers,3,3,1,2,1,0,0,1,0,1,0,0,0,0.667,0.667,1.0,1.667
+608369,Corey Seager,SS,2025-05-06,Boston Red Sox,Texas Rangers,5,5,1,1,1,0,0,0,0,2,0,0,0,0.2,0.2,0.4,0.6
+543760,Marcus Semien,2B,2025-05-06,Boston Red Sox,Texas Rangers,5,5,1,2,0,0,0,0,0,1,0,0,0,0.4,0.4,0.4,0.8
+669701,Josh Smith,SS,2025-05-06,Boston Red Sox,Texas Rangers,5,4,0,3,0,0,0,1,1,0,0,0,0,0.75,0.8,0.75,1.55
+694497,Evan Carter,CF,2025-05-07,Boston Red Sox,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+688760,Blaine Crim,1B,2025-05-07,Boston Red Sox,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-07,Boston Red Sox,Texas Rangers,4,3,1,1,0,0,1,2,0,0,0,0,0,0.333,0.333,1.333,1.666
+641680,Jonah Heim,C,2025-05-07,Boston Red Sox,Texas Rangers,4,2,1,1,0,0,0,0,1,0,0,0,1,0.5,0.75,0.5,1.25
+673962,Josh Jung,3B,2025-05-07,Boston Red Sox,Texas Rangers,4,4,1,2,1,0,1,1,0,0,0,0,0,0.5,0.5,1.5,2.0
+694671,Wyatt Langford,LF,2025-05-07,Boston Red Sox,Texas Rangers,5,4,0,0,0,0,0,0,1,2,0,0,0,0.0,0.2,0.0,0.2
+592626,Joc Pederson,1B,2025-05-07,Boston Red Sox,Texas Rangers,3,2,0,2,1,0,0,0,1,0,0,0,0,1.0,1.0,1.5,2.5
+608369,Corey Seager,SS,2025-05-07,Boston Red Sox,Texas Rangers,5,5,1,1,0,0,0,1,0,0,0,0,0,0.2,0.2,0.2,0.4
+543760,Marcus Semien,2B,2025-05-07,Boston Red Sox,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-05-07,Boston Red Sox,Texas Rangers,5,5,0,1,0,0,0,0,0,2,0,0,0,0.2,0.2,0.2,0.4
+571466,Tucker Barnhart,C,2025-05-08,Boston Red Sox,Texas Rangers,4,3,0,3,0,0,0,0,0,0,0,0,1,1.0,1.0,1.0,2.0
+694497,Evan Carter,CF,2025-05-08,Boston Red Sox,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-08,Boston Red Sox,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+687957,Dustin Harris,LF,2025-05-08,Boston Red Sox,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-05-08,Boston Red Sox,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+694671,Wyatt Langford,LF,2025-05-08,Boston Red Sox,Texas Rangers,4,4,0,1,0,0,0,0,0,1,2,0,0,0.25,0.25,0.25,0.5
+592626,Joc Pederson,1B,2025-05-08,Boston Red Sox,Texas Rangers,4,1,0,0,0,0,0,0,3,0,0,0,0,0.0,0.75,0.0,0.75
+543760,Marcus Semien,2B,2025-05-08,Boston Red Sox,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-05-08,Boston Red Sox,Texas Rangers,5,4,0,1,0,0,0,0,1,0,0,0,0,0.25,0.4,0.25,0.65
+694497,Evan Carter,CF,2025-05-09,Detroit Tigers,Texas Rangers,1,1,0,1,0,0,0,0,0,0,0,0,0,1.0,1.0,1.0,2.0
+688760,Blaine Crim,1B,2025-05-09,Detroit Tigers,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-05-09,Detroit Tigers,Texas Rangers,2,1,0,0,0,0,0,0,0,1,0,0,1,0.0,0.5,0.0,0.5
+666969,Adolis García,RF,2025-05-09,Detroit Tigers,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-05-09,Detroit Tigers,Texas Rangers,4,4,0,1,0,0,0,1,0,1,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-05-09,Detroit Tigers,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-05-09,Detroit Tigers,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-05-09,Detroit Tigers,Texas Rangers,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-05-09,Detroit Tigers,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-05-09,Detroit Tigers,Texas Rangers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-05-09,Detroit Tigers,Texas Rangers,3,3,1,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+694497,Evan Carter,CF,2025-05-10,Detroit Tigers,Texas Rangers,3,3,1,1,0,0,1,1,0,0,0,0,0,0.333,0.333,1.333,1.666
+677649,Ezequiel Duran,SS,2025-05-10,Detroit Tigers,Texas Rangers,1,1,1,1,0,0,0,0,0,0,0,0,0,1.0,1.0,1.0,2.0
+666969,Adolis García,RF,2025-05-10,Detroit Tigers,Texas Rangers,5,4,0,0,0,0,0,2,0,2,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-05-10,Detroit Tigers,Texas Rangers,2,2,0,1,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+641680,Jonah Heim,C,2025-05-10,Detroit Tigers,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-05-10,Detroit Tigers,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-05-10,Detroit Tigers,Texas Rangers,5,2,3,0,0,0,0,0,3,1,1,0,0,0.0,0.6,0.0,0.6
+592626,Joc Pederson,1B,2025-05-10,Detroit Tigers,Texas Rangers,5,4,1,1,0,0,1,2,1,1,0,0,0,0.25,0.4,1.0,1.4
+608369,Corey Seager,SS,2025-05-10,Detroit Tigers,Texas Rangers,4,4,3,3,1,0,2,3,0,0,0,0,0,0.75,0.75,2.5,3.25
+543760,Marcus Semien,2B,2025-05-10,Detroit Tigers,Texas Rangers,5,3,0,1,0,0,0,1,2,1,0,0,0,0.333,0.6,0.333,0.933
+669701,Josh Smith,SS,2025-05-10,Detroit Tigers,Texas Rangers,5,5,1,1,0,0,1,1,0,1,0,0,0,0.2,0.2,0.8,1.0
+694497,Evan Carter,CF,2025-05-11,Detroit Tigers,Texas Rangers,5,5,1,2,0,0,0,1,0,2,1,0,0,0.4,0.4,0.4,0.8
+677649,Ezequiel Duran,SS,2025-05-11,Detroit Tigers,Texas Rangers,4,4,0,2,1,0,0,0,0,1,0,0,0,0.5,0.5,0.75,1.25
+666969,Adolis García,RF,2025-05-11,Detroit Tigers,Texas Rangers,5,5,2,2,1,0,0,0,0,0,1,1,0,0.4,0.4,0.6,1.0
+664059,Sam Haggerty,CF,2025-05-11,Detroit Tigers,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-05-11,Detroit Tigers,Texas Rangers,4,4,1,1,0,0,1,1,0,0,0,0,0,0.25,0.25,1.0,1.25
+673962,Josh Jung,3B,2025-05-11,Detroit Tigers,Texas Rangers,4,4,1,2,0,0,1,2,0,2,0,0,0,0.5,0.5,1.25,1.75
+694671,Wyatt Langford,LF,2025-05-11,Detroit Tigers,Texas Rangers,5,4,0,1,1,0,0,0,1,2,0,0,0,0.25,0.4,0.5,0.9
+592626,Joc Pederson,1B,2025-05-11,Detroit Tigers,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-05-11,Detroit Tigers,Texas Rangers,5,5,1,1,0,0,1,2,0,1,0,0,0,0.2,0.2,0.8,1.0
+669701,Josh Smith,SS,2025-05-11,Detroit Tigers,Texas Rangers,5,3,0,1,0,0,0,0,1,0,0,0,1,0.333,0.6,0.333,0.933
+571466,Tucker Barnhart,C,2025-05-12,Texas Rangers,Colorado Rockies,3,2,0,0,0,0,0,0,1,0,0,0,0,0.0,0.333,0.0,0.333
+669394,Jake Burger,1B,2025-05-12,Texas Rangers,Colorado Rockies,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+694497,Evan Carter,CF,2025-05-12,Texas Rangers,Colorado Rockies,4,3,0,0,0,0,0,0,1,1,1,0,0,0.0,0.25,0.0,0.25
+677649,Ezequiel Duran,SS,2025-05-12,Texas Rangers,Colorado Rockies,3,3,1,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-12,Texas Rangers,Colorado Rockies,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-05-12,Texas Rangers,Colorado Rockies,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+694671,Wyatt Langford,LF,2025-05-12,Texas Rangers,Colorado Rockies,4,4,1,1,0,0,1,2,0,1,0,0,0,0.25,0.25,1.0,1.25
+592626,Joc Pederson,1B,2025-05-12,Texas Rangers,Colorado Rockies,3,2,0,0,0,0,0,0,1,0,0,0,0,0.0,0.333,0.0,0.333
+543760,Marcus Semien,2B,2025-05-12,Texas Rangers,Colorado Rockies,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-05-13,Texas Rangers,Colorado Rockies,4,3,0,1,0,0,0,0,1,2,0,0,0,0.333,0.5,0.333,0.833
+694497,Evan Carter,CF,2025-05-13,Texas Rangers,Colorado Rockies,1,0,0,0,0,0,0,0,0,0,0,0,1,,1.0,,1.0
+677649,Ezequiel Duran,SS,2025-05-13,Texas Rangers,Colorado Rockies,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-13,Texas Rangers,Colorado Rockies,4,4,0,1,1,0,0,0,0,0,0,0,0,0.25,0.25,0.5,0.75
+664059,Sam Haggerty,CF,2025-05-13,Texas Rangers,Colorado Rockies,3,3,1,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+641680,Jonah Heim,C,2025-05-13,Texas Rangers,Colorado Rockies,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-05-13,Texas Rangers,Colorado Rockies,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-05-13,Texas Rangers,Colorado Rockies,4,4,2,3,0,0,2,4,0,0,0,0,0,0.75,0.75,2.25,3.0
+694671,Wyatt Langford,LF,2025-05-13,Texas Rangers,Colorado Rockies,4,4,1,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+592626,Joc Pederson,1B,2025-05-13,Texas Rangers,Colorado Rockies,2,1,0,0,0,0,0,0,1,0,0,0,0,0.0,0.5,0.0,0.5
+543760,Marcus Semien,2B,2025-05-13,Texas Rangers,Colorado Rockies,4,3,0,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+669701,Josh Smith,SS,2025-05-13,Texas Rangers,Colorado Rockies,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-05-14,Texas Rangers,Colorado Rockies,4,3,0,1,1,0,0,2,1,0,0,0,0,0.333,0.5,0.667,1.167
+694497,Evan Carter,CF,2025-05-14,Texas Rangers,Colorado Rockies,4,2,1,0,0,0,0,1,2,0,0,0,0,0.0,0.5,0.0,0.5
+666969,Adolis García,RF,2025-05-14,Texas Rangers,Colorado Rockies,5,4,2,2,0,0,1,2,1,0,0,0,0,0.5,0.6,1.25,1.85
+543309,Kyle Higashioka,C,2025-05-14,Texas Rangers,Colorado Rockies,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+673962,Josh Jung,3B,2025-05-14,Texas Rangers,Colorado Rockies,4,3,1,2,0,0,0,1,1,0,0,0,0,0.667,0.75,0.667,1.417
+694671,Wyatt Langford,LF,2025-05-14,Texas Rangers,Colorado Rockies,5,4,1,1,0,0,1,2,1,1,0,0,0,0.25,0.4,1.0,1.4
+592626,Joc Pederson,1B,2025-05-14,Texas Rangers,Colorado Rockies,5,4,2,1,0,0,0,0,1,1,0,0,0,0.25,0.4,0.25,0.65
+543760,Marcus Semien,2B,2025-05-14,Texas Rangers,Colorado Rockies,5,5,0,1,0,0,0,0,0,2,0,0,0,0.2,0.2,0.2,0.4
+669701,Josh Smith,SS,2025-05-14,Texas Rangers,Colorado Rockies,5,5,1,2,0,0,0,0,0,0,0,0,0,0.4,0.4,0.4,0.8
+669394,Jake Burger,1B,2025-05-15,Texas Rangers,Houston Astros,3,3,1,2,0,0,1,1,0,0,0,0,0,0.667,0.667,1.667,2.334
+694497,Evan Carter,CF,2025-05-15,Texas Rangers,Houston Astros,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-15,Texas Rangers,Houston Astros,3,3,0,1,1,0,0,0,0,1,0,0,0,0.333,0.333,0.667,1.0
+641680,Jonah Heim,C,2025-05-15,Texas Rangers,Houston Astros,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-05-15,Texas Rangers,Houston Astros,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-05-15,Texas Rangers,Houston Astros,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-05-15,Texas Rangers,Houston Astros,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-05-15,Texas Rangers,Houston Astros,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-05-15,Texas Rangers,Houston Astros,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-05-16,Texas Rangers,Houston Astros,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+694497,Evan Carter,CF,2025-05-16,Texas Rangers,Houston Astros,3,3,1,0,0,0,0,0,0,1,1,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-16,Texas Rangers,Houston Astros,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-05-16,Texas Rangers,Houston Astros,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-05-16,Texas Rangers,Houston Astros,3,3,0,1,0,0,0,2,0,0,0,0,0,0.333,0.333,0.333,0.666
+673962,Josh Jung,3B,2025-05-16,Texas Rangers,Houston Astros,4,4,2,2,0,0,1,1,0,1,0,0,0,0.5,0.5,1.25,1.75
+694671,Wyatt Langford,LF,2025-05-16,Texas Rangers,Houston Astros,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-05-16,Texas Rangers,Houston Astros,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+543760,Marcus Semien,2B,2025-05-16,Texas Rangers,Houston Astros,4,3,0,0,0,0,0,0,0,1,1,0,1,0.0,0.25,0.0,0.25
+669701,Josh Smith,SS,2025-05-16,Texas Rangers,Houston Astros,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+669394,Jake Burger,1B,2025-05-17,Texas Rangers,Houston Astros,4,4,0,1,1,0,0,0,0,1,0,0,0,0.25,0.25,0.5,0.75
+666969,Adolis García,RF,2025-05-17,Texas Rangers,Houston Astros,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+664059,Sam Haggerty,CF,2025-05-17,Texas Rangers,Houston Astros,4,3,1,1,1,0,0,0,1,0,1,0,0,0.333,0.5,0.667,1.167
+543309,Kyle Higashioka,C,2025-05-17,Texas Rangers,Houston Astros,4,3,1,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+673962,Josh Jung,3B,2025-05-17,Texas Rangers,Houston Astros,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-05-17,Texas Rangers,Houston Astros,4,4,1,2,0,0,1,2,0,1,1,0,0,0.5,0.5,1.25,1.75
+592626,Joc Pederson,1B,2025-05-17,Texas Rangers,Houston Astros,4,2,1,1,0,0,1,2,2,0,0,0,0,0.5,0.75,2.0,2.75
+543760,Marcus Semien,2B,2025-05-17,Texas Rangers,Houston Astros,4,3,1,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+669701,Josh Smith,SS,2025-05-17,Texas Rangers,Houston Astros,5,4,0,0,0,0,0,1,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-05-18,Texas Rangers,Houston Astros,4,4,0,1,0,0,0,1,0,0,0,0,0,0.25,0.25,0.25,0.5
+677649,Ezequiel Duran,SS,2025-05-18,Texas Rangers,Houston Astros,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+666969,Adolis García,RF,2025-05-18,Texas Rangers,Houston Astros,4,4,0,1,0,0,0,0,0,3,0,0,0,0.25,0.25,0.25,0.5
+664059,Sam Haggerty,CF,2025-05-18,Texas Rangers,Houston Astros,4,4,1,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-05-18,Texas Rangers,Houston Astros,4,3,0,1,0,0,0,1,0,0,1,0,0,0.333,0.333,0.333,0.666
+673962,Josh Jung,3B,2025-05-18,Texas Rangers,Houston Astros,4,4,1,1,0,0,0,1,0,1,1,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-05-18,Texas Rangers,Houston Astros,4,4,1,1,0,0,0,0,0,2,1,0,0,0.25,0.25,0.25,0.5
+607680,Kevin Pillar,CF,2025-05-18,Texas Rangers,Houston Astros,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-05-18,Texas Rangers,Houston Astros,4,2,0,0,0,0,0,0,2,1,0,0,0,0.0,0.5,0.0,0.5
+669394,Jake Burger,1B,2025-05-20,New York Yankees,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-20,New York Yankees,Texas Rangers,4,4,0,1,0,0,0,0,0,3,0,0,0,0.25,0.25,0.25,0.5
+664059,Sam Haggerty,CF,2025-05-20,New York Yankees,Texas Rangers,4,4,0,1,0,1,0,0,0,2,0,0,0,0.25,0.25,0.75,1.0
+641680,Jonah Heim,C,2025-05-20,New York Yankees,Texas Rangers,4,4,1,2,1,0,1,2,0,0,0,0,0,0.5,0.5,1.5,2.0
+673962,Josh Jung,3B,2025-05-20,New York Yankees,Texas Rangers,4,4,0,2,0,0,0,0,0,2,0,0,0,0.5,0.5,0.5,1.0
+694671,Wyatt Langford,LF,2025-05-20,New York Yankees,Texas Rangers,4,3,0,1,1,0,0,0,1,1,0,0,0,0.333,0.5,0.667,1.167
+592626,Joc Pederson,1B,2025-05-20,New York Yankees,Texas Rangers,4,3,1,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+543760,Marcus Semien,2B,2025-05-20,New York Yankees,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-05-20,New York Yankees,Texas Rangers,5,5,0,0,0,0,0,0,0,1,0,1,0,0.0,0.0,0.0,0.0
+571466,Tucker Barnhart,C,2025-05-21,New York Yankees,Texas Rangers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-05-21,New York Yankees,Texas Rangers,4,4,2,3,0,0,2,2,0,0,1,0,0,0.75,0.75,2.25,3.0
+666969,Adolis García,RF,2025-05-21,New York Yankees,Texas Rangers,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+664059,Sam Haggerty,CF,2025-05-21,New York Yankees,Texas Rangers,5,5,1,2,0,0,1,1,0,1,0,1,0,0.4,0.4,1.0,1.4
+641680,Jonah Heim,C,2025-05-21,New York Yankees,Texas Rangers,1,1,0,1,0,0,0,0,0,0,0,0,0,1.0,1.0,1.0,2.0
+543309,Kyle Higashioka,C,2025-05-21,New York Yankees,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-05-21,New York Yankees,Texas Rangers,5,5,0,1,0,0,0,0,0,2,0,0,0,0.2,0.2,0.2,0.4
+694671,Wyatt Langford,LF,2025-05-21,New York Yankees,Texas Rangers,5,5,0,1,0,0,0,0,0,1,0,0,0,0.2,0.2,0.2,0.4
+592626,Joc Pederson,1B,2025-05-21,New York Yankees,Texas Rangers,1,0,0,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+543760,Marcus Semien,2B,2025-05-21,New York Yankees,Texas Rangers,4,3,0,1,0,0,0,0,0,1,0,0,1,0.333,0.5,0.333,0.833
+669701,Josh Smith,SS,2025-05-21,New York Yankees,Texas Rangers,4,4,0,1,0,0,0,0,0,2,1,0,0,0.25,0.25,0.25,0.5
+571466,Tucker Barnhart,C,2025-05-22,New York Yankees,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+669394,Jake Burger,1B,2025-05-22,New York Yankees,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-05-22,New York Yankees,Texas Rangers,2,2,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-22,New York Yankees,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-05-22,New York Yankees,Texas Rangers,4,4,0,1,1,0,0,0,0,1,0,0,0,0.25,0.25,0.5,0.75
+641680,Jonah Heim,C,2025-05-22,New York Yankees,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-05-22,New York Yankees,Texas Rangers,2,2,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-05-22,New York Yankees,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-05-22,New York Yankees,Texas Rangers,4,2,0,0,0,0,0,0,2,1,1,0,0,0.0,0.5,0.0,0.5
+592626,Joc Pederson,1B,2025-05-22,New York Yankees,Texas Rangers,1,1,0,1,0,0,0,0,0,0,1,0,0,1.0,1.0,1.0,2.0
+543760,Marcus Semien,2B,2025-05-22,New York Yankees,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-05-22,New York Yankees,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-05-23,Chicago White Sox,Texas Rangers,4,4,0,1,1,0,0,1,0,1,0,0,0,0.25,0.25,0.5,0.75
+666969,Adolis García,RF,2025-05-23,Chicago White Sox,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-05-23,Chicago White Sox,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+641680,Jonah Heim,C,2025-05-23,Chicago White Sox,Texas Rangers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-05-23,Chicago White Sox,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-05-23,Chicago White Sox,Texas Rangers,4,1,0,1,1,0,0,0,3,0,0,0,0,1.0,1.0,2.0,3.0
+694671,Wyatt Langford,LF,2025-05-23,Chicago White Sox,Texas Rangers,4,4,1,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+592626,Joc Pederson,1B,2025-05-23,Chicago White Sox,Texas Rangers,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+607680,Kevin Pillar,CF,2025-05-23,Chicago White Sox,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-05-23,Chicago White Sox,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-05-23,Chicago White Sox,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-05-24,Chicago White Sox,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-24,Chicago White Sox,Texas Rangers,4,4,1,1,0,0,1,1,0,1,0,0,0,0.25,0.25,1.0,1.25
+664059,Sam Haggerty,CF,2025-05-24,Chicago White Sox,Texas Rangers,5,4,1,1,0,0,0,0,1,0,1,0,0,0.25,0.4,0.25,0.65
+641680,Jonah Heim,C,2025-05-24,Chicago White Sox,Texas Rangers,4,4,1,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+543309,Kyle Higashioka,C,2025-05-24,Chicago White Sox,Texas Rangers,2,2,0,1,0,0,0,1,0,0,0,0,0,0.5,0.5,0.5,1.0
+673962,Josh Jung,3B,2025-05-24,Chicago White Sox,Texas Rangers,5,5,0,1,0,0,0,0,0,1,0,0,0,0.2,0.2,0.2,0.4
+694671,Wyatt Langford,LF,2025-05-24,Chicago White Sox,Texas Rangers,5,5,1,1,0,0,0,0,0,2,0,0,0,0.2,0.2,0.2,0.4
+592626,Joc Pederson,1B,2025-05-24,Chicago White Sox,Texas Rangers,2,1,1,0,0,0,0,0,0,0,0,0,1,0.0,0.5,0.0,0.5
+543760,Marcus Semien,2B,2025-05-24,Chicago White Sox,Texas Rangers,4,2,0,0,0,0,0,1,1,0,1,0,0,0.0,0.333,0.0,0.333
+669701,Josh Smith,SS,2025-05-24,Chicago White Sox,Texas Rangers,5,4,0,1,1,0,0,1,1,1,0,0,0,0.25,0.4,0.5,0.9
+669394,Jake Burger,1B,2025-05-25,Chicago White Sox,Texas Rangers,4,4,2,2,1,0,1,2,0,0,0,0,0,0.5,0.5,1.5,2.0
+677649,Ezequiel Duran,SS,2025-05-25,Chicago White Sox,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+666969,Adolis García,RF,2025-05-25,Chicago White Sox,Texas Rangers,4,4,0,1,1,0,0,2,0,2,0,0,0,0.25,0.25,0.5,0.75
+664059,Sam Haggerty,CF,2025-05-25,Chicago White Sox,Texas Rangers,5,5,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-05-25,Chicago White Sox,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-05-25,Chicago White Sox,Texas Rangers,4,3,1,1,0,0,0,1,1,1,0,0,0,0.333,0.5,0.333,0.833
+673962,Josh Jung,3B,2025-05-25,Chicago White Sox,Texas Rangers,4,2,2,1,0,0,0,0,1,0,0,0,1,0.5,0.75,0.5,1.25
+694671,Wyatt Langford,LF,2025-05-25,Chicago White Sox,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+696030,Alejandro Osuna,LF,2025-05-25,Chicago White Sox,Texas Rangers,4,3,0,0,0,0,0,0,1,1,0,1,0,0.0,0.25,0.0,0.25
+543760,Marcus Semien,2B,2025-05-25,Chicago White Sox,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-05-25,Chicago White Sox,Texas Rangers,3,2,0,0,0,0,0,0,1,0,0,0,0,0.0,0.333,0.0,0.333
+669394,Jake Burger,1B,2025-05-26,Texas Rangers,Toronto Blue Jays,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-26,Texas Rangers,Toronto Blue Jays,3,3,0,1,0,0,0,0,0,2,0,0,0,0.333,0.333,0.333,0.666
+664059,Sam Haggerty,CF,2025-05-26,Texas Rangers,Toronto Blue Jays,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-05-26,Texas Rangers,Toronto Blue Jays,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+673962,Josh Jung,3B,2025-05-26,Texas Rangers,Toronto Blue Jays,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-05-26,Texas Rangers,Toronto Blue Jays,4,4,1,1,0,0,1,1,0,1,0,0,0,0.25,0.25,1.0,1.25
+696030,Alejandro Osuna,LF,2025-05-26,Texas Rangers,Toronto Blue Jays,3,3,0,2,0,0,0,0,0,0,0,0,0,0.667,0.667,0.667,1.334
+543760,Marcus Semien,2B,2025-05-26,Texas Rangers,Toronto Blue Jays,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-05-26,Texas Rangers,Toronto Blue Jays,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+571466,Tucker Barnhart,C,2025-05-27,Texas Rangers,Toronto Blue Jays,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+669394,Jake Burger,1B,2025-05-27,Texas Rangers,Toronto Blue Jays,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-27,Texas Rangers,Toronto Blue Jays,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-05-27,Texas Rangers,Toronto Blue Jays,0,0,1,0,0,0,0,0,0,0,1,0,0,,,,
+641680,Jonah Heim,C,2025-05-27,Texas Rangers,Toronto Blue Jays,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-05-27,Texas Rangers,Toronto Blue Jays,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+673962,Josh Jung,3B,2025-05-27,Texas Rangers,Toronto Blue Jays,4,4,0,1,0,0,0,1,0,1,1,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-05-27,Texas Rangers,Toronto Blue Jays,4,3,1,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+696030,Alejandro Osuna,LF,2025-05-27,Texas Rangers,Toronto Blue Jays,3,2,0,1,0,0,0,0,1,1,0,0,0,0.5,0.667,0.5,1.167
+543760,Marcus Semien,2B,2025-05-27,Texas Rangers,Toronto Blue Jays,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+669701,Josh Smith,SS,2025-05-27,Texas Rangers,Toronto Blue Jays,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+669394,Jake Burger,1B,2025-05-28,Texas Rangers,Toronto Blue Jays,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-05-28,Texas Rangers,Toronto Blue Jays,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-05-28,Texas Rangers,Toronto Blue Jays,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-05-28,Texas Rangers,Toronto Blue Jays,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-05-28,Texas Rangers,Toronto Blue Jays,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-05-28,Texas Rangers,Toronto Blue Jays,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-05-28,Texas Rangers,Toronto Blue Jays,3,2,0,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+608369,Corey Seager,SS,2025-05-28,Texas Rangers,Toronto Blue Jays,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-05-28,Texas Rangers,Toronto Blue Jays,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-05-28,Texas Rangers,Toronto Blue Jays,4,2,0,1,0,0,0,0,2,1,1,0,0,0.5,0.75,0.5,1.25
+571466,Tucker Barnhart,C,2025-05-30,Texas Rangers,St. Louis Cardinals,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-05-30,Texas Rangers,St. Louis Cardinals,5,5,1,1,0,0,0,0,0,0,0,0,0,0.2,0.2,0.2,0.4
+677649,Ezequiel Duran,SS,2025-05-30,Texas Rangers,St. Louis Cardinals,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-05-30,Texas Rangers,St. Louis Cardinals,5,4,3,3,0,1,0,3,1,0,0,0,0,0.75,0.8,1.25,2.05
+641680,Jonah Heim,C,2025-05-30,Texas Rangers,St. Louis Cardinals,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-05-30,Texas Rangers,St. Louis Cardinals,4,3,3,2,0,0,0,0,1,1,0,0,0,0.667,0.75,0.667,1.417
+673962,Josh Jung,3B,2025-05-30,Texas Rangers,St. Louis Cardinals,5,5,0,3,0,0,0,3,0,1,0,0,0,0.6,0.6,0.6,1.2
+694671,Wyatt Langford,LF,2025-05-30,Texas Rangers,St. Louis Cardinals,5,4,1,1,0,0,1,2,1,2,0,0,0,0.25,0.4,1.0,1.4
+696030,Alejandro Osuna,LF,2025-05-30,Texas Rangers,St. Louis Cardinals,1,0,0,0,0,0,0,0,0,0,0,0,1,,1.0,,1.0
+608369,Corey Seager,SS,2025-05-30,Texas Rangers,St. Louis Cardinals,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+543760,Marcus Semien,2B,2025-05-30,Texas Rangers,St. Louis Cardinals,4,4,3,4,0,0,1,3,0,0,1,0,0,1.0,1.0,1.75,2.75
+669394,Jake Burger,1B,2025-05-31,Texas Rangers,St. Louis Cardinals,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+664059,Sam Haggerty,CF,2025-05-31,Texas Rangers,St. Louis Cardinals,3,3,0,0,0,0,0,0,0,1,1,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-05-31,Texas Rangers,St. Louis Cardinals,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-05-31,Texas Rangers,St. Louis Cardinals,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-05-31,Texas Rangers,St. Louis Cardinals,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-05-31,Texas Rangers,St. Louis Cardinals,3,2,0,1,0,0,0,0,1,0,0,1,0,0.5,0.667,0.5,1.167
+608369,Corey Seager,SS,2025-05-31,Texas Rangers,St. Louis Cardinals,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+543760,Marcus Semien,2B,2025-05-31,Texas Rangers,St. Louis Cardinals,3,2,0,1,0,0,0,0,1,1,0,0,0,0.5,0.667,0.5,1.167
+669701,Josh Smith,SS,2025-05-31,Texas Rangers,St. Louis Cardinals,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-06-01,Texas Rangers,St. Louis Cardinals,4,4,1,1,1,0,0,1,0,1,0,0,0,0.25,0.25,0.5,0.75
+664059,Sam Haggerty,CF,2025-06-01,Texas Rangers,St. Louis Cardinals,4,2,1,1,0,0,0,1,1,0,0,0,0,0.5,0.667,0.5,1.167
+641680,Jonah Heim,C,2025-06-01,Texas Rangers,St. Louis Cardinals,4,3,0,1,0,0,0,1,0,1,0,0,0,0.333,0.333,0.333,0.666
+673962,Josh Jung,3B,2025-06-01,Texas Rangers,St. Louis Cardinals,4,4,1,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-06-01,Texas Rangers,St. Louis Cardinals,5,3,0,0,0,0,0,1,1,2,1,0,0,0.0,0.25,0.0,0.25
+696030,Alejandro Osuna,LF,2025-06-01,Texas Rangers,St. Louis Cardinals,4,3,1,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+608369,Corey Seager,SS,2025-06-01,Texas Rangers,St. Louis Cardinals,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-06-01,Texas Rangers,St. Louis Cardinals,4,2,3,2,1,0,0,0,2,0,1,0,0,1.0,1.0,1.5,2.5
+669701,Josh Smith,SS,2025-06-01,Texas Rangers,St. Louis Cardinals,5,5,1,3,2,0,1,4,0,0,1,0,0,0.6,0.6,1.6,2.2
+669394,Jake Burger,1B,2025-06-03,Tampa Bay Rays,Texas Rangers,3,3,0,2,0,0,0,1,0,0,0,0,0,0.667,0.667,0.667,1.334
+694497,Evan Carter,CF,2025-06-03,Tampa Bay Rays,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-06-03,Tampa Bay Rays,Texas Rangers,2,2,1,1,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+664059,Sam Haggerty,CF,2025-06-03,Tampa Bay Rays,Texas Rangers,2,2,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-06-03,Tampa Bay Rays,Texas Rangers,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+673962,Josh Jung,3B,2025-06-03,Tampa Bay Rays,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-06-03,Tampa Bay Rays,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-06-03,Tampa Bay Rays,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-06-03,Tampa Bay Rays,Texas Rangers,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-06-03,Tampa Bay Rays,Texas Rangers,3,2,0,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+669701,Josh Smith,SS,2025-06-03,Tampa Bay Rays,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-06-04,Tampa Bay Rays,Texas Rangers,4,4,1,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-06-04,Tampa Bay Rays,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+666969,Adolis García,RF,2025-06-04,Tampa Bay Rays,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-06-04,Tampa Bay Rays,Texas Rangers,4,4,1,1,0,0,1,2,0,1,0,0,0,0.25,0.25,1.0,1.25
+673962,Josh Jung,3B,2025-06-04,Tampa Bay Rays,Texas Rangers,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+694671,Wyatt Langford,LF,2025-06-04,Tampa Bay Rays,Texas Rangers,5,5,0,3,1,0,0,2,0,1,0,0,0,0.6,0.6,0.8,1.4
+608369,Corey Seager,SS,2025-06-04,Tampa Bay Rays,Texas Rangers,5,4,0,0,0,0,0,0,1,2,0,0,0,0.0,0.2,0.0,0.2
+543760,Marcus Semien,2B,2025-06-04,Tampa Bay Rays,Texas Rangers,4,4,0,1,1,0,0,0,0,2,0,0,0,0.25,0.25,0.5,0.75
+669701,Josh Smith,SS,2025-06-04,Tampa Bay Rays,Texas Rangers,5,5,2,1,0,0,0,0,0,1,0,0,0,0.2,0.2,0.2,0.4
+669394,Jake Burger,1B,2025-06-05,Tampa Bay Rays,Texas Rangers,4,4,1,2,0,0,1,1,0,1,0,0,0,0.5,0.5,1.25,1.75
+694497,Evan Carter,CF,2025-06-05,Tampa Bay Rays,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-06-05,Tampa Bay Rays,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-06-05,Tampa Bay Rays,Texas Rangers,3,3,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-06-05,Tampa Bay Rays,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+694671,Wyatt Langford,LF,2025-06-05,Tampa Bay Rays,Texas Rangers,4,3,0,0,0,0,0,0,1,2,0,1,0,0.0,0.25,0.0,0.25
+696030,Alejandro Osuna,LF,2025-06-05,Tampa Bay Rays,Texas Rangers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-06-05,Tampa Bay Rays,Texas Rangers,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+543760,Marcus Semien,2B,2025-06-05,Tampa Bay Rays,Texas Rangers,4,4,2,3,0,0,2,2,0,1,0,0,0,0.75,0.75,2.25,3.0
+669701,Josh Smith,SS,2025-06-05,Tampa Bay Rays,Texas Rangers,4,4,0,2,0,0,0,0,0,1,1,1,0,0.5,0.5,0.5,1.0
+669394,Jake Burger,1B,2025-06-06,Washington Nationals,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-06-06,Washington Nationals,Texas Rangers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-06-06,Washington Nationals,Texas Rangers,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+664059,Sam Haggerty,CF,2025-06-06,Washington Nationals,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-06-06,Washington Nationals,Texas Rangers,3,2,0,0,0,0,0,0,0,0,0,0,1,0.0,0.333,0.0,0.333
+673962,Josh Jung,3B,2025-06-06,Washington Nationals,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-06-06,Washington Nationals,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-06-06,Washington Nationals,Texas Rangers,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-06-06,Washington Nationals,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+543760,Marcus Semien,2B,2025-06-06,Washington Nationals,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-06-06,Washington Nationals,Texas Rangers,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+669394,Jake Burger,1B,2025-06-07,Washington Nationals,Texas Rangers,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+677649,Ezequiel Duran,SS,2025-06-07,Washington Nationals,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-06-07,Washington Nationals,Texas Rangers,4,4,0,1,0,0,0,1,0,2,1,0,0,0.25,0.25,0.25,0.5
+664059,Sam Haggerty,CF,2025-06-07,Washington Nationals,Texas Rangers,5,5,2,3,0,0,0,0,0,0,0,0,0,0.6,0.6,0.6,1.2
+641680,Jonah Heim,C,2025-06-07,Washington Nationals,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-06-07,Washington Nationals,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+673962,Josh Jung,3B,2025-06-07,Washington Nationals,Texas Rangers,4,4,1,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-06-07,Washington Nationals,Texas Rangers,5,5,1,1,0,0,0,0,0,0,0,0,0,0.2,0.2,0.2,0.4
+543760,Marcus Semien,2B,2025-06-07,Washington Nationals,Texas Rangers,4,3,1,2,1,0,0,2,1,0,0,0,0,0.667,0.75,1.0,1.75
+669701,Josh Smith,SS,2025-06-07,Washington Nationals,Texas Rangers,2,1,0,0,0,0,0,0,1,0,0,0,0,0.0,0.5,0.0,0.5
+669394,Jake Burger,1B,2025-06-08,Washington Nationals,Texas Rangers,4,4,1,3,1,0,1,1,0,0,0,0,0,0.75,0.75,1.75,2.5
+694497,Evan Carter,CF,2025-06-08,Washington Nationals,Texas Rangers,4,4,1,3,1,0,1,2,0,1,0,0,0,0.75,0.75,1.75,2.5
+664059,Sam Haggerty,CF,2025-06-08,Washington Nationals,Texas Rangers,5,5,0,1,0,0,0,0,0,2,1,0,0,0.2,0.2,0.2,0.4
+641680,Jonah Heim,C,2025-06-08,Washington Nationals,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+673962,Josh Jung,3B,2025-06-08,Washington Nationals,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-06-08,Washington Nationals,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-06-08,Washington Nationals,Texas Rangers,5,4,0,0,0,0,0,0,1,0,0,0,0,0.0,0.2,0.0,0.2
+543760,Marcus Semien,2B,2025-06-08,Washington Nationals,Texas Rangers,4,4,1,2,0,0,0,1,0,0,0,0,0,0.5,0.5,0.5,1.0
+669701,Josh Smith,SS,2025-06-08,Washington Nationals,Texas Rangers,5,5,1,2,1,0,0,0,0,2,0,0,0,0.4,0.4,0.6,1.0
+669394,Jake Burger,1B,2025-06-10,Minnesota Twins,Texas Rangers,6,6,2,1,0,0,0,0,0,1,0,0,0,0.167,0.167,0.167,0.334
+694497,Evan Carter,CF,2025-06-10,Minnesota Twins,Texas Rangers,6,5,4,3,0,0,1,3,1,0,0,0,0,0.6,0.667,1.2,1.867
+677649,Ezequiel Duran,SS,2025-06-10,Minnesota Twins,Texas Rangers,1,0,0,0,0,0,0,0,0,0,0,0,1,,1.0,,1.0
+666969,Adolis García,RF,2025-06-10,Minnesota Twins,Texas Rangers,5,4,2,3,2,0,0,2,0,0,1,0,0,0.75,0.75,1.25,2.0
+664059,Sam Haggerty,CF,2025-06-10,Minnesota Twins,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-06-10,Minnesota Twins,Texas Rangers,5,5,1,2,1,0,0,5,0,1,0,0,0,0.4,0.4,0.6,1.0
+673962,Josh Jung,3B,2025-06-10,Minnesota Twins,Texas Rangers,5,5,2,2,1,0,0,4,0,2,0,0,0,0.4,0.4,0.6,1.0
+694671,Wyatt Langford,LF,2025-06-10,Minnesota Twins,Texas Rangers,6,6,1,2,0,0,1,1,0,0,0,0,0,0.333,0.333,0.833,1.166
+696030,Alejandro Osuna,LF,2025-06-10,Minnesota Twins,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+608369,Corey Seager,SS,2025-06-10,Minnesota Twins,Texas Rangers,5,3,2,2,0,0,0,0,2,0,0,0,0,0.667,0.8,0.667,1.467
+543760,Marcus Semien,2B,2025-06-10,Minnesota Twins,Texas Rangers,5,4,2,1,0,0,0,0,1,0,1,0,0,0.25,0.4,0.25,0.65
+669701,Josh Smith,SS,2025-06-10,Minnesota Twins,Texas Rangers,6,6,0,2,0,0,0,1,0,0,0,0,0,0.333,0.333,0.333,0.666
+669394,Jake Burger,1B,2025-06-11,Minnesota Twins,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-06-11,Minnesota Twins,Texas Rangers,4,3,0,2,1,0,0,0,1,0,1,1,0,0.667,0.75,1.0,1.75
+666969,Adolis García,RF,2025-06-11,Minnesota Twins,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-06-11,Minnesota Twins,Texas Rangers,3,3,1,2,1,0,0,0,0,0,0,0,0,0.667,0.667,1.0,1.667
+673962,Josh Jung,3B,2025-06-11,Minnesota Twins,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-06-11,Minnesota Twins,Texas Rangers,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-06-11,Minnesota Twins,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+543760,Marcus Semien,2B,2025-06-11,Minnesota Twins,Texas Rangers,4,4,1,1,0,0,1,1,0,0,0,0,0,0.25,0.25,1.0,1.25
+669701,Josh Smith,SS,2025-06-11,Minnesota Twins,Texas Rangers,4,4,0,2,1,0,0,1,0,0,0,0,0,0.5,0.5,0.75,1.25
+669394,Jake Burger,1B,2025-06-12,Minnesota Twins,Texas Rangers,6,6,2,3,0,0,1,3,0,1,0,0,0,0.5,0.5,1.0,1.5
+694497,Evan Carter,CF,2025-06-12,Minnesota Twins,Texas Rangers,5,4,2,2,0,0,1,2,1,0,1,0,0,0.5,0.6,1.25,1.85
+677649,Ezequiel Duran,SS,2025-06-12,Minnesota Twins,Texas Rangers,1,0,1,0,0,0,0,0,0,0,0,0,1,,1.0,,1.0
+666969,Adolis García,RF,2025-06-12,Minnesota Twins,Texas Rangers,6,4,2,1,0,0,1,3,2,0,0,0,0,0.25,0.5,1.0,1.5
+664059,Sam Haggerty,CF,2025-06-12,Minnesota Twins,Texas Rangers,1,1,1,1,0,0,1,3,0,0,0,0,0,1.0,1.0,4.0,5.0
+543309,Kyle Higashioka,C,2025-06-12,Minnesota Twins,Texas Rangers,5,5,1,1,0,0,0,1,0,1,0,0,0,0.2,0.2,0.2,0.4
+673962,Josh Jung,3B,2025-06-12,Minnesota Twins,Texas Rangers,6,5,1,3,1,0,0,0,1,0,0,0,0,0.6,0.667,0.8,1.467
+694671,Wyatt Langford,LF,2025-06-12,Minnesota Twins,Texas Rangers,6,4,2,2,0,0,1,3,2,2,0,0,0,0.5,0.667,1.25,1.917
+696030,Alejandro Osuna,LF,2025-06-12,Minnesota Twins,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-06-12,Minnesota Twins,Texas Rangers,5,3,0,0,0,0,0,0,2,1,0,0,0,0.0,0.4,0.0,0.4
+543760,Marcus Semien,2B,2025-06-12,Minnesota Twins,Texas Rangers,5,5,1,1,0,0,0,0,0,0,0,0,0,0.2,0.2,0.2,0.4
+669701,Josh Smith,SS,2025-06-12,Minnesota Twins,Texas Rangers,6,5,3,2,0,0,1,1,1,0,0,0,0,0.4,0.5,1.0,1.5
+669394,Jake Burger,1B,2025-06-13,Texas Rangers,Chicago White Sox,4,4,0,2,1,0,0,0,0,0,0,0,0,0.5,0.5,0.75,1.25
+694497,Evan Carter,CF,2025-06-13,Texas Rangers,Chicago White Sox,3,2,0,0,0,0,0,0,1,0,0,0,0,0.0,0.333,0.0,0.333
+666969,Adolis García,RF,2025-06-13,Texas Rangers,Chicago White Sox,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-06-13,Texas Rangers,Chicago White Sox,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-06-13,Texas Rangers,Chicago White Sox,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+673962,Josh Jung,3B,2025-06-13,Texas Rangers,Chicago White Sox,4,3,0,0,0,0,0,0,0,0,0,0,1,0.0,0.25,0.0,0.25
+694671,Wyatt Langford,LF,2025-06-13,Texas Rangers,Chicago White Sox,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+608369,Corey Seager,SS,2025-06-13,Texas Rangers,Chicago White Sox,4,1,0,0,0,0,0,1,2,1,0,0,0,0.0,0.667,0.0,0.667
+543760,Marcus Semien,2B,2025-06-13,Texas Rangers,Chicago White Sox,4,4,0,1,1,0,0,1,0,0,0,0,0,0.25,0.25,0.5,0.75
+669701,Josh Smith,SS,2025-06-13,Texas Rangers,Chicago White Sox,4,3,3,2,0,0,1,1,1,0,0,0,0,0.667,0.75,1.667,2.417
+669394,Jake Burger,1B,2025-06-14,Texas Rangers,Chicago White Sox,6,4,0,0,0,0,0,0,2,2,0,0,0,0.0,0.333,0.0,0.333
+694497,Evan Carter,CF,2025-06-14,Texas Rangers,Chicago White Sox,0,0,1,0,0,0,0,0,0,0,0,0,0,,,,
+666969,Adolis García,RF,2025-06-14,Texas Rangers,Chicago White Sox,6,6,0,3,1,0,0,1,0,2,0,0,0,0.5,0.5,0.667,1.167
+664059,Sam Haggerty,CF,2025-06-14,Texas Rangers,Chicago White Sox,5,4,0,0,0,0,0,0,1,2,0,0,0,0.0,0.2,0.0,0.2
+641680,Jonah Heim,C,2025-06-14,Texas Rangers,Chicago White Sox,5,5,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-06-14,Texas Rangers,Chicago White Sox,6,5,0,0,0,0,0,0,1,3,0,0,0,0.0,0.167,0.0,0.167
+694671,Wyatt Langford,LF,2025-06-14,Texas Rangers,Chicago White Sox,6,4,1,2,0,0,0,0,1,0,0,0,1,0.5,0.667,0.5,1.167
+608369,Corey Seager,SS,2025-06-14,Texas Rangers,Chicago White Sox,6,4,1,2,1,0,0,1,2,1,0,0,0,0.5,0.667,0.75,1.417
+543760,Marcus Semien,2B,2025-06-14,Texas Rangers,Chicago White Sox,6,6,0,2,1,0,0,1,0,0,0,0,0,0.333,0.333,0.5,0.833
+669701,Josh Smith,SS,2025-06-14,Texas Rangers,Chicago White Sox,6,5,2,2,2,0,0,0,1,1,0,0,0,0.4,0.5,0.8,1.3
+669394,Jake Burger,1B,2025-06-15,Texas Rangers,Chicago White Sox,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+694497,Evan Carter,CF,2025-06-15,Texas Rangers,Chicago White Sox,4,4,0,1,1,0,0,0,0,0,0,0,0,0.25,0.25,0.5,0.75
+677649,Ezequiel Duran,SS,2025-06-15,Texas Rangers,Chicago White Sox,4,3,0,2,2,0,0,1,1,0,0,0,0,0.667,0.75,1.333,2.083
+666969,Adolis García,RF,2025-06-15,Texas Rangers,Chicago White Sox,4,3,1,1,1,0,0,0,1,0,0,0,0,0.333,0.5,0.667,1.167
+664059,Sam Haggerty,CF,2025-06-15,Texas Rangers,Chicago White Sox,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-06-15,Texas Rangers,Chicago White Sox,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-06-15,Texas Rangers,Chicago White Sox,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+608369,Corey Seager,SS,2025-06-15,Texas Rangers,Chicago White Sox,4,3,0,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+543760,Marcus Semien,2B,2025-06-15,Texas Rangers,Chicago White Sox,4,2,0,1,1,0,0,1,1,0,0,0,0,0.5,0.667,1.0,1.667
+669701,Josh Smith,SS,2025-06-15,Texas Rangers,Chicago White Sox,4,3,1,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+669394,Jake Burger,1B,2025-06-17,Texas Rangers,Kansas City Royals,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-06-17,Texas Rangers,Kansas City Royals,3,2,0,0,0,0,0,0,0,1,0,0,1,0.0,0.333,0.0,0.333
+677649,Ezequiel Duran,SS,2025-06-17,Texas Rangers,Kansas City Royals,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-06-17,Texas Rangers,Kansas City Royals,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+664059,Sam Haggerty,CF,2025-06-17,Texas Rangers,Kansas City Royals,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-06-17,Texas Rangers,Kansas City Royals,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-06-17,Texas Rangers,Kansas City Royals,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-06-17,Texas Rangers,Kansas City Royals,4,4,0,1,0,0,0,1,0,2,0,0,0,0.25,0.25,0.25,0.5
+608369,Corey Seager,SS,2025-06-17,Texas Rangers,Kansas City Royals,4,3,1,2,1,0,0,0,0,0,0,0,1,0.667,0.75,1.0,1.75
+543760,Marcus Semien,2B,2025-06-17,Texas Rangers,Kansas City Royals,4,3,0,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+669394,Jake Burger,1B,2025-06-18,Texas Rangers,Kansas City Royals,4,4,0,1,1,0,0,1,0,0,0,0,0,0.25,0.25,0.5,0.75
+694497,Evan Carter,CF,2025-06-18,Texas Rangers,Kansas City Royals,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-06-18,Texas Rangers,Kansas City Royals,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-06-18,Texas Rangers,Kansas City Royals,4,4,0,2,1,0,0,1,0,0,0,0,0,0.5,0.5,0.75,1.25
+664059,Sam Haggerty,CF,2025-06-18,Texas Rangers,Kansas City Royals,5,5,1,3,0,1,0,0,0,1,0,1,0,0.6,0.6,1.0,1.6
+543309,Kyle Higashioka,C,2025-06-18,Texas Rangers,Kansas City Royals,4,2,0,1,0,0,0,0,1,0,0,0,1,0.5,0.75,0.5,1.25
+673962,Josh Jung,3B,2025-06-18,Texas Rangers,Kansas City Royals,4,4,1,1,1,0,0,0,0,1,0,0,0,0.25,0.25,0.5,0.75
+694671,Wyatt Langford,LF,2025-06-18,Texas Rangers,Kansas City Royals,5,5,1,3,2,0,0,1,0,0,0,0,0,0.6,0.6,1.0,1.6
+608369,Corey Seager,SS,2025-06-18,Texas Rangers,Kansas City Royals,5,5,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-06-18,Texas Rangers,Kansas City Royals,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+669394,Jake Burger,1B,2025-06-19,Texas Rangers,Kansas City Royals,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-06-19,Texas Rangers,Kansas City Royals,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-06-19,Texas Rangers,Kansas City Royals,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+664059,Sam Haggerty,CF,2025-06-19,Texas Rangers,Kansas City Royals,1,1,0,1,0,0,0,0,0,0,0,0,0,1.0,1.0,1.0,2.0
+641680,Jonah Heim,C,2025-06-19,Texas Rangers,Kansas City Royals,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-06-19,Texas Rangers,Kansas City Royals,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-06-19,Texas Rangers,Kansas City Royals,4,4,1,1,0,0,0,0,0,3,0,0,0,0.25,0.25,0.25,0.5
+696030,Alejandro Osuna,LF,2025-06-19,Texas Rangers,Kansas City Royals,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+608369,Corey Seager,SS,2025-06-19,Texas Rangers,Kansas City Royals,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-06-19,Texas Rangers,Kansas City Royals,4,4,0,1,1,0,0,1,0,1,0,0,0,0.25,0.25,0.5,0.75
+669394,Jake Burger,1B,2025-06-20,Pittsburgh Pirates,Texas Rangers,4,4,0,1,0,0,0,0,0,3,0,0,0,0.25,0.25,0.25,0.5
+694497,Evan Carter,CF,2025-06-20,Pittsburgh Pirates,Texas Rangers,5,3,0,1,0,0,0,0,1,0,1,0,1,0.333,0.6,0.333,0.933
+677649,Ezequiel Duran,SS,2025-06-20,Pittsburgh Pirates,Texas Rangers,1,1,0,1,1,0,0,0,0,0,0,0,0,1.0,1.0,2.0,3.0
+666969,Adolis García,RF,2025-06-20,Pittsburgh Pirates,Texas Rangers,5,4,2,3,1,0,1,2,1,0,0,0,0,0.75,0.8,1.75,2.55
+664059,Sam Haggerty,CF,2025-06-20,Pittsburgh Pirates,Texas Rangers,5,3,1,1,0,0,0,0,2,0,0,0,0,0.333,0.6,0.333,0.933
+641680,Jonah Heim,C,2025-06-20,Pittsburgh Pirates,Texas Rangers,5,4,0,2,1,0,0,0,1,1,0,0,0,0.5,0.6,0.75,1.35
+673962,Josh Jung,3B,2025-06-20,Pittsburgh Pirates,Texas Rangers,5,5,0,0,0,0,0,1,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-06-20,Pittsburgh Pirates,Texas Rangers,5,5,1,1,0,0,1,1,0,1,0,0,0,0.2,0.2,0.8,1.0
+543760,Marcus Semien,2B,2025-06-20,Pittsburgh Pirates,Texas Rangers,5,5,1,2,0,1,0,0,0,0,0,0,0,0.4,0.4,0.8,1.2
+669701,Josh Smith,SS,2025-06-20,Pittsburgh Pirates,Texas Rangers,5,5,1,1,0,0,0,0,0,1,0,0,0,0.2,0.2,0.2,0.4
+694497,Evan Carter,CF,2025-06-21,Pittsburgh Pirates,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+677649,Ezequiel Duran,SS,2025-06-21,Pittsburgh Pirates,Texas Rangers,4,3,1,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+666969,Adolis García,RF,2025-06-21,Pittsburgh Pirates,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-06-21,Pittsburgh Pirates,Texas Rangers,4,3,1,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+543309,Kyle Higashioka,C,2025-06-21,Pittsburgh Pirates,Texas Rangers,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+673962,Josh Jung,3B,2025-06-21,Pittsburgh Pirates,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-06-21,Pittsburgh Pirates,Texas Rangers,4,3,0,1,0,0,0,1,1,0,0,0,0,0.333,0.5,0.333,0.833
+543760,Marcus Semien,2B,2025-06-21,Pittsburgh Pirates,Texas Rangers,4,2,0,0,0,0,0,1,1,0,0,0,0,0.0,0.333,0.0,0.333
+669701,Josh Smith,SS,2025-06-21,Pittsburgh Pirates,Texas Rangers,4,4,1,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+677649,Ezequiel Duran,SS,2025-06-22,Pittsburgh Pirates,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+666969,Adolis García,RF,2025-06-22,Pittsburgh Pirates,Texas Rangers,4,2,2,0,0,0,0,0,2,1,0,0,0,0.0,0.5,0.0,0.5
+664059,Sam Haggerty,CF,2025-06-22,Pittsburgh Pirates,Texas Rangers,4,3,0,2,1,0,0,0,1,0,0,0,0,0.667,0.75,1.0,1.75
+641680,Jonah Heim,C,2025-06-22,Pittsburgh Pirates,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+673962,Josh Jung,3B,2025-06-22,Pittsburgh Pirates,Texas Rangers,4,4,0,1,0,0,0,2,0,1,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-06-22,Pittsburgh Pirates,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+608369,Corey Seager,SS,2025-06-22,Pittsburgh Pirates,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-06-22,Pittsburgh Pirates,Texas Rangers,4,3,1,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+669701,Josh Smith,SS,2025-06-22,Pittsburgh Pirates,Texas Rangers,4,4,0,1,0,0,0,1,0,0,0,0,0,0.25,0.25,0.25,0.5
+677649,Ezequiel Duran,SS,2025-06-23,Baltimore Orioles,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+679822,Justin Foscue,1B,2025-06-23,Baltimore Orioles,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-06-23,Baltimore Orioles,Texas Rangers,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+664059,Sam Haggerty,CF,2025-06-23,Baltimore Orioles,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-06-23,Baltimore Orioles,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-06-23,Baltimore Orioles,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-06-23,Baltimore Orioles,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-06-23,Baltimore Orioles,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+543760,Marcus Semien,2B,2025-06-23,Baltimore Orioles,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-06-24,Baltimore Orioles,Texas Rangers,5,5,2,2,0,0,0,1,0,3,0,0,0,0.4,0.4,0.4,0.8
+677649,Ezequiel Duran,SS,2025-06-24,Baltimore Orioles,Texas Rangers,1,0,0,0,0,0,0,0,1,0,1,0,0,,1.0,,1.0
+666969,Adolis García,RF,2025-06-24,Baltimore Orioles,Texas Rangers,5,5,0,1,0,0,0,1,0,0,0,0,0,0.2,0.2,0.2,0.4
+664059,Sam Haggerty,CF,2025-06-24,Baltimore Orioles,Texas Rangers,2,1,1,0,0,0,0,1,1,0,3,0,0,0.0,0.5,0.0,0.5
+641680,Jonah Heim,C,2025-06-24,Baltimore Orioles,Texas Rangers,1,0,0,0,0,0,0,1,0,0,0,0,0,,,,
+543309,Kyle Higashioka,C,2025-06-24,Baltimore Orioles,Texas Rangers,5,4,0,1,1,0,0,0,1,1,0,0,0,0.25,0.4,0.5,0.9
+673962,Josh Jung,3B,2025-06-24,Baltimore Orioles,Texas Rangers,5,5,0,2,0,0,0,1,0,1,0,0,0,0.4,0.4,0.4,0.8
+694671,Wyatt Langford,LF,2025-06-24,Baltimore Orioles,Texas Rangers,6,6,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-06-24,Baltimore Orioles,Texas Rangers,3,2,0,1,0,0,0,1,0,0,0,0,0,0.5,0.5,0.5,1.0
+608369,Corey Seager,SS,2025-06-24,Baltimore Orioles,Texas Rangers,5,4,2,2,0,0,0,0,1,1,1,0,0,0.5,0.6,0.5,1.1
+543760,Marcus Semien,2B,2025-06-24,Baltimore Orioles,Texas Rangers,5,5,1,1,0,0,0,0,0,1,0,0,0,0.2,0.2,0.2,0.4
+669701,Josh Smith,SS,2025-06-24,Baltimore Orioles,Texas Rangers,4,2,0,0,0,0,0,0,1,0,0,0,1,0.0,0.5,0.0,0.5
+694497,Evan Carter,CF,2025-06-25,Baltimore Orioles,Texas Rangers,4,4,1,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+666969,Adolis García,RF,2025-06-25,Baltimore Orioles,Texas Rangers,4,3,0,0,0,0,0,1,0,2,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-06-25,Baltimore Orioles,Texas Rangers,5,4,1,0,0,0,0,0,1,1,0,0,0,0.0,0.2,0.0,0.2
+641680,Jonah Heim,C,2025-06-25,Baltimore Orioles,Texas Rangers,4,4,1,2,1,0,1,1,0,0,0,0,0,0.5,0.5,1.5,2.0
+673962,Josh Jung,3B,2025-06-25,Baltimore Orioles,Texas Rangers,4,4,1,2,0,0,1,3,0,0,0,0,0,0.5,0.5,1.25,1.75
+696030,Alejandro Osuna,LF,2025-06-25,Baltimore Orioles,Texas Rangers,4,3,1,0,0,0,0,0,1,0,1,0,0,0.0,0.25,0.0,0.25
+608369,Corey Seager,SS,2025-06-25,Baltimore Orioles,Texas Rangers,4,4,1,1,0,0,0,1,0,1,0,0,0,0.25,0.25,0.25,0.5
+543760,Marcus Semien,2B,2025-06-25,Baltimore Orioles,Texas Rangers,4,4,1,3,1,0,0,1,0,0,0,0,0,0.75,0.75,1.0,1.75
+669701,Josh Smith,SS,2025-06-25,Baltimore Orioles,Texas Rangers,5,5,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-06-27,Texas Rangers,Seattle Mariners,6,4,0,1,0,0,0,0,2,2,0,0,0,0.25,0.5,0.25,0.75
+677649,Ezequiel Duran,SS,2025-06-27,Texas Rangers,Seattle Mariners,3,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-06-27,Texas Rangers,Seattle Mariners,6,5,0,1,0,0,0,3,0,1,0,0,0,0.2,0.2,0.2,0.4
+664059,Sam Haggerty,CF,2025-06-27,Texas Rangers,Seattle Mariners,6,4,2,1,0,0,0,1,1,3,0,0,1,0.25,0.5,0.25,0.75
+641680,Jonah Heim,C,2025-06-27,Texas Rangers,Seattle Mariners,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+680737,Michael Helman,CF,2025-06-27,Texas Rangers,Seattle Mariners,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+543309,Kyle Higashioka,C,2025-06-27,Texas Rangers,Seattle Mariners,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-06-27,Texas Rangers,Seattle Mariners,6,6,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-06-27,Texas Rangers,Seattle Mariners,2,2,0,1,1,0,0,0,0,0,0,0,0,0.5,0.5,1.0,1.5
+608369,Corey Seager,SS,2025-06-27,Texas Rangers,Seattle Mariners,6,3,1,1,0,0,1,1,2,1,0,0,1,0.333,0.667,1.333,2.0
+543760,Marcus Semien,2B,2025-06-27,Texas Rangers,Seattle Mariners,6,6,1,1,1,0,0,1,0,2,0,0,0,0.167,0.167,0.333,0.5
+669701,Josh Smith,SS,2025-06-27,Texas Rangers,Seattle Mariners,6,5,2,2,1,0,0,0,1,2,0,0,0,0.4,0.5,0.6,1.1
+694497,Evan Carter,CF,2025-06-28,Texas Rangers,Seattle Mariners,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+666969,Adolis García,RF,2025-06-28,Texas Rangers,Seattle Mariners,4,4,0,0,0,0,0,0,0,4,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-06-28,Texas Rangers,Seattle Mariners,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-06-28,Texas Rangers,Seattle Mariners,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-06-28,Texas Rangers,Seattle Mariners,3,2,0,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+673962,Josh Jung,3B,2025-06-28,Texas Rangers,Seattle Mariners,4,3,0,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+696030,Alejandro Osuna,LF,2025-06-28,Texas Rangers,Seattle Mariners,4,3,1,0,0,0,0,0,1,0,0,1,0,0.0,0.25,0.0,0.25
+608369,Corey Seager,SS,2025-06-28,Texas Rangers,Seattle Mariners,5,3,1,1,0,0,1,2,2,0,0,0,0,0.333,0.6,1.333,1.933
+543760,Marcus Semien,2B,2025-06-28,Texas Rangers,Seattle Mariners,5,5,0,2,0,0,0,1,0,2,0,0,0,0.4,0.4,0.4,0.8
+669701,Josh Smith,SS,2025-06-28,Texas Rangers,Seattle Mariners,5,4,1,1,0,0,0,0,0,0,0,0,1,0.25,0.4,0.25,0.65
+694497,Evan Carter,CF,2025-06-29,Texas Rangers,Seattle Mariners,5,4,1,3,1,0,0,0,1,0,2,0,0,0.75,0.8,1.0,1.8
+666969,Adolis García,RF,2025-06-29,Texas Rangers,Seattle Mariners,5,5,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-06-29,Texas Rangers,Seattle Mariners,5,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-06-29,Texas Rangers,Seattle Mariners,5,5,2,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-06-29,Texas Rangers,Seattle Mariners,5,5,0,1,0,0,0,1,0,3,0,0,0,0.2,0.2,0.2,0.4
+696030,Alejandro Osuna,LF,2025-06-29,Texas Rangers,Seattle Mariners,5,4,0,1,0,0,0,0,1,1,1,0,0,0.25,0.4,0.25,0.65
+608369,Corey Seager,SS,2025-06-29,Texas Rangers,Seattle Mariners,6,4,1,1,0,0,1,3,1,0,0,0,0,0.25,0.4,1.0,1.4
+543760,Marcus Semien,2B,2025-06-29,Texas Rangers,Seattle Mariners,6,6,0,1,0,0,0,0,0,1,0,0,0,0.167,0.167,0.167,0.334
+669701,Josh Smith,SS,2025-06-29,Texas Rangers,Seattle Mariners,6,5,0,2,0,0,0,0,1,0,0,0,0,0.4,0.5,0.4,0.9
+677649,Ezequiel Duran,SS,2025-06-30,Texas Rangers,Baltimore Orioles,0,0,0,0,0,0,0,0,0,0,2,0,0,,,,
+679822,Justin Foscue,1B,2025-06-30,Texas Rangers,Baltimore Orioles,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-06-30,Texas Rangers,Baltimore Orioles,5,5,1,2,0,0,1,3,0,2,1,0,0,0.4,0.4,1.0,1.4
+664059,Sam Haggerty,CF,2025-06-30,Texas Rangers,Baltimore Orioles,5,5,1,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-06-30,Texas Rangers,Baltimore Orioles,5,5,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-06-30,Texas Rangers,Baltimore Orioles,3,2,1,0,0,0,0,0,1,0,1,0,0,0.0,0.333,0.0,0.333
+543309,Kyle Higashioka,C,2025-06-30,Texas Rangers,Baltimore Orioles,4,3,0,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+673962,Josh Jung,3B,2025-06-30,Texas Rangers,Baltimore Orioles,5,5,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-06-30,Texas Rangers,Baltimore Orioles,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-06-30,Texas Rangers,Baltimore Orioles,5,4,1,1,0,0,0,0,1,1,0,0,0,0.25,0.4,0.25,0.65
+543760,Marcus Semien,2B,2025-06-30,Texas Rangers,Baltimore Orioles,5,3,2,3,0,0,1,2,2,0,0,0,0,1.0,1.0,2.0,3.0
+669701,Josh Smith,SS,2025-06-30,Texas Rangers,Baltimore Orioles,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-07-01,Texas Rangers,Baltimore Orioles,5,4,0,1,1,0,0,0,0,1,0,0,1,0.25,0.4,0.5,0.9
+679822,Justin Foscue,1B,2025-07-01,Texas Rangers,Baltimore Orioles,1,1,0,1,1,0,0,2,0,0,0,0,0,1.0,1.0,2.0,3.0
+666969,Adolis García,RF,2025-07-01,Texas Rangers,Baltimore Orioles,5,5,1,3,1,0,0,4,0,1,0,0,0,0.6,0.6,0.8,1.4
+664059,Sam Haggerty,CF,2025-07-01,Texas Rangers,Baltimore Orioles,4,3,1,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+641680,Jonah Heim,C,2025-07-01,Texas Rangers,Baltimore Orioles,5,4,0,2,1,0,0,1,1,2,0,0,0,0.5,0.6,0.75,1.35
+680737,Michael Helman,CF,2025-07-01,Texas Rangers,Baltimore Orioles,1,0,1,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+673962,Josh Jung,3B,2025-07-01,Texas Rangers,Baltimore Orioles,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+641856,Billy McKinney,LF,2025-07-01,Texas Rangers,Baltimore Orioles,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+696030,Alejandro Osuna,LF,2025-07-01,Texas Rangers,Baltimore Orioles,4,4,1,1,0,0,1,2,0,1,0,0,0,0.25,0.25,1.0,1.25
+608369,Corey Seager,SS,2025-07-01,Texas Rangers,Baltimore Orioles,5,4,2,2,2,0,0,0,0,2,0,0,1,0.5,0.6,1.0,1.6
+543760,Marcus Semien,2B,2025-07-01,Texas Rangers,Baltimore Orioles,5,3,3,1,0,0,0,0,2,0,1,0,0,0.333,0.6,0.333,0.933
+669701,Josh Smith,SS,2025-07-01,Texas Rangers,Baltimore Orioles,5,5,1,1,0,0,0,0,0,0,0,0,0,0.2,0.2,0.2,0.4
+669394,Jake Burger,1B,2025-07-02,Texas Rangers,Baltimore Orioles,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-07-02,Texas Rangers,Baltimore Orioles,4,4,0,1,0,0,0,2,0,1,0,0,0,0.25,0.25,0.25,0.5
+666969,Adolis García,RF,2025-07-02,Texas Rangers,Baltimore Orioles,4,4,0,1,0,0,0,0,0,1,0,1,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-07-02,Texas Rangers,Baltimore Orioles,4,4,1,2,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+641856,Billy McKinney,LF,2025-07-02,Texas Rangers,Baltimore Orioles,4,3,1,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+696030,Alejandro Osuna,LF,2025-07-02,Texas Rangers,Baltimore Orioles,4,3,1,2,0,0,0,0,1,0,1,0,0,0.667,0.75,0.667,1.417
+608369,Corey Seager,SS,2025-07-02,Texas Rangers,Baltimore Orioles,4,4,1,1,0,0,1,1,0,1,0,0,0,0.25,0.25,1.0,1.25
+543760,Marcus Semien,2B,2025-07-02,Texas Rangers,Baltimore Orioles,4,4,1,1,0,0,1,3,0,1,0,0,0,0.25,0.25,1.0,1.25
+669701,Josh Smith,SS,2025-07-02,Texas Rangers,Baltimore Orioles,4,4,1,3,0,0,0,0,0,0,0,0,0,0.75,0.75,0.75,1.5
+669394,Jake Burger,1B,2025-07-04,San Diego Padres,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+694497,Evan Carter,CF,2025-07-04,San Diego Padres,Texas Rangers,4,3,0,1,0,0,0,0,1,0,2,0,0,0.333,0.5,0.333,0.833
+677649,Ezequiel Duran,SS,2025-07-04,San Diego Padres,Texas Rangers,0,0,0,0,0,0,0,0,0,0,1,0,0,,,,
+666969,Adolis García,RF,2025-07-04,San Diego Padres,Texas Rangers,5,5,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-07-04,San Diego Padres,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-07-04,San Diego Padres,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-07-04,San Diego Padres,Texas Rangers,4,4,0,1,1,0,0,0,0,1,0,0,0,0.25,0.25,0.5,0.75
+696030,Alejandro Osuna,LF,2025-07-04,San Diego Padres,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-07-04,San Diego Padres,Texas Rangers,5,3,1,1,0,0,0,0,2,1,0,0,0,0.333,0.6,0.333,0.933
+543760,Marcus Semien,2B,2025-07-04,San Diego Padres,Texas Rangers,5,4,0,1,1,0,0,2,1,1,0,0,0,0.25,0.4,0.5,0.9
+669701,Josh Smith,SS,2025-07-04,San Diego Padres,Texas Rangers,5,3,1,0,0,0,0,0,2,0,0,0,0,0.0,0.4,0.0,0.4
+669394,Jake Burger,1B,2025-07-05,San Diego Padres,Texas Rangers,4,3,1,2,0,0,0,0,0,0,0,0,1,0.667,0.75,0.667,1.417
+694497,Evan Carter,CF,2025-07-05,San Diego Padres,Texas Rangers,4,4,1,1,0,0,0,0,0,0,1,0,0,0.25,0.25,0.25,0.5
+666969,Adolis García,RF,2025-07-05,San Diego Padres,Texas Rangers,5,5,0,1,0,0,0,0,0,1,0,0,0,0.2,0.2,0.2,0.4
+641680,Jonah Heim,C,2025-07-05,San Diego Padres,Texas Rangers,4,3,1,1,1,0,0,1,1,0,0,0,0,0.333,0.5,0.667,1.167
+543309,Kyle Higashioka,C,2025-07-05,San Diego Padres,Texas Rangers,4,3,1,3,0,0,1,5,0,0,1,0,0,1.0,1.0,2.0,3.0
+694671,Wyatt Langford,LF,2025-07-05,San Diego Padres,Texas Rangers,4,3,2,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+608369,Corey Seager,SS,2025-07-05,San Diego Padres,Texas Rangers,5,4,0,0,0,0,0,0,1,1,0,0,0,0.0,0.2,0.0,0.2
+543760,Marcus Semien,2B,2025-07-05,San Diego Padres,Texas Rangers,5,5,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-07-05,San Diego Padres,Texas Rangers,5,5,1,2,0,0,1,1,0,1,0,0,0,0.4,0.4,1.0,1.4
+669394,Jake Burger,1B,2025-07-06,San Diego Padres,Texas Rangers,3,3,0,2,0,0,0,0,0,0,0,0,0,0.667,0.667,0.667,1.334
+694497,Evan Carter,CF,2025-07-06,San Diego Padres,Texas Rangers,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-07-06,San Diego Padres,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+666969,Adolis García,RF,2025-07-06,San Diego Padres,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+664059,Sam Haggerty,CF,2025-07-06,San Diego Padres,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-07-06,San Diego Padres,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-07-06,San Diego Padres,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-07-06,San Diego Padres,Texas Rangers,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+608369,Corey Seager,SS,2025-07-06,San Diego Padres,Texas Rangers,4,4,0,1,1,0,0,1,0,2,0,0,0,0.25,0.25,0.5,0.75
+543760,Marcus Semien,2B,2025-07-06,San Diego Padres,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-07-06,San Diego Padres,Texas Rangers,3,3,1,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+669394,Jake Burger,1B,2025-07-07,Los Angeles Angels,Texas Rangers,4,4,1,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-07-07,Los Angeles Angels,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-07-07,Los Angeles Angels,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-07-07,Los Angeles Angels,Texas Rangers,4,4,0,1,0,0,0,1,0,0,0,0,0,0.25,0.25,0.25,0.5
+664059,Sam Haggerty,CF,2025-07-07,Los Angeles Angels,Texas Rangers,5,5,2,2,0,0,0,0,0,0,0,0,0,0.4,0.4,0.4,0.8
+641680,Jonah Heim,C,2025-07-07,Los Angeles Angels,Texas Rangers,4,3,0,2,0,0,0,1,1,0,0,0,0,0.667,0.75,0.667,1.417
+680737,Michael Helman,CF,2025-07-07,Los Angeles Angels,Texas Rangers,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-07-07,Los Angeles Angels,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-07-07,Los Angeles Angels,Texas Rangers,5,4,2,2,0,0,1,2,1,0,0,0,0,0.5,0.6,1.25,1.85
+543760,Marcus Semien,2B,2025-07-07,Los Angeles Angels,Texas Rangers,5,4,0,0,0,0,0,0,1,2,0,0,0,0.0,0.2,0.0,0.2
+669701,Josh Smith,SS,2025-07-07,Los Angeles Angels,Texas Rangers,2,1,0,1,1,0,0,1,0,0,0,0,1,1.0,1.0,2.0,3.0
+669394,Jake Burger,1B,2025-07-08,Los Angeles Angels,Texas Rangers,5,5,1,3,0,0,1,4,0,1,0,0,0,0.6,0.6,1.2,1.8
+694497,Evan Carter,CF,2025-07-08,Los Angeles Angels,Texas Rangers,5,4,2,1,1,0,0,3,1,1,0,0,0,0.25,0.4,0.5,0.9
+677649,Ezequiel Duran,SS,2025-07-08,Los Angeles Angels,Texas Rangers,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-07-08,Los Angeles Angels,Texas Rangers,5,3,2,1,1,0,0,0,2,0,0,0,0,0.333,0.6,0.667,1.267
+664059,Sam Haggerty,CF,2025-07-08,Los Angeles Angels,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-07-08,Los Angeles Angels,Texas Rangers,5,3,2,1,0,0,0,0,2,0,0,0,0,0.333,0.6,0.333,0.933
+680737,Michael Helman,CF,2025-07-08,Los Angeles Angels,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+543309,Kyle Higashioka,C,2025-07-08,Los Angeles Angels,Texas Rangers,5,5,0,1,0,0,0,1,0,1,0,0,0,0.2,0.2,0.2,0.4
+694671,Wyatt Langford,LF,2025-07-08,Los Angeles Angels,Texas Rangers,5,4,2,2,1,0,1,4,1,1,0,0,0,0.5,0.6,1.5,2.1
+696030,Alejandro Osuna,LF,2025-07-08,Los Angeles Angels,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+608369,Corey Seager,SS,2025-07-08,Los Angeles Angels,Texas Rangers,4,3,2,2,0,0,1,1,1,0,0,0,0,0.667,0.75,1.667,2.417
+543760,Marcus Semien,2B,2025-07-08,Los Angeles Angels,Texas Rangers,4,3,2,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+669701,Josh Smith,SS,2025-07-08,Los Angeles Angels,Texas Rangers,6,5,0,1,1,0,0,0,1,1,0,0,0,0.2,0.333,0.4,0.733
+669394,Jake Burger,1B,2025-07-09,Los Angeles Angels,Texas Rangers,4,4,1,0,0,0,0,1,0,0,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-07-09,Los Angeles Angels,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-07-09,Los Angeles Angels,Texas Rangers,5,5,0,1,0,0,0,0,0,1,1,0,0,0.2,0.2,0.2,0.4
+641680,Jonah Heim,C,2025-07-09,Los Angeles Angels,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-07-09,Los Angeles Angels,Texas Rangers,4,4,1,2,0,0,1,2,0,0,0,0,0,0.5,0.5,1.25,1.75
+694671,Wyatt Langford,LF,2025-07-09,Los Angeles Angels,Texas Rangers,4,4,2,2,0,0,0,0,0,2,2,0,0,0.5,0.5,0.5,1.0
+608369,Corey Seager,SS,2025-07-09,Los Angeles Angels,Texas Rangers,5,4,1,2,1,0,0,0,0,0,0,0,1,0.5,0.6,0.75,1.35
+543760,Marcus Semien,2B,2025-07-09,Los Angeles Angels,Texas Rangers,5,3,1,1,0,0,1,4,1,0,0,0,0,0.333,0.5,1.333,1.833
+669701,Josh Smith,SS,2025-07-09,Los Angeles Angels,Texas Rangers,5,4,2,2,2,0,0,1,1,0,0,0,0,0.5,0.6,1.0,1.6
+669394,Jake Burger,1B,2025-07-10,Los Angeles Angels,Texas Rangers,5,5,1,1,1,0,0,1,0,1,0,0,0,0.2,0.2,0.4,0.6
+694497,Evan Carter,CF,2025-07-10,Los Angeles Angels,Texas Rangers,5,5,1,2,1,0,0,1,0,0,0,0,0,0.4,0.4,0.6,1.0
+677649,Ezequiel Duran,SS,2025-07-10,Los Angeles Angels,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-07-10,Los Angeles Angels,Texas Rangers,5,5,2,2,0,0,1,3,0,1,0,0,0,0.4,0.4,1.0,1.4
+664059,Sam Haggerty,CF,2025-07-10,Los Angeles Angels,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+641680,Jonah Heim,C,2025-07-10,Los Angeles Angels,Texas Rangers,5,5,0,1,0,0,0,1,0,1,0,0,0,0.2,0.2,0.2,0.4
+694671,Wyatt Langford,LF,2025-07-10,Los Angeles Angels,Texas Rangers,5,3,1,1,0,0,0,1,2,0,0,0,0,0.333,0.6,0.333,0.933
+696030,Alejandro Osuna,LF,2025-07-10,Los Angeles Angels,Texas Rangers,5,4,1,0,0,0,0,0,1,1,0,0,0,0.0,0.2,0.0,0.2
+608369,Corey Seager,SS,2025-07-10,Los Angeles Angels,Texas Rangers,4,3,1,2,0,0,0,2,1,1,0,0,0,0.667,0.75,0.667,1.417
+543760,Marcus Semien,2B,2025-07-10,Los Angeles Angels,Texas Rangers,5,5,3,4,0,0,0,1,0,1,0,0,0,0.8,0.8,0.8,1.6
+669701,Josh Smith,SS,2025-07-10,Los Angeles Angels,Texas Rangers,5,3,1,0,0,0,0,0,2,2,0,0,0,0.0,0.4,0.0,0.4
+669394,Jake Burger,1B,2025-07-11,Houston Astros,Texas Rangers,3,3,1,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+694497,Evan Carter,CF,2025-07-11,Houston Astros,Texas Rangers,5,4,1,1,0,0,0,2,1,3,1,0,0,0.25,0.4,0.25,0.65
+677649,Ezequiel Duran,SS,2025-07-11,Houston Astros,Texas Rangers,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-07-11,Houston Astros,Texas Rangers,5,5,1,2,0,0,1,1,0,2,0,0,0,0.4,0.4,1.0,1.4
+641680,Jonah Heim,C,2025-07-11,Houston Astros,Texas Rangers,4,4,0,1,1,0,0,2,0,1,0,0,0,0.25,0.25,0.5,0.75
+543309,Kyle Higashioka,C,2025-07-11,Houston Astros,Texas Rangers,4,3,0,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+694671,Wyatt Langford,LF,2025-07-11,Houston Astros,Texas Rangers,5,5,1,4,0,0,1,2,0,1,1,0,0,0.8,0.8,1.4,2.2
+608369,Corey Seager,SS,2025-07-11,Houston Astros,Texas Rangers,5,3,2,2,0,0,0,0,2,1,0,0,0,0.667,0.8,0.667,1.467
+543760,Marcus Semien,2B,2025-07-11,Houston Astros,Texas Rangers,5,4,1,0,0,0,0,0,0,2,0,0,1,0.0,0.2,0.0,0.2
+669701,Josh Smith,SS,2025-07-11,Houston Astros,Texas Rangers,5,5,0,1,0,0,0,0,0,1,0,0,0,0.2,0.2,0.2,0.4
+669394,Jake Burger,1B,2025-07-12,Houston Astros,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-07-12,Houston Astros,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-07-12,Houston Astros,Texas Rangers,4,4,0,0,0,0,0,0,0,4,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-07-12,Houston Astros,Texas Rangers,5,4,0,1,0,0,0,1,0,1,0,0,1,0.25,0.4,0.25,0.65
+664059,Sam Haggerty,CF,2025-07-12,Houston Astros,Texas Rangers,3,3,1,1,1,0,0,0,0,0,1,0,0,0.333,0.333,0.667,1.0
+641680,Jonah Heim,C,2025-07-12,Houston Astros,Texas Rangers,5,5,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-07-12,Houston Astros,Texas Rangers,5,5,1,1,0,0,1,1,0,2,0,0,0,0.2,0.2,0.8,1.0
+694671,Wyatt Langford,LF,2025-07-12,Houston Astros,Texas Rangers,5,5,0,1,0,0,0,0,0,3,1,0,0,0.2,0.2,0.2,0.4
+696030,Alejandro Osuna,LF,2025-07-12,Houston Astros,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+608369,Corey Seager,SS,2025-07-12,Houston Astros,Texas Rangers,5,5,0,1,1,0,0,0,0,2,0,0,0,0.2,0.2,0.4,0.6
+543760,Marcus Semien,2B,2025-07-12,Houston Astros,Texas Rangers,5,5,2,2,0,0,1,1,0,1,0,0,0,0.4,0.4,1.0,1.4
+669701,Josh Smith,SS,2025-07-12,Houston Astros,Texas Rangers,4,4,0,1,0,0,0,0,0,1,1,0,0,0.25,0.25,0.25,0.5
+694497,Evan Carter,CF,2025-07-13,Houston Astros,Texas Rangers,4,4,2,2,1,1,0,1,0,0,0,0,0,0.5,0.5,1.25,1.75
+677649,Ezequiel Duran,SS,2025-07-13,Houston Astros,Texas Rangers,4,3,0,2,1,0,0,1,1,1,0,0,0,0.667,0.75,1.0,1.75
+666969,Adolis García,RF,2025-07-13,Houston Astros,Texas Rangers,4,4,1,1,0,0,1,1,0,1,0,0,0,0.25,0.25,1.0,1.25
+664059,Sam Haggerty,CF,2025-07-13,Houston Astros,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-07-13,Houston Astros,Texas Rangers,4,4,0,2,0,0,0,0,0,1,1,0,0,0.5,0.5,0.5,1.0
+694671,Wyatt Langford,LF,2025-07-13,Houston Astros,Texas Rangers,4,3,1,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+696030,Alejandro Osuna,LF,2025-07-13,Houston Astros,Texas Rangers,2,1,0,0,0,0,0,1,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-07-13,Houston Astros,Texas Rangers,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+543760,Marcus Semien,2B,2025-07-13,Houston Astros,Texas Rangers,4,4,1,1,0,0,1,1,0,2,0,0,0,0.25,0.25,1.0,1.25
+669701,Josh Smith,SS,2025-07-13,Houston Astros,Texas Rangers,5,5,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-07-18,Texas Rangers,Detroit Tigers,3,2,0,0,0,0,0,0,1,1,0,1,0,0.0,0.333,0.0,0.333
+683227,Cody Freeman,3B,2025-07-18,Texas Rangers,Detroit Tigers,0,0,1,0,0,0,0,0,0,0,0,0,0,,,,
+666969,Adolis García,RF,2025-07-18,Texas Rangers,Detroit Tigers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-07-18,Texas Rangers,Detroit Tigers,3,3,0,1,1,0,0,0,0,0,0,0,0,0.333,0.333,0.667,1.0
+543309,Kyle Higashioka,C,2025-07-18,Texas Rangers,Detroit Tigers,3,3,0,2,1,0,0,0,0,0,0,0,0,0.667,0.667,1.0,1.667
+694671,Wyatt Langford,LF,2025-07-18,Texas Rangers,Detroit Tigers,3,3,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-07-18,Texas Rangers,Detroit Tigers,4,4,0,1,1,0,0,2,0,2,0,0,0,0.25,0.25,0.5,0.75
+543760,Marcus Semien,2B,2025-07-18,Texas Rangers,Detroit Tigers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-07-18,Texas Rangers,Detroit Tigers,4,2,1,0,0,0,0,0,1,0,0,0,0,0.0,0.333,0.0,0.333
+642133,Rowdy Tellez,1B,2025-07-18,Texas Rangers,Detroit Tigers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-07-19,Texas Rangers,Detroit Tigers,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+666969,Adolis García,RF,2025-07-19,Texas Rangers,Detroit Tigers,4,4,1,1,0,0,0,0,0,0,1,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-07-19,Texas Rangers,Detroit Tigers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-07-19,Texas Rangers,Detroit Tigers,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+694671,Wyatt Langford,LF,2025-07-19,Texas Rangers,Detroit Tigers,3,3,1,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-07-19,Texas Rangers,Detroit Tigers,2,1,1,0,0,0,0,0,1,1,0,0,0,0.0,0.5,0.0,0.5
+608369,Corey Seager,SS,2025-07-19,Texas Rangers,Detroit Tigers,4,4,0,1,0,0,0,1,0,1,0,0,0,0.25,0.25,0.25,0.5
+543760,Marcus Semien,2B,2025-07-19,Texas Rangers,Detroit Tigers,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+669701,Josh Smith,SS,2025-07-19,Texas Rangers,Detroit Tigers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-07-19,Texas Rangers,Detroit Tigers,3,2,1,1,0,0,1,3,1,1,0,0,0,0.5,0.667,2.0,2.667
+677649,Ezequiel Duran,SS,2025-07-20,Texas Rangers,Detroit Tigers,3,3,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+679822,Justin Foscue,1B,2025-07-20,Texas Rangers,Detroit Tigers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+683227,Cody Freeman,3B,2025-07-20,Texas Rangers,Detroit Tigers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-07-20,Texas Rangers,Detroit Tigers,4,4,1,1,1,0,0,0,0,3,0,0,0,0.25,0.25,0.5,0.75
+641680,Jonah Heim,C,2025-07-20,Texas Rangers,Detroit Tigers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-07-20,Texas Rangers,Detroit Tigers,3,3,0,1,0,0,0,0,0,1,1,0,0,0.333,0.333,0.333,0.666
+694671,Wyatt Langford,LF,2025-07-20,Texas Rangers,Detroit Tigers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-07-20,Texas Rangers,Detroit Tigers,4,4,0,2,1,0,0,0,0,0,0,0,0,0.5,0.5,0.75,1.25
+543760,Marcus Semien,2B,2025-07-20,Texas Rangers,Detroit Tigers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-07-20,Texas Rangers,Detroit Tigers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+694497,Evan Carter,CF,2025-07-21,Texas Rangers,Athletics,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+683227,Cody Freeman,3B,2025-07-21,Texas Rangers,Athletics,2,2,1,1,1,0,0,1,0,0,0,0,0,0.5,0.5,1.0,1.5
+666969,Adolis García,RF,2025-07-21,Texas Rangers,Athletics,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-07-21,Texas Rangers,Athletics,4,3,1,1,0,0,1,4,0,0,0,0,0,0.333,0.333,1.333,1.666
+543309,Kyle Higashioka,C,2025-07-21,Texas Rangers,Athletics,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-07-21,Texas Rangers,Athletics,3,2,3,2,0,0,1,1,1,0,0,0,0,1.0,1.0,2.5,3.5
+694671,Wyatt Langford,LF,2025-07-21,Texas Rangers,Athletics,4,3,0,0,0,0,0,0,1,1,0,1,0,0.0,0.25,0.0,0.25
+608369,Corey Seager,SS,2025-07-21,Texas Rangers,Athletics,4,4,0,1,0,0,0,1,0,2,0,0,0,0.25,0.25,0.25,0.5
+543760,Marcus Semien,2B,2025-07-21,Texas Rangers,Athletics,4,3,0,0,0,0,0,0,1,1,1,0,0,0.0,0.25,0.0,0.25
+669701,Josh Smith,SS,2025-07-21,Texas Rangers,Athletics,3,3,2,2,1,0,0,0,0,0,0,0,0,0.667,0.667,1.0,1.667
+642133,Rowdy Tellez,1B,2025-07-21,Texas Rangers,Athletics,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-07-22,Texas Rangers,Athletics,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-07-22,Texas Rangers,Athletics,4,4,1,1,0,0,1,1,0,0,0,0,0,0.25,0.25,1.0,1.25
+641680,Jonah Heim,C,2025-07-22,Texas Rangers,Athletics,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+543309,Kyle Higashioka,C,2025-07-22,Texas Rangers,Athletics,3,3,1,2,0,0,0,0,0,0,0,0,0,0.667,0.667,0.667,1.334
+673962,Josh Jung,3B,2025-07-22,Texas Rangers,Athletics,3,3,1,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+694671,Wyatt Langford,LF,2025-07-22,Texas Rangers,Athletics,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+608369,Corey Seager,SS,2025-07-22,Texas Rangers,Athletics,4,4,1,2,1,0,1,3,0,0,0,0,0,0.5,0.5,1.5,2.0
+543760,Marcus Semien,2B,2025-07-22,Texas Rangers,Athletics,4,4,1,1,0,0,1,1,0,0,0,0,0,0.25,0.25,1.0,1.25
+669701,Josh Smith,SS,2025-07-22,Texas Rangers,Athletics,4,3,1,1,0,0,0,1,1,0,0,0,0,0.333,0.5,0.333,0.833
+642133,Rowdy Tellez,1B,2025-07-22,Texas Rangers,Athletics,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+694497,Evan Carter,CF,2025-07-23,Texas Rangers,Athletics,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-07-23,Texas Rangers,Athletics,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+683227,Cody Freeman,3B,2025-07-23,Texas Rangers,Athletics,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-07-23,Texas Rangers,Athletics,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-07-23,Texas Rangers,Athletics,3,3,0,1,1,0,0,1,0,0,0,0,0,0.333,0.333,0.667,1.0
+680737,Michael Helman,CF,2025-07-23,Texas Rangers,Athletics,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-07-23,Texas Rangers,Athletics,3,3,0,1,0,0,0,0,0,2,0,0,0,0.333,0.333,0.333,0.666
+694671,Wyatt Langford,LF,2025-07-23,Texas Rangers,Athletics,3,2,1,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+608369,Corey Seager,SS,2025-07-23,Texas Rangers,Athletics,4,4,1,2,1,0,1,1,0,1,0,0,0,0.5,0.5,1.5,2.0
+543760,Marcus Semien,2B,2025-07-23,Texas Rangers,Athletics,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-07-23,Texas Rangers,Athletics,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-07-23,Texas Rangers,Athletics,1,0,0,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+694497,Evan Carter,CF,2025-07-25,Texas Rangers,Atlanta Braves,2,2,0,1,0,0,0,1,0,0,0,0,0,0.5,0.5,0.5,1.0
+677649,Ezequiel Duran,SS,2025-07-25,Texas Rangers,Atlanta Braves,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+666969,Adolis García,RF,2025-07-25,Texas Rangers,Atlanta Braves,4,4,1,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+664059,Sam Haggerty,CF,2025-07-25,Texas Rangers,Atlanta Braves,4,4,1,2,1,0,0,1,0,2,1,0,0,0.5,0.5,0.75,1.25
+641680,Jonah Heim,C,2025-07-25,Texas Rangers,Atlanta Braves,4,3,2,1,0,0,1,2,1,0,0,0,0,0.333,0.5,1.333,1.833
+680737,Michael Helman,CF,2025-07-25,Texas Rangers,Atlanta Braves,2,2,1,1,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+673962,Josh Jung,3B,2025-07-25,Texas Rangers,Atlanta Braves,4,3,1,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+694671,Wyatt Langford,LF,2025-07-25,Texas Rangers,Atlanta Braves,4,3,1,1,1,0,0,1,1,2,0,0,0,0.333,0.5,0.667,1.167
+608369,Corey Seager,SS,2025-07-25,Texas Rangers,Atlanta Braves,5,3,0,0,0,0,0,0,2,0,0,0,0,0.0,0.4,0.0,0.4
+543760,Marcus Semien,2B,2025-07-25,Texas Rangers,Atlanta Braves,5,3,1,0,0,0,0,1,1,0,1,0,0,0.0,0.25,0.0,0.25
+669701,Josh Smith,SS,2025-07-25,Texas Rangers,Atlanta Braves,4,3,0,0,0,0,0,1,0,1,0,0,1,0.0,0.25,0.0,0.25
+642133,Rowdy Tellez,1B,2025-07-25,Texas Rangers,Atlanta Braves,1,0,0,0,0,0,0,1,0,0,0,0,0,,,,
+694497,Evan Carter,CF,2025-07-26,Texas Rangers,Atlanta Braves,4,4,1,1,0,1,0,1,0,1,0,0,0,0.25,0.25,0.75,1.0
+677649,Ezequiel Duran,SS,2025-07-26,Texas Rangers,Atlanta Braves,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+666969,Adolis García,RF,2025-07-26,Texas Rangers,Atlanta Braves,4,3,1,1,0,0,0,2,1,2,0,0,0,0.333,0.5,0.333,0.833
+664059,Sam Haggerty,CF,2025-07-26,Texas Rangers,Atlanta Braves,0,0,1,0,0,0,0,0,0,0,1,0,0,,,,
+641680,Jonah Heim,C,2025-07-26,Texas Rangers,Atlanta Braves,4,4,0,1,1,0,0,1,0,1,0,0,0,0.25,0.25,0.5,0.75
+673962,Josh Jung,3B,2025-07-26,Texas Rangers,Atlanta Braves,4,3,0,2,0,0,0,1,1,0,0,0,0,0.667,0.75,0.667,1.417
+694671,Wyatt Langford,LF,2025-07-26,Texas Rangers,Atlanta Braves,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-07-26,Texas Rangers,Atlanta Braves,5,3,1,1,0,0,0,0,2,0,0,0,0,0.333,0.6,0.333,0.933
+543760,Marcus Semien,2B,2025-07-26,Texas Rangers,Atlanta Braves,5,4,1,1,0,0,0,1,0,0,0,0,1,0.25,0.4,0.25,0.65
+669701,Josh Smith,SS,2025-07-26,Texas Rangers,Atlanta Braves,5,5,1,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-07-26,Texas Rangers,Atlanta Braves,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+694497,Evan Carter,CF,2025-07-27,Texas Rangers,Atlanta Braves,4,3,1,0,0,0,0,0,0,1,0,0,1,0.0,0.25,0.0,0.25
+677649,Ezequiel Duran,SS,2025-07-27,Texas Rangers,Atlanta Braves,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+666969,Adolis García,RF,2025-07-27,Texas Rangers,Atlanta Braves,4,2,2,1,0,0,0,0,2,0,0,0,0,0.5,0.75,0.5,1.25
+664059,Sam Haggerty,CF,2025-07-27,Texas Rangers,Atlanta Braves,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+641680,Jonah Heim,C,2025-07-27,Texas Rangers,Atlanta Braves,4,4,1,2,0,0,0,1,0,1,0,0,0,0.5,0.5,0.5,1.0
+673962,Josh Jung,3B,2025-07-27,Texas Rangers,Atlanta Braves,4,4,0,1,0,0,0,2,0,1,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-07-27,Texas Rangers,Atlanta Braves,4,3,1,2,1,0,0,3,1,1,0,1,0,0.667,0.75,1.0,1.75
+592626,Joc Pederson,1B,2025-07-27,Texas Rangers,Atlanta Braves,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-07-27,Texas Rangers,Atlanta Braves,5,4,0,1,0,0,0,0,1,2,0,0,0,0.25,0.4,0.25,0.65
+543760,Marcus Semien,2B,2025-07-27,Texas Rangers,Atlanta Braves,5,5,1,0,0,0,0,0,0,2,1,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-07-27,Texas Rangers,Atlanta Braves,5,4,2,3,0,0,1,2,1,0,0,0,0,0.75,0.8,1.5,2.3
+694497,Evan Carter,CF,2025-07-28,Los Angeles Angels,Texas Rangers,4,4,1,1,1,0,0,0,0,1,0,0,0,0.25,0.25,0.5,0.75
+666969,Adolis García,RF,2025-07-28,Los Angeles Angels,Texas Rangers,5,5,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-07-28,Los Angeles Angels,Texas Rangers,4,3,0,1,0,0,0,1,1,1,0,0,0,0.333,0.5,0.333,0.833
+673962,Josh Jung,3B,2025-07-28,Los Angeles Angels,Texas Rangers,4,4,1,1,0,0,1,1,0,1,0,0,0,0.25,0.25,1.0,1.25
+694671,Wyatt Langford,LF,2025-07-28,Los Angeles Angels,Texas Rangers,4,3,0,1,1,0,0,0,1,1,0,0,0,0.333,0.5,0.667,1.167
+592626,Joc Pederson,1B,2025-07-28,Los Angeles Angels,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-07-28,Los Angeles Angels,Texas Rangers,5,3,1,0,0,0,0,0,2,0,0,0,0,0.0,0.4,0.0,0.4
+543760,Marcus Semien,2B,2025-07-28,Los Angeles Angels,Texas Rangers,5,3,0,1,0,0,0,0,2,0,0,0,0,0.333,0.6,0.333,0.933
+669701,Josh Smith,SS,2025-07-28,Los Angeles Angels,Texas Rangers,5,4,1,1,0,1,0,0,1,0,0,0,0,0.25,0.4,0.75,1.15
+694497,Evan Carter,CF,2025-07-29,Los Angeles Angels,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-07-29,Los Angeles Angels,Texas Rangers,3,3,0,1,0,0,0,1,0,0,0,0,0,0.333,0.333,0.333,0.666
+666969,Adolis García,RF,2025-07-29,Los Angeles Angels,Texas Rangers,5,5,0,1,0,0,0,1,0,1,0,0,0,0.2,0.2,0.2,0.4
+664059,Sam Haggerty,CF,2025-07-29,Los Angeles Angels,Texas Rangers,4,3,1,1,0,0,0,0,0,1,0,0,1,0.333,0.5,0.333,0.833
+641680,Jonah Heim,C,2025-07-29,Los Angeles Angels,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-07-29,Los Angeles Angels,Texas Rangers,4,4,3,3,0,0,2,2,0,1,0,0,0,0.75,0.75,2.25,3.0
+673962,Josh Jung,3B,2025-07-29,Los Angeles Angels,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-07-29,Los Angeles Angels,Texas Rangers,5,5,0,3,0,0,0,0,0,0,0,0,0,0.6,0.6,0.6,1.2
+592626,Joc Pederson,1B,2025-07-29,Los Angeles Angels,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-07-29,Los Angeles Angels,Texas Rangers,5,5,0,2,0,0,0,0,0,1,0,0,0,0.4,0.4,0.4,0.8
+669701,Josh Smith,SS,2025-07-29,Los Angeles Angels,Texas Rangers,4,4,1,2,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+694497,Evan Carter,CF,2025-07-30,Los Angeles Angels,Texas Rangers,4,3,0,1,0,0,0,1,1,0,0,0,0,0.333,0.5,0.333,0.833
+666969,Adolis García,RF,2025-07-30,Los Angeles Angels,Texas Rangers,5,5,1,1,0,0,1,2,0,1,0,0,0,0.2,0.2,0.8,1.0
+641680,Jonah Heim,C,2025-07-30,Los Angeles Angels,Texas Rangers,4,3,0,0,0,0,0,1,1,1,0,0,0,0.0,0.25,0.0,0.25
+543309,Kyle Higashioka,C,2025-07-30,Los Angeles Angels,Texas Rangers,4,4,1,2,0,1,0,0,0,1,0,0,0,0.5,0.5,1.0,1.5
+673962,Josh Jung,3B,2025-07-30,Los Angeles Angels,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-07-30,Los Angeles Angels,Texas Rangers,5,5,1,2,1,0,0,1,0,1,0,0,0,0.4,0.4,0.6,1.0
+608369,Corey Seager,SS,2025-07-30,Los Angeles Angels,Texas Rangers,5,5,1,1,0,0,0,0,0,3,0,0,0,0.2,0.2,0.2,0.4
+543760,Marcus Semien,2B,2025-07-30,Los Angeles Angels,Texas Rangers,5,5,2,3,1,0,0,1,0,0,1,0,0,0.6,0.6,0.8,1.4
+669701,Josh Smith,SS,2025-07-30,Los Angeles Angels,Texas Rangers,5,4,0,0,0,0,0,0,1,1,0,0,0,0.0,0.2,0.0,0.2
+694497,Evan Carter,CF,2025-07-31,Seattle Mariners,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-07-31,Seattle Mariners,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+664059,Sam Haggerty,CF,2025-07-31,Seattle Mariners,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-07-31,Seattle Mariners,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-07-31,Seattle Mariners,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-07-31,Seattle Mariners,Texas Rangers,3,2,0,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+608369,Corey Seager,SS,2025-07-31,Seattle Mariners,Texas Rangers,4,3,0,1,0,0,0,0,1,2,0,0,0,0.333,0.5,0.333,0.833
+543760,Marcus Semien,2B,2025-07-31,Seattle Mariners,Texas Rangers,4,4,0,1,1,0,0,0,0,0,0,0,0,0.25,0.25,0.5,0.75
+669701,Josh Smith,SS,2025-07-31,Seattle Mariners,Texas Rangers,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-07-31,Seattle Mariners,Texas Rangers,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+694497,Evan Carter,CF,2025-08-01,Seattle Mariners,Texas Rangers,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-08-01,Seattle Mariners,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-08-01,Seattle Mariners,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-08-01,Seattle Mariners,Texas Rangers,2,2,0,1,1,0,0,0,0,0,0,0,0,0.5,0.5,1.0,1.5
+641680,Jonah Heim,C,2025-08-01,Seattle Mariners,Texas Rangers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-08-01,Seattle Mariners,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+592626,Joc Pederson,1B,2025-08-01,Seattle Mariners,Texas Rangers,2,1,1,1,0,0,0,0,0,0,0,0,1,1.0,1.0,1.0,2.0
+608369,Corey Seager,SS,2025-08-01,Seattle Mariners,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-08-01,Seattle Mariners,Texas Rangers,4,4,0,1,1,0,0,1,0,1,0,0,0,0.25,0.25,0.5,0.75
+669701,Josh Smith,SS,2025-08-01,Seattle Mariners,Texas Rangers,4,4,1,1,0,0,0,1,0,0,0,0,0,0.25,0.25,0.25,0.5
+642133,Rowdy Tellez,1B,2025-08-01,Seattle Mariners,Texas Rangers,2,2,1,1,1,0,0,0,0,1,0,0,0,0.5,0.5,1.0,1.5
+677649,Ezequiel Duran,SS,2025-08-02,Seattle Mariners,Texas Rangers,1,1,1,1,0,0,0,1,0,0,1,0,0,1.0,1.0,1.0,2.0
+666969,Adolis García,RF,2025-08-02,Seattle Mariners,Texas Rangers,5,5,1,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-08-02,Seattle Mariners,Texas Rangers,0,0,1,0,0,0,0,0,0,0,0,0,0,,,,
+641680,Jonah Heim,C,2025-08-02,Seattle Mariners,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-08-02,Seattle Mariners,Texas Rangers,5,4,2,2,0,0,1,3,1,1,0,0,0,0.5,0.6,1.25,1.85
+694671,Wyatt Langford,LF,2025-08-02,Seattle Mariners,Texas Rangers,5,5,0,2,1,0,0,1,0,1,0,0,0,0.4,0.4,0.6,1.0
+696030,Alejandro Osuna,LF,2025-08-02,Seattle Mariners,Texas Rangers,4,2,0,1,0,0,0,0,1,0,0,0,1,0.5,0.75,0.5,1.25
+592626,Joc Pederson,1B,2025-08-02,Seattle Mariners,Texas Rangers,5,5,0,1,0,0,0,0,0,1,0,0,0,0.2,0.2,0.2,0.4
+608369,Corey Seager,SS,2025-08-02,Seattle Mariners,Texas Rangers,5,4,0,1,0,0,0,0,1,0,0,0,0,0.25,0.4,0.25,0.65
+543760,Marcus Semien,2B,2025-08-02,Seattle Mariners,Texas Rangers,5,5,0,1,0,0,0,1,0,0,0,0,0,0.2,0.2,0.2,0.4
+669701,Josh Smith,SS,2025-08-02,Seattle Mariners,Texas Rangers,6,5,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-08-02,Seattle Mariners,Texas Rangers,4,4,1,2,1,0,0,0,0,1,0,0,0,0.5,0.5,0.75,1.25
+666969,Adolis García,RF,2025-08-03,Seattle Mariners,Texas Rangers,4,3,2,3,1,0,1,1,1,0,0,0,0,1.0,1.0,2.333,3.333
+664059,Sam Haggerty,CF,2025-08-03,Seattle Mariners,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,1,0,,,,
+543309,Kyle Higashioka,C,2025-08-03,Seattle Mariners,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-08-03,Seattle Mariners,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-08-03,Seattle Mariners,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-08-03,Seattle Mariners,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-08-03,Seattle Mariners,Texas Rangers,4,4,1,1,0,0,1,2,0,1,0,0,0,0.25,0.25,1.0,1.25
+543760,Marcus Semien,2B,2025-08-03,Seattle Mariners,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-08-03,Seattle Mariners,Texas Rangers,4,4,1,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+642133,Rowdy Tellez,1B,2025-08-03,Seattle Mariners,Texas Rangers,3,3,0,1,1,0,0,1,0,0,0,0,0,0.333,0.333,0.667,1.0
+677649,Ezequiel Duran,SS,2025-08-04,Texas Rangers,New York Yankees,3,3,0,2,0,0,0,2,0,1,0,0,0,0.667,0.667,0.667,1.334
+666969,Adolis García,RF,2025-08-04,Texas Rangers,New York Yankees,5,5,0,0,0,0,0,0,0,4,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-08-04,Texas Rangers,New York Yankees,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-08-04,Texas Rangers,New York Yankees,3,2,1,1,0,0,0,0,1,0,0,0,0,0.5,0.667,0.5,1.167
+543309,Kyle Higashioka,C,2025-08-04,Texas Rangers,New York Yankees,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-08-04,Texas Rangers,New York Yankees,5,4,2,2,0,0,1,3,1,1,0,0,0,0.5,0.6,1.25,1.85
+694671,Wyatt Langford,LF,2025-08-04,Texas Rangers,New York Yankees,5,3,2,2,1,0,0,0,2,1,0,1,0,0.667,0.8,1.0,1.8
+696030,Alejandro Osuna,LF,2025-08-04,Texas Rangers,New York Yankees,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+592626,Joc Pederson,1B,2025-08-04,Texas Rangers,New York Yankees,1,1,1,1,0,0,1,1,0,0,0,0,0,1.0,1.0,4.0,5.0
+608369,Corey Seager,SS,2025-08-04,Texas Rangers,New York Yankees,5,5,1,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-08-04,Texas Rangers,New York Yankees,5,5,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-08-04,Texas Rangers,New York Yankees,4,4,1,1,0,0,0,1,0,1,0,0,0,0.25,0.25,0.25,0.5
+642133,Rowdy Tellez,1B,2025-08-04,Texas Rangers,New York Yankees,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-08-05,Texas Rangers,New York Yankees,4,4,1,2,1,0,0,0,0,0,0,0,0,0.5,0.5,0.75,1.25
+641680,Jonah Heim,C,2025-08-05,Texas Rangers,New York Yankees,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-08-05,Texas Rangers,New York Yankees,4,2,0,0,0,0,0,0,2,0,0,0,0,0.0,0.5,0.0,0.5
+696030,Alejandro Osuna,LF,2025-08-05,Texas Rangers,New York Yankees,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-08-05,Texas Rangers,New York Yankees,4,2,1,2,1,0,0,0,2,0,0,0,0,1.0,1.0,1.5,2.5
+608369,Corey Seager,SS,2025-08-05,Texas Rangers,New York Yankees,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-08-05,Texas Rangers,New York Yankees,4,4,0,1,1,0,0,0,0,1,0,0,0,0.25,0.25,0.5,0.75
+669701,Josh Smith,SS,2025-08-05,Texas Rangers,New York Yankees,4,3,0,2,2,0,0,0,1,1,0,0,0,0.667,0.75,1.333,2.083
+642133,Rowdy Tellez,1B,2025-08-05,Texas Rangers,New York Yankees,4,4,0,1,0,0,0,2,0,0,0,0,0,0.25,0.25,0.25,0.5
+677649,Ezequiel Duran,SS,2025-08-06,Texas Rangers,New York Yankees,3,3,2,3,1,0,0,0,0,0,0,0,0,1.0,1.0,1.333,2.333
+666969,Adolis García,RF,2025-08-06,Texas Rangers,New York Yankees,5,5,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-08-06,Texas Rangers,New York Yankees,5,3,0,1,0,0,0,1,1,2,0,0,0,0.333,0.5,0.333,0.833
+543309,Kyle Higashioka,C,2025-08-06,Texas Rangers,New York Yankees,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+673962,Josh Jung,3B,2025-08-06,Texas Rangers,New York Yankees,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-08-06,Texas Rangers,New York Yankees,4,2,0,0,0,0,0,0,2,0,0,0,0,0.0,0.5,0.0,0.5
+696030,Alejandro Osuna,LF,2025-08-06,Texas Rangers,New York Yankees,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+592626,Joc Pederson,1B,2025-08-06,Texas Rangers,New York Yankees,1,0,0,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+608369,Corey Seager,SS,2025-08-06,Texas Rangers,New York Yankees,5,3,0,2,0,0,0,0,2,1,0,0,0,0.667,0.8,0.667,1.467
+543760,Marcus Semien,2B,2025-08-06,Texas Rangers,New York Yankees,5,3,0,1,0,0,0,1,1,0,0,0,0,0.333,0.5,0.333,0.833
+669701,Josh Smith,SS,2025-08-06,Texas Rangers,New York Yankees,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-08-06,Texas Rangers,New York Yankees,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-08-08,Texas Rangers,Philadelphia Phillies,3,3,0,1,1,0,0,0,0,0,0,0,0,0.333,0.333,0.667,1.0
+677649,Ezequiel Duran,SS,2025-08-08,Texas Rangers,Philadelphia Phillies,4,4,0,2,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+666969,Adolis García,RF,2025-08-08,Texas Rangers,Philadelphia Phillies,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+664059,Sam Haggerty,CF,2025-08-08,Texas Rangers,Philadelphia Phillies,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-08-08,Texas Rangers,Philadelphia Phillies,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-08-08,Texas Rangers,Philadelphia Phillies,4,4,0,1,0,0,0,1,0,2,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-08-08,Texas Rangers,Philadelphia Phillies,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-08-08,Texas Rangers,Philadelphia Phillies,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-08-08,Texas Rangers,Philadelphia Phillies,5,5,1,2,0,0,0,0,0,0,0,0,0,0.4,0.4,0.4,0.8
+543760,Marcus Semien,2B,2025-08-08,Texas Rangers,Philadelphia Phillies,4,3,0,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+669701,Josh Smith,SS,2025-08-08,Texas Rangers,Philadelphia Phillies,1,0,0,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+669394,Jake Burger,1B,2025-08-09,Texas Rangers,Philadelphia Phillies,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+677649,Ezequiel Duran,SS,2025-08-09,Texas Rangers,Philadelphia Phillies,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+666969,Adolis García,RF,2025-08-09,Texas Rangers,Philadelphia Phillies,4,4,0,1,1,0,0,0,0,0,0,1,0,0.25,0.25,0.5,0.75
+664059,Sam Haggerty,CF,2025-08-09,Texas Rangers,Philadelphia Phillies,4,4,0,2,1,0,0,0,0,0,0,1,0,0.5,0.5,0.75,1.25
+641680,Jonah Heim,C,2025-08-09,Texas Rangers,Philadelphia Phillies,3,2,0,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+673962,Josh Jung,3B,2025-08-09,Texas Rangers,Philadelphia Phillies,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-08-09,Texas Rangers,Philadelphia Phillies,4,4,0,1,0,0,0,1,0,0,0,0,0,0.25,0.25,0.25,0.5
+592626,Joc Pederson,1B,2025-08-09,Texas Rangers,Philadelphia Phillies,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-08-09,Texas Rangers,Philadelphia Phillies,4,4,2,2,0,0,1,1,0,2,0,0,0,0.5,0.5,1.25,1.75
+543760,Marcus Semien,2B,2025-08-09,Texas Rangers,Philadelphia Phillies,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-08-09,Texas Rangers,Philadelphia Phillies,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-08-10,Texas Rangers,Philadelphia Phillies,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-08-10,Texas Rangers,Philadelphia Phillies,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+664059,Sam Haggerty,CF,2025-08-10,Texas Rangers,Philadelphia Phillies,2,2,0,1,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+543309,Kyle Higashioka,C,2025-08-10,Texas Rangers,Philadelphia Phillies,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+673962,Josh Jung,3B,2025-08-10,Texas Rangers,Philadelphia Phillies,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-08-10,Texas Rangers,Philadelphia Phillies,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+592626,Joc Pederson,1B,2025-08-10,Texas Rangers,Philadelphia Phillies,2,1,1,1,0,0,1,2,1,0,0,0,0,1.0,1.0,4.0,5.0
+608369,Corey Seager,SS,2025-08-10,Texas Rangers,Philadelphia Phillies,4,2,0,0,0,0,0,0,2,0,0,0,0,0.0,0.5,0.0,0.5
+543760,Marcus Semien,2B,2025-08-10,Texas Rangers,Philadelphia Phillies,4,4,1,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-08-10,Texas Rangers,Philadelphia Phillies,5,5,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-08-10,Texas Rangers,Philadelphia Phillies,2,2,0,1,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+669394,Jake Burger,1B,2025-08-11,Texas Rangers,Arizona Diamondbacks,1,1,0,1,0,0,0,1,0,0,0,0,0,1.0,1.0,1.0,2.0
+666969,Adolis García,RF,2025-08-11,Texas Rangers,Arizona Diamondbacks,4,4,0,1,1,0,0,0,0,2,0,0,0,0.25,0.25,0.5,0.75
+664059,Sam Haggerty,CF,2025-08-11,Texas Rangers,Arizona Diamondbacks,1,1,1,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-08-11,Texas Rangers,Arizona Diamondbacks,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+673962,Josh Jung,3B,2025-08-11,Texas Rangers,Arizona Diamondbacks,4,4,1,1,1,0,0,0,0,1,0,0,0,0.25,0.25,0.5,0.75
+694671,Wyatt Langford,LF,2025-08-11,Texas Rangers,Arizona Diamondbacks,4,4,1,1,0,0,1,3,0,2,0,0,0,0.25,0.25,1.0,1.25
+592626,Joc Pederson,1B,2025-08-11,Texas Rangers,Arizona Diamondbacks,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-08-11,Texas Rangers,Arizona Diamondbacks,5,4,1,2,1,0,0,2,1,0,1,0,0,0.5,0.6,0.75,1.35
+543760,Marcus Semien,2B,2025-08-11,Texas Rangers,Arizona Diamondbacks,5,5,1,1,0,0,0,0,0,1,0,0,0,0.2,0.2,0.2,0.4
+669701,Josh Smith,SS,2025-08-11,Texas Rangers,Arizona Diamondbacks,4,4,1,2,1,0,0,0,0,1,0,0,0,0.5,0.5,0.75,1.25
+642133,Rowdy Tellez,1B,2025-08-11,Texas Rangers,Arizona Diamondbacks,4,4,1,1,0,0,1,1,0,0,0,0,0,0.25,0.25,1.0,1.25
+669394,Jake Burger,1B,2025-08-12,Texas Rangers,Arizona Diamondbacks,1,0,0,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+666969,Adolis García,RF,2025-08-12,Texas Rangers,Arizona Diamondbacks,4,4,0,0,0,0,0,1,0,0,0,0,0,0.0,0.0,0.0,0.0
+664059,Sam Haggerty,CF,2025-08-12,Texas Rangers,Arizona Diamondbacks,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-08-12,Texas Rangers,Arizona Diamondbacks,4,3,1,1,1,0,0,0,1,0,0,0,0,0.333,0.5,0.667,1.167
+673962,Josh Jung,3B,2025-08-12,Texas Rangers,Arizona Diamondbacks,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-08-12,Texas Rangers,Arizona Diamondbacks,4,2,0,1,0,0,0,0,2,0,0,0,0,0.5,0.75,0.5,1.25
+592626,Joc Pederson,1B,2025-08-12,Texas Rangers,Arizona Diamondbacks,3,3,1,1,0,0,0,0,0,2,1,0,0,0.333,0.333,0.333,0.666
+608369,Corey Seager,SS,2025-08-12,Texas Rangers,Arizona Diamondbacks,4,4,0,0,0,0,0,0,0,0,1,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-08-12,Texas Rangers,Arizona Diamondbacks,4,3,0,0,0,0,0,1,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-08-12,Texas Rangers,Arizona Diamondbacks,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+642133,Rowdy Tellez,1B,2025-08-12,Texas Rangers,Arizona Diamondbacks,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-08-13,Texas Rangers,Arizona Diamondbacks,4,4,2,2,0,0,1,2,0,1,0,0,0,0.5,0.5,1.25,1.75
+694497,Evan Carter,CF,2025-08-13,Texas Rangers,Arizona Diamondbacks,4,4,1,2,1,0,0,1,0,0,1,0,0,0.5,0.5,0.75,1.25
+677649,Ezequiel Duran,SS,2025-08-13,Texas Rangers,Arizona Diamondbacks,4,3,0,0,0,0,0,0,1,0,1,0,0,0.0,0.25,0.0,0.25
+664059,Sam Haggerty,CF,2025-08-13,Texas Rangers,Arizona Diamondbacks,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-08-13,Texas Rangers,Arizona Diamondbacks,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+673962,Josh Jung,3B,2025-08-13,Texas Rangers,Arizona Diamondbacks,4,3,0,1,1,0,0,1,1,0,0,0,0,0.333,0.5,0.667,1.167
+592626,Joc Pederson,1B,2025-08-13,Texas Rangers,Arizona Diamondbacks,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+608369,Corey Seager,SS,2025-08-13,Texas Rangers,Arizona Diamondbacks,5,5,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543760,Marcus Semien,2B,2025-08-13,Texas Rangers,Arizona Diamondbacks,5,4,0,0,0,0,0,0,1,0,0,0,0,0.0,0.2,0.0,0.2
+669701,Josh Smith,SS,2025-08-13,Texas Rangers,Arizona Diamondbacks,3,3,1,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+669394,Jake Burger,1B,2025-08-15,Toronto Blue Jays,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694497,Evan Carter,CF,2025-08-15,Toronto Blue Jays,Texas Rangers,4,3,1,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+543309,Kyle Higashioka,C,2025-08-15,Toronto Blue Jays,Texas Rangers,4,4,1,1,0,0,1,3,0,2,0,0,0,0.25,0.25,1.0,1.25
+673962,Josh Jung,3B,2025-08-15,Toronto Blue Jays,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-08-15,Toronto Blue Jays,Texas Rangers,4,3,0,0,0,0,0,0,1,2,1,0,0,0.0,0.25,0.0,0.25
+592626,Joc Pederson,1B,2025-08-15,Toronto Blue Jays,Texas Rangers,3,2,0,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+608369,Corey Seager,SS,2025-08-15,Toronto Blue Jays,Texas Rangers,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+543760,Marcus Semien,2B,2025-08-15,Toronto Blue Jays,Texas Rangers,4,3,2,1,0,0,1,2,0,0,0,0,1,0.333,0.5,1.333,1.833
+669701,Josh Smith,SS,2025-08-15,Toronto Blue Jays,Texas Rangers,5,5,0,1,1,0,0,0,0,1,0,0,0,0.2,0.2,0.4,0.6
+642133,Rowdy Tellez,1B,2025-08-15,Toronto Blue Jays,Texas Rangers,4,2,1,1,0,0,0,0,2,1,0,0,0,0.5,0.75,0.5,1.25
+669394,Jake Burger,1B,2025-08-16,Toronto Blue Jays,Texas Rangers,5,4,0,3,0,0,0,2,1,0,0,0,0,0.75,0.8,0.75,1.55
+694497,Evan Carter,CF,2025-08-16,Toronto Blue Jays,Texas Rangers,2,1,0,1,0,0,0,0,0,0,0,0,1,1.0,1.0,1.0,2.0
+677649,Ezequiel Duran,SS,2025-08-16,Toronto Blue Jays,Texas Rangers,4,4,0,1,1,0,0,0,0,0,0,0,0,0.25,0.25,0.5,0.75
+664059,Sam Haggerty,CF,2025-08-16,Toronto Blue Jays,Texas Rangers,3,2,1,0,0,0,0,0,1,0,1,0,0,0.0,0.333,0.0,0.333
+641680,Jonah Heim,C,2025-08-16,Toronto Blue Jays,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-08-16,Toronto Blue Jays,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-08-16,Toronto Blue Jays,Texas Rangers,5,4,0,1,0,0,0,0,1,1,0,0,0,0.25,0.4,0.25,0.65
+694671,Wyatt Langford,LF,2025-08-16,Toronto Blue Jays,Texas Rangers,5,5,1,1,1,0,0,0,0,3,0,0,0,0.2,0.2,0.4,0.6
+592626,Joc Pederson,1B,2025-08-16,Toronto Blue Jays,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-08-16,Toronto Blue Jays,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-08-16,Toronto Blue Jays,Texas Rangers,4,2,0,0,0,0,0,0,1,1,0,0,1,0.0,0.5,0.0,0.5
+642133,Rowdy Tellez,1B,2025-08-16,Toronto Blue Jays,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-08-17,Toronto Blue Jays,Texas Rangers,3,3,1,1,0,0,0,1,0,0,0,0,0,0.333,0.333,0.333,0.666
+694497,Evan Carter,CF,2025-08-17,Toronto Blue Jays,Texas Rangers,5,5,1,1,0,0,1,2,0,1,0,0,0,0.2,0.2,0.8,1.0
+677649,Ezequiel Duran,SS,2025-08-17,Toronto Blue Jays,Texas Rangers,2,1,0,0,0,0,0,0,1,0,0,0,0,0.0,0.5,0.0,0.5
+683227,Cody Freeman,3B,2025-08-17,Toronto Blue Jays,Texas Rangers,5,5,1,1,1,0,0,0,0,0,0,0,0,0.2,0.2,0.4,0.6
+641680,Jonah Heim,C,2025-08-17,Toronto Blue Jays,Texas Rangers,4,4,0,3,0,0,0,2,0,0,0,0,0,0.75,0.75,0.75,1.5
+673962,Josh Jung,3B,2025-08-17,Toronto Blue Jays,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-08-17,Toronto Blue Jays,Texas Rangers,5,4,1,2,0,0,1,2,0,0,0,0,1,0.5,0.6,1.25,1.85
+592626,Joc Pederson,1B,2025-08-17,Toronto Blue Jays,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+608369,Corey Seager,SS,2025-08-17,Toronto Blue Jays,Texas Rangers,5,5,2,2,1,0,1,1,0,1,0,0,0,0.4,0.4,1.2,1.6
+543760,Marcus Semien,2B,2025-08-17,Toronto Blue Jays,Texas Rangers,5,4,2,3,1,0,1,2,1,0,0,0,0,0.75,0.8,1.75,2.55
+669701,Josh Smith,SS,2025-08-17,Toronto Blue Jays,Texas Rangers,5,4,1,1,0,0,0,0,1,1,0,0,0,0.25,0.4,0.25,0.65
+642133,Rowdy Tellez,1B,2025-08-17,Toronto Blue Jays,Texas Rangers,3,2,1,1,0,0,0,0,1,0,0,0,0,0.5,0.667,0.5,1.167
+694497,Evan Carter,CF,2025-08-18,Kansas City Royals,Texas Rangers,4,4,0,2,0,0,0,1,0,0,0,0,0,0.5,0.5,0.5,1.0
+683227,Cody Freeman,3B,2025-08-18,Kansas City Royals,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-08-18,Kansas City Royals,Texas Rangers,3,3,0,1,0,0,0,1,0,0,0,0,0,0.333,0.333,0.333,0.666
+694671,Wyatt Langford,LF,2025-08-18,Kansas City Royals,Texas Rangers,4,4,2,2,0,0,0,0,0,2,0,0,0,0.5,0.5,0.5,1.0
+592626,Joc Pederson,1B,2025-08-18,Kansas City Royals,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+608369,Corey Seager,SS,2025-08-18,Kansas City Royals,Texas Rangers,4,4,0,3,1,0,0,0,0,0,0,0,0,0.75,0.75,1.0,1.75
+543760,Marcus Semien,2B,2025-08-18,Kansas City Royals,Texas Rangers,4,4,1,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-08-18,Kansas City Royals,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-08-18,Kansas City Royals,Texas Rangers,4,4,0,1,0,0,0,1,0,1,0,0,0,0.25,0.25,0.25,0.5
+694497,Evan Carter,CF,2025-08-19,Kansas City Royals,Texas Rangers,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+677649,Ezequiel Duran,SS,2025-08-19,Kansas City Royals,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+683227,Cody Freeman,3B,2025-08-19,Kansas City Royals,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-08-19,Kansas City Royals,Texas Rangers,3,2,0,1,0,0,0,0,1,0,0,0,0,0.5,0.667,0.5,1.167
+673962,Josh Jung,3B,2025-08-19,Kansas City Royals,Texas Rangers,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-08-19,Kansas City Royals,Texas Rangers,4,3,0,0,0,0,0,0,1,3,0,0,0,0.0,0.25,0.0,0.25
+696030,Alejandro Osuna,LF,2025-08-19,Kansas City Royals,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-08-19,Kansas City Royals,Texas Rangers,4,4,1,1,0,0,1,1,0,0,0,0,0,0.25,0.25,1.0,1.25
+608369,Corey Seager,SS,2025-08-19,Kansas City Royals,Texas Rangers,4,3,1,1,0,0,1,1,0,0,0,0,1,0.333,0.5,1.333,1.833
+543760,Marcus Semien,2B,2025-08-19,Kansas City Royals,Texas Rangers,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+669701,Josh Smith,SS,2025-08-19,Kansas City Royals,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-08-19,Kansas City Royals,Texas Rangers,2,2,0,1,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+694497,Evan Carter,CF,2025-08-20,Kansas City Royals,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-08-20,Kansas City Royals,Texas Rangers,5,5,0,2,0,0,0,0,0,2,0,1,0,0.4,0.4,0.4,0.8
+683227,Cody Freeman,3B,2025-08-20,Kansas City Royals,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-08-20,Kansas City Royals,Texas Rangers,4,4,1,2,1,0,0,0,0,0,0,0,0,0.5,0.5,0.75,1.25
+543309,Kyle Higashioka,C,2025-08-20,Kansas City Royals,Texas Rangers,5,4,0,1,1,0,0,3,1,1,0,0,0,0.25,0.4,0.5,0.9
+673962,Josh Jung,3B,2025-08-20,Kansas City Royals,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-08-20,Kansas City Royals,Texas Rangers,5,2,3,2,0,0,1,1,3,0,0,0,0,1.0,1.0,2.5,3.5
+608369,Corey Seager,SS,2025-08-20,Kansas City Royals,Texas Rangers,5,4,1,1,0,0,0,1,1,0,0,0,0,0.25,0.4,0.25,0.65
+543760,Marcus Semien,2B,2025-08-20,Kansas City Royals,Texas Rangers,5,5,1,3,0,0,0,1,0,0,0,0,0,0.6,0.6,0.6,1.2
+669701,Josh Smith,SS,2025-08-20,Kansas City Royals,Texas Rangers,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+694497,Evan Carter,CF,2025-08-21,Kansas City Royals,Texas Rangers,4,2,1,1,0,0,0,0,0,0,1,0,2,0.5,0.75,0.5,1.25
+677649,Ezequiel Duran,SS,2025-08-21,Kansas City Royals,Texas Rangers,4,4,1,2,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+683227,Cody Freeman,3B,2025-08-21,Kansas City Royals,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-08-21,Kansas City Royals,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+543309,Kyle Higashioka,C,2025-08-21,Kansas City Royals,Texas Rangers,2,2,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-08-21,Kansas City Royals,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-08-21,Kansas City Royals,Texas Rangers,5,4,1,0,0,0,0,0,1,1,0,0,0,0.0,0.2,0.0,0.2
+696030,Alejandro Osuna,LF,2025-08-21,Kansas City Royals,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+592626,Joc Pederson,1B,2025-08-21,Kansas City Royals,Texas Rangers,3,3,0,1,0,0,0,1,0,2,0,0,0,0.333,0.333,0.333,0.666
+608369,Corey Seager,SS,2025-08-21,Kansas City Royals,Texas Rangers,5,5,1,3,1,0,0,0,0,1,0,0,0,0.6,0.6,0.8,1.4
+543760,Marcus Semien,2B,2025-08-21,Kansas City Royals,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-08-21,Kansas City Royals,Texas Rangers,4,4,0,1,0,0,0,2,0,0,0,0,0,0.25,0.25,0.25,0.5
+642133,Rowdy Tellez,1B,2025-08-21,Kansas City Royals,Texas Rangers,3,3,0,0,0,0,0,1,0,2,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-08-22,Texas Rangers,Cleveland Guardians,3,3,0,1,1,0,0,0,0,0,0,0,0,0.333,0.333,0.667,1.0
+543309,Kyle Higashioka,C,2025-08-22,Texas Rangers,Cleveland Guardians,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-08-22,Texas Rangers,Cleveland Guardians,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-08-22,Texas Rangers,Cleveland Guardians,4,4,2,2,1,0,1,1,0,0,0,0,0,0.5,0.5,1.5,2.0
+696030,Alejandro Osuna,LF,2025-08-22,Texas Rangers,Cleveland Guardians,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-08-22,Texas Rangers,Cleveland Guardians,4,4,0,2,1,0,0,1,0,0,0,0,0,0.5,0.5,0.75,1.25
+608369,Corey Seager,SS,2025-08-22,Texas Rangers,Cleveland Guardians,4,4,1,1,0,0,0,1,0,0,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-08-22,Texas Rangers,Cleveland Guardians,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-08-22,Texas Rangers,Cleveland Guardians,3,3,1,1,0,0,1,1,0,1,0,0,0,0.333,0.333,1.333,1.666
+677649,Ezequiel Duran,SS,2025-08-23,Texas Rangers,Cleveland Guardians,5,5,0,1,1,0,0,3,0,0,0,0,0,0.2,0.2,0.4,0.6
+683227,Cody Freeman,3B,2025-08-23,Texas Rangers,Cleveland Guardians,4,4,2,2,0,0,1,2,0,0,0,0,0,0.5,0.5,1.25,1.75
+666969,Adolis García,RF,2025-08-23,Texas Rangers,Cleveland Guardians,4,4,1,1,0,0,1,2,0,0,0,0,0,0.25,0.25,1.0,1.25
+641680,Jonah Heim,C,2025-08-23,Texas Rangers,Cleveland Guardians,4,4,1,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+680737,Michael Helman,CF,2025-08-23,Texas Rangers,Cleveland Guardians,4,4,1,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+543309,Kyle Higashioka,C,2025-08-23,Texas Rangers,Cleveland Guardians,4,4,1,0,0,0,0,1,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-08-23,Texas Rangers,Cleveland Guardians,4,3,3,2,0,0,1,2,1,0,0,0,0,0.667,0.75,1.667,2.417
+694671,Wyatt Langford,LF,2025-08-23,Texas Rangers,Cleveland Guardians,4,3,1,2,2,0,0,0,1,0,0,0,0,0.667,0.75,1.333,2.083
+696030,Alejandro Osuna,LF,2025-08-23,Texas Rangers,Cleveland Guardians,1,0,0,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+608369,Corey Seager,SS,2025-08-23,Texas Rangers,Cleveland Guardians,3,2,0,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+669701,Josh Smith,SS,2025-08-23,Texas Rangers,Cleveland Guardians,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-08-24,Texas Rangers,Cleveland Guardians,4,4,1,1,0,0,0,0,0,1,1,1,0,0.25,0.25,0.25,0.5
+666969,Adolis García,RF,2025-08-24,Texas Rangers,Cleveland Guardians,4,2,1,1,1,0,0,0,2,0,2,0,0,0.5,0.75,1.0,1.75
+543309,Kyle Higashioka,C,2025-08-24,Texas Rangers,Cleveland Guardians,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+673962,Josh Jung,3B,2025-08-24,Texas Rangers,Cleveland Guardians,4,4,1,2,0,0,0,0,0,2,0,0,0,0.5,0.5,0.5,1.0
+694671,Wyatt Langford,LF,2025-08-24,Texas Rangers,Cleveland Guardians,5,4,0,1,0,0,0,2,1,2,2,0,0,0.25,0.4,0.25,0.65
+592626,Joc Pederson,1B,2025-08-24,Texas Rangers,Cleveland Guardians,5,5,1,1,0,0,1,1,0,2,0,0,0,0.2,0.2,0.8,1.0
+608369,Corey Seager,SS,2025-08-24,Texas Rangers,Cleveland Guardians,5,5,0,2,0,0,0,0,0,2,0,0,0,0.4,0.4,0.4,0.8
+669701,Josh Smith,SS,2025-08-24,Texas Rangers,Cleveland Guardians,5,4,0,1,0,0,0,0,1,1,0,0,0,0.25,0.4,0.25,0.65
+642133,Rowdy Tellez,1B,2025-08-24,Texas Rangers,Cleveland Guardians,4,2,1,1,0,0,1,2,2,0,0,0,0,0.5,0.75,2.0,2.75
+677649,Ezequiel Duran,SS,2025-08-25,Texas Rangers,Los Angeles Angels,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+683227,Cody Freeman,3B,2025-08-25,Texas Rangers,Los Angeles Angels,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-08-25,Texas Rangers,Los Angeles Angels,4,4,0,1,0,0,0,0,0,1,1,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-08-25,Texas Rangers,Los Angeles Angels,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-08-25,Texas Rangers,Los Angeles Angels,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-08-25,Texas Rangers,Los Angeles Angels,3,3,0,1,0,0,0,0,0,2,0,0,0,0.333,0.333,0.333,0.666
+694671,Wyatt Langford,LF,2025-08-25,Texas Rangers,Los Angeles Angels,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+696030,Alejandro Osuna,LF,2025-08-25,Texas Rangers,Los Angeles Angels,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-08-25,Texas Rangers,Los Angeles Angels,2,2,0,1,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+608369,Corey Seager,SS,2025-08-25,Texas Rangers,Los Angeles Angels,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-08-25,Texas Rangers,Los Angeles Angels,4,2,0,1,0,0,0,0,1,0,0,0,1,0.5,0.75,0.5,1.25
+642133,Rowdy Tellez,1B,2025-08-25,Texas Rangers,Los Angeles Angels,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-08-26,Texas Rangers,Los Angeles Angels,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+683227,Cody Freeman,3B,2025-08-26,Texas Rangers,Los Angeles Angels,4,3,0,0,0,0,0,1,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-08-26,Texas Rangers,Los Angeles Angels,4,4,1,2,1,0,0,1,0,1,0,0,0,0.5,0.5,0.75,1.25
+641680,Jonah Heim,C,2025-08-26,Texas Rangers,Los Angeles Angels,3,2,1,0,0,0,0,0,1,0,0,0,0,0.0,0.333,0.0,0.333
+680737,Michael Helman,CF,2025-08-26,Texas Rangers,Los Angeles Angels,3,3,1,1,0,0,1,2,0,1,0,0,0,0.333,0.333,1.333,1.666
+543309,Kyle Higashioka,C,2025-08-26,Texas Rangers,Los Angeles Angels,4,4,1,1,0,0,1,1,0,1,0,0,0,0.25,0.25,1.0,1.25
+673962,Josh Jung,3B,2025-08-26,Texas Rangers,Los Angeles Angels,4,4,0,1,0,0,0,1,0,0,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-08-26,Texas Rangers,Los Angeles Angels,4,3,1,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+608369,Corey Seager,SS,2025-08-26,Texas Rangers,Los Angeles Angels,4,2,2,1,0,0,1,1,2,0,0,0,0,0.5,0.75,2.0,2.75
+642133,Rowdy Tellez,1B,2025-08-26,Texas Rangers,Los Angeles Angels,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-08-27,Texas Rangers,Los Angeles Angels,3,3,1,2,1,0,0,2,0,0,0,0,0,0.667,0.667,1.0,1.667
+683227,Cody Freeman,3B,2025-08-27,Texas Rangers,Los Angeles Angels,1,1,0,1,0,0,0,0,0,0,0,0,0,1.0,1.0,1.0,2.0
+666969,Adolis García,RF,2025-08-27,Texas Rangers,Los Angeles Angels,6,6,3,4,2,0,1,5,0,0,0,0,0,0.667,0.667,1.5,2.167
+680737,Michael Helman,CF,2025-08-27,Texas Rangers,Los Angeles Angels,1,1,1,1,0,0,0,0,0,0,0,0,0,1.0,1.0,1.0,2.0
+543309,Kyle Higashioka,C,2025-08-27,Texas Rangers,Los Angeles Angels,6,5,1,2,0,0,1,5,0,1,0,0,0,0.4,0.4,1.0,1.4
+673962,Josh Jung,3B,2025-08-27,Texas Rangers,Los Angeles Angels,6,6,1,3,1,0,0,1,0,0,0,0,0,0.5,0.5,0.667,1.167
+694671,Wyatt Langford,LF,2025-08-27,Texas Rangers,Los Angeles Angels,5,2,4,2,1,0,0,0,2,0,0,0,1,1.0,1.0,1.5,2.5
+696030,Alejandro Osuna,LF,2025-08-27,Texas Rangers,Los Angeles Angels,5,4,1,1,0,0,0,0,1,1,0,0,0,0.25,0.4,0.25,0.65
+592626,Joc Pederson,1B,2025-08-27,Texas Rangers,Los Angeles Angels,6,6,3,2,0,0,1,5,0,1,0,0,0,0.333,0.333,0.833,1.166
+608369,Corey Seager,SS,2025-08-27,Texas Rangers,Los Angeles Angels,3,2,3,2,0,0,1,2,1,0,0,0,0,1.0,1.0,2.5,3.5
+669701,Josh Smith,SS,2025-08-27,Texas Rangers,Los Angeles Angels,6,6,1,1,0,0,0,0,0,1,0,0,0,0.167,0.167,0.167,0.334
+642133,Rowdy Tellez,1B,2025-08-27,Texas Rangers,Los Angeles Angels,5,4,1,1,0,0,0,0,0,2,0,0,1,0.25,0.4,0.25,0.65
+677649,Ezequiel Duran,SS,2025-08-29,Athletics,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+683227,Cody Freeman,3B,2025-08-29,Athletics,Texas Rangers,2,2,0,1,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+666969,Adolis García,RF,2025-08-29,Athletics,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-08-29,Athletics,Texas Rangers,4,2,1,1,0,0,1,2,1,0,0,0,0,0.5,0.667,2.0,2.667
+680737,Michael Helman,CF,2025-08-29,Athletics,Texas Rangers,5,4,1,1,0,0,1,2,1,1,0,0,0,0.25,0.4,1.0,1.4
+543309,Kyle Higashioka,C,2025-08-29,Athletics,Texas Rangers,4,4,1,2,1,0,0,0,0,0,0,0,0,0.5,0.5,0.75,1.25
+673962,Josh Jung,3B,2025-08-29,Athletics,Texas Rangers,4,4,1,3,0,0,0,0,0,1,0,0,0,0.75,0.75,0.75,1.5
+694671,Wyatt Langford,LF,2025-08-29,Athletics,Texas Rangers,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+664238,Dylan Moore,2B,2025-08-29,Athletics,Texas Rangers,2,2,0,1,0,0,0,1,0,0,0,0,0,0.5,0.5,0.5,1.0
+669701,Josh Smith,SS,2025-08-29,Athletics,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-08-29,Athletics,Texas Rangers,2,2,1,1,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+677649,Ezequiel Duran,SS,2025-08-30,Athletics,Texas Rangers,5,5,0,1,0,0,0,0,0,1,0,0,0,0.2,0.2,0.2,0.4
+666969,Adolis García,RF,2025-08-30,Athletics,Texas Rangers,5,5,2,3,0,0,0,0,0,0,0,0,0,0.6,0.6,0.6,1.2
+680737,Michael Helman,CF,2025-08-30,Athletics,Texas Rangers,4,4,0,2,1,0,0,2,0,1,0,0,0,0.5,0.5,0.75,1.25
+543309,Kyle Higashioka,C,2025-08-30,Athletics,Texas Rangers,5,5,1,2,0,0,0,2,0,0,0,0,0,0.4,0.4,0.4,0.8
+673962,Josh Jung,3B,2025-08-30,Athletics,Texas Rangers,5,5,2,3,2,0,0,2,0,0,0,0,0,0.6,0.6,1.0,1.6
+694671,Wyatt Langford,LF,2025-08-30,Athletics,Texas Rangers,5,5,2,2,0,0,1,1,0,0,0,0,0,0.4,0.4,1.0,1.4
+664238,Dylan Moore,2B,2025-08-30,Athletics,Texas Rangers,2,2,1,1,0,0,1,2,0,1,0,0,0,0.5,0.5,2.0,2.5
+592626,Joc Pederson,1B,2025-08-30,Athletics,Texas Rangers,5,5,1,1,1,0,0,0,0,0,0,0,0,0.2,0.2,0.4,0.6
+669701,Josh Smith,SS,2025-08-30,Athletics,Texas Rangers,5,5,0,1,0,0,0,0,0,0,0,0,0,0.2,0.2,0.2,0.4
+642133,Rowdy Tellez,1B,2025-08-30,Athletics,Texas Rangers,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+677649,Ezequiel Duran,SS,2025-08-31,Athletics,Texas Rangers,5,5,1,1,0,0,0,0,0,1,0,0,0,0.2,0.2,0.2,0.4
+666969,Adolis García,RF,2025-08-31,Athletics,Texas Rangers,5,5,1,2,0,0,0,1,0,1,0,0,0,0.4,0.4,0.4,0.8
+641680,Jonah Heim,C,2025-08-31,Athletics,Texas Rangers,5,4,1,0,0,0,0,0,1,1,0,0,0,0.0,0.2,0.0,0.2
+680737,Michael Helman,CF,2025-08-31,Athletics,Texas Rangers,4,2,2,0,0,0,0,0,2,0,1,0,0,0.0,0.5,0.0,0.5
+673962,Josh Jung,3B,2025-08-31,Athletics,Texas Rangers,5,5,1,2,1,0,1,2,0,3,0,0,0,0.4,0.4,1.2,1.6
+694671,Wyatt Langford,LF,2025-08-31,Athletics,Texas Rangers,5,3,0,0,0,0,0,2,1,1,0,0,0,0.0,0.25,0.0,0.25
+592626,Joc Pederson,1B,2025-08-31,Athletics,Texas Rangers,5,5,1,2,1,0,1,3,0,1,0,0,0,0.4,0.4,1.2,1.6
+669701,Josh Smith,SS,2025-08-31,Athletics,Texas Rangers,5,2,2,2,1,0,0,1,3,0,0,0,0,1.0,1.0,1.5,2.5
+642133,Rowdy Tellez,1B,2025-08-31,Athletics,Texas Rangers,5,5,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-09-01,Arizona Diamondbacks,Texas Rangers,2,2,1,1,0,1,0,1,0,0,0,0,0,0.5,0.5,1.5,2.0
+677649,Ezequiel Duran,SS,2025-09-01,Arizona Diamondbacks,Texas Rangers,2,1,1,0,0,0,0,0,1,0,0,0,0,0.0,0.5,0.0,0.5
+683227,Cody Freeman,3B,2025-09-01,Arizona Diamondbacks,Texas Rangers,4,3,1,2,0,0,1,3,1,0,0,0,0,0.667,0.75,1.667,2.417
+666969,Adolis García,RF,2025-09-01,Arizona Diamondbacks,Texas Rangers,4,4,1,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-09-01,Arizona Diamondbacks,Texas Rangers,4,4,1,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-09-01,Arizona Diamondbacks,Texas Rangers,4,3,1,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+673962,Josh Jung,3B,2025-09-01,Arizona Diamondbacks,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-09-01,Arizona Diamondbacks,Texas Rangers,5,5,1,1,0,0,1,1,0,2,0,0,0,0.2,0.2,0.8,1.0
+664238,Dylan Moore,2B,2025-09-01,Arizona Diamondbacks,Texas Rangers,2,2,0,1,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+696030,Alejandro Osuna,LF,2025-09-01,Arizona Diamondbacks,Texas Rangers,1,1,0,1,0,0,0,2,0,0,0,0,0,1.0,1.0,1.0,2.0
+592626,Joc Pederson,1B,2025-09-01,Arizona Diamondbacks,Texas Rangers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-09-01,Arizona Diamondbacks,Texas Rangers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-09-01,Arizona Diamondbacks,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-09-02,Arizona Diamondbacks,Texas Rangers,2,1,1,1,1,0,0,0,1,0,0,0,0,1.0,1.0,2.0,3.0
+683227,Cody Freeman,3B,2025-09-02,Arizona Diamondbacks,Texas Rangers,4,3,1,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+641680,Jonah Heim,C,2025-09-02,Arizona Diamondbacks,Texas Rangers,4,3,0,0,0,0,0,1,1,0,0,0,0,0.0,0.25,0.0,0.25
+680737,Michael Helman,CF,2025-09-02,Arizona Diamondbacks,Texas Rangers,4,4,1,2,0,1,0,0,0,1,0,0,0,0.5,0.5,1.0,1.5
+673962,Josh Jung,3B,2025-09-02,Arizona Diamondbacks,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-09-02,Arizona Diamondbacks,Texas Rangers,4,3,0,0,0,0,0,1,0,1,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-09-02,Arizona Diamondbacks,Texas Rangers,2,2,0,2,0,0,0,1,0,0,0,0,0,1.0,1.0,1.0,2.0
+592626,Joc Pederson,1B,2025-09-02,Arizona Diamondbacks,Texas Rangers,4,4,0,2,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+669701,Josh Smith,SS,2025-09-02,Arizona Diamondbacks,Texas Rangers,5,5,0,1,0,0,0,0,0,0,1,0,0,0.2,0.2,0.2,0.4
+642133,Rowdy Tellez,1B,2025-09-02,Arizona Diamondbacks,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+669394,Jake Burger,1B,2025-09-03,Arizona Diamondbacks,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+677649,Ezequiel Duran,SS,2025-09-03,Arizona Diamondbacks,Texas Rangers,4,4,0,1,1,0,0,0,0,1,0,0,0,0.25,0.25,0.5,0.75
+683227,Cody Freeman,3B,2025-09-03,Arizona Diamondbacks,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-09-03,Arizona Diamondbacks,Texas Rangers,2,2,0,0,0,0,0,0,0,0,1,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-09-03,Arizona Diamondbacks,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-09-03,Arizona Diamondbacks,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-09-03,Arizona Diamondbacks,Texas Rangers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+664238,Dylan Moore,2B,2025-09-03,Arizona Diamondbacks,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-09-03,Arizona Diamondbacks,Texas Rangers,4,2,0,1,0,0,0,0,2,0,1,0,0,0.5,0.75,0.5,1.25
+592626,Joc Pederson,1B,2025-09-03,Arizona Diamondbacks,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-09-03,Arizona Diamondbacks,Texas Rangers,4,3,0,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+642133,Rowdy Tellez,1B,2025-09-03,Arizona Diamondbacks,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-09-05,Texas Rangers,Houston Astros,5,5,1,1,0,0,1,2,0,3,0,0,0,0.2,0.2,0.8,1.0
+677649,Ezequiel Duran,SS,2025-09-05,Texas Rangers,Houston Astros,5,5,0,3,0,0,0,0,0,1,1,0,0,0.6,0.6,0.6,1.2
+683227,Cody Freeman,3B,2025-09-05,Texas Rangers,Houston Astros,6,6,1,1,0,0,0,0,0,1,0,0,0,0.167,0.167,0.167,0.334
+687957,Dustin Harris,LF,2025-09-05,Texas Rangers,Houston Astros,1,1,0,1,1,0,0,1,0,0,0,0,0,1.0,1.0,2.0,3.0
+641680,Jonah Heim,C,2025-09-05,Texas Rangers,Houston Astros,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-09-05,Texas Rangers,Houston Astros,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-09-05,Texas Rangers,Houston Astros,5,4,0,0,0,0,0,0,1,0,0,0,0,0.0,0.2,0.0,0.2
+673962,Josh Jung,3B,2025-09-05,Texas Rangers,Houston Astros,5,5,1,1,0,0,0,0,0,2,0,0,0,0.2,0.2,0.2,0.4
+694671,Wyatt Langford,LF,2025-09-05,Texas Rangers,Houston Astros,6,4,1,2,2,0,0,0,2,0,0,0,0,0.5,0.667,1.0,1.667
+664238,Dylan Moore,2B,2025-09-05,Texas Rangers,Houston Astros,2,1,0,0,0,0,0,1,0,0,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-09-05,Texas Rangers,Houston Astros,3,2,0,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+592626,Joc Pederson,1B,2025-09-05,Texas Rangers,Houston Astros,1,0,0,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+669701,Josh Smith,SS,2025-09-05,Texas Rangers,Houston Astros,5,4,0,0,0,0,0,0,1,2,0,0,0,0.0,0.2,0.0,0.2
+642133,Rowdy Tellez,1B,2025-09-05,Texas Rangers,Houston Astros,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-09-06,Texas Rangers,Houston Astros,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-09-06,Texas Rangers,Houston Astros,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+687957,Dustin Harris,LF,2025-09-06,Texas Rangers,Houston Astros,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-09-06,Texas Rangers,Houston Astros,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+673962,Josh Jung,3B,2025-09-06,Texas Rangers,Houston Astros,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-09-06,Texas Rangers,Houston Astros,4,2,0,0,0,0,0,0,2,2,0,0,0,0.0,0.5,0.0,0.5
+664238,Dylan Moore,2B,2025-09-06,Texas Rangers,Houston Astros,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+696030,Alejandro Osuna,LF,2025-09-06,Texas Rangers,Houston Astros,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+592626,Joc Pederson,1B,2025-09-06,Texas Rangers,Houston Astros,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+669701,Josh Smith,SS,2025-09-06,Texas Rangers,Houston Astros,4,3,0,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+669394,Jake Burger,1B,2025-09-07,Texas Rangers,Houston Astros,3,3,1,2,0,0,1,2,0,0,0,0,0,0.667,0.667,1.667,2.334
+677649,Ezequiel Duran,SS,2025-09-07,Texas Rangers,Houston Astros,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+683227,Cody Freeman,3B,2025-09-07,Texas Rangers,Houston Astros,4,4,1,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-09-07,Texas Rangers,Houston Astros,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-09-07,Texas Rangers,Houston Astros,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-09-07,Texas Rangers,Houston Astros,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-09-07,Texas Rangers,Houston Astros,4,4,1,1,1,0,0,1,0,0,0,0,0,0.25,0.25,0.5,0.75
+694671,Wyatt Langford,LF,2025-09-07,Texas Rangers,Houston Astros,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+664238,Dylan Moore,2B,2025-09-07,Texas Rangers,Houston Astros,3,3,1,1,0,0,0,0,0,0,1,0,0,0.333,0.333,0.333,0.666
+696030,Alejandro Osuna,LF,2025-09-07,Texas Rangers,Houston Astros,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+669701,Josh Smith,SS,2025-09-07,Texas Rangers,Houston Astros,1,0,0,0,0,0,0,0,1,0,1,0,0,,1.0,,1.0
+669394,Jake Burger,1B,2025-09-08,Texas Rangers,Milwaukee Brewers,4,3,0,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+677649,Ezequiel Duran,SS,2025-09-08,Texas Rangers,Milwaukee Brewers,2,2,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+683227,Cody Freeman,3B,2025-09-08,Texas Rangers,Milwaukee Brewers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-09-08,Texas Rangers,Milwaukee Brewers,3,2,2,1,0,0,0,0,1,0,0,0,0,0.5,0.667,0.5,1.167
+680737,Michael Helman,CF,2025-09-08,Texas Rangers,Milwaukee Brewers,3,3,1,2,1,0,1,5,0,0,0,0,0,0.667,0.667,2.0,2.667
+543309,Kyle Higashioka,C,2025-09-08,Texas Rangers,Milwaukee Brewers,3,3,1,1,1,0,0,0,0,0,0,0,0,0.333,0.333,0.667,1.0
+673962,Josh Jung,3B,2025-09-08,Texas Rangers,Milwaukee Brewers,4,4,0,1,1,0,0,0,0,0,0,0,0,0.25,0.25,0.5,0.75
+694671,Wyatt Langford,LF,2025-09-08,Texas Rangers,Milwaukee Brewers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+664238,Dylan Moore,2B,2025-09-08,Texas Rangers,Milwaukee Brewers,4,4,1,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-09-08,Texas Rangers,Milwaukee Brewers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-09-08,Texas Rangers,Milwaukee Brewers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-09-08,Texas Rangers,Milwaukee Brewers,1,0,0,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+669394,Jake Burger,1B,2025-09-09,Texas Rangers,Milwaukee Brewers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-09-09,Texas Rangers,Milwaukee Brewers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+683227,Cody Freeman,3B,2025-09-09,Texas Rangers,Milwaukee Brewers,4,4,0,1,0,0,0,1,0,2,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-09-09,Texas Rangers,Milwaukee Brewers,3,2,1,1,0,0,0,0,1,0,0,0,0,0.5,0.667,0.5,1.167
+680737,Michael Helman,CF,2025-09-09,Texas Rangers,Milwaukee Brewers,3,2,1,1,0,0,1,2,1,1,0,0,0,0.5,0.667,2.0,2.667
+543309,Kyle Higashioka,C,2025-09-09,Texas Rangers,Milwaukee Brewers,2,1,0,1,1,0,0,1,1,0,0,0,0,1.0,1.0,2.0,3.0
+673962,Josh Jung,3B,2025-09-09,Texas Rangers,Milwaukee Brewers,4,3,1,0,0,0,0,0,1,3,0,0,0,0.0,0.25,0.0,0.25
+694671,Wyatt Langford,LF,2025-09-09,Texas Rangers,Milwaukee Brewers,4,4,1,1,0,1,0,1,0,2,0,0,0,0.25,0.25,0.75,1.0
+696030,Alejandro Osuna,LF,2025-09-09,Texas Rangers,Milwaukee Brewers,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+592626,Joc Pederson,1B,2025-09-09,Texas Rangers,Milwaukee Brewers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-09-09,Texas Rangers,Milwaukee Brewers,4,4,1,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+669394,Jake Burger,1B,2025-09-10,Texas Rangers,Milwaukee Brewers,4,3,3,2,0,0,2,3,1,0,0,0,0,0.667,0.75,2.667,3.417
+677649,Ezequiel Duran,SS,2025-09-10,Texas Rangers,Milwaukee Brewers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+683227,Cody Freeman,3B,2025-09-10,Texas Rangers,Milwaukee Brewers,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+641680,Jonah Heim,C,2025-09-10,Texas Rangers,Milwaukee Brewers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-09-10,Texas Rangers,Milwaukee Brewers,4,4,1,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+543309,Kyle Higashioka,C,2025-09-10,Texas Rangers,Milwaukee Brewers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-09-10,Texas Rangers,Milwaukee Brewers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-09-10,Texas Rangers,Milwaukee Brewers,4,2,0,0,0,0,0,0,2,2,0,0,0,0.0,0.5,0.0,0.5
+664238,Dylan Moore,2B,2025-09-10,Texas Rangers,Milwaukee Brewers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+696030,Alejandro Osuna,LF,2025-09-10,Texas Rangers,Milwaukee Brewers,4,3,0,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+592626,Joc Pederson,1B,2025-09-10,Texas Rangers,Milwaukee Brewers,3,3,0,0,0,0,0,1,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-09-10,Texas Rangers,Milwaukee Brewers,4,3,2,1,0,0,0,0,1,1,1,0,0,0.333,0.5,0.333,0.833
+642133,Rowdy Tellez,1B,2025-09-10,Texas Rangers,Milwaukee Brewers,1,1,0,0,0,0,0,1,0,0,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-09-12,New York Mets,Texas Rangers,5,5,0,2,0,0,0,0,0,0,0,0,0,0.4,0.4,0.4,0.8
+677649,Ezequiel Duran,SS,2025-09-12,New York Mets,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+683227,Cody Freeman,3B,2025-09-12,New York Mets,Texas Rangers,4,4,1,1,0,0,0,2,0,0,0,0,0,0.25,0.25,0.25,0.5
+641680,Jonah Heim,C,2025-09-12,New York Mets,Texas Rangers,5,4,1,0,0,0,0,0,1,1,0,0,0,0.0,0.2,0.0,0.2
+680737,Michael Helman,CF,2025-09-12,New York Mets,Texas Rangers,4,4,0,2,1,0,0,2,0,0,0,0,0,0.5,0.5,0.75,1.25
+673962,Josh Jung,3B,2025-09-12,New York Mets,Texas Rangers,5,5,1,2,1,0,0,1,0,1,0,0,0,0.4,0.4,0.6,1.0
+694671,Wyatt Langford,LF,2025-09-12,New York Mets,Texas Rangers,5,3,1,0,0,0,0,0,1,1,0,0,1,0.0,0.4,0.0,0.4
+664238,Dylan Moore,2B,2025-09-12,New York Mets,Texas Rangers,1,1,1,1,0,0,1,2,0,0,0,0,0,1.0,1.0,4.0,5.0
+696030,Alejandro Osuna,LF,2025-09-12,New York Mets,Texas Rangers,5,5,1,1,0,0,0,1,0,0,0,0,0,0.2,0.2,0.2,0.4
+592626,Joc Pederson,1B,2025-09-12,New York Mets,Texas Rangers,3,1,1,0,0,0,0,0,2,0,0,0,0,0.0,0.667,0.0,0.667
+669701,Josh Smith,SS,2025-09-12,New York Mets,Texas Rangers,5,4,1,2,1,0,0,0,1,0,0,0,0,0.5,0.6,0.75,1.35
+642133,Rowdy Tellez,1B,2025-09-12,New York Mets,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-09-13,New York Mets,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+677649,Ezequiel Duran,SS,2025-09-13,New York Mets,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+683227,Cody Freeman,3B,2025-09-13,New York Mets,Texas Rangers,4,4,0,2,1,0,0,0,0,0,0,0,0,0.5,0.5,0.75,1.25
+687957,Dustin Harris,LF,2025-09-13,New York Mets,Texas Rangers,0,0,1,0,0,0,0,0,0,0,0,0,0,,,,
+641680,Jonah Heim,C,2025-09-13,New York Mets,Texas Rangers,4,4,0,1,1,0,0,0,0,0,0,0,0,0.25,0.25,0.5,0.75
+680737,Michael Helman,CF,2025-09-13,New York Mets,Texas Rangers,4,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+673962,Josh Jung,3B,2025-09-13,New York Mets,Texas Rangers,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+694671,Wyatt Langford,LF,2025-09-13,New York Mets,Texas Rangers,5,5,1,2,1,0,0,1,0,0,1,0,0,0.4,0.4,0.6,1.0
+664238,Dylan Moore,2B,2025-09-13,New York Mets,Texas Rangers,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-09-13,New York Mets,Texas Rangers,2,2,0,1,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+592626,Joc Pederson,1B,2025-09-13,New York Mets,Texas Rangers,5,4,0,0,0,0,0,1,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-09-13,New York Mets,Texas Rangers,5,4,1,2,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+642133,Rowdy Tellez,1B,2025-09-13,New York Mets,Texas Rangers,1,1,0,1,1,0,0,1,0,0,0,0,0,1.0,1.0,2.0,3.0
+677649,Ezequiel Duran,SS,2025-09-14,New York Mets,Texas Rangers,0,0,0,0,0,0,0,0,0,0,1,0,0,,,,
+683227,Cody Freeman,3B,2025-09-14,New York Mets,Texas Rangers,4,3,0,1,1,0,0,0,0,0,0,0,0,0.333,0.333,0.667,1.0
+666969,Adolis García,RF,2025-09-14,New York Mets,Texas Rangers,5,4,0,0,0,0,0,0,0,1,0,0,1,0.0,0.2,0.0,0.2
+641680,Jonah Heim,C,2025-09-14,New York Mets,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+680737,Michael Helman,CF,2025-09-14,New York Mets,Texas Rangers,2,2,1,1,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+543309,Kyle Higashioka,C,2025-09-14,New York Mets,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+673962,Josh Jung,3B,2025-09-14,New York Mets,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+694671,Wyatt Langford,LF,2025-09-14,New York Mets,Texas Rangers,5,4,0,0,0,0,0,0,1,2,0,0,0,0.0,0.2,0.0,0.2
+696030,Alejandro Osuna,LF,2025-09-14,New York Mets,Texas Rangers,2,2,0,1,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+592626,Joc Pederson,1B,2025-09-14,New York Mets,Texas Rangers,5,3,0,2,0,0,0,2,2,0,0,0,0,0.667,0.8,0.667,1.467
+669701,Josh Smith,SS,2025-09-14,New York Mets,Texas Rangers,5,3,1,0,0,0,0,0,1,1,0,0,1,0.0,0.4,0.0,0.4
+642133,Rowdy Tellez,1B,2025-09-14,New York Mets,Texas Rangers,5,5,0,2,0,0,0,0,0,1,0,0,0,0.4,0.4,0.4,0.8
+669394,Jake Burger,1B,2025-09-15,Houston Astros,Texas Rangers,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-09-15,Houston Astros,Texas Rangers,1,1,0,1,0,0,0,0,0,0,0,0,0,1.0,1.0,1.0,2.0
+683227,Cody Freeman,3B,2025-09-15,Houston Astros,Texas Rangers,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-09-15,Houston Astros,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-09-15,Houston Astros,Texas Rangers,4,3,0,1,0,0,0,0,1,0,0,0,0,0.333,0.5,0.333,0.833
+680737,Michael Helman,CF,2025-09-15,Houston Astros,Texas Rangers,2,2,0,1,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+543309,Kyle Higashioka,C,2025-09-15,Houston Astros,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-09-15,Houston Astros,Texas Rangers,4,4,1,2,0,0,1,2,0,0,0,0,0,0.5,0.5,1.25,1.75
+694671,Wyatt Langford,LF,2025-09-15,Houston Astros,Texas Rangers,4,3,0,2,0,0,0,0,1,1,0,0,0,0.667,0.75,0.667,1.417
+664238,Dylan Moore,2B,2025-09-15,Houston Astros,Texas Rangers,2,2,1,1,0,0,0,0,0,0,1,0,0,0.5,0.5,0.5,1.0
+696030,Alejandro Osuna,LF,2025-09-15,Houston Astros,Texas Rangers,2,2,1,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-09-15,Houston Astros,Texas Rangers,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-09-15,Houston Astros,Texas Rangers,3,3,0,1,0,0,0,1,0,1,0,0,0,0.333,0.333,0.333,0.666
+642133,Rowdy Tellez,1B,2025-09-15,Houston Astros,Texas Rangers,1,1,0,1,0,0,0,0,0,0,0,0,0,1.0,1.0,1.0,2.0
+669394,Jake Burger,1B,2025-09-16,Houston Astros,Texas Rangers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-09-16,Houston Astros,Texas Rangers,0,0,0,0,0,0,0,0,0,0,1,0,0,,,,
+683227,Cody Freeman,3B,2025-09-16,Houston Astros,Texas Rangers,4,3,1,1,0,0,1,1,1,0,1,0,0,0.333,0.5,1.333,1.833
+666969,Adolis García,RF,2025-09-16,Houston Astros,Texas Rangers,1,1,0,1,0,0,0,1,0,0,0,0,0,1.0,1.0,1.0,2.0
+641680,Jonah Heim,C,2025-09-16,Houston Astros,Texas Rangers,2,2,1,2,0,0,1,2,0,0,0,0,0,1.0,1.0,2.5,3.5
+680737,Michael Helman,CF,2025-09-16,Houston Astros,Texas Rangers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-09-16,Houston Astros,Texas Rangers,5,5,1,2,0,0,0,0,0,1,0,0,0,0.4,0.4,0.4,0.8
+673962,Josh Jung,3B,2025-09-16,Houston Astros,Texas Rangers,4,4,1,1,1,0,0,1,0,1,0,0,0,0.25,0.25,0.5,0.75
+694671,Wyatt Langford,LF,2025-09-16,Houston Astros,Texas Rangers,5,4,0,0,0,0,0,0,1,2,1,0,0,0.0,0.2,0.0,0.2
+664238,Dylan Moore,2B,2025-09-16,Houston Astros,Texas Rangers,1,0,0,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+696030,Alejandro Osuna,LF,2025-09-16,Houston Astros,Texas Rangers,4,3,0,1,1,0,0,0,1,0,0,0,0,0.333,0.5,0.667,1.167
+592626,Joc Pederson,1B,2025-09-16,Houston Astros,Texas Rangers,2,2,0,1,0,0,0,0,0,1,0,0,0,0.5,0.5,0.5,1.0
+669701,Josh Smith,SS,2025-09-16,Houston Astros,Texas Rangers,5,5,0,1,0,0,0,0,0,2,0,0,0,0.2,0.2,0.2,0.4
+642133,Rowdy Tellez,1B,2025-09-16,Houston Astros,Texas Rangers,2,1,1,0,0,0,0,0,1,0,0,0,0,0.0,0.5,0.0,0.5
+677649,Ezequiel Duran,SS,2025-09-17,Houston Astros,Texas Rangers,1,1,0,1,0,0,0,0,0,0,0,0,0,1.0,1.0,1.0,2.0
+683227,Cody Freeman,3B,2025-09-17,Houston Astros,Texas Rangers,3,2,0,1,0,0,0,1,1,1,0,1,0,0.5,0.667,0.5,1.167
+666969,Adolis García,RF,2025-09-17,Houston Astros,Texas Rangers,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-09-17,Houston Astros,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-09-17,Houston Astros,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-09-17,Houston Astros,Texas Rangers,1,0,0,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+673962,Josh Jung,3B,2025-09-17,Houston Astros,Texas Rangers,4,4,1,1,1,0,0,1,0,1,0,0,0,0.25,0.25,0.5,0.75
+694671,Wyatt Langford,LF,2025-09-17,Houston Astros,Texas Rangers,4,3,0,0,0,0,0,0,1,0,1,0,0,0.0,0.25,0.0,0.25
+664238,Dylan Moore,2B,2025-09-17,Houston Astros,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-09-17,Houston Astros,Texas Rangers,3,3,1,1,0,0,0,0,0,1,1,0,0,0.333,0.333,0.333,0.666
+592626,Joc Pederson,1B,2025-09-17,Houston Astros,Texas Rangers,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+669701,Josh Smith,SS,2025-09-17,Houston Astros,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-09-17,Houston Astros,Texas Rangers,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+669394,Jake Burger,1B,2025-09-19,Texas Rangers,Miami Marlins,5,4,1,0,0,0,0,1,0,0,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-09-19,Texas Rangers,Miami Marlins,2,2,1,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+683227,Cody Freeman,3B,2025-09-19,Texas Rangers,Miami Marlins,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-09-19,Texas Rangers,Miami Marlins,5,5,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-09-19,Texas Rangers,Miami Marlins,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-09-19,Texas Rangers,Miami Marlins,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-09-19,Texas Rangers,Miami Marlins,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+673962,Josh Jung,3B,2025-09-19,Texas Rangers,Miami Marlins,4,4,0,1,0,0,0,1,0,1,0,0,0,0.25,0.25,0.25,0.5
+664238,Dylan Moore,2B,2025-09-19,Texas Rangers,Miami Marlins,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-09-19,Texas Rangers,Miami Marlins,3,3,0,1,0,0,0,0,0,1,0,0,0,0.333,0.333,0.333,0.666
+592626,Joc Pederson,1B,2025-09-19,Texas Rangers,Miami Marlins,5,3,1,1,1,0,0,0,1,0,0,0,1,0.333,0.6,0.667,1.267
+669701,Josh Smith,SS,2025-09-19,Texas Rangers,Miami Marlins,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-09-19,Texas Rangers,Miami Marlins,1,1,1,1,0,0,1,2,0,0,0,0,0,1.0,1.0,4.0,5.0
+669394,Jake Burger,1B,2025-09-20,Texas Rangers,Miami Marlins,2,2,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-09-20,Texas Rangers,Miami Marlins,4,4,1,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+683227,Cody Freeman,3B,2025-09-20,Texas Rangers,Miami Marlins,4,3,0,0,0,0,0,0,1,1,0,0,0,0.0,0.25,0.0,0.25
+680737,Michael Helman,CF,2025-09-20,Texas Rangers,Miami Marlins,4,3,0,1,0,0,0,0,1,1,0,0,0,0.333,0.5,0.333,0.833
+543309,Kyle Higashioka,C,2025-09-20,Texas Rangers,Miami Marlins,4,3,1,1,0,0,1,1,1,1,0,1,0,0.333,0.5,1.333,1.833
+673962,Josh Jung,3B,2025-09-20,Texas Rangers,Miami Marlins,4,4,0,2,0,0,0,0,0,0,0,0,0,0.5,0.5,0.5,1.0
+694671,Wyatt Langford,LF,2025-09-20,Texas Rangers,Miami Marlins,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+696030,Alejandro Osuna,LF,2025-09-20,Texas Rangers,Miami Marlins,4,4,0,1,0,0,0,1,0,1,0,0,0,0.25,0.25,0.25,0.5
+592626,Joc Pederson,1B,2025-09-20,Texas Rangers,Miami Marlins,5,4,1,1,0,0,0,0,1,0,0,0,0,0.25,0.4,0.25,0.65
+669701,Josh Smith,SS,2025-09-20,Texas Rangers,Miami Marlins,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-09-20,Texas Rangers,Miami Marlins,2,2,0,1,0,0,0,1,0,0,0,0,0,0.5,0.5,0.5,1.0
+677649,Ezequiel Duran,SS,2025-09-21,Texas Rangers,Miami Marlins,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+683227,Cody Freeman,3B,2025-09-21,Texas Rangers,Miami Marlins,4,4,0,2,0,0,0,1,0,1,0,0,0,0.5,0.5,0.5,1.0
+641680,Jonah Heim,C,2025-09-21,Texas Rangers,Miami Marlins,3,2,0,0,0,0,0,0,1,1,0,0,0,0.0,0.333,0.0,0.333
+680737,Michael Helman,CF,2025-09-21,Texas Rangers,Miami Marlins,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-09-21,Texas Rangers,Miami Marlins,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-09-21,Texas Rangers,Miami Marlins,4,4,1,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-09-21,Texas Rangers,Miami Marlins,4,2,1,1,0,0,1,1,2,1,1,0,0,0.5,0.75,2.0,2.75
+696030,Alejandro Osuna,LF,2025-09-21,Texas Rangers,Miami Marlins,4,4,0,1,1,0,0,0,0,0,0,0,0,0.25,0.25,0.5,0.75
+592626,Joc Pederson,1B,2025-09-21,Texas Rangers,Miami Marlins,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-09-21,Texas Rangers,Miami Marlins,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-09-21,Texas Rangers,Miami Marlins,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-09-23,Texas Rangers,Minnesota Twins,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-09-23,Texas Rangers,Minnesota Twins,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+683227,Cody Freeman,3B,2025-09-23,Texas Rangers,Minnesota Twins,3,3,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-09-23,Texas Rangers,Minnesota Twins,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+641680,Jonah Heim,C,2025-09-23,Texas Rangers,Minnesota Twins,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-09-23,Texas Rangers,Minnesota Twins,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-09-23,Texas Rangers,Minnesota Twins,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-09-23,Texas Rangers,Minnesota Twins,4,4,0,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+694671,Wyatt Langford,LF,2025-09-23,Texas Rangers,Minnesota Twins,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+664238,Dylan Moore,2B,2025-09-23,Texas Rangers,Minnesota Twins,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+696030,Alejandro Osuna,LF,2025-09-23,Texas Rangers,Minnesota Twins,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+592626,Joc Pederson,1B,2025-09-23,Texas Rangers,Minnesota Twins,3,3,1,1,0,0,1,1,0,1,0,0,0,0.333,0.333,1.333,1.666
+677649,Ezequiel Duran,SS,2025-09-24,Texas Rangers,Minnesota Twins,4,4,1,1,0,0,0,0,0,2,1,0,0,0.25,0.25,0.25,0.5
+666969,Adolis García,RF,2025-09-24,Texas Rangers,Minnesota Twins,1,0,0,0,0,0,0,0,1,0,0,0,0,,1.0,,1.0
+641680,Jonah Heim,C,2025-09-24,Texas Rangers,Minnesota Twins,3,3,1,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+680737,Michael Helman,CF,2025-09-24,Texas Rangers,Minnesota Twins,3,3,0,1,1,0,0,0,0,0,0,0,0,0.333,0.333,0.667,1.0
+673962,Josh Jung,3B,2025-09-24,Texas Rangers,Minnesota Twins,4,3,0,0,0,0,0,0,1,0,0,0,0,0.0,0.25,0.0,0.25
+641856,Billy McKinney,LF,2025-09-24,Texas Rangers,Minnesota Twins,3,3,1,1,0,0,0,1,0,0,0,0,0,0.333,0.333,0.333,0.666
+696030,Alejandro Osuna,LF,2025-09-24,Texas Rangers,Minnesota Twins,4,4,0,0,0,0,0,0,0,3,0,0,0,0.0,0.0,0.0,0.0
+592626,Joc Pederson,1B,2025-09-24,Texas Rangers,Minnesota Twins,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-09-24,Texas Rangers,Minnesota Twins,4,3,1,1,0,0,1,1,1,2,0,0,0,0.333,0.5,1.333,1.833
+642133,Rowdy Tellez,1B,2025-09-24,Texas Rangers,Minnesota Twins,4,3,0,0,0,0,0,0,1,2,0,0,0,0.0,0.25,0.0,0.25
+669394,Jake Burger,1B,2025-09-25,Texas Rangers,Minnesota Twins,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-09-25,Texas Rangers,Minnesota Twins,3,3,0,1,0,0,0,0,0,0,0,0,0,0.333,0.333,0.333,0.666
+683227,Cody Freeman,3B,2025-09-25,Texas Rangers,Minnesota Twins,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-09-25,Texas Rangers,Minnesota Twins,1,1,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-09-25,Texas Rangers,Minnesota Twins,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+543309,Kyle Higashioka,C,2025-09-25,Texas Rangers,Minnesota Twins,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-09-25,Texas Rangers,Minnesota Twins,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+641856,Billy McKinney,LF,2025-09-25,Texas Rangers,Minnesota Twins,3,3,0,1,1,0,0,0,0,0,0,0,0,0.333,0.333,0.667,1.0
+696030,Alejandro Osuna,LF,2025-09-25,Texas Rangers,Minnesota Twins,3,2,0,1,0,0,0,0,1,0,0,1,0,0.5,0.667,0.5,1.167
+592626,Joc Pederson,1B,2025-09-25,Texas Rangers,Minnesota Twins,4,4,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+669701,Josh Smith,SS,2025-09-25,Texas Rangers,Minnesota Twins,2,2,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-09-25,Texas Rangers,Minnesota Twins,2,2,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-09-26,Cleveland Guardians,Texas Rangers,3,3,0,1,0,0,0,1,0,1,0,0,0,0.333,0.333,0.333,0.666
+677649,Ezequiel Duran,SS,2025-09-26,Cleveland Guardians,Texas Rangers,4,4,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+683227,Cody Freeman,3B,2025-09-26,Cleveland Guardians,Texas Rangers,5,5,1,3,0,0,0,2,0,1,0,0,0,0.6,0.6,0.6,1.2
+641680,Jonah Heim,C,2025-09-26,Cleveland Guardians,Texas Rangers,4,4,0,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+680737,Michael Helman,CF,2025-09-26,Cleveland Guardians,Texas Rangers,4,4,1,1,0,0,0,0,0,1,0,0,0,0.25,0.25,0.25,0.5
+673962,Josh Jung,3B,2025-09-26,Cleveland Guardians,Texas Rangers,5,5,0,1,0,0,0,0,0,3,0,0,0,0.2,0.2,0.2,0.4
+641856,Billy McKinney,LF,2025-09-26,Cleveland Guardians,Texas Rangers,4,4,1,1,0,0,0,0,0,0,0,0,0,0.25,0.25,0.25,0.5
+696030,Alejandro Osuna,LF,2025-09-26,Cleveland Guardians,Texas Rangers,4,4,1,1,0,0,1,3,0,0,0,0,0,0.25,0.25,1.0,1.25
+592626,Joc Pederson,1B,2025-09-26,Cleveland Guardians,Texas Rangers,5,4,2,2,0,0,0,0,1,1,0,0,0,0.5,0.6,0.5,1.1
+642133,Rowdy Tellez,1B,2025-09-26,Cleveland Guardians,Texas Rangers,2,2,1,1,1,0,0,1,0,1,0,0,0,0.5,0.5,1.0,1.5
+669394,Jake Burger,1B,2025-09-27,Cleveland Guardians,Texas Rangers,2,2,0,0,0,0,0,0,0,1,0,0,0,0.0,0.0,0.0,0.0
+677649,Ezequiel Duran,SS,2025-09-27,Cleveland Guardians,Texas Rangers,3,3,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+683227,Cody Freeman,3B,2025-09-27,Cleveland Guardians,Texas Rangers,4,4,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+666969,Adolis García,RF,2025-09-27,Cleveland Guardians,Texas Rangers,4,4,1,1,0,0,1,1,0,1,0,0,0,0.25,0.25,1.0,1.25
+680737,Michael Helman,CF,2025-09-27,Cleveland Guardians,Texas Rangers,4,3,1,1,1,0,0,0,0,1,0,0,1,0.333,0.5,0.667,1.167
+543309,Kyle Higashioka,C,2025-09-27,Cleveland Guardians,Texas Rangers,4,4,0,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+673962,Josh Jung,3B,2025-09-27,Cleveland Guardians,Texas Rangers,4,4,0,2,1,0,0,1,0,1,0,0,0,0.5,0.5,0.75,1.25
+664238,Dylan Moore,2B,2025-09-27,Cleveland Guardians,Texas Rangers,3,3,0,1,0,0,0,0,0,1,0,1,0,0.333,0.333,0.333,0.666
+456781,Donovan Solano,1B,2025-09-27,Cleveland Guardians,Texas Rangers,3,3,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+642133,Rowdy Tellez,1B,2025-09-27,Cleveland Guardians,Texas Rangers,2,2,0,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+669394,Jake Burger,1B,2025-09-28,Cleveland Guardians,Texas Rangers,4,3,0,1,0,0,0,2,0,0,0,0,1,0.333,0.5,0.333,0.833
+677649,Ezequiel Duran,SS,2025-09-28,Cleveland Guardians,Texas Rangers,5,5,0,1,1,0,0,0,0,1,0,0,0,0.2,0.2,0.4,0.6
+683227,Cody Freeman,3B,2025-09-28,Cleveland Guardians,Texas Rangers,4,4,1,1,0,0,0,0,0,2,0,0,0,0.25,0.25,0.25,0.5
+666969,Adolis García,RF,2025-09-28,Cleveland Guardians,Texas Rangers,5,4,1,1,0,0,0,0,1,1,0,0,0,0.25,0.4,0.25,0.65
+641680,Jonah Heim,C,2025-09-28,Cleveland Guardians,Texas Rangers,5,5,1,0,0,0,0,0,0,2,0,0,0,0.0,0.0,0.0,0.0
+680737,Michael Helman,CF,2025-09-28,Cleveland Guardians,Texas Rangers,5,4,0,0,0,0,0,1,0,1,1,0,0,0.0,0.0,0.0,0.0
+673962,Josh Jung,3B,2025-09-28,Cleveland Guardians,Texas Rangers,5,4,2,1,1,0,0,0,1,0,0,0,0,0.25,0.4,0.5,0.9
+641856,Billy McKinney,LF,2025-09-28,Cleveland Guardians,Texas Rangers,3,3,1,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+664238,Dylan Moore,2B,2025-09-28,Cleveland Guardians,Texas Rangers,2,1,1,0,0,0,0,0,0,0,0,0,1,0.0,0.5,0.0,0.5
+696030,Alejandro Osuna,LF,2025-09-28,Cleveland Guardians,Texas Rangers,4,4,0,1,1,0,0,2,0,1,0,0,0,0.25,0.25,0.5,0.75
+592626,Joc Pederson,1B,2025-09-28,Cleveland Guardians,Texas Rangers,1,1,0,0,0,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0
+456781,Donovan Solano,1B,2025-09-28,Cleveland Guardians,Texas Rangers,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,
+642133,Rowdy Tellez,1B,2025-09-28,Cleveland Guardians,Texas Rangers,1,1,1,1,0,0,1,3,0,0,0,0,0,1.0,1.0,4.0,5.0

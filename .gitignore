@@ -34,5 +34,12 @@ collection_output/
 !Data/*.csv
 !Data/**/*.csv
 
+# Final 하위 data_raw / data / assets 전체 포함
+!Final/data_raw/
+!Final/data_raw/**
+!Final/data/
+!Final/data/**
+!Final/assets/
+!Final/assets/**
 
 !Final/output/*.csv

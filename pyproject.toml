@@ -26,4 +26,5 @@ dependencies = [
     "streamlit-extras>=1.5.0",
     "optuna>=4.8.0",
     "pymoo>=0.6.1.6",
+    "pydantic-ai>=1.89.1",
 ]

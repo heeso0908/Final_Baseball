@@ -217,12 +217,42 @@ section[data-testid="stSidebar"] h6 {
 }
 
 section[data-testid="stSidebar"] .element-container:has(.sidebar-brand-shell),
+section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head),
 section[data-testid="stSidebar"] .stMarkdown:has(.sidebar-brand-shell),
-section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"]:has(.sidebar-brand-shell) {
+section[data-testid="stSidebar"] .stMarkdown:has(.sidebar-sticky-head),
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"]:has(.sidebar-brand-shell),
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"]:has(.sidebar-sticky-head) {
     width: 100% !important;
     max-width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
+}
+
+section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background: linear-gradient(
+        to bottom,
+        #FFFFFF 0px,
+        #FFFFFF 118px,
+        #071A35 118px,
+        #071A35 100%
+    ) !important;
+}
+
+.sidebar-sticky-head {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    background: linear-gradient(
+        to bottom,
+        #FFFFFF 0px,
+        #FFFFFF 118px,
+        #071A35 118px,
+        #071A35 100%
+    );
 }
 
 .sidebar-brand-shell {
@@ -1267,27 +1297,26 @@ logo_path = ASSETS / "images" / "logo.png"
 with st.sidebar:
     if logo_path.exists():
         logo_base64 = image_to_base64(logo_path)
-        st.markdown(f"""
-        <div class="sidebar-brand-shell">
-            <img class="sidebar-logo-full" src="data:image/png;base64,{logo_base64}">
-        </div>
-        """, unsafe_allow_html=True)
+        brand_html = f'<img class="sidebar-logo-full" src="data:image/png;base64,{logo_base64}">'
     else:
-        st.markdown("""
-        <div class="sidebar-brand-shell">
-            <div style="font-family:Sora, Manrope, sans-serif; color:#0D1B33; font-size:18px; font-weight:800; line-height:1.05;">
-                Monday<br>Likes Baseball
-            </div>
+        brand_html = """
+        <div style="font-family:Sora, Manrope, sans-serif; color:#0D1B33; font-size:18px; font-weight:800; line-height:1.05;">
+            Monday<br>Likes Baseball
         </div>
-        """, unsafe_allow_html=True)
+        """
 
-    st.markdown("""
+    st.markdown(f"""
+    <div class="sidebar-sticky-head">
+    <div class="sidebar-brand-shell">
+        {brand_html}
+    </div>
     <div class="sidebar-project-wrap">
         <div class="sidebar-section-label">Client Project</div>
         <div class="sidebar-project-title">Texas Rangers</div>
         <div class="sidebar-project-sub">2025 Residual Analysis</div>
     </div>
     <div class="sidebar-divider"></div>
+    </div>
     """, unsafe_allow_html=True)
 
     _nav_btn(" Overview",    "overview")
