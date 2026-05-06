@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import os
 import sys
+import json
 from pathlib import Path
 
 # streamlit run 시 agent/ 만 sys.path에 추가되므로,
@@ -23,7 +24,10 @@ if _PARENT not in sys.path:
 
 import streamlit as st
 from dotenv import load_dotenv
+from google.oauth2 import service_account
 from pydantic_ai import Agent
+from pydantic_ai.models.google import GoogleModel
+from pydantic_ai.providers.google import GoogleProvider
 
 from agent import tools
 
@@ -31,8 +35,51 @@ load_dotenv(Path(__file__).resolve().parent.parent / '.env')
 
 _PROMPT_PATH = Path(__file__).parent / "system_prompt.md"
 
-GEMINI_API_KEY = st.secrets.get("GEMINI_API_KEY", os.getenv("GEMINI_API_KEY"))
-GEMINI_MODEL = st.secrets.get("GEMINI_MODEL", os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite-preview"))
+
+def get_secret(key: str, default=None):
+    """Streamlit Cloud Secrets 우선, 없으면 로컬 .env 사용."""
+    try:
+        return st.secrets.get(key, os.getenv(key, default))
+    except Exception:
+        return os.getenv(key, default)
+
+
+GCP_PROJECT_ID = get_secret("GCP_PROJECT_ID")
+GCP_LOCATION = get_secret("GCP_LOCATION", "global")
+GEMINI_MODEL = get_secret("GEMINI_MODEL", "gemini-2.5-flash")
+GCP_SERVICE_ACCOUNT_JSON = get_secret("GCP_SERVICE_ACCOUNT_JSON")
+
+
+def create_vertex_model() -> GoogleModel:
+    """Streamlit Cloud Secrets의 서비스 계정 JSON으로 Vertex AI Gemini 모델 생성."""
+
+    if not GCP_PROJECT_ID:
+        raise RuntimeError(
+            "GCP_PROJECT_ID가 설정되어 있지 않습니다. "
+            "Streamlit Secrets 또는 .env를 확인하세요."
+        )
+
+    if not GCP_SERVICE_ACCOUNT_JSON:
+        raise RuntimeError(
+            "GCP_SERVICE_ACCOUNT_JSON이 설정되어 있지 않습니다. "
+            "Streamlit Cloud Secrets에 서비스 계정 JSON을 등록하세요."
+        )
+
+    service_account_info = json.loads(GCP_SERVICE_ACCOUNT_JSON)
+
+    credentials = service_account.Credentials.from_service_account_info(
+        service_account_info,
+        scopes=["https://www.googleapis.com/auth/cloud-platform"],
+    )
+
+    provider = GoogleProvider(
+        vertexai=True,
+        project=GCP_PROJECT_ID,
+        location=GCP_LOCATION,
+        credentials=credentials,
+    )
+
+    return GoogleModel(GEMINI_MODEL, provider=provider)
 
 # ============================================================
 # 가상 구독 티어 — 도구 접근 권한만 차등
@@ -163,14 +210,13 @@ def get_agent(tier: str = "basic") -> Agent:
     티어에 따라 등록하는 도구 + 시스템 프롬프트 suffix가 달라진다.
     @st.cache_resource는 tier 인자별로 별도 캐시되므로 전환 시 즉시 반환.
     """
-    model_name = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
-    model_id = f"google-gla:{model_name}"
+    model = create_vertex_model()
 
     config = TIER_CONFIG[tier]
     enabled = config["tools"]
     system_prompt = _load_system_prompt() + config["prompt_suffix"]
 
-    agent = Agent(model_id, system_prompt=system_prompt)
+    agent = Agent(model, system_prompt=system_prompt)
 
     # 도구 분기 등록 — 티어에 포함된 도구만 활성
     if "estimate_residual_scenario" in enabled:
@@ -414,11 +460,11 @@ def render():
 
     st.title("⚾ TEX 2025 분석 챗봇")
 
-    # API 키 확인
-    if not os.getenv("GEMINI_API_KEY"):
+    # Vertex AI 설정 확인
+    if not GCP_PROJECT_ID or not GCP_SERVICE_ACCOUNT_JSON:
         st.error(
-            "환경 변수 `GEMINI_API_KEY`가 설정되어 있지 않습니다. "
-            "`Final/.env` 파일을 확인하세요."
+            "Vertex AI 인증 정보가 설정되어 있지 않습니다. "
+            "Streamlit Cloud Secrets에 GCP_PROJECT_ID와 GCP_SERVICE_ACCOUNT_JSON을 등록하세요."
         )
         st.stop()
 
@@ -663,7 +709,7 @@ section[data-testid="stSidebar"] .agent-sidebar-note {
         st.markdown("---")
         st.markdown('<div class="agent-control-zone" style="display:none">x</div>', unsafe_allow_html=True)
         st.markdown("### 챗봇 설정")
-        _model = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+        _model = GEMINI_MODEL
 
         st.button(
                 f"\uf4f1\u2002Model: {_model}",
