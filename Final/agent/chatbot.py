@@ -31,6 +31,8 @@ load_dotenv(Path(__file__).resolve().parent.parent / '.env')
 
 _PROMPT_PATH = Path(__file__).parent / "system_prompt.md"
 
+GEMINI_API_KEY = st.secrets.get("GEMINI_API_KEY", os.getenv("GEMINI_API_KEY"))
+GEMINI_MODEL = st.secrets.get("GEMINI_MODEL", os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite-preview"))
 
 # ============================================================
 # 가상 구독 티어 — 도구 접근 권한만 차등
