@@ -5,9 +5,9 @@ from shared import page_hero
 def show():
     page_hero(
         "AI Agent",
-        "CSV 기반 분석 질의",
-        "업로드된 CSV 파일을 기반으로 사용자가 궁금해하는 TEX 2025 잔차 분석 질문에 답합니다. 텍스트 요약뿐 아니라 그래프로 확인할 만한 구조화 결과도 함께 탐색하는 역할입니다.",
-        [("Text Q&A", "white"), ("Chart-ready Data", "white"), ("Uploaded CSV", "white")],
+        "잔차·시나리오 질의 보조",
+        "TEX 2025 잔차 원인, 하이 레버리지 부진 케이스 모션 근거, 수동/Grid/Pareto 시나리오 후보를 같은 맥락에서 조회합니다. 화면에서 본 의사결정 후보를 다시 확인하거나 특정 조합의 예상 승수와 delta를 물어볼 수 있습니다.",
+        [("Scenario Lookup", "white"), ("Optimization Summary", "white"), ("Team Compare", "white")],
     )
     try:
         from agent import chatbot

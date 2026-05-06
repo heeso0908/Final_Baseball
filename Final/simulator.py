@@ -22,7 +22,7 @@ except Exception:  # pragma: no cover
 SEASON = 2025
 TEAM_NAME = "Texas Rangers"
 TEAM_ABBR = "TEX"
-CACHE_VERSION = "sim-v8"
+CACHE_VERSION = "sim-v10"
 
 SLOT_DEFS = [
     ("C", ["C"]),
@@ -446,7 +446,23 @@ def _advancement_cache_file(raw_dir: Path) -> Path:
     return cache_dir / f"advancement_{digest.hexdigest()[:16]}.pkl"
 
 
-def _simulation_cache_file(raw_dir: Path, scenario_name: str, n_sims: int) -> Path:
+def _stable_param_digest(payload: object | None) -> str:
+    if payload is None:
+        return "default"
+    import json
+
+    text = json.dumps(payload, sort_keys=True, ensure_ascii=True, default=str)
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
+
+
+def _simulation_cache_file(
+    raw_dir: Path,
+    scenario_name: str,
+    n_sims: int,
+    custom_stats: dict[str, float] | None = None,
+    custom_boosts: dict[str, dict[str, float]] | None = None,
+    fast_mode: bool = True,
+) -> Path:
     cache_dir, _ = _bundle_cache_paths(raw_dir)
     watched_files = [
         "batting_stats_2025_all.csv",
@@ -468,6 +484,9 @@ def _simulation_cache_file(raw_dir: Path, scenario_name: str, n_sims: int) -> Pa
     digest.update(_bundle_signature(raw_dir).encode("utf-8"))
     digest.update(scenario_name.encode("utf-8"))
     digest.update(str(n_sims).encode("utf-8"))
+    digest.update(_stable_param_digest(custom_stats).encode("utf-8"))
+    digest.update(_stable_param_digest(custom_boosts).encode("utf-8"))
+    digest.update(("fast" if fast_mode else "detailed").encode("utf-8"))
     for name in watched_files:
         path = raw_dir / name
         stat = path.stat()
@@ -925,20 +944,7 @@ def _build_scenarios(tex25: dict[str, float]) -> dict[str, dict[str, object]]:
             },
             "boosts": None,
         },
-        "Rotation Spike": {
-            "stats": {
-                "ERA": 3.15,
-                "sv_pct": tex25["sv_pct"],
-                "onerun_wp": tex25["onerun_wp"],
-                "xi_wp": tex25["xi_wp"],
-                "K9": 9.5,
-                "BB9": 2.6,
-                "HR9": 0.90,
-                "WHIP": 1.05,
-            },
-            "boosts": None,
-        },
-        "Langford Leap": {
+        "Hitter Boost": {
             "stats": {
                 "ERA": tex25["ERA"],
                 "sv_pct": tex25["sv_pct"],
@@ -949,43 +955,7 @@ def _build_scenarios(tex25: dict[str, float]) -> dict[str, dict[str, object]]:
                 "HR9": tex25["HR9"],
                 "WHIP": tex25["WHIP"],
             },
-            "boosts": {
-                "Wyatt Langford": {"hr_mult": 1.30, "double_mult": 1.20, "bb_mult": 1.15, "k_mult": 0.90},
-                "Corey Seager": {"hr_mult": 1.10, "k_mult": 0.92},
-            },
-        },
-        "Hopeful Composite": {
-            "stats": {
-                "ERA": 3.40,
-                "sv_pct": 0.820,
-                "onerun_wp": 0.530,
-                "xi_wp": tex25["xi_wp"],
-                "K9": 9.2,
-                "BB9": 2.5,
-                "HR9": 0.95,
-                "WHIP": 1.08,
-            },
-            "boosts": {
-                "Wyatt Langford": {"hr_mult": 1.25, "double_mult": 1.15, "bb_mult": 1.10, "k_mult": 0.92},
-                "Corey Seager": {"hr_mult": 1.12, "k_mult": 0.94},
-                "Adolis Garcia": {"hr_mult": 1.10, "single_mult": 1.05},
-            },
-        },
-        "Risk Case": {
-            "stats": {
-                "ERA": 4.40,
-                "sv_pct": 0.620,
-                "onerun_wp": 0.370,
-                "xi_wp": tex25["xi_wp"],
-                "K9": 8.0,
-                "BB9": 3.3,
-                "HR9": 1.35,
-                "WHIP": 1.29,
-            },
-            "boosts": {
-                "Marcus Semien": {"single_mult": 0.95, "k_mult": 1.08},
-                "Adolis Garcia": {"hr_mult": 0.92, "k_mult": 1.12},
-            },
+            "boosts": None,
         },
     }
 
@@ -1576,14 +1546,128 @@ def _simulate_schedule(
     return np.array(wins, dtype=float), monthly_summary, series_summary
 
 
+def _estimate_offense_factor(player_projection: pd.DataFrame) -> float:
+    if player_projection.empty or "boosted" not in player_projection.columns:
+        return 1.0
+    boosted = player_projection[player_projection["boosted"]].copy()
+    if boosted.empty:
+        return 1.0
+
+    pa = boosted.get("pa", pd.Series(1.0, index=boosted.index)).astype(float).clip(lower=1.0)
+    start_weight = boosted.get("start_weight", pd.Series(0.5, index=boosted.index)).astype(float).clip(0.05, 1.0)
+    weight = pa * start_weight
+    team_pa_scale = max(1.0, float(player_projection.get("pa", pd.Series([6000.0])).astype(float).sum()))
+
+    obp_delta = (boosted.get("delta_obp_pts", 0.0).astype(float) / 1000.0) * weight
+    hr_delta = (boosted.get("delta_hr_pts", 0.0).astype(float) / 1000.0) * weight
+    run_lift = (float(obp_delta.sum()) * 1.5 + float(hr_delta.sum()) * 3.0) / team_pa_scale
+    return float(np.clip(1.0 + run_lift, 0.88, 1.18))
+
+
+def _simulate_schedule_fast(
+    schedule_df: pd.DataFrame,
+    scenario_stats: dict[str, float],
+    base_stats: dict[str, float],
+    opponent_strength: dict[str, float],
+    offense_factor: float,
+    n_sims: int,
+) -> tuple[np.ndarray, pd.DataFrame, pd.DataFrame]:
+    month_order = list(pd.Index(schedule_df["month"].fillna("UNK")).drop_duplicates())
+    month_index = {month: idx for idx, month in enumerate(month_order)}
+    series_order = list(pd.Index(schedule_df["series_id"]).drop_duplicates())
+    series_index = {series_id: idx for idx, series_id in enumerate(series_order)}
+
+    games = len(schedule_df)
+    base_r = schedule_df["R"].astype(float).to_numpy()
+    base_ra = schedule_df["RA"].astype(float).to_numpy()
+    opp = schedule_df["Opp"].astype(str).map(opponent_strength).fillna(1.0).to_numpy(dtype=float)
+
+    era_scale = float(scenario_stats.get("ERA", base_stats["ERA"])) / max(0.1, float(base_stats["ERA"]))
+    sv_delta = float(scenario_stats.get("sv_pct", base_stats["sv_pct"])) - float(base_stats["sv_pct"])
+    close_delta = float(scenario_stats.get("onerun_wp", base_stats["onerun_wp"])) - float(base_stats["onerun_wp"])
+
+    rs_mu = np.clip(base_r * offense_factor, 0.2, 12.0)
+    ra_mu = np.clip(base_ra * era_scale * opp, 0.2, 12.0)
+    pyth = rs_mu**1.83 / np.clip(rs_mu**1.83 + ra_mu**1.83, 1e-6, None)
+
+    close_mask = np.abs(rs_mu - ra_mu) <= 1.5
+    close_target = np.clip(float(base_stats["onerun_wp"]) + close_delta + sv_delta * 0.35, 0.20, 0.78)
+    win_prob = pyth.copy()
+    win_prob[close_mask] = (win_prob[close_mask] * 0.55) + (close_target * 0.45)
+    win_prob = np.clip(win_prob, 0.05, 0.95)
+
+    draws = (np.random.random((n_sims, games)) < win_prob.reshape(1, -1)).astype(float)
+    wins = draws.sum(axis=1)
+
+    monthly_wins = np.zeros((n_sims, len(month_order)), dtype=float)
+    series_wins = np.zeros((n_sims, len(series_order)), dtype=float)
+    months = schedule_df["month"].fillna("UNK").astype(str).to_numpy()
+    series_ids = schedule_df["series_id"].astype(int).to_numpy()
+    for game_idx in range(games):
+        monthly_wins[:, month_index[months[game_idx]]] += draws[:, game_idx]
+        series_wins[:, series_index[series_ids[game_idx]]] += draws[:, game_idx]
+
+    monthly_summary = pd.DataFrame(
+        {
+            "month": month_order,
+            "mean_wins": monthly_wins.mean(axis=0).round(2),
+            "p25_wins": np.quantile(monthly_wins, 0.25, axis=0).round(2),
+            "p75_wins": np.quantile(monthly_wins, 0.75, axis=0).round(2),
+        }
+    )
+    monthly_summary["cumulative_mean"] = monthly_summary["mean_wins"].cumsum().round(2)
+
+    series_summary = pd.DataFrame(
+        {
+            "series_id": series_order,
+            "mean_wins": series_wins.mean(axis=0).round(2),
+            "p25_wins": np.quantile(series_wins, 0.25, axis=0).round(2),
+            "p75_wins": np.quantile(series_wins, 0.75, axis=0).round(2),
+        }
+    )
+    games_per_series = schedule_df.groupby("series_id").size().reindex(series_order).to_numpy(dtype=float)
+    series_summary["series_win_prob"] = (series_wins > (games_per_series / 2.0)).mean(axis=0).round(3)
+    return wins, monthly_summary, series_summary
+
+
 def _calibration_offset(bundle: ModelBundle) -> float:
     baseline = bundle.tex25["pyth_W"] + _predict_residual(bundle, bundle.tex25)
     return float(bundle.tex25["W"] - baseline)
 
 
-def run_simulation(raw_dir: str | Path, scenario_name: str, n_sims: int = 300) -> dict[str, object]:
+def get_scenario_defaults(raw_dir: str | Path) -> dict[str, object]:
     raw_path = Path(raw_dir)
-    cache_file = _simulation_cache_file(raw_path, scenario_name, n_sims)
+    tex25 = _build_tex25(raw_path)
+    scenarios = _build_scenarios(tex25)
+    return {
+        "tex25": dict(tex25),
+        "scenarios": {
+            name: {
+                "stats": dict(config["stats"]),
+                "boosts": dict(config["boosts"] or {}),
+            }
+            for name, config in scenarios.items()
+        },
+    }
+
+
+def get_batter_options(raw_dir: str | Path) -> list[str]:
+    raw_path = Path(raw_dir)
+    batting_pool, _, _ = _build_batting_pool(raw_path)
+    names = [_normalize_name(name) for name in batting_pool["Name"].dropna().tolist()]
+    return sorted(set(names))
+
+
+def run_simulation(
+    raw_dir: str | Path,
+    scenario_name: str,
+    n_sims: int = 300,
+    custom_stats: dict[str, float] | None = None,
+    custom_boosts: dict[str, dict[str, float]] | None = None,
+    fast_mode: bool = True,
+) -> dict[str, object]:
+    raw_path = Path(raw_dir)
+    cache_file = _simulation_cache_file(raw_path, scenario_name, n_sims, custom_stats, custom_boosts, fast_mode)
     if cache_file.exists():
         try:
             with cache_file.open("rb") as handle:
@@ -1593,15 +1677,28 @@ def run_simulation(raw_dir: str | Path, scenario_name: str, n_sims: int = 300) -
         except Exception:
             pass
 
-    bundle = _train_model_bundle(raw_path)
-    scenarios = _build_scenarios(bundle.tex25)
-    scenario = scenarios[scenario_name]
+    if fast_mode:
+        tex25 = _build_tex25(raw_path)
+        bundle = None
+    else:
+        bundle = _train_model_bundle(raw_path)
+        tex25 = bundle.tex25
+    scenarios = _build_scenarios(tex25)
+    scenario = {
+        "stats": dict(scenarios[scenario_name]["stats"]),
+        "boosts": scenarios[scenario_name]["boosts"],
+    }
+    if custom_stats:
+        scenario["stats"].update({k: float(v) for k, v in custom_stats.items()})
+    if custom_boosts is not None:
+        scenario["boosts"] = {
+            _normalize_name(player): {metric: float(value) for metric, value in boosts.items()}
+            for player, boosts in custom_boosts.items()
+        }
     schedule_df = _clean_schedule(pd.read_csv(raw_path / "texas_2025_game_log.csv"))
     batting_pool, sprint_map, hbp_df = _build_batting_pool(raw_path)
     starters = _build_starters(raw_path)
     bullpen = _build_bullpen_state(raw_path)
-    advancement = _build_advancement_tables(raw_path)
-    lineup_pool = LineupPool(batting_pool, sprint_map, hbp_df, scenario["boosts"])
     player_projection = _build_player_projection_table(
         batting_pool=batting_pool,
         sprint_map=sprint_map,
@@ -1620,22 +1717,40 @@ def run_simulation(raw_dir: str | Path, scenario_name: str, n_sims: int = 300) -
     schedule_context = _build_schedule_context(schedule_df, opponent_strength)
     series_context = _build_series_context(schedule_df, opponent_strength)
 
-    raw_distribution, monthly_summary, series_summary = _simulate_schedule(
-        schedule_df=schedule_df,
-        lineup_pool=lineup_pool,
-        starters=starters,
-        bullpen=bullpen,
-        advancement=advancement,
-        scenario_stats=scenario["stats"],
-        opponent_strength=opponent_strength,
-        park_factors=park_factors,
-        opponent_pitch_factors=opponent_pitch_factors,
-        n_sims=n_sims,
-    )
+    if fast_mode:
+        raw_distribution, monthly_summary, series_summary = _simulate_schedule_fast(
+            schedule_df=schedule_df,
+            scenario_stats=scenario["stats"],
+            base_stats=scenarios["Baseline 2025"]["stats"],
+            opponent_strength=opponent_strength,
+            offense_factor=_estimate_offense_factor(player_projection),
+            n_sims=n_sims,
+        )
+    else:
+        advancement = _build_advancement_tables(raw_path)
+        lineup_pool = LineupPool(batting_pool, sprint_map, hbp_df, scenario["boosts"])
+        raw_distribution, monthly_summary, series_summary = _simulate_schedule(
+            schedule_df=schedule_df,
+            lineup_pool=lineup_pool,
+            starters=starters,
+            bullpen=bullpen,
+            advancement=advancement,
+            scenario_stats=scenario["stats"],
+            opponent_strength=opponent_strength,
+            park_factors=park_factors,
+            opponent_pitch_factors=opponent_pitch_factors,
+            n_sims=n_sims,
+        )
 
-    residual_bonus = _predict_residual(bundle, scenario["stats"])
-    calibration_offset = _calibration_offset(bundle)
-    noise = np.random.normal(0.0, bundle.ensemble_cv_mae, size=n_sims)
+    if bundle is None:
+        residual_bonus = 0.0
+        calibration_offset = 0.0
+        ensemble_cv_mae = 0.0
+    else:
+        residual_bonus = _predict_residual(bundle, scenario["stats"])
+        calibration_offset = _calibration_offset(bundle)
+        ensemble_cv_mae = bundle.ensemble_cv_mae
+    noise = np.random.normal(0.0, ensemble_cv_mae, size=n_sims)
     adjusted = np.clip(raw_distribution + residual_bonus + calibration_offset + noise, 55.0, 110.0)
     distribution = pd.DataFrame({"wins": adjusted.round(2)})
 
@@ -1650,10 +1765,13 @@ def run_simulation(raw_dir: str | Path, scenario_name: str, n_sims: int = 300) -
             "over_87_5": float((distribution["wins"] >= 88).mean()),
             "residual_bonus": float(residual_bonus),
             "calibration_offset": float(calibration_offset),
-            "ensemble_cv_mae": float(bundle.ensemble_cv_mae),
+            "ensemble_cv_mae": float(ensemble_cv_mae),
         },
         "scenarios": list(scenarios.keys()),
         "scenario_stats": scenario["stats"],
+        "scenario_boosts": scenario["boosts"] or {},
+        "customized": bool(custom_stats or custom_boosts is not None),
+        "engine": "fast_game_level" if fast_mode else "detailed_plate_appearance",
         "monthly_summary": monthly_summary,
         "schedule_context": schedule_context,
         "series_summary": series_context.join(series_summary.drop(columns=["series_id"])),

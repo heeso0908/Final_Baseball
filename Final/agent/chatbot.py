@@ -41,7 +41,7 @@ TIER_CONFIG: dict[str, dict] = {
         "label": ' Basic',
         "name": "Basic",
         "tagline": "사전 시나리오·게임로그 조회",
-        "tools": {"lookup_pareto", "query_gamelog"},
+        "tools": {"lookup_pareto", "get_optimization_summary", "query_gamelog", "list_data_sources", "describe_data"},
         "prompt_suffix": (
             "\n\n## 응답 깊이 (Basic 플랜)\n"
             "- 핵심 결과 1-2줄로만 답변합니다.\n"
@@ -52,21 +52,26 @@ TIER_CONFIG: dict[str, dict] = {
     "plus": {
         "label": ' Plus',
         "name": "Plus",
-        "tagline": "+ 자유 시나리오·팀 비교",
+        "tagline": "+ 자유 시나리오·팀 비교·시각화",
         "tools": {
-            "lookup_pareto", "query_gamelog",
+            "lookup_pareto", "get_optimization_summary", "query_gamelog",
             "compare_team_2025", "estimate_residual_scenario",
+            "plot_scenario_comparison", "plot_team_radar",
+            "list_data_sources", "describe_data", "query_data", "plot_custom",
         },
         "prompt_suffix": "",  # 표준 프롬프트 그대로
     },
     "premium": {
         "label": ' Premium',
         "name": "premium",
-        "tagline": "+ 이식 시뮬·historical",
+        "tagline": "+ 이식 시뮬·historical·전체 시각화",
         "tools": {
-            "lookup_pareto", "query_gamelog",
+            "lookup_pareto", "get_optimization_summary", "query_gamelog",
             "compare_team_2025", "estimate_residual_scenario",
             "swap_team_pitching", "query_team_history",
+            "plot_scenario_comparison", "plot_historical_distribution",
+            "plot_team_radar",
+            "list_data_sources", "describe_data", "query_data", "plot_custom",
         },
         "prompt_suffix": (
             "\n\n## 응답 깊이 (Premium 플랜)\n"
@@ -82,11 +87,19 @@ TIER_CONFIG: dict[str, dict] = {
 
 TOOL_DESCRIPTIONS: dict[str, str] = {
     "lookup_pareto": "사전 시나리오 조회",
+    "get_optimization_summary": "최적화 요약",
     "query_gamelog": "게임로그 필터 조회",
     "compare_team_2025": "경쟁팀 비교",
     "estimate_residual_scenario": "σ 자유 시뮬",
     "swap_team_pitching": "팀 이식 시뮬",
     "query_team_history": "10년 historical",
+    "plot_scenario_comparison": "시나리오 비교 차트",
+    "plot_historical_distribution": "historical 분포 차트",
+    "plot_team_radar": "팀 비교 레이더 차트",
+    "list_data_sources": "데이터셋 목록 조회",
+    "describe_data": "데이터셋 컬럼/샘플 확인",
+    "query_data": "데이터셋 자유 쿼리 (필터/정렬/제한)",
+    "plot_custom": "임의 데이터셋 차트 (bar/line/scatter/hist/box)",
 }
 
 
@@ -94,6 +107,51 @@ def _load_system_prompt() -> str:
     if not _PROMPT_PATH.exists():
         return "당신은 TEX 2025 시즌 분석 보조 에이전트입니다. 한국어로 답변하세요."
     return _PROMPT_PATH.read_text(encoding="utf-8")
+
+
+def _render_tool_calls(tool_calls: list[dict], key_prefix: str = "") -> None:
+    """tool_calls를 UI에 렌더링.
+
+    plotly_figure 타입은 expander 바깥에 차트로 직접 표시,
+    나머지는 expander 안 raw text로 표시한다.
+    같은 차트가 두 번 그려지지 않도록 key_prefix로 키를 분리한다.
+    """
+    import json as _json
+
+    # 1) 차트는 바깥에 즉시 표시 (사용자가 바로 보도록)
+    for idx, tc in enumerate(tool_calls):
+        result = tc.get('result')
+        if isinstance(result, dict) and result.get('type') == 'plotly_figure':
+            spec = result.get('spec')
+            if not spec:
+                continue
+            try:
+                import plotly.graph_objects as _go
+                fig = _go.Figure(_json.loads(spec))
+                st.plotly_chart(
+                    fig,
+                    use_container_width=True,
+                    key=f"chart_{key_prefix}_{idx}",
+                )
+                if result.get('caption'):
+                    st.caption(result['caption'])
+            except Exception as e:
+                st.warning(f"차트 렌더 실패: {e}")
+
+    # 2) 도구 호출 raw 내역은 expander 안에 (디버깅용)
+    with st.expander(f" 도구 호출 내역 ({len(tool_calls)}건)"):
+        for tc in tool_calls:
+            st.markdown(f"**{tc['name']}**")
+            st.code(f"args: {tc['args']}", language="python")
+            result = tc.get('result')
+            if result is None:
+                continue
+            # plotly spec은 너무 길어서 메타만 노출
+            if isinstance(result, dict) and result.get('type') == 'plotly_figure':
+                meta = {k: v for k, v in result.items() if k != 'spec'}
+                st.code(f"result (chart meta): {meta}", language="python")
+            else:
+                st.code(f"result: {result}", language="python")
 
 
 @st.cache_resource(show_spinner="ML 모델 학습 + Agent 초기화 중...")
@@ -132,14 +190,22 @@ def get_agent(tier: str = "basic") -> Agent:
     if "lookup_pareto" in enabled:
         @agent.tool_plain
         def lookup_pareto(name: str) -> dict:
-            """사전 계산된 Pareto/Grid 시나리오 결과 즉시 반환.
+            """사전 계산된 v5 통합 비교 시나리오 결과 즉시 반환.
 
             유효 이름:
             - Pareto: 'aggressive', 'balanced', 'conservative' (또는 한국어 alias)
+            - Manual: 'baseline', 'bullpen upgrade', 'hitter' 또는 'hitter boost'
             - Grid: 'best_overall', 'best_bullpen', 'best_closegame',
                     'best_pitching', 'worst_overall', 'baseline'
+            - Optimization: 'grid_search', 'nsga2', 'grid_pareto_aggressive'
             """
             return tools.lookup_pareto(name)
+
+    if "get_optimization_summary" in enabled:
+        @agent.tool_plain
+        def get_optimization_summary() -> dict:
+            """노트북 v5 Grid Pareto, NSGA-II 최적화 요약."""
+            return tools.get_optimization_summary()
 
     if "compare_team_2025" in enabled:
         @agent.tool_plain
@@ -199,6 +265,134 @@ def get_agent(tier: str = "basic") -> Agent:
                 year_from=year_from, year_to=year_to,
                 residual_min=residual_min, residual_max=residual_max,
                 team=team, top_n=top_n,
+            )
+
+    if "plot_scenario_comparison" in enabled:
+        @agent.tool_plain
+        def plot_scenario_comparison(scenarios: list[str]) -> dict:
+            """여러 시나리오의 예상 승수를 baseline과 막대그래프로 비교.
+
+            사용자가 "차트로 보여줘", "그래프로", "비교 그래프" 같은 시각화를
+            요청하면 호출한다. 이름은 lookup_pareto와 동일.
+            예: ['aggressive', 'balanced', 'hopeful', 'best_overall']
+
+            반환 dict의 'spec' 필드는 plotly Figure JSON으로, UI가 직접 렌더한다.
+            LLM은 caption + data만 참고하면 충분.
+            """
+            return tools.plot_scenario_comparison(scenarios)
+        
+    if "plot_team_radar" in enabled:
+        @agent.tool_plain
+        def plot_team_radar(teams: list[str]) -> dict:
+            """TEX와 1~3개 팀의 투수 지표 레이더 차트 비교.
+
+            축: K/9, BB/9, HR/9, BABIP, GB%, Hard%, SV, BS (8개).
+            MLB 30팀 min-max 정규화 + lower-better 자동 반전 → bigger = better.
+            "TEX vs 매리너스 차트로 비교", "TEX/SEA/HOU 강약점 한눈에"
+            같은 다축 비교 질문에 적합.
+            """
+            return tools.plot_team_radar(teams)
+
+    if "plot_historical_distribution" in enabled:
+        @agent.tool_plain
+        def plot_historical_distribution(
+            year_from: int | None = None,
+            year_to: int | None = None,
+            residual_min: float | None = None,
+            residual_max: float | None = None,
+            highlight_tex_2025: bool = True,
+        ) -> dict:
+            """historical 잔차 분포 히스토그램. TEX 2025(-9.06)를 점선으로 표시.
+
+            "역대 잔차 분포 보여줘", "TEX 2025가 얼마나 극단적이야?" 류
+            위치 비교 질문에 적합. 반환 dict의 'spec'은 UI가 직접 렌더.
+            """
+            return tools.plot_historical_distribution(
+                year_from=year_from, year_to=year_to,
+                residual_min=residual_min, residual_max=residual_max,
+                highlight_tex_2025=highlight_tex_2025,
+            )
+
+    # ─── 데이터 디스커버리 (일반 쿼리) ────────────────────────────────────────
+    if "list_data_sources" in enabled:
+        @agent.tool_plain
+        def list_data_sources() -> dict:
+            """사용 가능한 모든 데이터셋의 이름 + 한 줄 설명 + 행/컬럼 수.
+
+            전용 도구(query_gamelog, lookup_pareto 등)로 답이 안 나오는 새로운
+            질문이 오면 가장 먼저 이 도구를 호출해 어떤 데이터가 있는지 본다.
+            그 다음 describe_data로 컬럼을 확인하고 query_data로 쿼리.
+            """
+            return tools.list_data_sources()
+
+    if "describe_data" in enabled:
+        @agent.tool_plain
+        def describe_data(source: str) -> dict:
+            """특정 데이터셋의 컬럼(이름·dtype·null·unique·min·max) + 샘플 5행.
+
+            query_data 호출 전에 어떤 컬럼·필터가 가능한지 확인하는 데 쓴다.
+            source는 list_data_sources 결과의 'name' 값.
+            """
+            return tools.describe_data(source)
+
+    if "query_data" in enabled:
+        @agent.tool_plain
+        def query_data(
+            source: str,
+            filter: dict | None = None,
+            columns: list[str] | None = None,
+            sort_by: str | None = None,
+            ascending: bool = True,
+            limit: int = 50,
+        ) -> dict:
+            """csv를 필터·선택·정렬해서 row 리스트 반환. 일반 쿼리 도구.
+
+            filter 문법:
+              - 등호: {'month': 9, 'opponent': 'SEA'}
+              - 범위: {'ERA': {'gte': 4.0, 'lte': 6.0}}
+              - 포함: {'name': {'contains': 'Garcia'}}
+              - 다중값: {'pos': {'in': ['SP', 'RP']}}
+            모든 조건 AND 결합. limit 최대 200.
+
+            전용 도구(lookup_pareto/compare_team_2025 등)로 답이 안 나오는
+            조합 질문 ("9월 1점차에서 가장 많이 등판한 투수" 류)에 사용.
+            """
+            return tools.query_data(
+                source=source, filter=filter, columns=columns,
+                sort_by=sort_by, ascending=ascending, limit=limit,
+            )
+
+    if "plot_custom" in enabled:
+        @agent.tool_plain
+        def plot_custom(
+            source: str,
+            chart_type: str,
+            x: str,
+            y: str | list[str] | None = None,
+            color_by: str | None = None,
+            filter: dict | None = None,
+            sort_by: str | None = None,
+            ascending: bool = True,
+            limit: int = 500,
+            title: str | None = None,
+        ) -> dict:
+            """DATA_CATALOG의 임의 csv에서 임의 컬럼 조합으로 plotly 차트 생성.
+
+            chart_type: 'bar' | 'line' | 'scatter' | 'histogram' | 'box'.
+            전용 plot_* 도구(plot_scenario_comparison, plot_team_radar 등)로
+            못 만드는 시각화를 LLM이 직접 조합해서 만들 때 사용.
+
+            예시:
+            - 월별 TEX 승률 라인: source='texas_2025_game_log', chart_type='line', x='Date', y='win_pct'
+            - 투수별 K9 vs ERA 산점도: source='texas_pitchers_2025', chart_type='scatter', x='K/9', y='ERA'
+            - 타자 EV 히스토그램: source='rangers_2025_batters_daily_final', chart_type='histogram', x='EV'
+
+            filter는 query_data와 같은 문법. 행 수가 많은 csv는 limit·filter로 좁혀라.
+            """
+            return tools.plot_custom(
+                source=source, chart_type=chart_type, x=x, y=y,
+                color_by=color_by, filter=filter,
+                sort_by=sort_by, ascending=ascending, limit=limit, title=title,
             )
 
     return agent
@@ -530,6 +724,7 @@ section[data-testid="stSidebar"] .agent-sidebar-note {
             "9월 1점차 경기 승률은?",
             "역대 잔차 -9승 이하 팀 있어?",
             "K9 0.3σ 올리고 BB9 0.4σ 줄이면?",
+            "SEA, LAD와 팀 성적 비교 레이더 차트 그려줘",
         ]
         example_rows = "".join(
             f'<div class="agent-sidebar-row">'
@@ -546,7 +741,7 @@ section[data-testid="stSidebar"] .agent-sidebar-note {
     # 현재 플랜 + 도구 개수 안내
     st.caption(
         f"현재 플랜: **{TIER_CONFIG[tier]['name']}** · "
-        f"활성 도구 {len(enabled)}개 / 6개"
+        f"활성 도구 {len(enabled)}개 / {len(TOOL_DESCRIPTIONS)}개"
     )
 
     agent = get_agent(tier)
@@ -556,12 +751,7 @@ section[data-testid="stSidebar"] .agent-sidebar-note {
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
             if msg.get("tool_calls"):
-                with st.expander(f"🔧 도구 호출 내역 ({len(msg['tool_calls'])}건)"):
-                    for tc in msg["tool_calls"]:
-                        st.markdown(f"**{tc['name']}**")
-                        st.code(f"args: {tc['args']}", language="python")
-                        if tc.get('result') is not None:
-                            st.code(f"result: {tc['result']}", language="python")
+                _render_tool_calls(msg["tool_calls"], key_prefix=f"hist_{id(msg)}")
 
     # 입력
     user_input = st.chat_input("질문을 입력하세요...")
@@ -582,7 +772,7 @@ section[data-testid="stSidebar"] .agent-sidebar-note {
                     message_history=st.session_state.agent_history,
                 )
             except Exception as e:
-                err_text = f"❌ Agent 호출 실패: {e}"
+                err_text = f" Agent 호출 실패: {e}"
                 st.error(err_text)
                 # 에러도 채팅 히스토리에 보존 (재실행 시 컨텍스트 유지)
                 st.session_state.chat_messages.append({
@@ -614,12 +804,7 @@ section[data-testid="stSidebar"] .agent-sidebar-note {
                         pending_calls[call_id]["result"] = getattr(part, "content", None)
 
         if tool_calls:
-            with st.expander(f"🔧 도구 호출 내역 ({len(tool_calls)}건)"):
-                for tc in tool_calls:
-                    st.markdown(f"**{tc['name']}**")
-                    st.code(f"args: {tc['args']}", language="python")
-                    if tc.get('result') is not None:
-                        st.code(f"result: {tc['result']}", language="python")
+            _render_tool_calls(tool_calls, key_prefix="latest")
 
         # 세션 상태 업데이트
         st.session_state.agent_history = result.all_messages()

@@ -1,12 +1,12 @@
 import streamlit as st
-from shared import data, ASSETS, page_hero, finding_box, section_header
+from shared import data, ASSETS, page_hero, finding_box, glossary_box, KINEMATIC_TERMS
 
 
 def show():
     page_hero(
         "Methodology",
-        "Pose Estimation Pipeline",
-        "잔차 분석의 하위 레이어인 대표 투수 모션 분석을 위해 MotionBERT와 MotionAGFormer의 측정 안정성을 비교하고, 더 안정적인 MotionAGFormer 기반 키네마틱 지표를 채택한 과정입니다.",
+        "Motion Analysis Pipeline",
+        "잔차 원인을 경기 운영과 선수 상태로 좁힌 뒤, 하이 레버리지 상황에서 부진했던 투수 대표 케이스를 검증하기 위해 MotionBERT와 MotionAGFormer의 측정 안정성을 비교했습니다. 최종적으로 더 안정적인 MotionAGFormer 기반 키네마틱 지표를 모션 근거 레이어에 사용합니다.",
         [("MotionBERT", "white"), ("MotionAGFormer", "white"), ("CV Stability", "white")],
     )
 
@@ -14,13 +14,15 @@ def show():
         index='metric', columns='model', values='cv_pct'
     ).reset_index()
 
+    glossary_box("키네마틱 지표 용어", KINEMATIC_TERMS)
+
     top_left, top_right = st.columns([1.1, 1], gap="large")
 
     with top_left:
         with st.container():
             st.markdown(
                 '<div class="glass-card"><div class="section-heading">모델별 측정 안정성</div>'
-                '<div class="section-copy">Coefficient of Variation(CV%) 기준으로 낮을수록 반복 측정 안정성이 높습니다.</div></div>',
+                '<div class="section-copy">반복 측정의 흔들림이 작은 모델을 선택해야 투수별 폼 차이를 의사결정 근거로 사용할 수 있습니다. CV%는 낮을수록 안정적입니다.</div></div>',
                 unsafe_allow_html=True
             )
             if 'MotionBERT' in df_model.columns and 'MotionAGFormer' in df_model.columns:
@@ -40,7 +42,7 @@ def show():
         with st.container():
             st.markdown(
                 '<div class="glass-card"><div class="section-heading">측정 지표 정의</div>'
-                '<div class="section-copy">투구 폼의 분리, 회전, 타이밍을 설명하는 핵심 3D 키네마틱 지표입니다.</div></div>',
+                '<div class="section-copy">코칭 가능 영역과 운영·매치업 이슈를 구분하기 위해 투구 폼의 분리, 회전, 타이밍을 설명하는 3D 키네마틱 지표를 사용합니다.</div></div>',
                 unsafe_allow_html=True
             )
             import pandas as pd
@@ -56,22 +58,16 @@ def show():
                 ],
                 '단위': ['°', '°/s', '°/s', '비율', 'ms', '°'],
             })
+            metrics_info = pd.DataFrame({
+                '지표': ['HSS at FP', 'Hip peak 3D', 'Trunk peak 3D', 'Trunk/Hip ratio', 'Timing diff', 'HSS max'],
+                '의미': [
+                    '앞발이 땅에 닿는 순간의 골반-어깨 분리',
+                    '골반 회전 속도의 최고값',
+                    '몸통 회전 속도의 최고값',
+                    '몸통 회전 속도와 골반 회전 속도의 비율',
+                    '골반 회전 피크와 몸통 회전 피크 사이의 시간 차이',
+                    '투구 동작 전체에서 가장 큰 골반-어깨 분리',
+                ],
+                '단위': ['도', '도/초', '도/초', '비율', 'ms', '도'],
+            })
             st.dataframe(metrics_info, use_container_width=True, hide_index=True)
-
-    section_header("시각적 품질 비교", "Baseline부터 smoothing 제거, bone length normalization까지 모델 개선 과정을 이미지로 확인합니다.")
-    img_dir = ASSETS / "images"
-    tabs = st.tabs(["Baseline", "v2a Smooth 제거", "v2b Bone fix", "전체 비교"])
-    image_specs = [
-        ("baseline_quality.png", "초기 baseline 품질"),
-        ("v2a_nosmooth_quality.png", "Smoothing 제거 후 raw signal 보존"),
-        ("v2b_bonefix_quality.png", "Bone length 정규화 적용"),
-        ("version_comparison.png", "전체 버전 비교"),
-    ]
-    for tab, (filename, caption) in zip(tabs, image_specs):
-        with tab:
-            path = img_dir / filename
-            if path.exists():
-                st.image(str(path), use_container_width=True)
-                st.caption(caption)
-            else:
-                st.info(f"이미지 파일 없음: {filename}")

@@ -1,24 +1,40 @@
 import streamlit as st
 import pandas as pd
-from shared import data, ASSETS, kpi_card, page_hero
+from shared import data, ASSETS, kpi_card, page_hero, glossary_box, KINEMATIC_TERMS, BASEBALL_TERMS
 
+
+_SITUATION_LABEL = {
+    "SO": "삼진", "BB": "볼넷", "Walk": "볼넷",
+    "SV": "세이브", "BS": "블론 세이브",
+}
 
 def show_pitcher_page(pitcher_name, situation_a, situation_b,
                       interpretation_md, key_findings):
+    label_a = _SITUATION_LABEL.get(situation_a, situation_a)
+    label_b = _SITUATION_LABEL.get(situation_b, situation_b)
     role_kr = "선발" if pitcher_name in ["Leiter", "Webb"] else (
         "마무리" if pitcher_name == "Garcia" else "불펜"
     )
     page_hero(
         "Pitcher Detail",
         f"{pitcher_name} · {role_kr}",
-        f"잔차 분석을 선수 단위로 좁히기 위해 {situation_a}와 {situation_b} 상황에서 3D pose 기반 키네마틱 지표와 영상 차이를 비교합니다.",
-        [(f"{situation_a} vs {situation_b}", "white"), (role_kr, "white"), ("MotionAGFormer", "white")],
+        f"잔차 분석을 선수 단위로 좁히기 위해 {label_a}와 {label_b} 상황에서 3D pose 기반 키네마틱 지표와 영상 차이를 비교합니다.",
+        [(f"{label_a} vs {label_b}", "white"), (role_kr, "white"), ("MotionAGFormer", "white")],
     )
 
     df = data['pitcher_ag']
     pitcher_df = df[df['player'] == pitcher_name]
     n_a = pitcher_df['n_a'].iloc[0] if len(pitcher_df) > 0 else 0
     n_b = pitcher_df['n_b'].iloc[0] if len(pitcher_df) > 0 else 0
+
+    glossary_box("이 페이지의 주요 용어", {
+        "HSS @ FP": KINEMATIC_TERMS["HSS @ FP"],
+        "HSS max": KINEMATIC_TERMS["HSS max"],
+        "Trunk/Hip ratio": KINEMATIC_TERMS["Trunk/Hip ratio"],
+        "Cohen's d": BASEBALL_TERMS["Cohen's d"],
+        "p-value": BASEBALL_TERMS["p-value"],
+        "SV / BS": BASEBALL_TERMS["SV / BS"],
+    })
 
     # ── 1. 영상 비교 ───────────────────────────────────────────
     st.markdown(
@@ -52,7 +68,7 @@ def show_pitcher_page(pitcher_name, situation_a, situation_b,
             st.markdown(
                 f'<div class="video-case-title success">'
                 f'<span class="case-icon"><i class="bi bi-check-square-fill"></i></span>'
-                f'<span>{situation_a}</span>'
+                f'<span>{label_a}</span>'
                 f'<span class="case-n">(n={n_a})</span>'
                 f'</div>',
                 unsafe_allow_html=True
@@ -65,7 +81,7 @@ def show_pitcher_page(pitcher_name, situation_a, situation_b,
             st.markdown(
                 f'<div class="video-case-title fail">'
                 f'<span class="case-icon"><i class="bi bi-x-square-fill"></i></span>'
-                f'<span>{situation_b}</span>'
+                f'<span>{label_b}</span>'
                 f'<span class="case-n">(n={n_b})</span>'
                 f'</div>',
                 unsafe_allow_html=True
@@ -98,7 +114,7 @@ def show_pitcher_page(pitcher_name, situation_a, situation_b,
     )
     if len(pitcher_df) > 0:
         display_df = pitcher_df[['label', 'a_mean', 'b_mean', 'diff', 'cohens_d', 'u_p', 't_p']].copy()
-        display_df.columns = ['지표', f'{situation_a} 평균', f'{situation_b} 평균', '차이', "Cohen's d", 'p (Mann-Whitney)', 'p (t-test)']
+        display_df.columns = ['지표', f'{label_a} 평균', f'{label_b} 평균', '차이', "Cohen's d", 'p (Mann-Whitney)', 'p (t-test)']
         for col in display_df.columns[1:]:
             display_df[col] = pd.to_numeric(display_df[col], errors='coerce').round(3)
 

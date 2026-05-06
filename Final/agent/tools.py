@@ -71,94 +71,482 @@ simulate_scenario = estimate_residual_scenario
 # 2. 사전 정의 시나리오 조회
 # ============================================================
 
-_PARETO_NAME_MAP = {
-    'aggressive': '공격적 (최대 잔차 승수 개선)',
-    'balanced': '균형점 (TOPSIS)',
-    'conservative': '보수적 (최소 불확실성)',
-    '공격적': '공격적 (최대 잔차 승수 개선)',
-    '균형': '균형점 (TOPSIS)',
-    '균형점': '균형점 (TOPSIS)',
-    '보수적': '보수적 (최소 불확실성)',
-    'topsis': '균형점 (TOPSIS)',
-}
+_SCENARIO_ROWS = [
+    {"key": "pareto_aggressive", "source": "Pareto", "label": "공격적 (std=0.652)", "delta": 4.889, "predicted_W": 91.2, "pred_std": 0.6524, "rank": 1, "adjustments_summary": "sv_pct:+0.107, ir_pct:+0.067, onerun_wp:+0.131, xi_wp:+0.220, HR9:-0.265, BB9:-0.582", "decision_note": "상한선 후보: 개선 가능성은 가장 크지만 불확실성 확인 필요"},
+    {"key": "pareto_balanced", "source": "Pareto", "label": "균형점 (std=0.205)", "delta": 3.720, "predicted_W": 90.0, "pred_std": 0.2047, "rank": 2, "adjustments_summary": "sv_pct:+0.032, ir_pct:+0.067, onerun_wp:+0.115, xi_wp:+0.220, HR9:-0.271, BB9:-0.562", "decision_note": "균형 후보: 개선 폭과 안정성의 기본 검토안"},
+    {"key": "pareto_conservative", "source": "Pareto", "label": "보수적 (std=0.002)", "delta": 2.919, "predicted_W": 89.2, "pred_std": 0.0019, "rank": 3, "adjustments_summary": "sv_pct:+0.045, ir_pct:+0.007, onerun_wp:+0.109, xi_wp:+0.176, HR9:-0.102, BB9:+0.099", "decision_note": "안정 후보: 모델 간 의견 차이가 작을 때 참고"},
+    {"key": "best_overall", "source": "그리드", "label": "전체 복합 개선 상한 (delta=+2.00)", "delta": 1.995, "predicted_W": 88.3, "rank": 4, "decision_note": "보조 비교 후보"},
+    {"key": "best_closegame", "source": "그리드", "label": "접전 전용 최적 (delta=+1.83)", "delta": 1.833, "predicted_W": 88.1, "rank": 5, "decision_note": "운영 개선 후보: 접전·연장 성과 개선 우선"},
+    {"key": "manual_bullpen_upgrade", "source": "수동", "label": "불펜 강화", "delta": 1.181, "predicted_W": 87.5, "rank": 6, "decision_note": "보조 비교 후보"},
+    {"key": "best_bullpen", "source": "그리드", "label": "불펜 전용 최적 (delta=+0.13)", "delta": 0.130, "predicted_W": 86.4, "rank": 7, "decision_note": "불펜 단독 개선의 한계 확인"},
+    {"key": "manual_baseline", "source": "수동", "label": "Baseline 2025", "delta": 0.000, "predicted_W": 86.3, "rank": 8, "decision_note": "baseline과 차이가 작아 우선순위 낮음"},
+    {"key": "baseline", "source": "그리드", "label": "baseline (현재 수준) (delta=+0.00)", "delta": 0.000, "predicted_W": 86.3, "rank": 9, "decision_note": "baseline과 차이가 작아 우선순위 낮음"},
+    {"key": "hitter_boost", "source": "수동", "label": "타자 강화", "delta": 0.000, "predicted_W": 86.3, "rank": 10, "decision_note": "baseline과 차이가 작아 우선순위 낮음"},
+    {"key": "best_pitching", "source": "그리드", "label": "투구 프로파일 최적 (delta=+0.02)", "delta": 0.023, "predicted_W": 86.3, "rank": 11, "decision_note": "baseline과 차이가 작아 우선순위 낮음"},
+    {"key": "worst_overall", "source": "그리드", "label": "전체 복합 악화 하한 (delta=-0.68)", "delta": -0.679, "predicted_W": 85.6, "rank": 12, "decision_note": "악화 가능성 점검용 시나리오"},
+]
 
-_GRID_NAMES = {'best_overall', 'best_bullpen', 'best_closegame',
-               'best_pitching', 'worst_overall', 'baseline'}
+_SCENARIO_BY_KEY = {row["key"]: row for row in _SCENARIO_ROWS}
+
+_OPTIMIZATION_ROWS = [
+    {
+        "key": "grid_search",
+        "source": "Grid Search",
+        "label": "Grid Search best_overall",
+        "delta": 1.995,
+        "predicted_W": 88.3,
+        "search_count": "13,824",
+        "runtime": "~0.2초",
+        "space": "sigma in [-0.5, 0.75], 이산 grid",
+        "note": "Cell 43/49 비교 기준. 탐색 범위가 작아 NSGA-II와 직접 우열 비교하면 안 됨.",
+    },
+    {
+        "key": "nsga2_max",
+        "source": "Pareto(최대)",
+        "label": "NSGA-II Pareto 최대",
+        "delta": 4.889,
+        "predicted_W": 91.2,
+        "pred_std": 0.652,
+        "search_count": "pop x gen",
+        "runtime": "~2분",
+        "space": "sigma in [-1.5, 1.5], 다목적",
+        "note": "residual delta 최대화와 pred_std 최소화를 동시에 고려.",
+    },
+]
+
+_OPTIMIZATION_BY_KEY = {row["key"]: row for row in _OPTIMIZATION_ROWS}
+_GRID_PARETO_CACHE: list[dict] | None = None
+
+_SCENARIO_ALIASES = {
+    "aggressive": "pareto_aggressive",
+    "attack": "pareto_aggressive",
+    "pareto_aggressive": "pareto_aggressive",
+    "공격적": "pareto_aggressive",
+    "pareto 공격적": "pareto_aggressive",
+    "balanced": "pareto_balanced",
+    "balance": "pareto_balanced",
+    "topsis": "pareto_balanced",
+    "pareto_balanced": "pareto_balanced",
+    "균형": "pareto_balanced",
+    "균형점": "pareto_balanced",
+    "pareto 균형점": "pareto_balanced",
+    "conservative": "pareto_conservative",
+    "pareto_conservative": "pareto_conservative",
+    "보수적": "pareto_conservative",
+    "pareto 보수적": "pareto_conservative",
+    "hopeful": "best_overall",
+    "manual_hopeful": "best_overall",
+    "종합 희망": "best_overall",
+    "종합 희망 (hopeful)": "best_overall",
+    "best_overall": "best_overall",
+    "전체 복합 개선 상한": "best_overall",
+    "best_closegame": "best_closegame",
+    "접전 전용 최적": "best_closegame",
+    "pessimistic": "worst_overall",
+    "manual_pessimistic": "worst_overall",
+    "비관": "worst_overall",
+    "비관 (부상·슬럼프)": "worst_overall",
+    "bullpen_sv70": "manual_bullpen_upgrade",
+    "manual_bullpen_sv70": "manual_bullpen_upgrade",
+    "manual_bullpen_upgrade": "manual_bullpen_upgrade",
+    "bullpen upgrade": "manual_bullpen_upgrade",
+    "불펜 강화": "manual_bullpen_upgrade",
+    "불펜 강화 (sv% 70%)": "manual_bullpen_upgrade",
+    "best_bullpen": "best_bullpen",
+    "불펜 전용 최적": "best_bullpen",
+    "manual_baseline": "manual_baseline",
+    "기준선": "manual_baseline",
+    "기준선 (2025 실제)": "manual_baseline",
+    "hitter": "hitter_boost",
+    "hitter_boost": "hitter_boost",
+    "manual_hitter_boost": "hitter_boost",
+    "hitter boost": "hitter_boost",
+    "타자": "hitter_boost",
+    "타자 강화": "hitter_boost",
+    "타자 스탯 상승": "hitter_boost",
+    "langford": "hitter_boost",
+    "manual_langford": "hitter_boost",
+    "langford 도약": "hitter_boost",
+    "랭포드 도약": "hitter_boost",
+    "best_pitching": "best_pitching",
+    "투구 프로파일 최적": "best_pitching",
+    "baseline": "baseline",
+    "현재 수준": "baseline",
+    "ace": "best_pitching",
+    "manual_ace": "best_pitching",
+    "선발 에이스": "best_pitching",
+    "선발 에이스 (era 3.15)": "best_pitching",
+    "worst_overall": "worst_overall",
+    "전체 복합 악화 하한": "worst_overall",
+    "grid_search": "grid_search",
+    "grid": "grid_search",
+    "nsga2": "nsga2_max",
+    "nsga-ii": "nsga2_max",
+    "pareto max": "nsga2_max",
+    "pareto 최대": "nsga2_max",
+    "nsga2_max": "nsga2_max",
+    "grid_pareto_aggressive": "grid_pareto_aggressive",
+    "grid pareto aggressive": "grid_pareto_aggressive",
+    "grid pareto 공격적": "grid_pareto_aggressive",
+    "grid_pareto_balanced": "grid_pareto_balanced",
+    "grid pareto balanced": "grid_pareto_balanced",
+    "grid pareto 균형점": "grid_pareto_balanced",
+    "grid_pareto_conservative": "grid_pareto_conservative",
+    "grid pareto conservative": "grid_pareto_conservative",
+    "grid pareto 보수적": "grid_pareto_conservative",
+}
 
 
 def lookup_pareto(name: str) -> dict:
-    """사전 계산된 Pareto/Grid 시나리오 결과 즉시 반환.
+    """사전 계산된 v5 통합 비교 시나리오를 즉시 반환.
 
-    노트북 v3 실행 시 캐시된 결과를 읽어와 시뮬 호출 없이 응답한다.
-
-    유효한 이름:
-    - Pareto 3종: 'aggressive' / 'balanced' / 'conservative' (또는 한국어)
-    - Grid 6종: 'best_overall', 'best_bullpen', 'best_closegame',
-      'best_pitching', 'worst_overall', 'baseline'
-
-    Args:
-        name: 시나리오 이름 (영문/한국어 alias 지원).
-
-    Returns:
-        시나리오 라벨, delta, 예상 승수, 주요 조정 피처.
+    기존 챗봇 호환성을 위해 함수명은 `lookup_pareto`로 유지하지만,
+    Pareto 3종뿐 아니라 수동 시나리오와 Grid 시나리오도 함께 조회한다.
     """
-    key = name.strip().lower()
-
-    # Pareto 시나리오 — v3 노트북 Cell 45 (Grid 13,824 → Pareto 필터)
-    if key in _PARETO_NAME_MAP:
-        path = _OUTPUT_DIR / "grid_pareto.csv"
-        # 폴백: 구버전 NSGA-II 결과
-        if not path.exists():
-            path = _OUTPUT_DIR / "pareto_summary.csv"
-        if not path.exists():
-            return {'error': 'grid_pareto.csv / pareto_summary.csv 둘 다 없음. v3 노트북 Cell 45 실행 필요.'}
-
-        df = pd.read_csv(path)
-        target = _PARETO_NAME_MAP[key]
-        row = df[df['유형'] == target]
-        if row.empty:
-            return {'error': f'행을 찾을 수 없음: {target}'}
-        r = row.iloc[0]
-        result = {
-            'source': 'grid_pareto' if path.name == 'grid_pareto.csv' else 'nsga2',
-            'label': str(r['유형']),
-            'delta': round(float(r['resid_delta']), 3),
-            'pred_std': round(float(r['pred_std']), 4),
-            'adjustments_summary': str(r['주요 조정']),
-        }
-        if 'pred_W' in df.columns:
-            result['predicted_W'] = round(float(r['pred_W']), 1)
-        return result
-
-    # Grid 시나리오
-    if name.strip() in _GRID_NAMES:
-        path = _OUTPUT_DIR / "signed_proxy_scenario_summary.csv"
-        if not path.exists():
-            return {'error': f'signed_proxy_scenario_summary.csv 없음 ({path}).'}
-        df = pd.read_csv(path)
-        row = df[df['시나리오'] == name.strip()]
-        if row.empty:
-            return {'error': f'시나리오 없음: {name}'}
-        r = row.iloc[0]
+    raw = name.strip()
+    key = _SCENARIO_ALIASES.get(raw.lower(), _SCENARIO_ALIASES.get(raw, raw))
+    row = _SCENARIO_BY_KEY.get(key)
+    if row is None and key in _OPTIMIZATION_BY_KEY:
+        row = _OPTIMIZATION_BY_KEY[key]
+    if row is None and key.startswith("grid_pareto_"):
+        row = next((r for r in get_grid_pareto_points()["points"] if r["key"] == key), None)
+    if row is None:
         return {
-            'source': 'grid',
-            'label': str(r['시나리오']),
-            'description': str(r['설명']),
-            'delta': round(float(r['resid_delta']), 3),
-            'mean_W': round(float(r['평균_승수']), 1),
-            'median_W': round(float(r['중간값']), 1),
-            'p5_W': round(float(r['P5']), 1),
-            'p95_W': round(float(r['P95']), 1),
-            'p_88plus_pct': round(float(r['P_88이상(%)']), 1),
-            'p_90plus_pct': round(float(r['P_90이상(%)']), 1),
+            "error": f"알 수 없는 시나리오: {name}",
+            "valid": sorted(_SCENARIO_ALIASES),
         }
 
+    result = dict(row)
+    result["predicted_W"] = round(float(result["predicted_W"]), 1)
+    result["mean_W"] = result["predicted_W"]
+    result["delta"] = round(float(result["delta"]), 3)
+    if "pred_std" in result:
+        result["pred_std"] = round(float(result["pred_std"]), 3)
+    return result
+
+
+def list_precomputed_scenarios() -> dict:
+    """v5 통합 비교 시나리오 전체 목록을 rank 순서로 반환."""
+    def decision_note(row: dict) -> str:
+        scen = str(row.get("label", ""))
+        src = str(row.get("source", ""))
+        delta = float(row.get("delta", 0.0))
+        if src == "Pareto" and "공격적" in scen:
+            return "상한선 후보: 개선 가능성은 가장 크지만 불확실성 확인 필요"
+        if src == "Pareto" and "균형점" in scen:
+            return "균형 후보: 개선 폭과 안정성의 기본 비교점"
+        if src == "Pareto" and "보수적" in scen:
+            return "안정 후보: 모델 간 의견 차이가 작을 때 참고"
+        if src == "그리드" and "접전" in scen:
+            return "운영 개선 후보: 접전·연장 성과 개선 우선"
+        if src == "그리드" and "불펜" in scen:
+            return "불펜 단독 개선의 한계 확인"
+        if src == "그리드" and "악화" in scen:
+            return "악화 가능성 점검용 시나리오"
+        if src == "수동" and ("희망" in scen or "Hopeful" in scen):
+            return "야구적으로 설명 가능한 현실적 개선 후보"
+        if src == "수동" and ("비관" in scen or "부상" in scen):
+            return "부상·슬럼프 악화 가능성 점검"
+        if abs(delta) < 0.05:
+            return "baseline과 차이가 작아 우선순위 낮음"
+        return "보조 비교 후보"
+
+    rows = []
+    for row in sorted(_SCENARIO_ROWS, key=lambda r: r["rank"]):
+        enriched = dict(row)
+        enriched["decision_note"] = enriched.get("decision_note") or decision_note(enriched)
+        rows.append(enriched)
     return {
-        'error': f'알 수 없는 시나리오: {name}',
-        'valid_pareto': sorted(set(_PARETO_NAME_MAP)),
-        'valid_grid': sorted(_GRID_NAMES),
+        "count": len(_SCENARIO_ROWS),
+        "scenarios": rows,
     }
 
+
+def get_optimization_summary() -> dict:
+    """Notebook v5 optimization summary."""
+    nsga_rows = [dict(r) for r in _SCENARIO_ROWS if r["key"].startswith("pareto_")]
+    return {
+        "methods": [dict(r) for r in _OPTIMIZATION_ROWS],
+        "nsga2_representatives": nsga_rows,
+        "grid_pareto_note": "Grid Pareto points are loaded from Final/output/grid_pareto.csv when present, matching the v5 notebook output.",
+        "available_lookup_keys": [
+            "grid_search",
+            "nsga2_max",
+            "grid_pareto_aggressive",
+            "grid_pareto_balanced",
+            "grid_pareto_conservative",
+        ],
+    }
+
+
+def get_grid_pareto_points() -> dict:
+    """Return notebook Grid Pareto representatives.
+
+    The v5 notebook saves the authoritative representatives to
+    `Final/output/grid_pareto.csv`. If the CSV is unavailable, this falls back
+    to recomputing the 13,824 discrete combinations with `simulation_core`.
+    """
+    global _GRID_PARETO_CACHE
+    if _GRID_PARETO_CACHE is not None:
+        return {"count": len(_GRID_PARETO_CACHE), "points": [dict(r) for r in _GRID_PARETO_CACHE]}
+
+    csv_path = _OUTPUT_DIR / "grid_pareto.csv"
+    if csv_path.exists():
+        key_map = {
+            "공격적 (최대 잔차 승수 개선)": ("grid_pareto_aggressive", "Grid Pareto 공격적"),
+            "균형점 (TOPSIS)": ("grid_pareto_balanced", "Grid Pareto 균형점"),
+            "보수적 (최소 불확실성)": ("grid_pareto_conservative", "Grid Pareto 보수적"),
+        }
+        df = pd.read_csv(csv_path)
+        rows = []
+        for _, rec in df.iterrows():
+            key, label = key_map.get(str(rec["유형"]), (str(rec["유형"]), str(rec["유형"])))
+            rows.append(
+                {
+                    "key": key,
+                    "source": "Grid Pareto",
+                    "label": label,
+                    "delta": round(float(rec["resid_delta"]), 3),
+                    "predicted_W": round(float(rec["pred_W"]), 1),
+                    "pred_std": round(float(rec["pred_std"]), 4),
+                    "adjustments_summary": str(rec.get("주요 조정", "")),
+                    "search_count": 13824,
+                    "space": "v5 notebook grid, sigma in discrete levels up to 0.75",
+                }
+            )
+        _GRID_PARETO_CACHE = rows
+        return {"count": len(rows), "points": [dict(r) for r in rows]}
+
+    import itertools
+    import numpy as np
+
+    simulation_core._ensure_loaded()
+    state = simulation_core._state
+    grid_feats = {
+        "sv_pct": [-0.50, -0.25, 0.00, 0.25, 0.50, 0.75],
+        "ir_pct": [-0.50, -0.25, 0.00, 0.25, 0.50, 0.75],
+        "onerun_wp": [-0.50, -0.25, 0.00, 0.25, 0.50, 0.75],
+        "xi_wp": [-0.25, 0.00, 0.25, 0.50],
+        "HR9": [-0.25, 0.00, 0.25, 0.50],
+        "BB9": [-0.25, 0.00, 0.25, 0.50],
+    }
+    keys = list(grid_feats)
+    combos = list(itertools.product(*grid_feats.values()))
+    lower_better = {"ir_pct", "HR9", "BB9", "WHIP", "babip_against", "era_fip_diff"}
+
+    def sigma_to_delta(feature: str, sigma: float) -> float:
+        sign = -1 if feature in lower_better else 1
+        return sign * sigma * float(state["feat_std"][feature])
+
+    base = state["tex_base"]
+    cfip_base = (
+        (base["ERA"] - base["era_fip_diff"])
+        - (13 * base["HR9"] - 2 * base["K9"] + 3 * base["BB9"]) / 9
+    )
+    vecs = []
+    for combo in combos:
+        sigmas = dict(zip(keys, combo))
+        adj = {**base}
+        for feature, sigma in sigmas.items():
+            adj[feature] += sigma_to_delta(feature, sigma)
+        if any(abs(sigmas.get(f, 0.0)) > 1e-9 for f in ("HR9", "BB9")):
+            adj["era_fip_diff"] = adj["ERA"] - (
+                cfip_base + (13 * adj["HR9"] - 2 * adj["K9"] + 3 * adj["BB9"]) / 9
+            )
+        vecs.append([adj[f] for f in simulation_core.MODEL_FEATURES])
+
+    raw = np.array(vecs)
+    scaled = state["scaler"].transform(raw)
+    preds = np.stack(
+        [
+            state["ridge"].predict(scaled),
+            state["lasso"].predict(scaled),
+            state["rf"].predict(raw),
+            state["xgb"].predict(raw),
+        ],
+        axis=1,
+    )
+    means = preds.mean(axis=1)
+    stds = preds.std(axis=1)
+    deltas = means - state["base_resid"]
+
+    # Non-dominated front for max delta and min std.
+    sorted_idx = np.lexsort((stds, -deltas))
+    front = []
+    best_std = float("inf")
+    for idx in sorted_idx:
+        if stds[idx] < best_std - 1e-12:
+            front.append(idx)
+            best_std = float(stds[idx])
+    front = np.array(front)
+    front_delta = deltas[front]
+    front_std = stds[front]
+
+    aggr_idx = front[int(front_delta.argmax())]
+    cons_idx = front[int(front_std.argmin())]
+    norm_delta = (front_delta - front_delta.min()) / (front_delta.max() - front_delta.min() + 1e-9)
+    norm_std = (front_std - front_std.min()) / (front_std.max() - front_std.min() + 1e-9)
+    bal_idx = front[int((np.sqrt((1 - norm_delta) ** 2 + norm_std ** 2)).argmin())]
+
+    labels = [
+        ("grid_pareto_aggressive", "Grid Pareto 공격적"),
+        ("grid_pareto_balanced", "Grid Pareto 균형점"),
+        ("grid_pareto_conservative", "Grid Pareto 보수적"),
+    ]
+    selected = [aggr_idx, bal_idx, cons_idx]
+    rows = []
+    for (key, label), idx in zip(labels, selected):
+        sigmas = dict(zip(keys, combos[int(idx)]))
+        adj_summary = ", ".join(
+            f"{f}:{sigma_to_delta(f, s):+.3f}" for f, s in sigmas.items() if abs(s) > 1e-9
+        ) or "없음"
+        rows.append(
+            {
+                "key": key,
+                "source": "Grid Pareto",
+                "label": label,
+                "delta": round(float(deltas[idx]), 3),
+                "predicted_W": round(float(state["base_pyth_w"] + means[idx]), 1),
+                "pred_std": round(float(stds[idx]), 4),
+                "sigmas": {k: float(v) for k, v in sigmas.items()},
+                "adjustments_summary": adj_summary,
+                "front_size": int(len(front)),
+                "search_count": len(combos),
+                "space": "Cell 43 grid, sigma in discrete levels up to 0.75",
+            }
+        )
+
+    _GRID_PARETO_CACHE = rows
+    return {"count": len(rows), "points": [dict(r) for r in rows]}
+
+
+def _optimization_feature_keys() -> list[str]:
+    return ["sv_pct", "ir_pct", "onerun_wp", "xi_wp", "HR9", "BB9"]
+
+
+def _vector_from_sigmas(sigmas: dict[str, float]):
+    import numpy as np
+
+    simulation_core._ensure_loaded()
+    state = simulation_core._state
+    base = state["tex_base"]
+    lower_better = {"ir_pct", "HR9", "BB9", "WHIP", "babip_against", "era_fip_diff"}
+
+    def sigma_to_delta(feature: str, sigma: float) -> float:
+        sign = -1 if feature in lower_better else 1
+        return sign * sigma * float(state["feat_std"][feature])
+
+    adj = {**base}
+    for feature, sigma in sigmas.items():
+        adj[feature] += sigma_to_delta(feature, sigma)
+    if any(abs(sigmas.get(f, 0.0)) > 1e-9 for f in ("HR9", "BB9")):
+        cfip_base = (
+            (base["ERA"] - base["era_fip_diff"])
+            - (13 * base["HR9"] - 2 * base["K9"] + 3 * base["BB9"]) / 9
+        )
+        adj["era_fip_diff"] = adj["ERA"] - (
+            cfip_base + (13 * adj["HR9"] - 2 * adj["K9"] + 3 * adj["BB9"]) / 9
+        )
+    return np.array([[adj[f] for f in simulation_core.MODEL_FEATURES]])
+
+
+def _predict_raw_matrix(raw):
+    import numpy as np
+
+    state = simulation_core._state
+    scaled = state["scaler"].transform(raw)
+    preds = np.stack(
+        [
+            state["ridge"].predict(scaled),
+            state["lasso"].predict(scaled),
+            state["rf"].predict(raw),
+            state["xgb"].predict(raw),
+        ],
+        axis=1,
+    )
+    return preds.mean(axis=1), preds.std(axis=1)
+
+
+def load_optimization_datasets() -> dict:
+    """Load cached full optimization datasets if present."""
+    nsga_path = _OUTPUT_DIR / "optimization_nsga2_front.csv"
+    out = {
+        "nsga2_path": str(nsga_path),
+        "nsga2_front": [],
+    }
+    if nsga_path.exists():
+        out["nsga2_front"] = pd.read_csv(nsga_path).to_dict(orient="records")
+    out["has_nsga2"] = bool(out["nsga2_front"])
+    return out
+
+
+def run_nsga2_optimization(pop_size: int = 200, n_gen: int = 150, force: bool = False) -> dict:
+    """Run NSGA-II and save the full Pareto front to CSV."""
+    path = _OUTPUT_DIR / "optimization_nsga2_front.csv"
+    if path.exists() and not force:
+        df = pd.read_csv(path)
+        return {"path": str(path), "rows": len(df), "front": df.to_dict(orient="records"), "cached": True}
+
+    import numpy as np
+    from pymoo.algorithms.moo.nsga2 import NSGA2
+    from pymoo.core.problem import Problem
+    from pymoo.optimize import minimize as pymoo_minimize
+    from pymoo.operators.crossover.sbx import SBX
+    from pymoo.operators.mutation.pm import PM
+    from pymoo.operators.sampling.rnd import FloatRandomSampling
+    from pymoo.termination import get_termination
+
+    simulation_core._ensure_loaded()
+    state = simulation_core._state
+    keys = _optimization_feature_keys()
+
+    class ScenarioProblem(Problem):
+        def __init__(self):
+            super().__init__(
+                n_var=len(keys),
+                n_obj=2,
+                xl=np.full(len(keys), -1.5),
+                xu=np.full(len(keys), 1.5),
+            )
+
+        def _evaluate(self, x_pop, out, *args, **kwargs):
+            raw = np.vstack([
+                _vector_from_sigmas(dict(zip(keys, x))).reshape(1, -1)
+                for x in x_pop
+            ])
+            means, stds = _predict_raw_matrix(raw)
+            out["F"] = np.column_stack([-(means - state["base_resid"]), stds])
+
+    res = pymoo_minimize(
+        ScenarioProblem(),
+        NSGA2(
+            pop_size=pop_size,
+            sampling=FloatRandomSampling(),
+            crossover=SBX(prob=0.9, eta=15),
+            mutation=PM(eta=20),
+            eliminate_duplicates=True,
+        ),
+        get_termination("n_gen", n_gen),
+        seed=42,
+        verbose=False,
+    )
+
+    deltas = -res.F[:, 0]
+    stds = res.F[:, 1]
+    rows = []
+    for i, x in enumerate(res.X):
+        row = {
+            "point": i + 1,
+            "delta": round(float(deltas[i]), 6),
+            "pred_std": round(float(stds[i]), 6),
+            "predicted_W": round(float(state["base_pyth_w"] + state["base_resid"] + deltas[i]), 6),
+        }
+        row.update({f"sigma_{k}": round(float(v), 6) for k, v in zip(keys, x)})
+        rows.append(row)
+    df = pd.DataFrame(rows).sort_values("delta").reset_index(drop=True)
+    _OUTPUT_DIR.mkdir(exist_ok=True)
+    df.to_csv(path, index=False, encoding="utf-8-sig")
+    return {"path": str(path), "rows": len(df), "front": df.to_dict(orient="records"), "cached": False}
 
 # ============================================================
 # 3. 경쟁팀 통계 비교
@@ -402,3 +790,686 @@ def query_team_history(
         'mean_residual': round(float(sub['residual'].mean()), 2),
         'rows': rows.to_dict(orient='records'),
     }
+
+
+# ============================================================
+# 7. 시각화 — 시나리오 비교 막대그래프
+# ============================================================
+
+def plot_scenario_comparison(scenarios: list[str]) -> dict:
+    """여러 시나리오의 예상 승수를 baseline과 막대그래프로 비교.
+
+    이름들은 lookup_pareto와 동일하게 받는다 (Pareto 또는 Grid).
+    'baseline'은 자동 포함되며, 막대 위에 delta가 함께 표시된다.
+
+    Args:
+        scenarios: 시나리오 이름 리스트.
+                   예: ['aggressive', 'balanced', 'conservative']
+                   또는 ['best_overall', 'best_pitching', 'baseline']
+
+    Returns:
+        plotly Figure spec + 요약 데이터. UI는 'spec'을 그대로 plotly로 그림.
+    """
+    import plotly.graph_objects as go
+
+    baseline_W = float(_SCENARIO_BY_KEY["baseline"]["predicted_W"])
+
+    labels = ['baseline (현재 수준)']
+    values = [baseline_W]
+    deltas = [0.0]
+    stds = [0.0]
+    skipped = []
+
+    for name in scenarios:
+        if str(name).strip().lower() == 'baseline':
+            continue
+        r = lookup_pareto(name)
+        if 'error' in r:
+            skipped.append({'name': name, 'reason': r['error']})
+            continue
+        if 'predicted_W' in r:
+            w = float(r['predicted_W'])
+        elif 'mean_W' in r:
+            w = float(r['mean_W'])
+        else:
+            w = baseline_W + float(r.get('delta', 0))
+        labels.append(str(r.get('label', name)))
+        values.append(round(w, 2))
+        deltas.append(round(float(r.get('delta', w - baseline_W)), 2))
+        stds.append(float(r.get('pred_std', 0)))
+
+    if len(values) < 2:
+        return {'error': f'유효한 시나리오가 없습니다 ({scenarios})', 'skipped': skipped}
+
+    text = [f'{values[0]}승']
+    for i in range(1, len(values)):
+        sign = '+' if deltas[i] >= 0 else ''
+        text.append(f'{values[i]}승 ({sign}{deltas[i]:.1f})')
+
+    colors = ['#888888'] + ['#003278'] * (len(values) - 1)
+
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=labels,
+        y=values,
+        text=text,
+        textposition='outside',
+        marker_color=colors,
+        error_y=dict(type='data', array=stds, visible=True, thickness=1, color='#666'),
+        hovertemplate='<b>%{x}</b><br>W: %{y}<br>±σ: %{error_y.array}<extra></extra>',
+    ))
+    fig.update_layout(
+        title='시나리오별 예상 승수 (보정)',
+        yaxis_title='승수 (W)',
+        showlegend=False,
+        height=420,
+        margin=dict(t=60, b=60, l=60, r=20),
+    )
+    fig.add_hline(y=baseline_W, line_dash='dot', line_color='#888',
+                  annotation_text=f'baseline {baseline_W}', annotation_position='right')
+
+    out = {
+        'type': 'plotly_figure',
+        'spec': fig.to_json(),
+        'title': '시나리오 W 비교',
+        'caption': f'baseline {baseline_W}승 대비 {len(values) - 1}개 시나리오',
+        'data': dict(zip(labels, values)),
+    }
+    if skipped:
+        out['skipped'] = skipped
+    return out
+
+
+# ============================================================
+# 8. 시각화 — historical 잔차 분포
+# ============================================================
+
+def plot_historical_distribution(
+    year_from: int | None = None,
+    year_to: int | None = None,
+    residual_min: float | None = None,
+    residual_max: float | None = None,
+    highlight_tex_2025: bool = True,
+) -> dict:
+    """historical 팀-시즌 잔차 히스토그램. TEX 2025(-9.06) 위치를 점선으로 표시.
+
+    "역대 잔차 분포 어떻게 돼?", "TEX 2025 잔차가 얼마나 극단적이야?" 같은
+    위치 비교 질문에 적합.
+
+    Args:
+        year_from / year_to: 연도 범위.
+        residual_min / residual_max: 잔차 범위 필터.
+        highlight_tex_2025: TEX 2025 잔차(-9.06) 수직 점선 표시 여부.
+
+    Returns:
+        plotly Figure spec + 요약 통계 (n, 평균, std, TEX 2025 percentile).
+    """
+    import plotly.graph_objects as go
+
+    path = _DATA_DIR / "mlb_team_seasons.csv"
+    df = pd.read_csv(path)
+    df['pyth_wp'] = df['RS']**1.83 / (df['RS']**1.83 + df['RA']**1.83)
+    df['pyth_W'] = (df['pyth_wp'] * df['G']).round(1)
+    df['residual'] = df['W'] - df['pyth_W']
+
+    if year_from is not None:
+        df = df[df['year'] >= year_from]
+    if year_to is not None:
+        df = df[df['year'] <= year_to]
+    if residual_min is not None:
+        df = df[df['residual'] >= residual_min]
+    if residual_max is not None:
+        df = df[df['residual'] <= residual_max]
+
+    if df.empty:
+        return {'error': '조건에 맞는 데이터 없음'}
+
+    tex_2025_residual = -9.06
+    pct_below_tex = float((df['residual'] < tex_2025_residual).sum() / len(df) * 100)
+
+    fig = go.Figure()
+    fig.add_trace(go.Histogram(
+        x=df['residual'],
+        nbinsx=30,
+        marker_color='#003278',
+        opacity=0.75,
+        name='Historical',
+        hovertemplate='잔차 %{x:.1f}<br>%{y}개 시즌<extra></extra>',
+    ))
+    if highlight_tex_2025:
+        fig.add_vline(
+            x=tex_2025_residual,
+            line_dash='dash',
+            line_color='#C0111F',
+            line_width=2,
+            annotation_text=f'TEX 2025 ({tex_2025_residual})',
+            annotation_position='top',
+        )
+
+    fig.update_layout(
+        title=f'Historical 잔차 분포 ({df["year"].min()}~{df["year"].max()}, n={len(df)})',
+        xaxis_title='잔차 (W − pyth_W)',
+        yaxis_title='팀-시즌 수',
+        showlegend=False,
+        height=420,
+        margin=dict(t=60, b=60, l=60, r=20),
+    )
+
+    return {
+        'type': 'plotly_figure',
+        'spec': fig.to_json(),
+        'title': '잔차 분포',
+        'caption': (f'{len(df)}개 팀-시즌, 평균 {df["residual"].mean():+.2f}, '
+                    f'std {df["residual"].std():.2f}'),
+        'percentile_below_tex_2025': round(pct_below_tex, 1),
+        'mean': round(float(df['residual'].mean()), 2),
+        'std': round(float(df['residual'].std()), 2),
+        'n': int(len(df)),
+    }
+
+
+# ============================================================
+# 9. 시각화 — 팀 비교 레이더 차트
+# ============================================================
+
+# 레이더 축: (컬럼, 표시명, lower_better 여부)
+_RADAR_AXES = [
+    ('K/9',    'K/9',    False),
+    ('BB/9',   'BB/9',   True),
+    ('HR/9',   'HR/9',   True),
+    ('BABIP',  'BABIP',  True),
+    ('GB%',    'GB%',    False),
+    ('Hard%',  'Hard%',  True),
+    ('SV',     'SV',     False),
+    ('BS',     'BS',     True),
+]
+
+
+def plot_team_radar(teams: list[str]) -> dict:
+    """TEX와 1-3개 팀의 투수 지표를 레이더 차트로 비교.
+
+    8개 축 (K/9, BB/9, HR/9, BABIP, GB%, Hard%, SV, BS)을 MLB 30팀 기준으로
+    0~1 정규화한다. **bigger polygon = better**가 되도록 lower-better 지표
+    (BB/9, HR/9, BABIP, Hard%, BS)는 역방향 처리한다.
+
+    Args:
+        teams: 비교 대상 팀 리스트. TEX는 자동 포함되므로 넣지 않아도 됨.
+               예: ['SEA'] → TEX vs SEA, ['SEA', 'HOU'] → TEX vs SEA vs HOU.
+               코드(SEA/HOU/...) 또는 한국어 별명(매리너스 등) 모두 지원.
+
+    Returns:
+        plotly Figure spec + 정규화된 값 표 + 원본 값 표.
+    """
+    import plotly.graph_objects as go
+
+    path = _DATA_DIR / "mlb_teams_2025_pitching.csv"
+    df = pd.read_csv(path)
+
+    # TEX 자동 포함 + 입력 정규화 (중복·누락·미존재 처리)
+    codes = ['TEX']
+    skipped = []
+    for t in teams:
+        c = _normalize_team(t)
+        if c == 'TEX' or c in codes:
+            continue
+        if c not in df['Team'].values:
+            skipped.append({'name': t, 'reason': f'팀 코드 없음: {c}'})
+            continue
+        codes.append(c)
+        if len(codes) >= 4:  # TEX + 3개로 가독성 제한
+            break
+
+    if len(codes) < 2:
+        return {
+            'error': '비교할 유효 팀이 없습니다.',
+            'available_teams': sorted(df['Team'].unique()),
+            'skipped': skipped,
+        }
+
+    # 30팀 기준 min-max 정규화 + lower-better 반전
+    axis_labels = []
+    raw_table: dict[str, dict[str, float]] = {c: {} for c in codes}
+    norm_table: dict[str, list[float]] = {c: [] for c in codes}
+    for col, label, lb in _RADAR_AXES:
+        if col not in df.columns:
+            continue
+        axis_labels.append(label)
+        col_min = float(df[col].min())
+        col_max = float(df[col].max())
+        rng = col_max - col_min if col_max > col_min else 1.0
+        for c in codes:
+            raw = float(df.loc[df['Team'] == c, col].iloc[0])
+            raw_table[c][label] = round(raw, 3)
+            normalized = (col_max - raw) / rng if lb else (raw - col_min) / rng
+            norm_table[c].append(round(normalized, 3))
+
+    # 폐곡선 — 첫 점을 마지막에 다시 추가
+    closed_labels = axis_labels + axis_labels[:1]
+
+    # TEX는 진한 파랑, 비교팀들은 빨강·주황·녹색 순
+    palette = ['#003278', '#C0111F', '#FF8C00', '#2E8B57']
+
+    fig = go.Figure()
+    for i, c in enumerate(codes):
+        values = norm_table[c] + norm_table[c][:1]
+        color = palette[i % len(palette)]
+        fig.add_trace(go.Scatterpolar(
+            r=values,
+            theta=closed_labels,
+            fill='toself',
+            name=c,
+            line=dict(color=color, width=2),
+            opacity=0.6,
+            hovertemplate='<b>%{theta}</b><br>정규화: %{r:.2f}<extra>' + c + '</extra>',
+        ))
+
+    fig.update_layout(
+        title=f'투수 지표 레이더 — {" vs ".join(codes)}',
+        polar=dict(
+            radialaxis=dict(visible=True, range=[0, 1], tickvals=[0.25, 0.5, 0.75, 1.0]),
+        ),
+        showlegend=True,
+        height=460,
+        margin=dict(t=70, b=40, l=40, r=40),
+    )
+
+    out = {
+        'type': 'plotly_figure',
+        'spec': fig.to_json(),
+        'title': '팀 비교 레이더',
+        'caption': (f'{" vs ".join(codes)} | bigger = better '
+                    f'(lower-better 지표는 역방향 처리됨)'),
+        'normalized_0to1': {c: dict(zip(axis_labels, norm_table[c])) for c in codes},
+        'raw_values': raw_table,
+    }
+    if skipped:
+        out['skipped'] = skipped
+    return out
+
+
+# ============================================================
+# 10. 데이터 디스커버리 — list / describe / query
+# ============================================================
+
+# (파일명 stem) → 한 줄 설명. LLM에게 데이터셋 카탈로그 역할.
+DATA_CATALOG: dict[str, str] = {
+    # 팀/리그 기준 (multi-team / multi-year)
+    'mlb_team_seasons': '10개년 MLB 30팀 시즌 통계 (W/L/RS/RA/홈어웨이wp) — historical 잔차 비교용',
+    'mlb_teams_2025_pitching': '2025 MLB 30팀 투수 시즌 집계 (ERA/FIP/K9/BB9/HR9/BABIP/SV/BS/GB%/Hard%)',
+    'mlb_2025_batting_order_splits': '2025 MLB 30팀 타순별(1~9번) wOBA',
+    'batting_stats_2025_all': '2025 MLB 전체 타자 시즌 통계',
+    'sprint_speed_2025': '2025 MLB 모든 선수 주루 sprint speed',
+    'hit_by_pitch': '2025 MLB 사구 데이터',
+    'fangraphs-guts-data': 'FanGraphs Guts (선형무기 run value 가이드)',
+
+    # TEX 투수 (2025)
+    'rangers_2025_pitchers_daily_final': '2025 TEX 투수 일별 Statcast (구속/구종/whiff/release)',
+    'rangers_pitcher_gamelogs': '2025 TEX 투수 경기별 게임로그 (IP/ER/K/BB/SVO/홀드)',
+    'rangers_pitching_statcast': '2025 TEX 투수 시즌 Statcast 집계',
+    'rangers_pitching_batted': '2025 TEX 투수 타구 유형 분포 (GB%/FB%/LD%)',
+    'rangers_pitching_discipline': '2025 TEX 투수 디시플린 (Chase%/Whiff%/CSW%)',
+    'texas_pitchers_2025': '2025 TEX 투수 FanGraphs 시즌 집계',
+    'texas_2025_pitchers_vs_right': '2025 TEX 투수 vs 우타 split',
+    'texas_2025_pitches_vs_left': '2025 TEX 투수 vs 좌타 split',
+    'tex_2025_pitching_inning_splits': '2025 TEX 이닝별(1~9) 실점 집계',
+    'tex_2025_save_situation_splits': '2025 TEX 세이브 상황별 ERA/WHIP',
+    'tex_clutch_pit': '2025 TEX 투수 클러치 지표 (WPA/RE24/Clutch)',
+
+    # TEX 타자 (2025)
+    'rangers_2025_batters_daily_final': '2025 TEX 타자 일별 Statcast (EV/LA/Barrel/Whiff/Bat_Speed)',
+    'rangers_batter_gamelogs': '2025 TEX 타자 경기별 게임로그',
+    'rangers_hitting_statcast': '2025 TEX 타자 시즌 Statcast 집계',
+    'rangers_hitting_batted': '2025 TEX 타자 타구 유형 분포',
+    'rangers_hitting_discipline': '2025 TEX 타자 디시플린',
+    'rangers_running': '2025 TEX 주루 (sprint speed / 도루)',
+    'tex_2025_batting_order_splits': '2025 TEX 타순별(1~9) wOBA',
+    'tex_clutch_bat': '2025 TEX 타자 클러치 지표',
+    'tex_wrc+': '2025 TEX 타자 wRC+',
+
+    # TEX 경기/이벤트
+    'rangers_roster_2025': '2025 TEX 로스터 (선수 메타 + 포지션)',
+    'texas_2025_game_log': '2025 TEX 경기별 결과 (스코어/홈어웨이/상대)',
+    'statcast_tex_all_events_2025': '2025 TEX 모든 타석 이벤트 (raw, 6058행)',
+    'statcast_tex_doubles_2025': '2025 TEX 2루타 이벤트만',
+    'statcast_tex_singles_2025': '2025 TEX 1루타 이벤트만',
+
+    # 모델 결과 (Final/data/)
+    'pitcher_stats_ag': '동작분석 5인 투수 집계 (BABIP 운/실력 분류)',
+    'pitcher_stats_mb': '동작분석 5인 투수 메커니즘 분석 결과',
+    'model_comparison': '4모델 (Ridge/Lasso/RF/XGB) 잔차 모델 비교',
+    'model_summary': 'ML 잔차 모델 학습 요약 (피처 중요도 등)',
+}
+
+
+def _resolve_csv_path(name: str) -> Path | None:
+    """카탈로그 이름 → 실제 csv 경로. data_raw 우선, 없으면 data."""
+    if name not in DATA_CATALOG:
+        return None
+    for base in [_DATA_DIR, _APP_ROOT / "data"]:
+        p = base / f"{name}.csv"
+        if p.exists():
+            return p
+    return None
+
+
+def list_data_sources() -> dict:
+    """사용 가능한 모든 데이터셋의 이름 + 한 줄 설명 + 행/컬럼 수.
+
+    "어떤 데이터가 있는지", "TEX 클러치 데이터 있어?" 같은 디스커버리에 사용.
+    이 결과를 보고 적절한 source를 골라 describe_data/query_data로 진행한다.
+
+    Returns:
+        sources: [{'name', 'description', 'rows', 'cols', 'available'}, ...]
+        total: 카탈로그 등록된 데이터셋 총 개수
+    """
+    out = []
+    for name, desc in DATA_CATALOG.items():
+        path = _resolve_csv_path(name)
+        if path is None:
+            out.append({'name': name, 'description': desc, 'available': False})
+            continue
+        try:
+            df = pd.read_csv(path, nrows=0)  # 헤더만
+            n_rows = sum(1 for _ in open(path, 'r', encoding='utf-8')) - 1
+            out.append({
+                'name': name,
+                'description': desc,
+                'rows': n_rows,
+                'cols': len(df.columns),
+                'available': True,
+            })
+        except Exception as e:
+            out.append({'name': name, 'description': desc, 'available': False, 'error': str(e)})
+    return {'total': len(DATA_CATALOG), 'sources': out}
+
+
+def describe_data(source: str) -> dict:
+    """특정 데이터셋의 컬럼 정보 + 샘플 5행. query_data 호출 전 컬럼 확인용.
+
+    Args:
+        source: DATA_CATALOG의 키 (예: 'mlb_team_seasons', 'rangers_pitcher_gamelogs').
+
+    Returns:
+        name, description, shape, columns(이름/dtype/null수/unique수/min/max), sample(5행).
+    """
+    if source not in DATA_CATALOG:
+        return {
+            'error': f'알 수 없는 데이터셋: {source}',
+            'hint': 'list_data_sources()로 카탈로그를 먼저 확인하세요.',
+        }
+    path = _resolve_csv_path(source)
+    if path is None:
+        return {'error': f'파일이 존재하지 않음: {source}.csv'}
+
+    df = pd.read_csv(path)
+    columns = []
+    for col in df.columns:
+        col_info = {
+            'name': col,
+            'dtype': str(df[col].dtype),
+            'null': int(df[col].isnull().sum()),
+            'unique': int(df[col].nunique()),
+        }
+        if pd.api.types.is_numeric_dtype(df[col]):
+            col_info['min'] = round(float(df[col].min()), 3) if df[col].notna().any() else None
+            col_info['max'] = round(float(df[col].max()), 3) if df[col].notna().any() else None
+        columns.append(col_info)
+
+    return {
+        'name': source,
+        'description': DATA_CATALOG[source],
+        'shape': {'rows': int(len(df)), 'cols': int(len(df.columns))},
+        'columns': columns,
+        'sample': df.head(5).to_dict(orient='records'),
+    }
+
+
+def query_data(
+    source: str,
+    filter: dict | None = None,
+    columns: list[str] | None = None,
+    sort_by: str | None = None,
+    ascending: bool = True,
+    limit: int = 50,
+) -> dict:
+    """csv를 필터·선택·정렬해서 row 리스트로 반환. 일반 쿼리 도구.
+
+    "9월 1점차 경기에서 가장 많이 등판한 투수", "ERA 5 이상 투수의 GB%" 같은
+    조합 질문을 처리할 때 사용. 기존 query_gamelog/query_team_history의 일반화.
+
+    필터 문법 (dict):
+        - 등호:        {'month': 9, 'opponent': 'SEA'}
+        - 범위:        {'ERA': {'gte': 4.0, 'lte': 6.0}}
+        - 포함:        {'name': {'contains': 'Garcia'}}
+        - 다중 값 OR:  {'pos': {'in': ['SP', 'RP']}}
+        AND로만 결합 (모든 조건 동시 만족).
+
+    Args:
+        source: DATA_CATALOG의 키.
+        filter: 위 문법 dict. None이면 전체.
+        columns: 반환할 컬럼만. None이면 전체.
+        sort_by: 정렬 컬럼.
+        ascending: 오름차순 여부.
+        limit: 반환 행 수 상한 (기본 50, 최대 200).
+
+    Returns:
+        matched(필터 결과 행수), returned(실제 반환 행수), rows(dict 리스트), columns_used.
+    """
+    if source not in DATA_CATALOG:
+        return {'error': f'알 수 없는 데이터셋: {source}', 'hint': 'list_data_sources() 확인.'}
+    path = _resolve_csv_path(source)
+    if path is None:
+        return {'error': f'파일이 존재하지 않음: {source}.csv'}
+
+    df = pd.read_csv(path)
+    mask = pd.Series(True, index=df.index)
+    filter_errors = []
+
+    if filter:
+        for col, cond in filter.items():
+            if col not in df.columns:
+                filter_errors.append(f'존재하지 않는 컬럼: {col}')
+                continue
+            if isinstance(cond, dict):
+                if 'gte' in cond:
+                    mask &= df[col] >= cond['gte']
+                if 'gt' in cond:
+                    mask &= df[col] > cond['gt']
+                if 'lte' in cond:
+                    mask &= df[col] <= cond['lte']
+                if 'lt' in cond:
+                    mask &= df[col] < cond['lt']
+                if 'in' in cond:
+                    mask &= df[col].isin(cond['in'])
+                if 'contains' in cond:
+                    mask &= df[col].astype(str).str.contains(str(cond['contains']), case=False, na=False)
+            else:
+                mask &= df[col] == cond
+
+    sub = df[mask]
+    if sort_by:
+        if sort_by not in df.columns:
+            filter_errors.append(f'정렬 컬럼 없음: {sort_by}')
+        else:
+            sub = sub.sort_values(sort_by, ascending=ascending)
+
+    limit = max(1, min(int(limit), 200))
+    if columns:
+        missing = [c for c in columns if c not in df.columns]
+        if missing:
+            filter_errors.append(f'존재하지 않는 컬럼: {missing}')
+        valid_cols = [c for c in columns if c in df.columns]
+        result_df = sub[valid_cols].head(limit) if valid_cols else sub.head(limit)
+    else:
+        result_df = sub.head(limit)
+
+    out = {
+        'source': source,
+        'matched': int(len(sub)),
+        'returned': int(len(result_df)),
+        'rows': result_df.to_dict(orient='records'),
+        'columns_used': list(result_df.columns),
+    }
+    if filter_errors:
+        out['warnings'] = filter_errors
+    return out
+
+
+# ============================================================
+# 11. 시각화 — 임의 데이터셋·컬럼 차트 (plot_custom)
+# ============================================================
+
+_PLOT_TYPES = {'bar', 'line', 'scatter', 'histogram', 'box'}
+
+
+def plot_custom(
+    source: str,
+    chart_type: str,
+    x: str,
+    y: str | list[str] | None = None,
+    color_by: str | None = None,
+    filter: dict | None = None,
+    sort_by: str | None = None,
+    ascending: bool = True,
+    limit: int = 500,
+    title: str | None = None,
+) -> dict:
+    """DATA_CATALOG의 임의 csv에서 임의 컬럼 조합으로 plotly 차트 생성.
+
+    전용 plot_* 도구로 못 만드는 시각화를 LLM이 자유롭게 조합하여 만들 때 사용.
+    "월별 TEX 승률 라인", "투수별 K9 vs ERA 산점도" 같은 ad-hoc 시각화 처리.
+
+    Args:
+        source: DATA_CATALOG의 키 (list_data_sources / describe_data로 확인 가능).
+        chart_type: 'bar' | 'line' | 'scatter' | 'histogram' | 'box'.
+        x: x축 컬럼.
+        y: y축 컬럼 (histogram은 무시). 다중 시리즈는 list로 (line/bar에서).
+        color_by: 색상 그룹핑 컬럼. None이면 단색.
+        filter: query_data와 동일 문법
+                ({'col': value}, {'col': {'gte': 4.0, 'lte': 6.0}}, {'col': {'in': [...]}}, ...)
+        sort_by: 정렬 컬럼 (line에서 권장 — x축 정렬 효과).
+        ascending: 오름차순 여부.
+        limit: 그릴 행 수 상한 (기본 500, 최대 5000). 대용량 csv 안전.
+        title: 차트 제목. None이면 자동 생성.
+
+    Returns:
+        plotly Figure spec + 사용 행수 + 적용된 필터 메타.
+    """
+    import plotly.express as px
+
+    if source not in DATA_CATALOG:
+        return {'error': f'알 수 없는 데이터셋: {source}', 'hint': 'list_data_sources() 확인.'}
+    path = _resolve_csv_path(source)
+    if path is None:
+        return {'error': f'파일이 존재하지 않음: {source}.csv'}
+
+    chart_type = chart_type.lower().strip()
+    if chart_type not in _PLOT_TYPES:
+        return {
+            'error': f'지원하지 않는 chart_type: {chart_type}',
+            'valid_types': sorted(_PLOT_TYPES),
+        }
+
+    df = pd.read_csv(path)
+    warnings_ = []
+
+    # 필터 적용 (query_data와 동일 문법)
+    if filter:
+        mask = pd.Series(True, index=df.index)
+        for col, cond in filter.items():
+            if col not in df.columns:
+                warnings_.append(f'존재하지 않는 컬럼 (필터): {col}')
+                continue
+            if isinstance(cond, dict):
+                if 'gte' in cond:
+                    mask &= df[col] >= cond['gte']
+                if 'gt' in cond:
+                    mask &= df[col] > cond['gt']
+                if 'lte' in cond:
+                    mask &= df[col] <= cond['lte']
+                if 'lt' in cond:
+                    mask &= df[col] < cond['lt']
+                if 'in' in cond:
+                    mask &= df[col].isin(cond['in'])
+                if 'contains' in cond:
+                    mask &= df[col].astype(str).str.contains(str(cond['contains']), case=False, na=False)
+            else:
+                mask &= df[col] == cond
+        df = df[mask]
+
+    if df.empty:
+        return {'error': '필터 후 데이터가 없습니다.', 'warnings': warnings_}
+
+    # 정렬 + 행 제한
+    if sort_by:
+        if sort_by in df.columns:
+            df = df.sort_values(sort_by, ascending=ascending)
+        else:
+            warnings_.append(f'정렬 컬럼 없음: {sort_by}')
+    limit = max(1, min(int(limit), 5000))
+    df = df.head(limit)
+
+    # x/y/color_by 컬럼 검증
+    if x not in df.columns:
+        return {'error': f'x 컬럼 없음: {x}', 'available_columns': list(df.columns)}
+    y_used: list[str] | str | None = None
+    if y is not None and chart_type != 'histogram':
+        if isinstance(y, str):
+            if y not in df.columns:
+                return {'error': f'y 컬럼 없음: {y}', 'available_columns': list(df.columns)}
+            y_used = y
+        else:
+            missing = [c for c in y if c not in df.columns]
+            if missing:
+                return {'error': f'y 컬럼 없음: {missing}', 'available_columns': list(df.columns)}
+            y_used = list(y)
+    if color_by and color_by not in df.columns:
+        warnings_.append(f'color_by 컬럼 없음, 무시: {color_by}')
+        color_by = None
+
+    # 자동 제목
+    if title is None:
+        y_str = y_used if isinstance(y_used, str) else (', '.join(y_used) if y_used else '')
+        title = f'{source} — {chart_type}({x}{(", " + y_str) if y_str else ""})'
+
+    # 차트 생성
+    common_kwargs = {'color': color_by} if color_by else {}
+    try:
+        if chart_type == 'histogram':
+            fig = px.histogram(df, x=x, **common_kwargs)
+        elif chart_type == 'bar':
+            fig = px.bar(df, x=x, y=y_used, **common_kwargs)
+        elif chart_type == 'line':
+            fig = px.line(df, x=x, y=y_used, **common_kwargs)
+        elif chart_type == 'scatter':
+            fig = px.scatter(df, x=x, y=y_used, **common_kwargs)
+        elif chart_type == 'box':
+            fig = px.box(df, x=x, y=y_used, **common_kwargs)
+        else:
+            return {'error': f'예외: {chart_type}'}
+    except Exception as e:
+        return {'error': f'차트 생성 실패: {e}', 'hint': '컬럼 dtype 확인 — bar/line/scatter는 y가 숫자형이어야 합니다.'}
+
+    fig.update_layout(
+        title=title,
+        height=420,
+        margin=dict(t=60, b=60, l=60, r=20),
+    )
+
+    out = {
+        'type': 'plotly_figure',
+        'spec': fig.to_json(),
+        'title': title,
+        'caption': f'{source} | {chart_type} | {len(df)}행 사용' + (f' | color={color_by}' if color_by else ''),
+        'rows_used': int(len(df)),
+        'columns_used': {
+            'x': x,
+            'y': y_used,
+            'color_by': color_by,
+        },
+    }
+    if filter:
+        out['filter_applied'] = filter
+    if warnings_:
+        out['warnings'] = warnings_
+    return out
