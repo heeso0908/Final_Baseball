@@ -2,10 +2,25 @@
 .env
 **/.env
 
+# Streamlit Secrets
+.streamlit/secrets.toml
+**/.streamlit/secrets.toml
+
+# GCP / Vertex AI 서비스 계정 키
+vertex-ai-key.json
+**/vertex-ai-key.json
+gcp-service-account.json
+**/gcp-service-account.json
+service-account-key.json
+**/service-account-key.json
+application_default_credentials.json
+**/application_default_credentials.json
+
 # Python
 __pycache__/
 *.pyc
 .venv/
+**/.venv*/
 
 # Jupyter
 .ipynb_checkpoints/
@@ -19,7 +34,6 @@ __pycache__/
 *.mp4
 *.task
 *.pt
-**/.venv*/
 **/pose_output/
 **/videos/
 **/openbiomechanics/
@@ -42,4 +56,6 @@ collection_output/
 !Final/assets/
 !Final/assets/**
 
+# Final output의 csv 일부 포함
+!Final/output/
 !Final/output/*.csv
