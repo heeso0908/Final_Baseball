@@ -1,8 +1,9 @@
-"""TEX 2025 Pythagorean residual analysis dashboard."""
-# ── Korean font setup — must happen before any Streamlit commands ──
+﻿"""TEX 2025 Pythagorean residual analysis dashboard."""
+# ?? Korean font setup ??must happen before any Streamlit commands ??
 import platform as _platform
 import sys as _sys
 import glob as _glob
+from pathlib import Path
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as _fm
 
@@ -35,7 +36,7 @@ def _setup_korean_font():
 
 _setup_korean_font()
 
-# ── Streamlit page config — must be the first st.* call ───────────
+# ?? Streamlit page config ??must be the first st.* call ???????????
 import streamlit as st
 
 st.set_page_config(
@@ -45,7 +46,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ── Import shared utilities and view modules (after set_page_config) ─
+# ?? Import shared utilities and view modules (after set_page_config) ?
 from shared import ASSETS, image_to_base64
 import views.overview as v_overview
 import views.simulation as v_simulation
@@ -60,15 +61,22 @@ import views.comparison as v_comparison
 import views.ai_agent as v_ai_agent
 import views.conclusions as v_conclusions
 
-# ── Global CSS ─────────────────────────────────────────────────────
+_APP_DIR = Path(__file__).resolve().parent
+_V5_OUTPUT_FILES = {
+    "Pareto": _APP_DIR / "output" / "pareto_summary.csv",
+    "Grid Pareto": _APP_DIR / "output" / "grid_pareto.csv",
+    "Decision Leaderboard": _APP_DIR / "output" / "scenario_decision_leaderboard.csv",
+}
+
+# ?? Global CSS ?????????????????????????????????????????????????????
 st.markdown("""
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
-/* ─────────────────────────────
+/* ?????????????????????????????
    Lovable Theme Variables
-───────────────────────────── */
+????????????????????????????? */
 :root {
     --navy: #0D1B33;
     --navy-deep: #071225;
@@ -93,11 +101,48 @@ st.markdown("""
     --shadow-elevated: 0 4px 6px -1px rgba(13, 27, 51, 0.06), 0 10px 24px -8px rgba(13, 27, 51, 0.10);
 }
 
-/* ─────────────────────────────
+/* ?????????????????????????????
    Base
-───────────────────────────── */
+????????????????????????????? */
 html, body, [class*="css"] {
     font-family: "Manrope", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+}
+
+.bi,
+i[class^="bi-"],
+i[class*=" bi-"] {
+    font-family: "bootstrap-icons" !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    line-height: 1 !important;
+    display: inline-block;
+}
+
+[data-testid="stExpander"] summary p {
+    font-family: "Manrope", "Pretendard", "Noto Sans KR", system-ui, sans-serif !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+span[data-testid="stIconMaterial"],
+.material-icons,
+.material-icons-round,
+.material-icons-rounded,
+.material-symbols-outlined,
+.material-symbols-rounded,
+.material-symbols-sharp {
+    font-family: "Material Symbols Rounded", "Material Icons Round", "Material Icons" !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    line-height: 1 !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    white-space: nowrap !important;
+    word-wrap: normal !important;
+    direction: ltr !important;
+    font-feature-settings: "liga" !important;
+    -webkit-font-feature-settings: "liga" !important;
 }
 
 .stApp {
@@ -118,6 +163,12 @@ html, body, [class*="css"] {
 
 [data-testid="stHeader"] {
     background: transparent !important;
+}
+
+[data-testid="stMultiSelect"] label,
+[data-testid="stMultiSelect"] span,
+[data-testid="stMultiSelect"] input {
+    font-size: 13px !important;
 }
 
 [data-testid="stToolbar"] {
@@ -151,6 +202,7 @@ h3 {
 }
 
 p, li, .stMarkdown {
+    font-family: "Manrope", "Pretendard", "Noto Sans KR", system-ui, sans-serif !important;
     font-size: 14px;
     line-height: 1.65;
 }
@@ -169,9 +221,9 @@ hr {
 }
 
 
-/* ─────────────────────────────
-   Sidebar — Lovable Style
-───────────────────────────── */
+/* ?????????????????????????????
+   Sidebar ??Lovable Style
+????????????????????????????? */
 section[data-testid="stSidebar"] {
     background: linear-gradient(
         to bottom,
@@ -282,7 +334,7 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
 .sidebar-project-wrap {
     padding: 22px 18px 16px 18px;
     border-bottom: 1px solid rgba(255,255,255,0.08);
-    margin-bottom: 12px;
+    margin-bottom: 0;
 }
 
 .sidebar-section-label {
@@ -322,16 +374,29 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     box-sizing: border-box;
 }
 
+.sidebar-note-wrap .sidebar-section-label {
+    margin-bottom: 6px;
+}
+
 .sidebar-note-body {
     color: rgba(255,255,255,0.68);
     font-size: 13px;
-    line-height: 1.5;
+    line-height: 1.55;
     text-align: left;
 }
 
-/* ─────────────────────────────
+.sidebar-note-body .note-line {
+    display: block;
+}
+
+.sidebar-note-body .note-subline {
+    display: block;
+    margin-top: 6px;
+}
+
+/* ?????????????????????????????
    Hero
-───────────────────────────── */
+????????????????????????????? */
 .hero-card {
     position: relative;
     overflow: hidden;
@@ -378,9 +443,9 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     z-index: 1;
 }
 
-/* ─────────────────────────────
+/* ?????????????????????????????
    Pills
-───────────────────────────── */
+????????????????????????????? */
 .pill {
     display: inline-flex;
     align-items: center;
@@ -411,15 +476,39 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     border-color: rgba(13, 27, 51, 0.16);
 }
 
+.pill-navy-solid {
+    background: #003278;
+    color: #fff;
+    border-color: #003278;
+}
+
+.pill-card-navy {
+    background: rgba(240,245,255,0.97);
+    color: #003278;
+    border-color: rgba(0,50,120,0.22);
+}
+
+.pill-card-red {
+    background: rgba(255,245,245,0.97);
+    color: #B3191A;
+    border-color: rgba(179,25,34,0.22);
+}
+
+.pill-gray {
+    background: rgba(100,116,139,0.10);
+    color: #475569;
+    border-color: rgba(100,116,139,0.22);
+}
+
 .pill-white {
     background: rgba(255,255,255,0.13);
     color: white;
     border-color: rgba(255,255,255,0.20);
 }
 
-/* ─────────────────────────────
+/* ?????????????????????????????
    Glass / Cards
-───────────────────────────── */
+????????????????????????????? */
 .card,
 .glass-card,
 .kpi-card-custom {
@@ -454,7 +543,9 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
 .glass-card {
     border-radius: 20px;
     padding: 22px;
-    margin: 10px 0 20px 0;
+    margin: 4px 0 20px 0;
+    font-size: 14px;
+    line-height: 1.65;
 }
 
 .glass-card .section-heading {
@@ -463,6 +554,16 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
 
 .glass-card .section-copy {
     margin-bottom: 0 !important;
+}
+
+.glass-card .chart-caption,
+.glass-card .chart-title {
+    margin-bottom: 0 !important;
+}
+
+.glass-card .chart-caption {
+    font-size: 14px;
+    line-height: 1.65;
 }
 
 .glass-card-accent {
@@ -476,6 +577,44 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
         0 1px 0 0 rgba(255,255,255,0.90) inset,
         0 10px 28px -14px rgba(179,25,34,0.30),
         0 2px 6px -2px rgba(13,27,51,0.10);
+}
+
+.glass-card-red {
+    background:
+        radial-gradient(120% 80% at 100% 0%, rgba(179,25,34,0.12) 0%, transparent 55%),
+        linear-gradient(145deg, rgba(255,245,245,0.95), rgba(255,235,235,0.80));
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid rgba(179,25,34,0.22);
+    box-shadow:
+        0 1px 0 0 rgba(255,255,255,0.90) inset,
+        0 10px 28px -14px rgba(179,25,34,0.30),
+        0 2px 6px -2px rgba(13,27,51,0.10);
+}
+
+.glass-card-navy {
+    background:
+        radial-gradient(120% 80% at 0% 0%, rgba(0,50,120,0.10) 0%, transparent 55%),
+        linear-gradient(145deg, rgba(240,245,255,0.95), rgba(225,235,255,0.80));
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid rgba(0,50,120,0.20);
+    box-shadow:
+        0 1px 0 0 rgba(255,255,255,0.90) inset,
+        0 10px 28px -14px rgba(0,50,120,0.22),
+        0 2px 6px -2px rgba(13,27,51,0.10);
+}
+
+.glass-card-amber {
+    background:
+        linear-gradient(145deg, rgba(241,243,246,0.97), rgba(226,230,235,0.85));
+    backdrop-filter: blur(14px) saturate(120%);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    border: 1px solid rgba(100,110,130,0.20);
+    box-shadow:
+        0 1px 0 0 rgba(255,255,255,0.90) inset,
+        0 10px 28px -14px rgba(100,110,130,0.20),
+        0 2px 6px -2px rgba(13,27,51,0.08);
 }
 
 /* KPI */
@@ -621,9 +760,9 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     font-weight: 700;
 }
 
-/* ─────────────────────────────
+/* ?????????????????????????????
    Tables / Tabs / Forms
-───────────────────────────── */
+????????????????????????????? */
 div[data-testid="stDataFrame"] {
     border-radius: 16px;
     overflow: hidden;
@@ -632,20 +771,27 @@ div[data-testid="stDataFrame"] {
 }
 
 .stTabs [data-baseweb="tab-list"] {
-    gap: 8px;
+    gap: 4px;
+    border-bottom: 2px solid rgba(13,27,51,0.10);
+    padding-bottom: 0;
 }
 
 .stTabs [data-baseweb="tab"] {
-    border-radius: 999px;
-    padding: 8px 14px;
-    background: rgba(255,255,255,0.72);
-    border: 1px solid rgba(13,27,51,0.07);
+    border-radius: 8px 8px 0 0;
+    padding: 7px 20px;
+    background: rgba(255,255,255,0.50);
+    border: 1px solid rgba(13,27,51,0.10);
+    border-bottom: none;
     font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    color: #64748B;
 }
 
 .stTabs [aria-selected="true"] {
-    background: var(--navy) !important;
+    background: #003278 !important;
     color: white !important;
+    border-color: #003278 !important;
 }
 
 [data-testid="stAlert"] {
@@ -728,9 +874,9 @@ div[data-baseweb="select"] > div {
     color: #344054;
 }
 
-/* ─────────────────────────────
+/* ?????????????????????????????
    Page-level Lovable Components
-───────────────────────────── */
+????????????????????????????? */
 .page-kicker {
     color: rgba(255,255,255,0.70);
     font-size: 11px;
@@ -800,6 +946,7 @@ div[data-baseweb="select"] > div {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 10px;
+    margin-bottom: 20px;
 }
 .pitcher-mini-card {
     background: rgba(255,255,255,0.76);
@@ -881,9 +1028,9 @@ div[data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"] 
     gap: 0.72rem;
 }
 
-/* ─────────────────────────────
+/* ?????????????????????????????
    Video Mode Selector
-───────────────────────────── */
+????????????????????????????? */
 .video-mode-head {
     width: 100%;
     box-sizing: border-box;
@@ -958,31 +1105,25 @@ div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="s
 div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="stElementContainer"] div[role="radiogroup"] label,
 .element-container:has(.video-mode-head) + .element-container div[role="radiogroup"] label {
     display: inline-flex !important;
+    flex-direction: row !important;
     align-items: center !important;
+    justify-content: center !important;
     gap: 0 !important;
     column-gap: 0 !important;
     background: rgba(13, 27, 51, 0.07);
     border: 1px solid rgba(13, 27, 51, 0.16);
     border-radius: 999px;
-    padding: 7px 14px !important;
+    height: 34px !important;
+    padding: 0 16px !important;
     margin: 0 !important;
-    min-height: 30px !important;
+    box-sizing: border-box !important;
     cursor: pointer;
     transition: all 0.16s ease;
 }
 
 div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="stElementContainer"] div[role="radiogroup"] label > div:first-child,
 .element-container:has(.video-mode-head) + .element-container div[role="radiogroup"] label > div:first-child {
-    width: 0 !important;
-    min-width: 0 !important;
-    max-width: 0 !important;
-    height: 0 !important;
-    min-height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    visibility: hidden !important;
-    flex: 0 0 0 !important;
+    display: none !important;
 }
 
 div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="stElementContainer"] div[role="radiogroup"] label > div:last-child,
@@ -991,6 +1132,18 @@ div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="s
 .element-container:has(.video-mode-head) + .element-container div[role="radiogroup"] label [data-testid="stMarkdownContainer"] {
     margin: 0 !important;
     padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+}
+
+div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="stElementContainer"] div[role="radiogroup"] label > div:last-child > div,
+.element-container:has(.video-mode-head) + .element-container div[role="radiogroup"] label > div:last-child > div {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
 }
 
 div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="stElementContainer"] div[role="radiogroup"] label p,
@@ -999,6 +1152,9 @@ div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="s
     font-size: 12px !important;
     font-weight: 750 !important;
     margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+    transform: translateY(-2px) !important;
 }
 
 div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="stElementContainer"] div[role="radiogroup"] label:hover,
@@ -1019,9 +1175,9 @@ div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="s
     color: #FFFFFF !important;
 }
 
-/* ─────────────────────────────
+/* ?????????????????????????????
    Video Title Icons
-───────────────────────────── */
+????????????????????????????? */
 .video-case-title {
     display: inline-flex;
     align-items: center;
@@ -1058,9 +1214,9 @@ div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="s
     font-weight: 500;
 }
 
-/* ─────────────────────────────
+/* ?????????????????????????????
    Sidebar Custom Navigation Buttons
-───────────────────────────── */
+????????????????????????????? */
 section[data-testid="stSidebar"] .stButton {
     margin: 1px 8px !important;
     padding: 0 !important;
@@ -1096,7 +1252,7 @@ section[data-testid="stSidebar"] .stButton > button[data-testid="baseButton-prim
     background: #1E3A65 !important;
 }
 section[data-testid="stSidebar"] .stButton > button p {
-    font-family: "bootstrap-icons", "Manrope", sans-serif !important;
+    font-family: "bootstrap-icons", "Manrope", "Pretendard", "Noto Sans KR", sans-serif !important;
     color: inherit !important;
     font-size: inherit !important;
     font-weight: inherit !important;
@@ -1117,14 +1273,25 @@ section[data-testid="stSidebar"] [data-testid="stExpander"] details {
     border-radius: 10px !important;
     overflow: hidden !important;
 }
+section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary {
+    list-style: none !important;
+}
+section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary::-webkit-details-marker {
+    display: none !important;
+}
 section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary,
 section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"],
 section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"] p {
     color: rgba(255,255,255,0.88) !important;
     font-family: "Manrope", sans-serif !important;
     font-size: 14px !important;
-    font-weight: 600 !important;
+    font-weight: 800 !important;
     padding: 10px 14px !important;
+}
+section[data-testid="stSidebar"] [data-testid="stExpander"] summary p,
+section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"] p {
+    font-family: "Manrope", "Pretendard", "Noto Sans KR", sans-serif !important;
+    font-weight: 800 !important;
 }
 section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary:hover,
 section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"]:hover {
@@ -1134,6 +1301,9 @@ section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary sv
 section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"] svg {
     fill: rgba(255,255,255,0.60) !important;
     stroke: rgba(255,255,255,0.60) !important;
+    width: 16px !important;
+    height: 16px !important;
+    flex: 0 0 16px !important;
 }
 section[data-testid="stSidebar"] div[data-testid="stRadio"] div[role="radiogroup"] {
     gap: 7px !important;
@@ -1161,7 +1331,7 @@ section[data-testid="stSidebar"] div[data-testid="stRadio"] div[role="radiogroup
 }
 section[data-testid="stSidebar"] div[data-testid="stRadio"] div[role="radiogroup"] label p {
     color: rgba(255,255,255,0.92) !important;
-    font-family: "bootstrap-icons", "Manrope", "Noto Sans KR", sans-serif !important;
+    font-family: "Manrope", "Pretendard", "Noto Sans KR", sans-serif !important;
     font-size: 13px !important;
     font-weight: 650 !important;
     line-height: 1.35 !important;
@@ -1174,7 +1344,7 @@ section[data-testid="stSidebar"] div[data-testid="stRadio"] div[role="radiogroup
 }
 section[data-testid="stSidebar"] [data-testid="stCaptionContainer"] p {
     color: rgba(255,255,255,0.72) !important;
-    font-family: "bootstrap-icons", "Manrope", "Noto Sans KR", sans-serif !important;
+    font-family: "Manrope", "Pretendard", "Noto Sans KR", sans-serif !important;
     line-height: 1.5 !important;
 }
 .agent-sidebar-list {
@@ -1231,7 +1401,7 @@ section[data-testid="stSidebar"] [data-testid="stCaptionContainer"] p {
     background: rgba(179,25,34,0.16);
     border: 1px solid rgba(179,25,34,0.28);
     color: #FFFFFF;
-    font-family: "bootstrap-icons", "Manrope", "Noto Sans KR", sans-serif;
+    font-family: "Manrope", "Pretendard", "Noto Sans KR", sans-serif;
     font-size: 12.5px;
     font-weight: 700;
     line-height: 1.4;
@@ -1276,7 +1446,7 @@ section[data-testid="stSidebar"] .stButton > button p {
 """, unsafe_allow_html=True)
 
 
-# ── Page routing state ─────────────────────────────────────────────
+# ?? Page routing state ?????????????????????????????????????????????
 if "page" not in st.session_state:
     st.session_state["page"] = "overview"
 
@@ -1291,7 +1461,7 @@ def _nav_btn(label, page_id):
         st.rerun()
 
 
-# ── Sidebar ────────────────────────────────────────────────────────
+# ?? Sidebar ????????????????????????????????????????????????????????
 logo_path = ASSETS / "images" / "logo.png"
 
 with st.sidebar:
@@ -1315,8 +1485,18 @@ with st.sidebar:
         <div class="sidebar-project-title">Texas Rangers</div>
         <div class="sidebar-project-sub">2025 Residual Analysis</div>
     </div>
-    <div class="sidebar-divider"></div>
     </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="sidebar-note-wrap">
+        <div class="sidebar-section-label">Project Note</div>
+        <div class="sidebar-note-body">
+            <span class="note-line">TEX 2025 잔차 -9.06승 원인 진단</span>
+            <span class="note-subline">— 수동 시나리오 · Grid/Pareto 후보 비교</span>
+        </div>
+    </div>
+    <div class="sidebar-divider"></div>
     """, unsafe_allow_html=True)
 
     _nav_btn(" Overview",    "overview")
@@ -1325,6 +1505,7 @@ with st.sidebar:
     _nav_btn("\uf6b1 AI Agent", "ai_agent")
     _nav_btn(" Conclusions", "conclusions")
 
+    st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
     st.markdown('<span class="sidebar-nav-section">Pitcher Analysis</span>', unsafe_allow_html=True)
     _cur = st.session_state["page"]
     with st.expander("Roster", expanded=(_cur in _PITCHER_PAGES)):
@@ -1334,22 +1515,16 @@ with st.sidebar:
         _nav_btn(" Armstrong", "armstrong")
         _nav_btn(" Jackson",   "jackson")
 
-    st.markdown("""
-    <div class="sidebar-divider"></div>
-    <div class="sidebar-note-wrap">
-        <div class="sidebar-section-label">Project Note</div>
-        <div class="sidebar-note-body">
-            TEX 2025 잔차 -9.06승 원인 진단<br>
-            — 경기력 · 선수 · 모션 · 시뮬레이션
-        </div>
-    </div>
-    <div class="sidebar-divider"></div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
+
+    _missing_v5_outputs = [name for name, path in _V5_OUTPUT_FILES.items() if not path.exists()]
+    if _missing_v5_outputs:
+        st.warning("v5 출력 파일 누락: " + ", ".join(_missing_v5_outputs))
 
     _nav_btn(" Methodology", "methodology")
 
 
-# ── Page routing ───────────────────────────────────────────────────
+# ?? Page routing ???????????????????????????????????????????????????
 page = st.session_state.get("page", "overview")
 
 if page == "overview":
@@ -1376,3 +1551,4 @@ elif page == "conclusions":
     v_conclusions.show()
 
 st.caption("© 2026. M.L.B Co. All rights reserved.")
+

@@ -4,8 +4,9 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from shared import (
-    data, page_hero, kpi_card, section_header, fmt_num,
+    data, page_hero, kpi_card, fmt_num,
     TEX_BLUE, TEX_RED,
+    glossary_box, KINEMATIC_TERMS, BASEBALL_TERMS,
 )
 
 
@@ -13,13 +14,21 @@ def show():
     page_hero(
         "Comparison",
         "Representative Pitcher Motion Layer",
-        "잔차 분석의 하위 근거로 선정한 5명 투수의 상황별 키네마틱 차이를 Cohen's d와 p-value 기준으로 비교합니다. 필요한 지표는 필터로 직접 확인할 수 있게 구성했습니다.",
+        "잔차 원인을 선수 단위로 좁히기 위해 선정한 5명 투수의 상황별 키네마틱 차이를 Cohen's d와 p-value 기준으로 비교합니다. 이 페이지는 Simulation 의사결정 후보를 해석할 때 코칭 가능 영역과 운영·보강 영역을 구분하는 근거로 사용합니다.",
         [("Cohen's d", "white"), ("p-value", "white"), ("Interactive", "white")],
     )
 
     df = data['pitcher_ag'].copy()
     available_metrics = df['label'].dropna().unique().tolist()
     available_players = df['player'].dropna().unique().tolist()
+
+    glossary_box("그래프 읽는 법", {
+        "Cohen's d": BASEBALL_TERMS["Cohen's d"],
+        "p-value": BASEBALL_TERMS["p-value"],
+        "HSS @ FP": KINEMATIC_TERMS["HSS @ FP"],
+        "HSS max": KINEMATIC_TERMS["HSS max"],
+        "Trunk/Hip ratio": KINEMATIC_TERMS["Trunk/Hip ratio"],
+    })
 
     def _sig_label(p_value: float) -> str:
         if pd.isna(p_value):
@@ -200,7 +209,8 @@ def show():
                         name=player,
                         line=dict(color=color, width=2.6),
                         marker=dict(size=5, color=color),
-                        fill=None,
+                        fill='toself',
+                        fillcolor='rgba({},{},{},0.10)'.format(*[int(color.lstrip('#')[i:i+2], 16) for i in (0, 2, 4)]),
                         opacity=1.0,
                         customdata=closed_hover,
                         hovertemplate="<b>%{fullData.name}</b><br>%{customdata}<extra></extra>",
@@ -235,7 +245,11 @@ def show():
             with col:
                 kpi_card(str(row['player']), fmt_num(row['avg_abs_d'], 2), f"max |d| {fmt_num(row['max_abs_d'], 2)} · sig {int(row['sig_count'])}", accent="red" if int(row['sig_count']) > 0 else "navy")
 
-    section_header("투수별 종합 요약", "모든 지표를 표로 비교합니다. 진한 색일수록 효과 크기 또는 유의성이 큽니다.")
+    st.markdown(
+        '<div class="glass-card"><div class="chart-title">투수별 종합 요약</div>'
+        '<div class="chart-caption">모든 지표를 표로 비교합니다. 진한 색일수록 효과 크기 또는 유의성이 큽니다.</div></div>',
+        unsafe_allow_html=True
+    )
     pivot_d = df.pivot_table(index='player', columns='label', values='cohens_d').round(2)
     pivot_p = df.pivot_table(index='player', columns='label', values='u_p').round(3)
 
@@ -270,10 +284,14 @@ def show():
         st.dataframe(pivot_p.style.map(color_p).format("{:.3f}", na_rep="—"), use_container_width=True)
         st.caption("빨강: p<0.01 | 연빨강: p<0.05 | 연주황: p<0.10")
 
-    section_header("투수별 핵심 발견", "폼 교정이 필요한 선수와 운영·매치업 관점으로 봐야 하는 선수를 구분합니다.")
+    st.markdown(
+        '<div class="glass-card"><div class="chart-title">투수별 핵심 발견</div>'
+        '<div class="chart-caption">폼 교정이 필요한 선수와 운영·매치업 관점으로 봐야 하는 선수를 구분합니다.</div></div>',
+        unsafe_allow_html=True
+    )
     summary_cards = [
         ("Leiter", "선발", "ns 대부분", "폼 자체는 일관, 결과 차이는 다른 요인", "🟡"),
-        ("Webb", "선발", "강한 차이 ⭐", "HSS, Trunk/Hip ratio에서 매우 명확", "🔴"),
+        ("Webb", "선발", '강한 차이 <span style="color:#FBBF24">&#xF586;</span>', "HSS, Trunk/Hip ratio에서 매우 명확", "🔴"),
         ("Garcia", "마무리", "Null finding", "폼 일관됨, 블론 세이브는 외부 요인 가능성", "🟡"),
         ("Armstrong", "불펜", "지표 변동", "p<0.05 일부 지표 존재", "🟠"),
         ("Jackson", "불펜", "재해석", "Sidearm 아닌 Lateral tilt overhand", "🟢"),
@@ -293,6 +311,6 @@ def show():
 
     col1, col2 = st.columns(2, gap="large")
     with col1:
-        st.markdown('<div class="section-shell glass-card-accent"><div class="section-heading">폼 교정 가능 영역</div><div class="section-copy">Webb: HSS 안정화 코칭<br>Armstrong: 등판 루틴 표준화<br><br><b>→ 코칭 스태프 개입 가치</b></div></div>', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card glass-card-navy"><div class="chart-title">폼 교정 가능 영역</div><div class="chart-caption">Webb: HSS 안정화 코칭<br>Armstrong: 등판 루틴 표준화<br><br><b>→ 코칭 스태프 개입 가치</b></div></div>', unsafe_allow_html=True)
     with col2:
-        st.markdown('<div class="section-shell"><div class="section-heading">폼 외 요인 의심</div><div class="section-copy">Leiter: 피칭 디자인 검토<br>Garcia: Deployment / 매치업<br>Jackson: Specialist 활용<br><br><b>→ 운영 차원 결정</b></div></div>', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card glass-card-red"><div class="chart-title">폼 외 요인 의심</div><div class="chart-caption">Leiter: 피칭 디자인 검토<br>Garcia: Deployment / 매치업<br>Jackson: Specialist 활용<br><br><b>→ 운영 차원 결정</b></div></div>', unsafe_allow_html=True)
