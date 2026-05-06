@@ -67,6 +67,12 @@ def create_vertex_model() -> GoogleModel:
 
     service_account_info = json.loads(GCP_SERVICE_ACCOUNT_JSON)
 
+    private_key = service_account_info.get("private_key", "")
+
+    # Streamlit Secrets 복사 과정에서 \n 처리 방식이 달라지는 경우 보정
+    private_key = private_key.replace("\\n", "\n")
+    service_account_info["private_key"] = private_key.strip() + "\n"
+
     credentials = service_account.Credentials.from_service_account_info(
         service_account_info,
         scopes=["https://www.googleapis.com/auth/cloud-platform"],
