@@ -54,7 +54,7 @@ def show():
         "ERA": BASEBALL_TERMS["ERA"],
         "FIP": BASEBALL_TERMS["FIP"],
         "WAR": BASEBALL_TERMS["WAR"],
-        "SV / BS": BASEBALL_TERMS["SV / BS"],
+        "세이브(SV) / 블론 세이브(BS)": BASEBALL_TERMS["세이브(SV) / 블론 세이브(BS)"],
     })
 
     st.markdown("""
