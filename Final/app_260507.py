@@ -1,5 +1,5 @@
-﻿"""TEX 2025 Pythagorean residual analysis dashboard."""
-# ?? Korean font setup ??must happen before any Streamlit commands ??
+"""TEX 2025 피타고라스 잔차 분석 대시보드."""
+# ── 한글 폰트 설정 ── Streamlit 명령어보다 먼저 실행해야 함 ──
 import platform as _platform
 import sys as _sys
 import glob as _glob
@@ -36,7 +36,7 @@ def _setup_korean_font():
 
 _setup_korean_font()
 
-# ?? Streamlit page config ??must be the first st.* call ???????????
+# ── Streamlit 페이지 설정 ── 첫 번째 st.* 호출이어야 함 ───────────
 import streamlit as st
 
 st.set_page_config(
@@ -46,12 +46,12 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ?? Import shared utilities and view modules (after set_page_config) ?
+# ── 공유 유틸리티 및 뷰 모듈 임포트 (set_page_config 이후) ─────────
 from shared import ASSETS, image_to_base64
 import views.overview as v_overview
 import views.simulation as v_simulation
 import views.methodology as v_methodology
-import views.pitcher as v_pitcher          # noqa: F401  (imported for side-effects)
+import views.pitcher as v_pitcher          # noqa: F401  (사이드 이펙트용 임포트)
 import views.leiter as v_leiter
 import views.webb as v_webb
 import views.garcia as v_garcia
@@ -68,15 +68,15 @@ _V5_OUTPUT_FILES = {
     "Decision Leaderboard": _APP_DIR / "output" / "scenario_decision_leaderboard.csv",
 }
 
-# ?? Global CSS ?????????????????????????????????????????????????????
+# ── 전역 CSS ────────────────────────────────────────────────────────
 st.markdown("""
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
-/* ?????????????????????????????
-   Lovable Theme Variables
-????????????????????????????? */
+/* ─────────────────────────────
+   테마 변수
+───────────────────────────── */
 :root {
     --navy: #0D1B33;
     --navy-deep: #071225;
@@ -101,9 +101,9 @@ st.markdown("""
     --shadow-elevated: 0 4px 6px -1px rgba(13, 27, 51, 0.06), 0 10px 24px -8px rgba(13, 27, 51, 0.10);
 }
 
-/* ?????????????????????????????
-   Base
-????????????????????????????? */
+/* ─────────────────────────────
+   기본 설정
+───────────────────────────── */
 html, body, [class*="css"] {
     font-family: "Manrope", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
 }
@@ -221,9 +221,9 @@ hr {
 }
 
 
-/* ?????????????????????????????
-   Sidebar ??Lovable Style
-????????????????????????????? */
+/* ─────────────────────────────
+   사이드바 스타일
+───────────────────────────── */
 section[data-testid="stSidebar"] {
     background: linear-gradient(
         to bottom,
@@ -394,9 +394,9 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     margin-top: 6px;
 }
 
-/* ?????????????????????????????
-   Hero
-????????????????????????????? */
+/* ─────────────────────────────
+   히어로
+───────────────────────────── */
 .hero-card {
     position: relative;
     overflow: hidden;
@@ -443,9 +443,9 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     z-index: 1;
 }
 
-/* ?????????????????????????????
-   Pills
-????????????????????????????? */
+/* ─────────────────────────────
+   필(Pill)
+───────────────────────────── */
 .pill {
     display: inline-flex;
     align-items: center;
@@ -506,9 +506,9 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     border-color: rgba(255,255,255,0.20);
 }
 
-/* ?????????????????????????????
-   Glass / Cards
-????????????????????????????? */
+/* ─────────────────────────────
+   글래스 카드
+───────────────────────────── */
 .card,
 .glass-card,
 .kpi-card-custom {
@@ -617,7 +617,7 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
         0 2px 6px -2px rgba(13,27,51,0.08);
 }
 
-/* KPI */
+/* KPI 카드 */
 .kpi-card-custom {
     position: relative;
     border-radius: 18px;
@@ -704,7 +704,7 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     line-height: 1.45;
 }
 
-/* finding */
+/* 핵심 발견 박스 */
 .finding-box {
     background:
         radial-gradient(120% 80% at 100% 0%, rgba(179,25,34,0.08) 0%, transparent 55%),
@@ -760,9 +760,9 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     font-weight: 700;
 }
 
-/* ?????????????????????????????
-   Tables / Tabs / Forms
-????????????????????????????? */
+/* ─────────────────────────────
+   테이블 / 탭 / 폼
+───────────────────────────── */
 div[data-testid="stDataFrame"] {
     border-radius: 16px;
     overflow: hidden;
@@ -874,9 +874,9 @@ div[data-baseweb="select"] > div {
     color: #344054;
 }
 
-/* ?????????????????????????????
-   Page-level Lovable Components
-????????????????????????????? */
+/* ─────────────────────────────
+   페이지 컴포넌트
+───────────────────────────── */
 .page-kicker {
     color: rgba(255,255,255,0.70);
     font-size: 11px;
@@ -1028,9 +1028,9 @@ div[data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"] 
     gap: 0.72rem;
 }
 
-/* ?????????????????????????????
-   Video Mode Selector
-????????????????????????????? */
+/* ─────────────────────────────
+   영상 모드 선택기
+───────────────────────────── */
 .video-mode-head {
     width: 100%;
     box-sizing: border-box;
@@ -1175,9 +1175,9 @@ div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="s
     color: #FFFFFF !important;
 }
 
-/* ?????????????????????????????
-   Video Title Icons
-????????????????????????????? */
+/* ─────────────────────────────
+   영상 제목 아이콘
+───────────────────────────── */
 .video-case-title {
     display: inline-flex;
     align-items: center;
@@ -1214,9 +1214,9 @@ div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="s
     font-weight: 500;
 }
 
-/* ?????????????????????????????
-   Sidebar Custom Navigation Buttons
-????????????????????????????? */
+/* ─────────────────────────────
+   사이드바 커스텀 내비게이션 버튼
+───────────────────────────── */
 section[data-testid="stSidebar"] .stButton {
     margin: 1px 8px !important;
     padding: 0 !important;
@@ -1442,11 +1442,15 @@ section[data-testid="stSidebar"] .stButton > button p {
     white-space: nowrap !important;
 }
 
+
+/* ─────────────────────────────────────────────────────────
+   다크 모드 - OS prefers-color-scheme CSS 변수 오버라이드
+───────────────────────────────────────────────────────── */
 </style>
 """, unsafe_allow_html=True)
 
 
-# ?? Page routing state ?????????????????????????????????????????????
+# ── 페이지 라우팅 상태 ─────────────────────────────────────────────
 if "page" not in st.session_state:
     st.session_state["page"] = "overview"
 
@@ -1461,7 +1465,7 @@ def _nav_btn(label, page_id):
         st.rerun()
 
 
-# ?? Sidebar ????????????????????????????????????????????????????????
+# ── 사이드바 ────────────────────────────────────────────────────────
 logo_path = ASSETS / "images" / "logo.png"
 
 with st.sidebar:
@@ -1481,16 +1485,16 @@ with st.sidebar:
         {brand_html}
     </div>
     <div class="sidebar-project-wrap">
-        <div class="sidebar-section-label">Client Project</div>
+        <div class="sidebar-section-label">클라이언트 프로젝트</div>
         <div class="sidebar-project-title">Texas Rangers</div>
-        <div class="sidebar-project-sub">2025 Residual Analysis</div>
+        <div class="sidebar-project-sub">2025 잔차 분석</div>
     </div>
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("""
     <div class="sidebar-note-wrap">
-        <div class="sidebar-section-label">Project Note</div>
+        <div class="sidebar-section-label">프로젝트 노트</div>
         <div class="sidebar-note-body">
             <span class="note-line">TEX 2025 잔차 -9.06승 원인 진단</span>
             <span class="note-subline">— 수동 시나리오 · Grid/Pareto 후보 비교</span>
@@ -1499,21 +1503,21 @@ with st.sidebar:
     <div class="sidebar-divider"></div>
     """, unsafe_allow_html=True)
 
-    _nav_btn(" Overview",    "overview")
-    _nav_btn(" Simulation",  "simulation")
-    _nav_btn(" Comparison",  "comparison")
-    _nav_btn("\uf6b1 AI Agent", "ai_agent")
-    _nav_btn(" Conclusions", "conclusions")
+    _nav_btn(" Overview",    "overview")
+    _nav_btn(" Simulation",  "simulation")
+    _nav_btn(" Comparison",  "comparison")
+    _nav_btn(" AI Agent", "ai_agent")
+    _nav_btn(" Conclusions", "conclusions")
 
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
     st.markdown('<span class="sidebar-nav-section">Pitcher Analysis</span>', unsafe_allow_html=True)
     _cur = st.session_state["page"]
     with st.expander("Roster", expanded=(_cur in _PITCHER_PAGES)):
-        _nav_btn(" Leiter",    "leiter")
-        _nav_btn(" Webb",      "webb")
-        _nav_btn(" Garcia",    "garcia")
-        _nav_btn(" Armstrong", "armstrong")
-        _nav_btn(" Jackson",   "jackson")
+        _nav_btn(" Leiter",    "leiter")
+        _nav_btn(" Webb",      "webb")
+        _nav_btn(" Garcia",    "garcia")
+        _nav_btn(" Armstrong", "armstrong")
+        _nav_btn(" Jackson",   "jackson")
 
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
 
@@ -1521,10 +1525,10 @@ with st.sidebar:
     if _missing_v5_outputs:
         st.warning("v5 출력 파일 누락: " + ", ".join(_missing_v5_outputs))
 
-    _nav_btn(" Methodology", "methodology")
+    _nav_btn(" Methodology", "methodology")
 
 
-# ?? Page routing ???????????????????????????????????????????????????
+# ── 페이지 라우팅 ──────────────────────────────────────────────────
 page = st.session_state.get("page", "overview")
 
 if page == "overview":
@@ -1551,4 +1555,3 @@ elif page == "conclusions":
     v_conclusions.show()
 
 st.caption("© 2026. M.L.B Co. All rights reserved.")
-

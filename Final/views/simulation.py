@@ -203,6 +203,7 @@ def _render_decision_board() -> None:
     )
 
     leaderboard = pd.DataFrame(agent_tools.list_precomputed_scenarios()["scenarios"])
+
     if not leaderboard.empty:
         leaderboard["구분_설명"] = leaderboard["source"].map(_scenario_type_label)
         leaderboard["표시_시나리오"] = leaderboard["label"].map(_display_scenario_name)
@@ -356,7 +357,16 @@ def show():
         key="simulation_runs_slider",
     )
     custom_stats, custom_boosts, can_run = _render_custom_controls(selected_scenario)
-    st.caption("기본 엔진은 빠른 경기 단위 Monte Carlo입니다. 기존 타석 단위 상세 엔진보다 훨씬 빠르게 실행됩니다.")
+
+    use_fast_mode = not (selected_scenario == "Hitter Boost" and custom_boosts)
+    if not use_fast_mode:
+        st.info(
+            "타자 배율이 설정되어 타석 단위 상세 엔진으로 실행됩니다. "
+            "빠른 모드보다 시간이 더 걸릴 수 있습니다."
+        )
+    else:
+        st.caption("기본 엔진은 빠른 경기 단위 Monte Carlo입니다. 기존 타석 단위 상세 엔진보다 훨씬 빠르게 실행됩니다.")
+
     run_click = st.button(
         "시뮬레이션 실행",
         type="primary",
@@ -374,14 +384,15 @@ def show():
             st.error("data_raw 폴더가 없습니다. app.py/simulator.py에서 쓰던 CSV 파일들을 data_raw 폴더에 넣어주세요.")
             return
         try:
-            with st.spinner("시뮬레이션 실행 중..."):
+            spinner_msg = "시뮬레이션 실행 중 (상세 모드, 시간이 걸릴 수 있습니다)..." if not use_fast_mode else "시뮬레이션 실행 중..."
+            with st.spinner(spinner_msg):
                 st.session_state["simulation_result"] = get_simulation_result(
                     str(RAW_DIR),
                     selected_scenario,
                     simulation_runs,
                     custom_stats=custom_stats,
                     custom_boosts=custom_boosts,
-                    fast_mode=True,
+                    fast_mode=use_fast_mode,
                 )
                 st.session_state["sim_scenario"] = selected_scenario
                 st.session_state["sim_runs"] = simulation_runs
