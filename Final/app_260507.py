@@ -1,4 +1,4 @@
-"""TEX 2025 피타고라스 잔차 분석 대시보드."""
+﻿"""TEX 2025 피타고라스 잔차 분석 대시보드."""
 # ── 한글 폰트 설정 ── Streamlit 명령어보다 먼저 실행해야 함 ──
 import platform as _platform
 import sys as _sys
@@ -1485,7 +1485,7 @@ with st.sidebar:
         {brand_html}
     </div>
     <div class="sidebar-project-wrap">
-        <div class="sidebar-section-label">클라이언트 프로젝트</div>
+        <div class="sidebar-section-label">CLIENT PROJECT</div>
         <div class="sidebar-project-title">Texas Rangers</div>
         <div class="sidebar-project-sub">2025 잔차 분석</div>
     </div>
@@ -1494,7 +1494,7 @@ with st.sidebar:
 
     st.markdown("""
     <div class="sidebar-note-wrap">
-        <div class="sidebar-section-label">프로젝트 노트</div>
+        <div class="sidebar-section-label">PROJECT NOTE</div>
         <div class="sidebar-note-body">
             <span class="note-line">TEX 2025 잔차 -9.06승 원인 진단</span>
             <span class="note-subline">— 수동 시나리오 · Grid/Pareto 후보 비교</span>
