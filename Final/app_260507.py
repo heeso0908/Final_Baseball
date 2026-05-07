@@ -1,4 +1,4 @@
-﻿"""TEX 2025 피타고라스 잔차 분석 대시보드."""
+﻿"""TEX 2025 Pythagorean Residual Analysis Dashboard."""
 # ── 한글 폰트 설정 ── Streamlit 명령어보다 먼저 실행해야 함 ──
 import platform as _platform
 import sys as _sys
@@ -40,7 +40,7 @@ _setup_korean_font()
 import streamlit as st
 
 st.set_page_config(
-    page_title="TEX 2025 잔차 분석",
+    page_title="TEX 2025 Residual Analysis",
     page_icon="⚾",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -1487,7 +1487,7 @@ with st.sidebar:
     <div class="sidebar-project-wrap">
         <div class="sidebar-section-label">CLIENT PROJECT</div>
         <div class="sidebar-project-title">Texas Rangers</div>
-        <div class="sidebar-project-sub">2025 잔차 분석</div>
+        <div class="sidebar-project-sub">2025 Residual Analysis</div>
     </div>
     </div>
     """, unsafe_allow_html=True)
@@ -1503,21 +1503,21 @@ with st.sidebar:
     <div class="sidebar-divider"></div>
     """, unsafe_allow_html=True)
 
-    _nav_btn(" Overview",    "overview")
-    _nav_btn(" Simulation",  "simulation")
-    _nav_btn(" Comparison",  "comparison")
+    _nav_btn(" Overview",    "overview")
+    _nav_btn(" Simulation",  "simulation")
+    _nav_btn(" Comparison",  "comparison")
     _nav_btn(" AI Agent", "ai_agent")
-    _nav_btn(" Conclusions", "conclusions")
+    _nav_btn(" Conclusions", "conclusions")
 
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
     st.markdown('<span class="sidebar-nav-section">Pitcher Analysis</span>', unsafe_allow_html=True)
     _cur = st.session_state["page"]
     with st.expander("Roster", expanded=(_cur in _PITCHER_PAGES)):
-        _nav_btn(" Leiter",    "leiter")
-        _nav_btn(" Webb",      "webb")
-        _nav_btn(" Garcia",    "garcia")
-        _nav_btn(" Armstrong", "armstrong")
-        _nav_btn(" Jackson",   "jackson")
+        _nav_btn(" Leiter",    "leiter")
+        _nav_btn(" Webb",      "webb")
+        _nav_btn(" Garcia",    "garcia")
+        _nav_btn(" Armstrong", "armstrong")
+        _nav_btn(" Jackson",   "jackson")
 
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
 
@@ -1525,7 +1525,7 @@ with st.sidebar:
     if _missing_v5_outputs:
         st.warning("v5 출력 파일 누락: " + ", ".join(_missing_v5_outputs))
 
-    _nav_btn(" Methodology", "methodology")
+    _nav_btn(" Methodology", "methodology")
 
 
 # ── 페이지 라우팅 ──────────────────────────────────────────────────
