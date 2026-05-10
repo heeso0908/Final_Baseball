@@ -98,6 +98,72 @@ def show():
     </div>
     """, unsafe_allow_html=True)
 
+    st.markdown("---")
+    st.markdown("## Phase 8 — 잔차 메커니즘 & 정책 시뮬 결론")
+
+    finding_box(
+        "잔차 -9.06 중 약 70%(-6.11승)가 시뮬 메커니즘으로 자연 재현",
+        "162경기×20시즌 직접 시뮬 결과 W 평균=83.95. "
+        "피타고리안 기대 90.06과의 차이 -6.11이 메커니즘(high-leverage 약화·closer 타이밍·시기별 불펜 풀)으로 설명됩니다. "
+        "나머지 -3은 운·미발견 메커니즘 영역입니다."
+    )
+
+    mech_col, driver_col = st.columns([1, 1], gap="large")
+    with mech_col:
+        st.markdown("""
+        <div class="glass-card glass-card-navy">
+            <div class="chart-title">잔차를 만든 메커니즘 (Phase 6-7')</div>
+            <div class="chart-caption">
+                <b>High-leverage closer ΔK −0.116</b> — 1점차 상황에서 K%가 약 11.6%p 낮아지는 패턴<br><br>
+                <b>위기 시 closer 조기 등판 (Phase 6B)</b> — 이닝 중 매치업 정확도 포착<br><br>
+                <b>시기별 closer 풀 (Phase 7')</b> — Jackson 7/23 DFA → Maton 8/1 합류 공백 반영<br><br>
+                <b>Garcia BABIP 0.625 (Phase 4)</b> — 1점차 마무리 기용 시 매치업 약점
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with driver_col:
+        st.markdown("""
+        <div class="glass-card glass-card-red">
+            <div class="chart-title">Phase 8 정책 드라이버 순위 (12차원 σ)</div>
+            <div class="chart-caption">
+                <b>h_single (타자 단타)</b>  r = +0.91 ★★★<br>
+                <b>h_k (타자 삼진)</b>      r = −0.84 ★★★<br>
+                <b>p_st_HR (선발 피홈런)</b> r = −0.80 ★★★<br>
+                <b>c_K (팀 전체 K%)</b>     r = +0.59 ★★<br><br>
+                v5 ML과 일치하는 robust 드라이버: <b>선발 HR% ↓</b><br>
+                Phase 8 신규 발견: <b>타자 단타 증가 · K 감소</b> (v5 ML에 없던 차원)
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="glass-card glass-card-accent">
+        <div class="chart-title">v5 ML ↔ Phase 8 시뮬 Cross-check</div>
+        <div class="chart-caption">
+            <b>일치 (robust signal):</b> 선발 HR% ↓ — 두 도구 모두 가장 강한 투수 드라이버<br>
+            <b>부분 일치:</b> BB9 ↓ / closer BB% — 방향은 같으나 크기 다름<br>
+            <b>Phase 8 신규:</b> 타자 단타·K는 v5 ML에 없던 차원 → ML이 발견할 수 없었던 영역<br>
+            <b>v5 ML 흡수 항목:</b> sv_pct / onerun_wp / ir_pct → 시뮬 leverage 패널티로 이미 반영<br><br>
+            두 도구는 모순이 아니라 <b>상보적</b>입니다.
+            ML은 잔차 원인 분석, 시뮬은 반사실 정책 만회 경로를 각각 담당합니다.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="quote-card">
+        <p><strong>Phase 8 핵심 메시지</strong></p>
+        <p>
+        TEX 2025 잔차 -9 중 -6은 시뮬 메커니즘으로 자연 재현되어 <b>발견된 원인</b>이 됐고,
+        나머지 -3 + 추가 향상은 σ 정책으로 만회 가능합니다.
+        현실적인 정책 변경(σ_norm ≤ 10%) 범위에서도 잔차를 완전히 만회하거나 초과 달성하는 조합이 존재합니다.
+        가장 강력한 드라이버는 <b>타자 단타 증가</b>와 <b>선발 피홈런 감소</b>이며,
+        이 중 선발 HR은 ML 분석과도 일치하는 robust 신호입니다.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
     with st.expander("분석 한계와 다음 단계", expanded=False):
         st.markdown("""
         <div style="font-size:15px; line-height:1.82; color:#475569;">

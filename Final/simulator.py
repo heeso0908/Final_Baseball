@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import bisect
 from dataclasses import dataclass
 import hashlib
 import pickle
@@ -22,7 +23,7 @@ except Exception:  # pragma: no cover
 SEASON = 2025
 TEAM_NAME = "Texas Rangers"
 TEAM_ABBR = "TEX"
-CACHE_VERSION = "sim-v10"
+CACHE_VERSION = "sim-v8"
 
 SLOT_DEFS = [
     ("C", ["C"]),
@@ -446,23 +447,7 @@ def _advancement_cache_file(raw_dir: Path) -> Path:
     return cache_dir / f"advancement_{digest.hexdigest()[:16]}.pkl"
 
 
-def _stable_param_digest(payload: object | None) -> str:
-    if payload is None:
-        return "default"
-    import json
-
-    text = json.dumps(payload, sort_keys=True, ensure_ascii=True, default=str)
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
-
-
-def _simulation_cache_file(
-    raw_dir: Path,
-    scenario_name: str,
-    n_sims: int,
-    custom_stats: dict[str, float] | None = None,
-    custom_boosts: dict[str, dict[str, float]] | None = None,
-    fast_mode: bool = True,
-) -> Path:
+def _simulation_cache_file(raw_dir: Path, scenario_name: str, n_sims: int) -> Path:
     cache_dir, _ = _bundle_cache_paths(raw_dir)
     watched_files = [
         "batting_stats_2025_all.csv",
@@ -484,9 +469,6 @@ def _simulation_cache_file(
     digest.update(_bundle_signature(raw_dir).encode("utf-8"))
     digest.update(scenario_name.encode("utf-8"))
     digest.update(str(n_sims).encode("utf-8"))
-    digest.update(_stable_param_digest(custom_stats).encode("utf-8"))
-    digest.update(_stable_param_digest(custom_boosts).encode("utf-8"))
-    digest.update(("fast" if fast_mode else "detailed").encode("utf-8"))
     for name in watched_files:
         path = raw_dir / name
         stat = path.stat()
@@ -503,8 +485,9 @@ class LineupPool:
         sprint_map: dict[str, float],
         hbp_df: pd.DataFrame,
         name_boosts: dict[str, dict[str, float]] | None = None,
+        team_boosts: dict[str, float] | None = None,
     ) -> None:
-        self.probs: dict[str, dict[str, float]] = {}
+        self.probs: dict[str, tuple[list, list]] = {}
         self.profiles: dict[str, dict[str, float | str]] = {}
         self.obp: dict[str, float] = {}
         self.start_weight: dict[str, float] = {}
@@ -513,9 +496,18 @@ class LineupPool:
         for _, row in pool_df.iterrows():
             name = _normalize_name(row["Name"])
             probs = _extract_probs(row, _estimate_hbp_rate(hbp_df, name))
+            if team_boosts:
+                probs = _apply_batter_boost(probs, **team_boosts)
             if name_boosts and name in name_boosts:
                 probs = _apply_batter_boost(probs, **name_boosts[name])
-            self.probs[name] = probs
+            # (events, cum_weights) 튜플로 미리 변환 — 타석 루프에서 list() 생성 제거
+            _evts = list(probs.keys())
+            _cum: list[float] = []
+            _total = 0.0
+            for w in probs.values():
+                _total += float(w)
+                _cum.append(_total)
+            self.probs[name] = (_evts, _cum)
             self.profiles[name] = _build_profile(row, sprint_map)
             self.obp[name] = float(row.get("OBP", 0.320) or 0.320)
             self.start_weight[name] = float(row["start_w"])
@@ -582,9 +574,8 @@ def _simulate_inning(
 
     while outs < 3:
         slot = hitter_index % lineup_size
-        events = list(lineup_probs[slot].keys())
-        weights = list(lineup_probs[slot].values())
-        event = str(np.random.choice(events, p=weights))
+        _evts, _cum = lineup_probs[slot]
+        event = _evts[bisect.bisect(_cum, np.random.random())]
         occupied, outs, scored = _advance_runners(occupied, outs, event, profiles[slot], advancement=advancement)
         runs += scored
         hitter_index += 1
@@ -1082,6 +1073,13 @@ def _build_starters(raw_dir: Path) -> pd.DataFrame:
     return starters.sort_values("GS", ascending=False).reset_index(drop=True)
 
 
+def _lineup_probs_as_dict(probs_tuple: tuple) -> dict[str, float]:
+    """(events, cum_weights) 튜플 → {event: prob} dict 복원."""
+    evts, cum = probs_tuple
+    weights = [cum[0]] + [cum[i] - cum[i - 1] for i in range(1, len(cum))]
+    return dict(zip(evts, weights))
+
+
 def _build_player_projection_table(
     batting_pool: pd.DataFrame,
     sprint_map: dict[str, float],
@@ -1094,8 +1092,8 @@ def _build_player_projection_table(
 
     for _, row in batting_pool.iterrows():
         name = _normalize_name(row["Name"])
-        base_probs = baseline_pool.probs[name]
-        sim_probs = scenario_pool.probs[name]
+        base_probs = _lineup_probs_as_dict(baseline_pool.probs[name])
+        sim_probs = _lineup_probs_as_dict(scenario_pool.probs[name])
         pos = str(row.get("Pos", "UT"))
         pa = float(row.get("PA", 0.0))
         ops = float(row.get("OPS", 0.0))
@@ -1152,7 +1150,12 @@ def _build_pitcher_projection_table(
 ) -> pd.DataFrame:
     baseline_team_era = max(0.1, bullpen.team_era_actual)
     era_scale = float(scenario_stats["ERA"]) / baseline_team_era
-    whip_scale = float(scenario_stats["WHIP"]) /  max(0.1, 1.0)
+    pitcher_logs = pd.read_csv(raw_dir / "rangers_pitcher_gamelogs.csv")
+    pitcher_logs = _coerce_numeric(pitcher_logs, ["GS", "ER", "H", "BB", "SO"])
+    pitcher_logs["_ip"] = pitcher_logs["IP"].map(_ip_to_float)
+    pitcher_logs["name"] = pitcher_logs["name"].map(_normalize_name)
+    baseline_whip = float((pitcher_logs["H"].sum() + pitcher_logs["BB"].sum()) / max(0.1, pitcher_logs["_ip"].sum()))
+    whip_scale = float(scenario_stats["WHIP"]) / max(0.1, baseline_whip)
     k_scale = float(scenario_stats["K9"]) / max(0.1, 8.5)
 
     starter_rows: list[dict[str, float | str]] = []
@@ -1175,11 +1178,6 @@ def _build_pitcher_projection_table(
                 "archetype": "Rotation Anchor" if role == "SP1" else "Starter",
             }
         )
-
-    pitcher_logs = pd.read_csv(raw_dir / "rangers_pitcher_gamelogs.csv")
-    pitcher_logs = _coerce_numeric(pitcher_logs, ["GS", "ER", "H", "BB", "SO"])
-    pitcher_logs["_ip"] = pitcher_logs["IP"].map(_ip_to_float)
-    pitcher_logs["name"] = pitcher_logs["name"].map(_normalize_name)
     relievers = pitcher_logs[pitcher_logs["GS"] == 0].copy()
     reliever_stats = (
         relievers.groupby("name", as_index=False)
@@ -1354,16 +1352,17 @@ def _build_opponent_strength(raw_dir: Path) -> dict[str, float]:
     team_hist = team_hist[team_hist["year"] == SEASON].copy()
     team_hist["rspg"] = team_hist["RS"] / team_hist["G"].clip(lower=1.0)
     league_rspg = float(team_hist["rspg"].mean())
-    strength: dict[str, float] = {}
+    full_strength: dict[str, float] = {}
     for _, row in team_hist.iterrows():
         team_name = str(row["team"])
-        short = team_name.split()[-1]
         ratio = float(row["rspg"]) / max(0.1, league_rspg)
-        strength[short] = min(1.20, max(0.82, ratio))
+        full_strength[team_name] = min(1.20, max(0.82, ratio))
+    strength: dict[str, float] = {}
     for code, short in TEAM_CODE_TO_NAME.items():
-        short_name = short.split()[-1]
-        if short_name in strength:
-            strength[code] = strength[short_name]
+        for full_name, val in full_strength.items():
+            if full_name.endswith(short):
+                strength[code] = val
+                break
     return strength
 
 
@@ -1492,30 +1491,54 @@ def _simulate_schedule(
                 p2 = _adjust_probs_for_pitcher(p1, **pitch_adj)
                 adjusted_probs.append(p2)
 
-            texas_runs = _simulate_texas_runs(adjusted_probs, profiles, advancement=advancement)
-
             starter = starters.iloc[int(np.random.choice(len(starters), p=weights))]
             park_factor = park.get("overall", 1.0)
+            is_home = bool(game.get("is_home", False))
 
-            opp_runs = _simulate_opponent_runs(
-                bullpen=bullpen,
-                scenario_era=float(scenario_stats["ERA"]),
-                starter_era=float(starter["ERA"]),
-                starter_ip=float(starter["avg_ip"]),
-                park_factor=park_factor,
-                opp_ratio=opponent_strength.get(opp_code, 1.0),
-                game_index=int(game.name) + 1,
-                tracker=bullpen_tracker,
-                recent_apps=recent_apps,
-                texas_runs_hint=texas_runs,
-            )
+            if is_home:
+                tex_8 = 0
+                lineup_idx = 0
+                for _ in range(8):
+                    inning_runs, lineup_idx = _simulate_inning(adjusted_probs, profiles, lineup_idx, advancement=advancement)
+                    tex_8 += inning_runs
+                opp_runs = _simulate_opponent_runs(
+                    bullpen=bullpen,
+                    scenario_era=float(scenario_stats["ERA"]),
+                    starter_era=float(starter["ERA"]),
+                    starter_ip=float(starter["avg_ip"]),
+                    park_factor=park_factor,
+                    opp_ratio=opponent_strength.get(opp_code, 1.0),
+                    game_index=int(game.name) + 1,
+                    tracker=bullpen_tracker,
+                    recent_apps=recent_apps,
+                    texas_runs_hint=tex_8,
+                )
+                if tex_8 > opp_runs:
+                    texas_runs = tex_8
+                else:
+                    ninth_runs, _ = _simulate_inning(adjusted_probs, profiles, lineup_idx, advancement=advancement)
+                    texas_runs = tex_8 + ninth_runs
+            else:
+                texas_runs = _simulate_texas_runs(adjusted_probs, profiles, advancement=advancement)
+                opp_runs = _simulate_opponent_runs(
+                    bullpen=bullpen,
+                    scenario_era=float(scenario_stats["ERA"]),
+                    starter_era=float(starter["ERA"]),
+                    starter_ip=float(starter["avg_ip"]),
+                    park_factor=park_factor,
+                    opp_ratio=opponent_strength.get(opp_code, 1.0),
+                    game_index=int(game.name) + 1,
+                    tracker=bullpen_tracker,
+                    recent_apps=recent_apps,
+                    texas_runs_hint=texas_runs,
+                )
 
             if texas_runs > opp_runs:
                 season_wins += 1.0
                 game_win = 1.0
             elif texas_runs == opp_runs:
-                season_wins += 0.5
-                game_win = 0.5
+                game_win = 1.0 if np.random.random() < float(scenario_stats["xi_wp"]) else 0.0
+                season_wins += game_win
             else:
                 game_win = 0.0
             monthly_wins[sim_idx, month_index[str(game.get("month", "UNK"))]] += game_win
@@ -1546,170 +1569,60 @@ def _simulate_schedule(
     return np.array(wins, dtype=float), monthly_summary, series_summary
 
 
-def _estimate_offense_factor(player_projection: pd.DataFrame) -> float:
-    if player_projection.empty or "boosted" not in player_projection.columns:
-        return 1.0
-    boosted = player_projection[player_projection["boosted"]].copy()
-    if boosted.empty:
-        return 1.0
-
-    pa = boosted.get("pa", pd.Series(1.0, index=boosted.index)).astype(float).clip(lower=1.0)
-    start_weight = boosted.get("start_weight", pd.Series(0.5, index=boosted.index)).astype(float).clip(0.05, 1.0)
-    weight = pa * start_weight
-    team_pa_scale = max(1.0, float(player_projection.get("pa", pd.Series([6000.0])).astype(float).sum()))
-
-    obp_delta = (boosted.get("delta_obp_pts", 0.0).astype(float) / 1000.0) * weight
-    hr_delta = (boosted.get("delta_hr_pts", 0.0).astype(float) / 1000.0) * weight
-    run_lift = (float(obp_delta.sum()) * 1.5 + float(hr_delta.sum()) * 3.0) / team_pa_scale
-    return float(np.clip(1.0 + run_lift, 0.88, 1.18))
-
-
-def _simulate_schedule_fast(
-    schedule_df: pd.DataFrame,
-    scenario_stats: dict[str, float],
-    base_stats: dict[str, float],
-    opponent_strength: dict[str, float],
-    offense_factor: float,
-    n_sims: int,
-) -> tuple[np.ndarray, pd.DataFrame, pd.DataFrame]:
-    month_order = list(pd.Index(schedule_df["month"].fillna("UNK")).drop_duplicates())
-    month_index = {month: idx for idx, month in enumerate(month_order)}
-    series_order = list(pd.Index(schedule_df["series_id"]).drop_duplicates())
-    series_index = {series_id: idx for idx, series_id in enumerate(series_order)}
-
-    games = len(schedule_df)
-    base_r = schedule_df["R"].astype(float).to_numpy()
-    base_ra = schedule_df["RA"].astype(float).to_numpy()
-    opp = schedule_df["Opp"].astype(str).map(opponent_strength).fillna(1.0).to_numpy(dtype=float)
-
-    era_scale = float(scenario_stats.get("ERA", base_stats["ERA"])) / max(0.1, float(base_stats["ERA"]))
-    sv_delta = float(scenario_stats.get("sv_pct", base_stats["sv_pct"])) - float(base_stats["sv_pct"])
-    close_delta = float(scenario_stats.get("onerun_wp", base_stats["onerun_wp"])) - float(base_stats["onerun_wp"])
-
-    rs_mu = np.clip(base_r * offense_factor, 0.2, 12.0)
-    ra_mu = np.clip(base_ra * era_scale * opp, 0.2, 12.0)
-    pyth = rs_mu**1.83 / np.clip(rs_mu**1.83 + ra_mu**1.83, 1e-6, None)
-
-    close_mask = np.abs(rs_mu - ra_mu) <= 1.5
-    close_target = np.clip(float(base_stats["onerun_wp"]) + close_delta + sv_delta * 0.35, 0.20, 0.78)
-    win_prob = pyth.copy()
-    win_prob[close_mask] = (win_prob[close_mask] * 0.55) + (close_target * 0.45)
-    win_prob = np.clip(win_prob, 0.05, 0.95)
-
-    draws = (np.random.random((n_sims, games)) < win_prob.reshape(1, -1)).astype(float)
-    wins = draws.sum(axis=1)
-
-    monthly_wins = np.zeros((n_sims, len(month_order)), dtype=float)
-    series_wins = np.zeros((n_sims, len(series_order)), dtype=float)
-    months = schedule_df["month"].fillna("UNK").astype(str).to_numpy()
-    series_ids = schedule_df["series_id"].astype(int).to_numpy()
-    for game_idx in range(games):
-        monthly_wins[:, month_index[months[game_idx]]] += draws[:, game_idx]
-        series_wins[:, series_index[series_ids[game_idx]]] += draws[:, game_idx]
-
-    monthly_summary = pd.DataFrame(
-        {
-            "month": month_order,
-            "mean_wins": monthly_wins.mean(axis=0).round(2),
-            "p25_wins": np.quantile(monthly_wins, 0.25, axis=0).round(2),
-            "p75_wins": np.quantile(monthly_wins, 0.75, axis=0).round(2),
-        }
-    )
-    monthly_summary["cumulative_mean"] = monthly_summary["mean_wins"].cumsum().round(2)
-
-    series_summary = pd.DataFrame(
-        {
-            "series_id": series_order,
-            "mean_wins": series_wins.mean(axis=0).round(2),
-            "p25_wins": np.quantile(series_wins, 0.25, axis=0).round(2),
-            "p75_wins": np.quantile(series_wins, 0.75, axis=0).round(2),
-        }
-    )
-    games_per_series = schedule_df.groupby("series_id").size().reindex(series_order).to_numpy(dtype=float)
-    series_summary["series_win_prob"] = (series_wins > (games_per_series / 2.0)).mean(axis=0).round(3)
-    return wins, monthly_summary, series_summary
-
-
 def _calibration_offset(bundle: ModelBundle) -> float:
     baseline = bundle.tex25["pyth_W"] + _predict_residual(bundle, bundle.tex25)
     return float(bundle.tex25["W"] - baseline)
-
-
-def get_scenario_defaults(raw_dir: str | Path) -> dict[str, object]:
-    raw_path = Path(raw_dir)
-    tex25 = _build_tex25(raw_path)
-    scenarios = _build_scenarios(tex25)
-    return {
-        "tex25": dict(tex25),
-        "scenarios": {
-            name: {
-                "stats": dict(config["stats"]),
-                "boosts": dict(config["boosts"] or {}),
-            }
-            for name, config in scenarios.items()
-        },
-    }
-
-
-def get_batter_options(raw_dir: str | Path) -> list[str]:
-    raw_path = Path(raw_dir)
-    batting_pool, _, _ = _build_batting_pool(raw_path)
-    names = [_normalize_name(name) for name in batting_pool["Name"].dropna().tolist()]
-    return sorted(set(names))
 
 
 def run_simulation(
     raw_dir: str | Path,
     scenario_name: str,
     n_sims: int = 300,
-    custom_stats: dict[str, float] | None = None,
-    custom_boosts: dict[str, dict[str, float]] | None = None,
+    custom_stats: dict | None = None,
+    custom_boosts: dict | None = None,
     fast_mode: bool = True,
 ) -> dict[str, object]:
     raw_path = Path(raw_dir)
-    cache_file = _simulation_cache_file(raw_path, scenario_name, n_sims, custom_stats, custom_boosts, fast_mode)
-    if cache_file.exists():
-        try:
-            with cache_file.open("rb") as handle:
-                cached = pickle.load(handle)
-            if isinstance(cached, dict) and "distribution" in cached and "summary" in cached:
-                return cached
-        except Exception:
-            pass
 
-    if fast_mode:
-        tex25 = _build_tex25(raw_path)
-        bundle = None
-    else:
-        bundle = _train_model_bundle(raw_path)
-        tex25 = bundle.tex25
-    scenarios = _build_scenarios(tex25)
-    scenario = {
-        "stats": dict(scenarios[scenario_name]["stats"]),
-        "boosts": scenarios[scenario_name]["boosts"],
-    }
+    use_cache = fast_mode and custom_stats is None and custom_boosts is None
+    if use_cache:
+        cache_file = _simulation_cache_file(raw_path, scenario_name, n_sims)
+        if cache_file.exists():
+            try:
+                with cache_file.open("rb") as handle:
+                    cached = pickle.load(handle)
+                if isinstance(cached, dict) and "distribution" in cached and "summary" in cached:
+                    return cached
+            except Exception:
+                pass
+
+    bundle = _train_model_bundle(raw_path)
+    scenarios = _build_scenarios(bundle.tex25)
+    scenario = scenarios[scenario_name]
+
+    effective_stats = dict(scenario["stats"])
     if custom_stats:
-        scenario["stats"].update({k: float(v) for k, v in custom_stats.items()})
-    if custom_boosts is not None:
-        scenario["boosts"] = {
-            _normalize_name(player): {metric: float(value) for metric, value in boosts.items()}
-            for player, boosts in custom_boosts.items()
-        }
+        effective_stats.update(custom_stats)
+
+    effective_boosts = custom_boosts if custom_boosts is not None else scenario["boosts"]
+
     schedule_df = _clean_schedule(pd.read_csv(raw_path / "texas_2025_game_log.csv"))
     batting_pool, sprint_map, hbp_df = _build_batting_pool(raw_path)
     starters = _build_starters(raw_path)
     bullpen = _build_bullpen_state(raw_path)
+    advancement = _build_advancement_tables(raw_path)
+    lineup_pool = LineupPool(batting_pool, sprint_map, hbp_df, effective_boosts)
     player_projection = _build_player_projection_table(
         batting_pool=batting_pool,
         sprint_map=sprint_map,
         hbp_df=hbp_df,
-        scenario_boosts=scenario["boosts"],
+        scenario_boosts=effective_boosts,
     )
     pitcher_projection = _build_pitcher_projection_table(
         raw_dir=raw_path,
         starters=starters,
         bullpen=bullpen,
-        scenario_stats=scenario["stats"],
+        scenario_stats=effective_stats,
     )
     opponent_strength = _build_opponent_strength(raw_path)
     park_factors = _build_park_factor_map(raw_path)
@@ -1717,40 +1630,22 @@ def run_simulation(
     schedule_context = _build_schedule_context(schedule_df, opponent_strength)
     series_context = _build_series_context(schedule_df, opponent_strength)
 
-    if fast_mode:
-        raw_distribution, monthly_summary, series_summary = _simulate_schedule_fast(
-            schedule_df=schedule_df,
-            scenario_stats=scenario["stats"],
-            base_stats=scenarios["Baseline 2025"]["stats"],
-            opponent_strength=opponent_strength,
-            offense_factor=_estimate_offense_factor(player_projection),
-            n_sims=n_sims,
-        )
-    else:
-        advancement = _build_advancement_tables(raw_path)
-        lineup_pool = LineupPool(batting_pool, sprint_map, hbp_df, scenario["boosts"])
-        raw_distribution, monthly_summary, series_summary = _simulate_schedule(
-            schedule_df=schedule_df,
-            lineup_pool=lineup_pool,
-            starters=starters,
-            bullpen=bullpen,
-            advancement=advancement,
-            scenario_stats=scenario["stats"],
-            opponent_strength=opponent_strength,
-            park_factors=park_factors,
-            opponent_pitch_factors=opponent_pitch_factors,
-            n_sims=n_sims,
-        )
+    raw_distribution, monthly_summary, series_summary = _simulate_schedule(
+        schedule_df=schedule_df,
+        lineup_pool=lineup_pool,
+        starters=starters,
+        bullpen=bullpen,
+        advancement=advancement,
+        scenario_stats=effective_stats,
+        opponent_strength=opponent_strength,
+        park_factors=park_factors,
+        opponent_pitch_factors=opponent_pitch_factors,
+        n_sims=n_sims,
+    )
 
-    if bundle is None:
-        residual_bonus = 0.0
-        calibration_offset = 0.0
-        ensemble_cv_mae = 0.0
-    else:
-        residual_bonus = _predict_residual(bundle, scenario["stats"])
-        calibration_offset = _calibration_offset(bundle)
-        ensemble_cv_mae = bundle.ensemble_cv_mae
-    noise = np.random.normal(0.0, ensemble_cv_mae, size=n_sims)
+    residual_bonus = _predict_residual(bundle, effective_stats)
+    calibration_offset = _calibration_offset(bundle)
+    noise = np.random.normal(0.0, bundle.ensemble_cv_mae, size=n_sims)
     adjusted = np.clip(raw_distribution + residual_bonus + calibration_offset + noise, 55.0, 110.0)
     distribution = pd.DataFrame({"wins": adjusted.round(2)})
 
@@ -1765,21 +1660,22 @@ def run_simulation(
             "over_87_5": float((distribution["wins"] >= 88).mean()),
             "residual_bonus": float(residual_bonus),
             "calibration_offset": float(calibration_offset),
-            "ensemble_cv_mae": float(ensemble_cv_mae),
+            "ensemble_cv_mae": float(bundle.ensemble_cv_mae),
         },
         "scenarios": list(scenarios.keys()),
-        "scenario_stats": scenario["stats"],
-        "scenario_boosts": scenario["boosts"] or {},
-        "customized": bool(custom_stats or custom_boosts is not None),
-        "engine": "fast_game_level" if fast_mode else "detailed_plate_appearance",
+        "scenario_stats": effective_stats,
         "monthly_summary": monthly_summary,
         "schedule_context": schedule_context,
         "series_summary": series_context.join(series_summary.drop(columns=["series_id"])),
         "player_projection": player_projection,
         "pitcher_projection": pitcher_projection,
     }
-    with cache_file.open("wb") as handle:
-        pickle.dump(result, handle)
+
+    if use_cache:
+        cache_file = _simulation_cache_file(raw_path, scenario_name, n_sims)
+        with cache_file.open("wb") as handle:
+            pickle.dump(result, handle)
+
     return result
 
 
@@ -1815,4 +1711,18 @@ def build_scenario_snapshots(raw_dir: str | Path) -> dict[str, pd.DataFrame]:
     return {
         "hitters": pd.concat(hitter_frames, ignore_index=True),
         "pitchers": pd.concat(pitcher_frames, ignore_index=True),
+    }
+
+
+def get_batter_options(raw_dir: str | Path) -> list[str]:
+    pool, _, _ = _build_batting_pool(Path(raw_dir))
+    return sorted(pool["Name"].tolist())
+
+
+def get_scenario_defaults(raw_dir: str | Path) -> dict:
+    bundle = _train_model_bundle(Path(raw_dir))
+    scenarios = _build_scenarios(bundle.tex25)
+    return {
+        "tex25": bundle.tex25,
+        "scenarios": scenarios,
     }

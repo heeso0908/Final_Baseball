@@ -160,6 +160,228 @@ def image_to_base64(path):
 
 
 # ── Simulation cache ──────────────────────────────────────────
+
+def _build_schedule_context(raw_dir: str) -> pd.DataFrame:
+    """texas_2025_game_log.csv → 월별 경기 수/홈원정/실제승률 요약."""
+    path = Path(raw_dir) / "texas_2025_game_log.csv"
+    if not path.exists():
+        return pd.DataFrame()
+    gl = pd.read_csv(path)
+    gl['Date'] = pd.to_datetime(gl['Date'], format='mixed', errors='coerce')
+    gl = gl.dropna(subset=['Date'])
+    gl['month']   = gl['Date'].dt.strftime('%b')
+    gl['is_home'] = gl.get('Home_Away', pd.Series('', index=gl.index)) == 'Home'
+    gl['is_win']  = gl['W/L'].astype(str).str.startswith('W')
+
+    grp = gl.groupby('month', sort=False).agg(
+        games=('Date', 'count'),
+        home_games=('is_home', 'sum'),
+        wins=('is_win', 'sum'),
+    ).reset_index()
+    grp['away_games'] = grp['games'] - grp['home_games']
+    grp['win_pct']    = (grp['wins'] / grp['games']).round(3)
+
+    month_order = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
+    grp['_order'] = grp['month'].map({m: i for i, m in enumerate(month_order)})
+    grp = grp.sort_values('_order').drop(columns=['_order', 'wins'])
+    return grp[['month', 'games', 'home_games', 'away_games', 'win_pct']]
+
+
+def _stats_to_pitcher_adj(custom_stats: dict, raw_dir: str, tex25: dict | None = None) -> dict | None:
+    """sv_pct / onerun_wp → pitcher_adjustments multiplier dict 변환.
+
+    sv_pct delta → closer K%/BB% 조정 (세이브 실패 원인: 주자 허용)
+    onerun_wp delta → setup + middle_reliever K%/BB% 조정 (접전 불펜 전체)
+
+    calibration:
+        +0.10 sv_pct  → closer K_pct × 1.25, BB_pct × 0.85
+        +0.10 onerun  → 불펜 K_pct × 1.20, BB_pct × 0.85
+    """
+    if not custom_stats:
+        return None
+    if tex25 is None:
+        defaults = _get_scenario_defaults(raw_dir)
+        tex25 = defaults.get("tex25", {})
+    baseline_sv    = float(tex25.get("sv_pct",    0.70))
+    baseline_onerun = float(tex25.get("onerun_wp", 0.50))
+
+    delta_sv     = float(custom_stats.get("sv_pct",    baseline_sv))    - baseline_sv
+    delta_onerun = float(custom_stats.get("onerun_wp", baseline_onerun)) - baseline_onerun
+
+    adj: dict = {}
+    if abs(delta_sv) > 1e-4:
+        adj["closer"] = {
+            "K_pct":  max(0.50, min(2.0, 1.0 + delta_sv * 2.5)),
+            "BB_pct": max(0.50, min(2.0, 1.0 - delta_sv * 1.5)),
+        }
+    if abs(delta_onerun) > 1e-4:
+        mult = {
+            "K_pct":  max(0.50, min(2.0, 1.0 + delta_onerun * 2.0)),
+            "BB_pct": max(0.50, min(2.0, 1.0 - delta_onerun * 1.5)),
+        }
+        adj["setup"]            = mult
+        adj["middle_reliever"]  = mult
+    return adj or None
+
+
+def _get_integrated_sim_result(raw_dir: str, n_sims: int, custom_boosts: dict,
+                                custom_stats: dict | None = None,
+                                track_player_stats: bool = True) -> dict:
+    """integrated_sim(markov_pitching 포함)으로 실행 — 선수별 기록 포함.
+
+    최대 50시즌으로 제한. 선수별 타자·투수 성적 DataFrame을 player_projection /
+    pitcher_projection으로 반환.
+    ML 잔차 모델(_predict_residual) 사후 적용 — Markov 순수 시뮬은 Pythagorean 수준에서 수렴하므로
+    ML이 포착하는 잔차 요인(sv_pct, onerun_wp 등)을 시나리오 stats 기준으로 보정.
+    """
+    from integrated_sim import run_integrated_simulation, _state as _isim_state
+    from simulator import _predict_residual
+
+    n_seasons = n_sims
+    hitter_adj  = {'per_player': custom_boosts} if custom_boosts else None
+    pitcher_adj = _stats_to_pitcher_adj(custom_stats, raw_dir) if custom_stats else None
+
+    season_df, monthly_df, batter_df, pitcher_df = run_integrated_simulation(
+        n_seasons=n_seasons,
+        hitter_adjustments=hitter_adj,
+        pitcher_adjustments=pitcher_adj,
+        raw_dir=Path(raw_dir),
+        track_player_stats=True,
+    )
+
+    wins = season_df['W'].values.astype(float)
+
+    # ML 잔차 모델 사후 적용
+    # bundle은 run_integrated_simulation 내 _ensure_loaded()로 이미 로드된 상태
+    bundle = _isim_state.get('bundle')
+    if bundle is not None:
+        effective_stats = dict(bundle.tex25)
+        if custom_stats:
+            effective_stats.update(custom_stats)
+        residual_bonus = _predict_residual(bundle, effective_stats)
+        wins = wins + residual_bonus
+
+    distribution = pd.DataFrame({"wins": wins})
+    return {
+        "distribution": distribution,
+        "summary": {
+            "mean": float(wins.mean()),
+            "median": float(np.median(wins)),
+            "p10": float(np.quantile(wins, 0.10)),
+            "p90": float(np.quantile(wins, 0.90)),
+            "over_81_5": float((wins >= 82).mean()),
+            "over_87_5": float((wins >= 88).mean()),
+            "integrated_n_seasons": n_seasons,
+        },
+        "monthly_summary":   monthly_df,
+        "schedule_context":  _build_schedule_context(raw_dir),
+        "series_summary":    pd.DataFrame(),
+        "player_projection":  batter_df,
+        "pitcher_projection": pitcher_df,
+    }
+
+
+_PHASE8_CONFIGS: dict[str, dict] = {
+    'phase8_max': {
+        'hitter':  {'team': {'single_mult': 1.136, 'k_mult': 0.920}},
+        'pitcher': {'starter': {'HR_pct': 0.974}, 'closer': {'K_pct': 1.075}},
+    },
+    'phase8_recovery': {
+        'hitter':  {'team': {'single_mult': 1.181}},
+        'pitcher': {'starter': {'HR_pct': 0.960}, 'closer': {'K_pct': 1.079}},
+    },
+    'phase8_safe': {
+        'hitter':  {'team': {'single_mult': 1.136, 'hr_mult': 1.115}},
+        'pitcher': {'starter': {'HR_pct': 0.976}},
+    },
+}
+
+
+# Pareto 후보별 tex25 대비 stat 증감 (v5 NSGA-II Pareto front에서 추출)
+_PARETO_STAT_DELTAS: dict[str, dict] = {
+    'pareto_aggressive':   {'sv_pct': +0.107, 'ir_pct': +0.067, 'onerun_wp': +0.131, 'xi_wp': +0.220, 'HR9': -0.265, 'BB9': -0.582},
+    'pareto_balanced':     {'sv_pct': +0.032, 'ir_pct': +0.067, 'onerun_wp': +0.115, 'xi_wp': +0.220, 'HR9': -0.271, 'BB9': -0.562},
+    'pareto_conservative': {'sv_pct': +0.045, 'ir_pct': +0.007, 'onerun_wp': +0.109, 'xi_wp': +0.176, 'HR9': -0.102, 'BB9': +0.099},
+}
+
+
+@st.cache_data(show_spinner=False)
+def get_live_scenario_results(raw_dir: str, n_sims: int = 10) -> dict:
+    """Baseline + Phase 8 3종 + Pareto 3종을 동일한 통합 Markov 시뮬 기준으로 재계산.
+
+    모든 delta는 같은 baseline_W를 기준으로 계산되므로 직접 비교 가능.
+    """
+    from integrated_sim import run_integrated_simulation, _state as _isim_state
+    from simulator import _predict_residual
+
+    n_seasons = min(n_sims, 50)
+
+    # tex25를 bundle과 독립적으로 먼저 로드 (Pareto custom_stats 계산용)
+    defaults = _get_scenario_defaults(raw_dir)
+    tex25: dict = defaults.get("tex25", {})
+
+    def _run_mean(hitter_adj, pitcher_adj) -> float:
+        season_df, _ = run_integrated_simulation(
+            n_seasons=n_seasons,
+            hitter_adjustments=hitter_adj,
+            pitcher_adjustments=pitcher_adj,
+            raw_dir=Path(raw_dir),
+            track_player_stats=False,
+        )
+        wins = season_df['W'].values.astype(float)
+        bundle = _isim_state.get('bundle')
+        if bundle is not None:
+            wins = wins + _predict_residual(bundle, dict(bundle.tex25))
+        return float(wins.mean())
+
+    def _run_mean_with_custom(custom_stats: dict) -> float:
+        pitcher_adj = _stats_to_pitcher_adj(custom_stats, raw_dir, tex25=tex25)
+        season_df, _ = run_integrated_simulation(
+            n_seasons=n_seasons,
+            hitter_adjustments=None,
+            pitcher_adjustments=pitcher_adj,
+            raw_dir=Path(raw_dir),
+            track_player_stats=False,
+        )
+        wins = season_df['W'].values.astype(float)
+        bundle = _isim_state.get('bundle')
+        if bundle is not None:
+            effective = {**dict(bundle.tex25), **custom_stats}
+            wins = wins + _predict_residual(bundle, effective)
+        return float(wins.mean())
+
+    baseline_W = _run_mean(None, None)
+    out: dict = {'baseline_W': round(baseline_W, 1)}
+
+    # Phase 8
+    for key, cfg in _PHASE8_CONFIGS.items():
+        try:
+            pred_W = _run_mean(cfg.get('hitter'), cfg.get('pitcher'))
+            out[key] = {
+                'predicted_W': round(pred_W, 1),
+                'delta':       round(pred_W - baseline_W, 2),
+            }
+        except Exception:
+            pass
+
+    # Pareto — tex25에서 직접 custom_stats 계산 (bundle 의존 없음)
+    for key, deltas in _PARETO_STAT_DELTAS.items():
+        try:
+            custom_stats = {
+                feat: round(float(tex25.get(feat, 0.0)) + delta, 4)
+                for feat, delta in deltas.items()
+            }
+            pred_W = _run_mean_with_custom(custom_stats)
+            out[key] = {
+                'predicted_W': round(pred_W, 1),
+                'delta':       round(pred_W - baseline_W, 2),
+            }
+        except Exception:
+            pass
+
+    return out
+
+
 @st.cache_data(show_spinner=False)
 def get_simulation_result(
     raw_dir: str,
@@ -169,6 +391,9 @@ def get_simulation_result(
     custom_boosts: dict | None = None,
     fast_mode: bool = True,
 ) -> dict:
+    # 항상 integrated_sim (markov_pitching 투수 시뮬 포함)
+    if not fast_mode:
+        return _get_integrated_sim_result(raw_dir, n_sims, custom_boosts, custom_stats=custom_stats)
     return run_simulation(
         raw_dir,
         scenario_name,

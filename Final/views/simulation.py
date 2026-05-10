@@ -6,9 +6,10 @@ from shared import (
     kpi_card, section_badges, finding_box,
     get_simulation_result, get_scenario_snapshots,
     get_simulation_batters, get_simulation_defaults,
+    get_live_scenario_results,
     fmt_pct, fmt_num,
 )
-from agent import tools as agent_tools
+from agent.tools import list_precomputed_scenarios
 
 
 _HITTER_MULT_COLUMNS = ["hr_mult", "bb_mult", "k_mult", "single_mult", "double_mult"]
@@ -18,7 +19,7 @@ RANGERS_BLUE = "#003278"
 CHART_GRAY = "#8F9AAA"
 
 SCENARIO_LABELS = {
-    "Baseline 2025": "Baseline 2025",
+    "Baseline 2025": "기준 시뮬 (조정 없음)",
     "Bullpen Upgrade": "불펜 강화",
     "Hitter Boost": "타자 강화",
 }
@@ -35,8 +36,9 @@ def _default_hitter_multipliers(player: str) -> dict[str, float]:
 def _scenario_type_label(source: str) -> str:
     labels = {
         "수동": "Manual",
-        "그리드": "Grid",
         "Pareto": "Pareto",
+        "Phase 8": "Phase 8",
+        "현재 시뮬": "현재 시뮬",
     }
     return labels.get(str(source), str(source))
 
@@ -44,8 +46,8 @@ def _scenario_type_label(source: str) -> str:
 def _render_source_legend() -> None:
     st.caption(
         "Manual: 사람이 직접 정한 실행 시나리오 · "
-        "Grid: 여러 조건 조합을 자동으로 훑어본 후보 · "
-        "Pareto: 개선 폭과 예측 안정성을 함께 고려한 후보"
+        "Pareto: v5 ML 잔차 모델 6차원 Pareto 후보 · "
+        "Phase 8: 12차원 σ NSGA-II 시뮬 직접 평가 (현실 권장 zone σ≤10%)"
     )
 
 
@@ -57,15 +59,12 @@ def _display_scenario_name(name: str) -> str:
 def _short_chart_label(name: str) -> str:
     text = _display_scenario_name(name)
     replacements = {
+        "Phase 8: 잔차 초과 달성 (σ=7.7%)": "P8\n잔차 초과",
+        "Phase 8: 잔차 만회 기준 (σ=8.1%)": "P8\n잔차 만회",
+        "Phase 8: 소폭 개선 (σ=6.0%)": "P8\n소폭 개선",
         "공격적 (std=0.652)": "Pareto\n공격적",
         "균형점 (std=0.205)": "Pareto\n균형점",
         "보수적 (std=0.002)": "Pareto\n보수적",
-        "전체 복합 개선 상한 (delta=+2.00)": "Grid\n복합 개선",
-        "접전 전용 최적 (delta=+1.83)": "Grid\n접전 최적",
-        "불펜 전용 최적 (delta=+0.13)": "Grid\n불펜 최적",
-        "baseline (현재 수준) (delta=+0.00)": "Grid\n현재 수준",
-        "투구 프로파일 최적 (delta=+0.02)": "Grid\n투구 최적",
-        "전체 복합 악화 하한 (delta=-0.68)": "Grid\n악화 점검",
     }
     return replacements.get(text, text.replace(" ", "\n"))
 
@@ -83,7 +82,17 @@ def _render_baseline_reference(defaults: dict) -> None:
         with col:
             digits = 3 if "승률" in label or "성공률" in label else 1
             kpi_card(label, fmt_num(value, digits), sub, accent="navy")
-    st.info("Baseline 2025는 실제 기준값 확인용입니다. 시뮬레이션을 돌려도 같은 기준 조건이므로 별도 실행하지 않습니다.")
+    st.markdown("""
+    <div class="finding-box" style="margin-top:10px;">
+        <strong>통합 Markov 시뮬 기준값</strong> — 타자 Markov + 투수 Markov(Phase 6-7' 메커니즘) 통합 엔진.
+        실점 평균 ≈ <b>604</b> (실제 605).
+        예상 승수는 실제 81승보다 <b>약 10승 높게</b> 나옵니다.
+        이는 시뮬레이션 오류가 아니라 <b>TEX 2025의 Pythagorean 잔차(-9.06승)</b> 때문입니다.
+        TEX의 실제 득실 기준 기대 승수는 90.06승이었으나, 세이브 실패·타이밍 불운 등으로 81승에 그쳤습니다.
+        시뮬레이션은 득실 기반 기댓값에 수렴하므로 이 잔차는 반영되지 않습니다.
+        따라서 절대 승수보다 <b>베이스라인 대비 개선폭(Δ승수)</b>을 기준으로 해석하는 것을 권장합니다.
+    </div>
+    """, unsafe_allow_html=True)
 
 
 def _render_custom_controls(selected_scenario: str) -> tuple[dict | None, dict | None, bool]:
@@ -91,29 +100,65 @@ def _render_custom_controls(selected_scenario: str) -> tuple[dict | None, dict |
     scenarios = defaults.get("scenarios", {})
     scenario = scenarios.get(selected_scenario, {})
     stats = dict(scenario.get("stats", {}))
+    tex25 = defaults.get("tex25", {})
+
+    if selected_scenario == "Baseline 2025":
+        st.info("아무 조건도 변경하지 않은 기준 시뮬레이션입니다. 시나리오 개선폭 비교의 기준점으로 사용합니다.")
+        return None, None, True
 
     if selected_scenario == "Bullpen Upgrade":
         st.markdown("### 불펜 조건")
-        sv_pct = st.slider(
-            "세이브 성공률",
-            min_value=0.300,
-            max_value=0.950,
-            value=float(stats.get("sv_pct", 0.700)),
-            step=0.010,
-            format="%.3f",
+        sv_baseline = float(tex25.get("sv_pct", stats.get("sv_pct", 0.700)))
+        onerun_baseline = float(tex25.get("onerun_wp", stats.get("onerun_wp", 0.500)))
+        delta_sv = st.slider(
+            "세이브 성공률 변화 (Δ)",
+            min_value=-0.300,
+            max_value=+0.300,
+            value=0.000,
+            step=0.001,
+            format="%+.3f",
             key="bullpen_sv_pct",
         )
-        onerun_wp = st.slider(
-            "1점 차 경기 승률",
-            min_value=0.200,
-            max_value=0.750,
-            value=float(stats.get("onerun_wp", 0.500)),
-            step=0.010,
-            format="%.3f",
+        delta_onerun = st.slider(
+            "1점 차 경기 승률 변화 (Δ)",
+            min_value=-0.200,
+            max_value=+0.200,
+            value=0.000,
+            step=0.001,
+            format="%+.3f",
             key="bullpen_onerun_wp",
         )
-        st.caption("세이브 성공률과 1점 차 경기 승률을 높이면 접전 경기에서 이기는 빈도가 얼마나 달라지는지 확인합니다.")
-        return {"sv_pct": sv_pct, "onerun_wp": onerun_wp}, None, True
+        st.caption(
+            f"기준값: 세이브 성공률 {sv_baseline:.3f} · 1점 차 승률 {onerun_baseline:.3f} (2025 TEX 실제). "
+            "Δ=0이면 기준 시뮬과 동일. 양수=개선, 음수=악화."
+        )
+
+        sv_result    = round(sv_baseline + delta_sv, 4)
+        onerun_result = round(onerun_baseline + delta_onerun, 4)
+        m1, m2 = st.columns(2)
+        with m1:
+            st.metric(
+                "세이브 성공률",
+                f"{sv_result:.3f}",
+                delta=f"{delta_sv:+.3f}" if abs(delta_sv) >= 1e-9 else "기준값 그대로",
+                delta_color="normal" if abs(delta_sv) >= 1e-9 else "off",
+            )
+        with m2:
+            st.metric(
+                "1점 차 경기 승률",
+                f"{onerun_result:.3f}",
+                delta=f"{delta_onerun:+.3f}" if abs(delta_onerun) >= 1e-9 else "기준값 그대로",
+                delta_color="normal" if abs(delta_onerun) >= 1e-9 else "off",
+            )
+
+        if abs(delta_sv) < 1e-9 and abs(delta_onerun) < 1e-9:
+            return None, None, True
+        custom_stats_out = {}
+        if abs(delta_sv) >= 1e-9:
+            custom_stats_out["sv_pct"] = sv_result
+        if abs(delta_onerun) >= 1e-9:
+            custom_stats_out["onerun_wp"] = onerun_result
+        return custom_stats_out, None, True
 
     if selected_scenario == "Hitter Boost":
         st.markdown("### 타자 조건")
@@ -140,48 +185,35 @@ def _render_custom_controls(selected_scenario: str) -> tuple[dict | None, dict |
             column_config={
                 "hr_mult": st.column_config.NumberColumn(
                     "홈런 배율",
-                    min_value=0.50,
-                    max_value=1.80,
-                    step=0.05,
                     format="%.2f",
-                    help="1.20이면 홈런 발생을 현재보다 20% 높게 가정합니다.",
+                    help="0.50 ~ 1.80 사이 값. 1.20이면 홈런 발생을 현재보다 20% 높게 가정합니다.",
                 ),
                 "bb_mult": st.column_config.NumberColumn(
                     "볼넷 배율",
-                    min_value=0.50,
-                    max_value=1.80,
-                    step=0.05,
                     format="%.2f",
-                    help="1.20이면 볼넷 발생을 현재보다 20% 높게 가정합니다.",
+                    help="0.50 ~ 1.80 사이 값. 1.20이면 볼넷 발생을 현재보다 20% 높게 가정합니다.",
                 ),
                 "k_mult": st.column_config.NumberColumn(
                     "삼진 배율",
-                    min_value=0.50,
-                    max_value=1.80,
-                    step=0.05,
                     format="%.2f",
-                    help="0.90이면 삼진 발생을 현재보다 10% 낮게 가정합니다.",
+                    help="0.50 ~ 1.80 사이 값. 0.90이면 삼진 발생을 현재보다 10% 낮게 가정합니다.",
                 ),
                 "single_mult": st.column_config.NumberColumn(
                     "단타 배율",
-                    min_value=0.50,
-                    max_value=1.80,
-                    step=0.05,
                     format="%.2f",
+                    help="0.50 ~ 1.80 사이 값.",
                 ),
                 "double_mult": st.column_config.NumberColumn(
                     "장타 배율",
-                    min_value=0.50,
-                    max_value=1.80,
-                    step=0.05,
                     format="%.2f",
+                    help="0.50 ~ 1.80 사이 값.",
                 ),
             },
             key="hitter_multiplier_editor",
         )
         st.caption("1.00은 현재 수준입니다. 1.20은 해당 이벤트가 20% 늘어난다는 뜻이고, K 배율은 낮을수록 삼진이 줄어드는 설정입니다.")
         boosts = {
-            str(row["player"]): {col: float(row[col]) for col in _HITTER_MULT_COLUMNS}
+            str(row["player"]): {col: float(min(1.80, max(0.50, row[col]))) for col in _HITTER_MULT_COLUMNS}
             for _, row in edited.iterrows()
         }
         return None, boosts, bool(boosts)
@@ -189,20 +221,77 @@ def _render_custom_controls(selected_scenario: str) -> tuple[dict | None, dict |
     return None, None, True
 
 
-def _render_decision_board() -> None:
+def _render_decision_board(
+    sim_result_mean: float | None = None,
+    sim_label: str | None = None,
+    baseline_override: float | None = None,
+) -> None:
     st.markdown(
         """
         <div class="glass-card">
             <div class="chart-title">시나리오 의사결정 후보</div>
-            <div class="chart-caption">
-                수동 시나리오와 Grid/Pareto 후보를 같은 기준으로 비교합니다.
-            </div>
+            <div class="chart-caption">수동 시나리오와 Pareto / Phase 8 후보를 같은 기준으로 비교합니다.</div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    leaderboard = pd.DataFrame(agent_tools.list_precomputed_scenarios()["scenarios"])
+    leaderboard = pd.DataFrame(list_precomputed_scenarios()["scenarios"])
+
+    # Live sim으로 Phase 8 + baseline 재계산 (캐시됨)
+    baseline_W = 81.0
+    try:
+        live = get_live_scenario_results(str(RAW_DIR), n_sims=10)
+        if not leaderboard.empty:
+            baseline_W = live['baseline_W']
+            # baseline row
+            mask_base = leaderboard['key'] == 'manual_baseline'
+            if mask_base.any():
+                leaderboard.loc[mask_base, 'predicted_W'] = baseline_W
+                leaderboard.loc[mask_base, 'delta'] = 0.0
+            # Phase 8 + Pareto rows — 모두 동일한 baseline_W 기준으로 교체
+            for live_key in ['phase8_max', 'phase8_recovery', 'phase8_safe',
+                             'pareto_aggressive', 'pareto_balanced', 'pareto_conservative']:
+                if live_key not in live:
+                    continue
+                mask = leaderboard['key'] == live_key
+                if mask.any():
+                    leaderboard.loc[mask, 'predicted_W'] = live[live_key]['predicted_W']
+                    leaderboard.loc[mask, 'delta'] = live[live_key]['delta']
+    except Exception:
+        pass
+
+    # 사용자가 기준 시뮬을 직접 돌린 경우 → 그 결과를 baseline으로 덮어쓰고 delta 재계산
+    if baseline_override is not None:
+        baseline_W = round(float(baseline_override), 1)
+        mask_base = leaderboard['key'] == 'manual_baseline'
+        if mask_base.any():
+            leaderboard.loc[mask_base, 'predicted_W'] = baseline_W
+            leaderboard.loc[mask_base, 'delta'] = 0.0
+        for live_key in ['phase8_max', 'phase8_recovery', 'phase8_safe',
+                         'pareto_aggressive', 'pareto_balanced', 'pareto_conservative']:
+            mask = leaderboard['key'] == live_key
+            if mask.any():
+                abs_W = float(leaderboard.loc[mask, 'predicted_W'].iloc[0])
+                leaderboard.loc[mask, 'delta'] = round(abs_W - baseline_W, 2)
+
+    # 수동 시뮬 결과를 테이블에 합류
+    if sim_result_mean is not None and sim_label is not None:
+        manual_delta = round(sim_result_mean - baseline_W, 2)
+        manual_row = {
+            'key':          'current_sim',
+            'source':       '현재 시뮬',
+            'label':        sim_label,
+            'predicted_W':  round(sim_result_mean, 1),
+            'delta':        manual_delta,
+            'pred_std':     float('nan'),
+            'sigma_norm':   float('nan'),
+            'rank':         0,
+            'decision_note': '방금 실행한 수동 시뮬레이션 결과',
+        }
+        leaderboard = pd.concat(
+            [pd.DataFrame([manual_row]), leaderboard], ignore_index=True
+        )
 
     if not leaderboard.empty:
         leaderboard["구분_설명"] = leaderboard["source"].map(_scenario_type_label)
@@ -213,15 +302,27 @@ def _render_decision_board() -> None:
             "표시_시나리오": "시나리오",
             "delta": "기준 대비 개선승수",
             "predicted_W": "예상 승수",
+            "base_predicted_W": "기준 예상 승수",
             "pred_std": "예측 흔들림",
+            "sigma_norm": "σ 비용",
+            "adjustments_summary": "조정 내역",
             "decision_note": "의사결정 포인트",
         })
-        keep = [c for c in ["순위", "구분", "시나리오", "기준 대비 개선승수", "예상 승수", "예측 흔들림", "의사결정 포인트"] if c in show.columns]
+        has_base = "기준 예상 승수" in show.columns and show["기준 예상 승수"].notna().any()
+        keep = [c for c in ["순위", "구분", "시나리오", "기준 대비 개선승수", "예상 승수", "예측 흔들림", "σ 비용", "조정 내역", "의사결정 포인트"] if c in show.columns]
         show_table = show[keep].copy()
         show_table["기준 대비 개선승수"] = show_table["기준 대비 개선승수"].map(lambda v: f"{float(v):+.3f}")
         show_table["예상 승수"] = show_table["예상 승수"].map(lambda v: f"{float(v):.1f}")
+        if "기준 예상 승수" in show_table.columns:
+            show_table["기준 예상 승수"] = show_table["기준 예상 승수"].map(
+                lambda v: "-" if pd.isna(v) else f"{float(v):.1f}"
+            )
         if "예측 흔들림" in show_table.columns:
             show_table["예측 흔들림"] = show_table["예측 흔들림"].map(lambda v: "-" if pd.isna(v) else f"{float(v):.4f}")
+        if "σ 비용" in show_table.columns:
+            show_table["σ 비용"] = show_table["σ 비용"].map(lambda v: "-" if pd.isna(v) else f"{float(v):.3f}")
+        if "조정 내역" in show_table.columns:
+            show_table["조정 내역"] = show_table["조정 내역"].fillna("-")
         st.dataframe(
             show_table,
             use_container_width=True,
@@ -229,7 +330,7 @@ def _render_decision_board() -> None:
             height=(len(show_table) + 1) * 35 + 3,
         )
         _render_source_legend()
-        st.caption("기준 대비 개선승수는 Baseline 2025와 비교한 예상 승수 개선 폭입니다. 예측 흔들림은 낮을수록 모델들이 더 비슷하게 본 후보입니다.")
+        st.caption("기준 대비 개선승수: Phase 8 · Pareto · Baseline 모두 동일한 통합 Markov 시뮬 baseline_W 기준으로 계산됩니다. 예측 흔들림은 낮을수록 ML 모델들이 더 비슷하게 본 후보입니다. σ 비용은 Phase 8 전용으로 낮을수록 현실적으로 실행하기 쉬운 정책 조합입니다.")
 
         chart_df = leaderboard.copy()
         chart_df["구분_설명"] = chart_df["source"].map(_scenario_type_label)
@@ -250,8 +351,8 @@ def _render_decision_board() -> None:
                     "구분_설명:N",
                     title="구분",
                     scale=alt.Scale(
-                        domain=["Manual", "Grid", "Pareto"],
-                        range=[RANGERS_RED, RANGERS_BLUE, CHART_GRAY],
+                        domain=["현재 시뮬", "Manual", "Pareto", "Phase 8"],
+                        range=["#F5A623", RANGERS_RED, CHART_GRAY, "#2F9E65"],
                     ),
                 ),
                 tooltip=[
@@ -260,11 +361,12 @@ def _render_decision_board() -> None:
                     alt.Tooltip("delta:Q", title="기준 대비 개선승수", format="+.3f"),
                     alt.Tooltip("predicted_W:Q", title="예상 승수", format=".1f"),
                     alt.Tooltip("pred_std:Q", title="예측 흔들림", format=".4f"),
+                    alt.Tooltip("sigma_norm:Q", title="σ_norm (정책 변경 비용)", format=".3f"),
                 ],
             )
         )
         actual_rule = (
-            alt.Chart(pd.DataFrame({"actual_W": [81.0], "label": ["실제 승수 81승"]}))
+            alt.Chart(pd.DataFrame({"actual_W": [81.0], "label": ["실제 2025 승수 81승"]}))
             .mark_rule(color=RANGERS_NAVY, strokeDash=[6, 4], strokeWidth=2)
             .encode(y="actual_W:Q")
         )
@@ -281,20 +383,6 @@ def _render_decision_board() -> None:
         chart = (bars + actual_rule + legend_line + legend_text).properties(height=360)
         st.altair_chart(chart, use_container_width=True)
 
-    grid_points = pd.DataFrame(agent_tools.get_grid_pareto_points()["points"])
-    if not grid_points.empty:
-        st.markdown("### 자동 탐색 대표 후보")
-        grid_points["표시_시나리오"] = grid_points["label"].map(_display_scenario_name)
-        grid_show = grid_points.rename(columns={
-            "표시_시나리오": "시나리오",
-            "delta": "기준 대비 개선승수",
-            "predicted_W": "예상 승수",
-            "pred_std": "예측 흔들림",
-            "adjustments_summary": "주요 조정",
-        })
-        keep = [c for c in ["시나리오", "기준 대비 개선승수", "예상 승수", "예측 흔들림", "주요 조정"] if c in grid_show.columns]
-        st.dataframe(grid_show[keep], use_container_width=True, hide_index=True)
-        st.caption("자동 탐색 대표 후보는 여러 조합 중 개선 폭과 안정성을 함께 본 선택지입니다. 수동 시나리오를 대체하기보다 비교 기준으로 사용합니다.")
 
 
 def show():
@@ -306,7 +394,7 @@ def show():
         <h1>2025 TEX 시즌 시뮬레이션</h1>
         <p>
         2025 텍사스 레인저스의 실제 시즌을 기준으로 주요 전력 변수 변화가 승수에 미치는 영향을 재구성합니다.
-        Baseline 2025를 기준값으로 고정하고, 수동 시나리오와 Grid/Pareto 후보를 같은 기준으로 비교합니다.
+        Baseline 2025를 기준값으로 고정하고, 수동 시나리오와 Pareto / Phase 8 후보를 같은 기준으로 비교합니다.
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -333,7 +421,7 @@ def show():
     _render_baseline_reference(get_simulation_defaults(str(RAW_DIR)))
 
     st.markdown("### 조건 선택")
-    scenario_keys = [s for s in SIMULATION_OPTIONS if s != "Baseline 2025"]
+    scenario_keys = list(SIMULATION_OPTIONS)
     scenario_options = [SCENARIO_LABELS.get(s, s) for s in scenario_keys]
     current_scenario_key = st.session_state.get("sim_scenario", scenario_keys[0])
     if current_scenario_key not in scenario_keys:
@@ -358,14 +446,13 @@ def show():
     )
     custom_stats, custom_boosts, can_run = _render_custom_controls(selected_scenario)
 
-    use_fast_mode = not (selected_scenario == "Hitter Boost" and custom_boosts)
-    if not use_fast_mode:
-        st.info(
-            "타자 배율이 설정되어 타석 단위 상세 엔진으로 실행됩니다. "
-            "빠른 모드보다 시간이 더 걸릴 수 있습니다."
-        )
-    else:
-        st.caption("기본 엔진은 빠른 경기 단위 Monte Carlo입니다. 기존 타석 단위 상세 엔진보다 훨씬 빠르게 실행됩니다.")
+    use_fast_mode = False
+    st.caption(
+        "통합 시뮬 엔진(integrated_sim) 사용 중 — "
+        "타자 Markov(simulator.py) + 투수 Markov(markov_pitching.py) + "
+        "Phase 6-7' 메커니즘(high-leverage 패널티, closer 타이밍, 시기별 불펜 풀) 반영. "
+        "설정한 반복 횟수만큼 실행되며 완료까지 수 분이 걸릴 수 있습니다."
+    )
 
     run_click = st.button(
         "시뮬레이션 실행",
@@ -411,7 +498,7 @@ def show():
     if result is None:
         finding_box(
             "아직 시뮬레이션을 실행하지 않았습니다.",
-            "상단에서 시나리오와 반복 횟수를 선택한 뒤 시뮬레이션 실행 버튼을 누르면 선택한 조건의 승수 분포와 월별 흐름이 계산됩니다. 아래에서는 수동 시나리오와 Grid/Pareto 후보를 먼저 비교할 수 있습니다."
+            "상단에서 시나리오와 반복 횟수를 선택한 뒤 시뮬레이션 실행 버튼을 누르면 선택한 조건의 승수 분포와 월별 흐름이 계산됩니다. 아래에서는 Pareto / Phase 8 후보를 먼저 비교할 수 있습니다."
         )
         st.markdown("---")
         st.markdown("## 후보 비교")
@@ -424,9 +511,17 @@ def show():
     schedule_context = result.get("schedule_context", pd.DataFrame()).copy()
     players = result.get("player_projection", pd.DataFrame()).copy()
     pitchers = result.get("pitcher_projection", pd.DataFrame()).copy()
+    is_integrated = "integrated_n_seasons" in summary
 
     st.markdown("---")
     st.markdown("## 시뮬레이션 결과 요약")
+    if is_integrated:
+        n_int = summary.get("integrated_n_seasons", "?")
+        st.success(
+            f"통합 Markov 엔진 결과 ({n_int}시즌) — "
+            "타자 Markov + 투수 Markov(Phase 6-7' 메커니즘 포함)로 계산된 승수 분포입니다. "
+            "월별·선수별 세부 데이터는 이 모드에서는 제공되지 않습니다."
+        )
 
     k1, k2, k3, k4 = st.columns(4)
     with k1:
@@ -438,6 +533,42 @@ def show():
     with k4:
         kpi_card("82승 이상 가능성", fmt_pct(summary.get("over_81_5")), "승률 5할 이상으로 끝날 확률", accent="navy")
 
+    # 기준 시뮬 대비 증감량 — get_live_scenario_results 캐시 재활용 (추가 시뮬 없음)
+    cur_scenario = st.session_state.get("sim_scenario", "Baseline 2025")
+    if cur_scenario != "Baseline 2025":
+        try:
+            live_cache  = get_live_scenario_results(str(RAW_DIR), n_sims=10)
+            base_mean   = live_cache.get("baseline_W")
+            cur_mean    = summary.get("mean")
+            cur_over81  = summary.get("over_81_5")
+            if base_mean is not None and cur_mean is not None:
+                delta_mean = cur_mean - base_mean
+                sign  = "▲" if delta_mean >= 0 else "▼"
+                color = "#1a7a2e" if delta_mean >= 0 else "#c0392b"
+                over81_str = ""
+                if cur_over81 is not None:
+                    o_sign  = "▲" if cur_over81 >= 0.5 else "▼"
+                    o_color = "#1a7a2e" if cur_over81 >= 0.5 else "#c0392b"
+                    over81_str = (
+                        f"&nbsp;·&nbsp;82승 이상 가능성 "
+                        f"<span style='color:{o_color};font-weight:700'>{cur_over81*100:.1f}%</span>"
+                    )
+                st.markdown(
+                    f"""<div style="background:#f0f4ff;border-left:4px solid #3b5bdb;border-radius:6px;
+                        padding:12px 16px;margin:12px 0;font-size:14px;line-height:1.8;">
+                      <b>기준 시뮬 대비 증감</b>&nbsp;&nbsp;
+                      예상 승수 평균
+                      <span style='color:{color};font-weight:700;font-size:16px;'>
+                        {sign} {abs(delta_mean):.2f}승
+                      </span>
+                      &nbsp;(기준 {base_mean:.1f}승 → 현재 {cur_mean:.1f}승)
+                      {over81_str}
+                    </div>""",
+                    unsafe_allow_html=True,
+                )
+        except Exception:
+            pass
+
     st.markdown("""
     <div class="finding-box">
         <strong>해석 기준</strong><br>
@@ -448,7 +579,14 @@ def show():
 
     st.markdown("---")
     st.markdown("## 후보 비교")
-    _render_decision_board()
+    _cur_scenario = st.session_state.get("sim_scenario", "")
+    _cur_label    = _display_scenario_name(_cur_scenario) if _cur_scenario else None
+    _is_baseline  = _cur_scenario == "Baseline 2025"
+    _render_decision_board(
+        sim_result_mean=summary.get("mean") if not _is_baseline else None,
+        sim_label=_cur_label,
+        baseline_override=summary.get("mean") if _is_baseline else None,
+    )
 
     chart_left, chart_right = st.columns([1.35, 1], gap="large")
 
@@ -472,13 +610,6 @@ def show():
 
     with chart_right:
         st.markdown("### 결과 읽는 법")
-        residual_bonus = float(summary.get("residual_bonus", 0.0) or 0.0)
-        calibration_offset = float(summary.get("calibration_offset", 0.0) or 0.0)
-        model_note = (
-            "현재 빠른 실행 모드는 경기 일정과 선택 조건을 중심으로 계산하며, 별도의 ML 잔차 보정을 더하지 않았습니다."
-            if abs(residual_bonus) < 1e-9 and abs(calibration_offset) < 1e-9
-            else "선택 조건에 ML 잔차 보정값을 더해 승수 분포를 조정했습니다."
-        )
         st.markdown(f"""
         <div class="glass-card glass-card-accent">
             <div class="kpi-label-custom">선택한 조건</div>
@@ -487,9 +618,7 @@ def show():
             <hr style="margin:14px 0;">
             <div style="font-size:13px; line-height:1.8; color:#344054;">
                 <b>88승 이상 가능성</b>: <span class="num">{fmt_pct(summary.get('over_87_5'))}</span><br>
-                <b>82승 이상 가능성</b>: <span class="num">{fmt_pct(summary.get('over_81_5'))}</span><br>
-                <b>시나리오 보정</b>: <span class="num">{fmt_num(residual_bonus + calibration_offset, 2, sign=True)}</span>승<br>
-                <span style="color:#667085;">{model_note}</span>
+                <b>82승 이상 가능성</b>: <span class="num">{fmt_pct(summary.get('over_81_5'))}</span>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -533,15 +662,16 @@ def show():
         st.markdown("### Schedule Context")
         if not schedule_context.empty:
             rename_map = {
-                "month": "Month",
-                "games": "G",
-                "home_games": "Home",
-                "away_games": "Away",
+                "month": "월",
+                "games": "경기",
+                "home_games": "홈",
+                "away_games": "원정",
+                "win_pct": "실제 승률",
                 "strength_index": "Strength",
                 "difficulty": "Difficulty",
             }
             display = schedule_context.rename(columns=rename_map)
-            keep_cols = [col for col in ["Month", "G", "Home", "Away", "Strength", "Difficulty"] if col in display.columns]
+            keep_cols = [col for col in ["월", "경기", "홈", "원정", "실제 승률", "Strength", "Difficulty"] if col in display.columns]
             st.dataframe(display[keep_cols], use_container_width=True, hide_index=True)
         else:
             st.info("스케줄 요약 데이터가 없습니다.")
@@ -554,116 +684,179 @@ def show():
     with hitter_tab:
         st.markdown("### 타자 시나리오 카드")
         if not players.empty:
-            card_players = players.head(4).copy()
-            cols = st.columns(4)
-            for col, (_, player) in zip(cols, card_players.iterrows()):
-                with col:
-                    kpi_card(
-                        str(player.get("player", "-")),
-                        fmt_num(player.get("sim_on_base"), 3),
-                        f"{player.get('archetype', '-')} | HR {fmt_num(player.get('sim_hr'), 3)}",
-                        accent="red" if bool(player.get("boosted", False)) else "navy",
-                    )
-            player_display = players.copy()
-            for source, target, digits in [
-                ("sim_on_base", "Modeled OBP", 3),
-                ("sim_hr", "HR Rate", 3),
-                ("sim_xbh", "XBH Rate", 3),
-                ("sim_k", "K Rate", 3),
-                ("delta_obp_pts", "OBP Delta", 1),
-                ("delta_hr_pts", "HR Delta", 1),
-            ]:
-                if source in player_display.columns:
-                    player_display[target] = player_display[source].map(lambda v: fmt_num(v, digits, sign=("Delta" in target)))
-            keep = [c for c in ["player", "pos", "archetype", "Modeled OBP", "HR Rate", "XBH Rate", "K Rate", "OBP Delta", "HR Delta"] if c in player_display.columns]
-            st.dataframe(player_display[keep].head(12), use_container_width=True, hide_index=True)
+            if is_integrated and '선수' in players.columns:
+                # 통합 Markov 엔진 결과: 선수별 시뮬 성적 직접 표시
+                st.caption("통합 Markov 시뮬레이션 기반 선수별 평균 성적 (N시즌 평균)")
+                st.dataframe(players, use_container_width=True, hide_index=True)
+            else:
+                card_players = players.head(4).copy()
+                cols = st.columns(4)
+                for col, (_, player) in zip(cols, card_players.iterrows()):
+                    with col:
+                        kpi_card(
+                            str(player.get("player", "-")),
+                            fmt_num(player.get("sim_on_base"), 3),
+                            f"{player.get('archetype', '-')} | HR {fmt_num(player.get('sim_hr'), 3)}",
+                            accent="red" if bool(player.get("boosted", False)) else "navy",
+                        )
+                player_display = players.copy()
+                for source, target, digits in [
+                    ("sim_on_base", "Modeled OBP", 3),
+                    ("sim_hr", "HR Rate", 3),
+                    ("sim_xbh", "XBH Rate", 3),
+                    ("sim_k", "K Rate", 3),
+                    ("delta_obp_pts", "OBP Delta", 1),
+                    ("delta_hr_pts", "HR Delta", 1),
+                ]:
+                    if source in player_display.columns:
+                        player_display[target] = player_display[source].map(lambda v: fmt_num(v, digits, sign=("Delta" in target)))
+                keep = [c for c in ["player", "pos", "archetype", "Modeled OBP", "HR Rate", "XBH Rate", "K Rate", "OBP Delta", "HR Delta"] if c in player_display.columns]
+                st.dataframe(player_display[keep].head(12), use_container_width=True, hide_index=True)
         else:
             st.info("타자 projection 데이터가 없습니다.")
 
     with pitcher_tab:
         st.markdown("### 투수 시나리오 카드")
         if not pitchers.empty:
-            card_pitchers = pitchers.head(4).copy()
-            cols = st.columns(4)
-            for col, (_, pitcher) in zip(cols, card_pitchers.iterrows()):
-                delta_era = float(pitcher.get("delta_era", 0.0)) if pd.notna(pitcher.get("delta_era", 0.0)) else 0.0
-                with col:
-                    kpi_card(
-                        str(pitcher.get("player", "-")),
-                        fmt_num(pitcher.get("sim_era"), 2),
-                        f"{pitcher.get('role', '-')} | ΔERA {fmt_num(delta_era, 2, sign=True)}",
-                        accent="navy" if delta_era <= 0 else "red",
-                    )
-            pitcher_display = pitchers.copy()
-            for source, target, digits in [
-                ("sim_era", "Modeled ERA", 2),
-                ("sim_whip", "Modeled WHIP", 2),
-                ("sim_k9", "Modeled K/9", 1),
-                ("delta_era", "ERA Delta", 2),
-                ("sim_ip", "Projected IP", 1),
-            ]:
-                if source in pitcher_display.columns:
-                    pitcher_display[target] = pitcher_display[source].map(lambda v: fmt_num(v, digits, sign=(target == "ERA Delta")))
-            keep = [c for c in ["player", "role", "archetype", "Modeled ERA", "Modeled WHIP", "Modeled K/9", "ERA Delta", "Projected IP"] if c in pitcher_display.columns]
-            st.dataframe(pitcher_display[keep].head(12), use_container_width=True, hide_index=True)
+            if is_integrated and '투수' in pitchers.columns:
+                # 통합 Markov 엔진 결과: 투수별 시뮬 성적 직접 표시
+                st.caption("통합 Markov 시뮬레이션 기반 투수별 평균 성적 (N시즌 평균, ERA 오름차순)")
+                st.dataframe(pitchers, use_container_width=True, hide_index=True)
+            else:
+                card_pitchers = pitchers.head(4).copy()
+                cols = st.columns(4)
+                for col, (_, pitcher) in zip(cols, card_pitchers.iterrows()):
+                    delta_era = float(pitcher.get("delta_era", 0.0)) if pd.notna(pitcher.get("delta_era", 0.0)) else 0.0
+                    with col:
+                        kpi_card(
+                            str(pitcher.get("player", "-")),
+                            fmt_num(pitcher.get("sim_era"), 2),
+                            f"{pitcher.get('role', '-')} | ΔERA {fmt_num(delta_era, 2, sign=True)}",
+                            accent="navy" if delta_era <= 0 else "red",
+                        )
+                pitcher_display = pitchers.copy()
+                for source, target, digits in [
+                    ("sim_era", "Modeled ERA", 2),
+                    ("sim_whip", "Modeled WHIP", 2),
+                    ("sim_k9", "Modeled K/9", 1),
+                    ("delta_era", "ERA Delta", 2),
+                    ("sim_ip", "Projected IP", 1),
+                ]:
+                    if source in pitcher_display.columns:
+                        pitcher_display[target] = pitcher_display[source].map(lambda v: fmt_num(v, digits, sign=(target == "ERA Delta")))
+                keep = [c for c in ["player", "role", "archetype", "Modeled ERA", "Modeled WHIP", "Modeled K/9", "ERA Delta", "Projected IP"] if c in pitcher_display.columns]
+                st.dataframe(pitcher_display[keep].head(12), use_container_width=True, hide_index=True)
         else:
             st.info("투수 projection 데이터가 없습니다.")
 
     with scenario_tab:
-        st.markdown("### 시나리오별 선수 변화 비교")
-        try:
-            snapshots = get_scenario_snapshots(str(RAW_DIR))
-        except Exception as exc:
-            st.warning(f"시나리오 보드 데이터를 불러오지 못했습니다: {type(exc).__name__}: {exc}")
-            snapshots = None
+        st.markdown("### 시나리오 vs Baseline 선수 성적 비교")
+        st.caption("실행한 시나리오의 선수별 시뮬레이션 성적을 Baseline 2025와 비교합니다.")
 
-        if snapshots:
-            compare_mode = st.radio("Comparison Type", ["Hitters", "Pitchers"], horizontal=True)
-            if compare_mode == "Hitters" and "hitters" in snapshots:
-                hitter_snapshots = snapshots["hitters"].copy()
-                hitter_names = hitter_snapshots["player"].drop_duplicates().tolist()
-                default_idx = hitter_names.index("Wyatt Langford") if "Wyatt Langford" in hitter_names else 0
-                selected_hitter = st.selectbox("Player", hitter_names, index=default_idx)
-                hitter_compare = hitter_snapshots[hitter_snapshots["player"] == selected_hitter].copy()
-                compare_chart = (
-                    alt.Chart(hitter_compare)
-                    .mark_bar(cornerRadiusTopLeft=5, cornerRadiusTopRight=5, color=RANGERS_RED)
-                    .encode(
-                        x=alt.X("scenario:N", title=None),
-                        y=alt.Y("sim_on_base:Q", title="출루 능력 지표"),
-                        tooltip=[
-                            alt.Tooltip("scenario:N", title="시나리오"),
-                            alt.Tooltip("sim_on_base:Q", title="출루 능력", format=".3f"),
-                            alt.Tooltip("sim_hr:Q", title="홈런 비율", format=".3f"),
-                        ],
-                    )
-                    .properties(height=300)
-                )
-                st.altair_chart(compare_chart, use_container_width=True)
-                st.dataframe(hitter_compare, use_container_width=True, hide_index=True)
-            elif compare_mode == "Pitchers" and "pitchers" in snapshots:
-                pitcher_snapshots = snapshots["pitchers"].copy()
-                pitcher_names = pitcher_snapshots["player"].drop_duplicates().tolist()
-                default_idx = pitcher_names.index("Nathan Eovaldi") if "Nathan Eovaldi" in pitcher_names else 0
-                selected_pitcher = st.selectbox("Pitcher", pitcher_names, index=default_idx)
-                pitcher_compare = pitcher_snapshots[pitcher_snapshots["player"] == selected_pitcher].copy()
-                compare_chart = (
-                    alt.Chart(pitcher_compare)
-                    .mark_bar(cornerRadiusTopLeft=5, cornerRadiusTopRight=5, color=RANGERS_NAVY)
-                    .encode(
-                        x=alt.X("scenario:N", title=None),
-                        y=alt.Y("sim_era:Q", title="예상 ERA"),
-                        tooltip=[
-                            alt.Tooltip("scenario:N", title="시나리오"),
-                            alt.Tooltip("sim_era:Q", title="예상 ERA", format=".2f"),
-                            alt.Tooltip("delta_era:Q", title="ERA 변화", format=".2f"),
-                        ],
-                    )
-                    .properties(height=300)
-                )
-                st.altair_chart(compare_chart, use_container_width=True)
-                st.dataframe(pitcher_compare, use_container_width=True, hide_index=True)
-            else:
-                st.info("선택한 비교 데이터가 없습니다.")
+        cur_result   = st.session_state.get("simulation_result")
+        cur_scenario = st.session_state.get("sim_scenario", "Baseline 2025")
+        sim_runs_cmp = int(st.session_state.get("sim_runs", DEFAULT_SIM_RUNS))
+
+        if cur_result is None:
+            st.info("먼저 상단에서 시뮬레이션을 실행해주세요.")
+        elif cur_scenario == "Baseline 2025":
+            st.info("Baseline 2025 이외의 시나리오(예: Bullpen Upgrade, Hitter Boost)로 시뮬레이션을 실행하면 Baseline과 비교할 수 있습니다.")
         else:
-            st.info("시뮬레이션 실행 결과는 표시되지만, scenario snapshot 데이터는 아직 불러오지 못했습니다.")
+            try:
+                with st.spinner("Baseline 2025 데이터 로딩 중..."):
+                    base_result = get_simulation_result(
+                        str(RAW_DIR), "Baseline 2025", sim_runs_cmp, fast_mode=False
+                    )
+            except Exception as exc:
+                st.warning(f"Baseline 데이터 로딩 실패: {exc}")
+                base_result = None
+
+            if base_result is not None:
+                b_base = base_result.get("player_projection")
+                p_base = base_result.get("pitcher_projection")
+                b_cur  = cur_result.get("player_projection")
+                p_cur  = cur_result.get("pitcher_projection")
+
+                compare_mode = st.radio("비교 유형", ["타자", "투수"], horizontal=True)
+
+                if compare_mode == "타자":
+                    if b_base is None or b_cur is None or b_base.empty or b_cur.empty:
+                        st.info("타자 데이터가 없습니다.")
+                    else:
+                        b_base_labeled = b_base.copy(); b_base_labeled["시나리오"] = "Baseline 2025"
+                        b_cur_labeled  = b_cur.copy();  b_cur_labeled["시나리오"]  = cur_scenario
+                        combined = pd.concat([b_base_labeled, b_cur_labeled], ignore_index=True)
+                        hitter_names = b_base_labeled["선수"].drop_duplicates().tolist()
+                        default_idx = hitter_names.index("Wyatt Langford") if "Wyatt Langford" in hitter_names else 0
+                        selected_hitter = st.selectbox("선수 선택", hitter_names, index=default_idx)
+                        hitter_compare = combined[combined["선수"] == selected_hitter].copy()
+                        compare_chart = (
+                            alt.Chart(hitter_compare)
+                            .mark_bar(cornerRadiusTopLeft=5, cornerRadiusTopRight=5)
+                            .encode(
+                                x=alt.X("시나리오:N", title=None),
+                                y=alt.Y("OPS:Q", title="OPS", scale=alt.Scale(zero=False)),
+                                color=alt.Color(
+                                    "시나리오:N",
+                                    scale=alt.Scale(
+                                        domain=["Baseline 2025", cur_scenario],
+                                        range=[CHART_GRAY, RANGERS_RED],
+                                    ),
+                                    legend=None,
+                                ),
+                                tooltip=[
+                                    alt.Tooltip("시나리오:N",  title="시나리오"),
+                                    alt.Tooltip("OPS:Q",      title="OPS",    format=".3f"),
+                                    alt.Tooltip("AVG:Q",      title="타율",   format=".3f"),
+                                    alt.Tooltip("OBP:Q",      title="출루율", format=".3f"),
+                                    alt.Tooltip("SLG:Q",      title="장타율", format=".3f"),
+                                    alt.Tooltip("HR/시즌:Q",  title="홈런/시즌", format=".1f"),
+                                ],
+                            )
+                            .properties(height=300)
+                        )
+                        st.altair_chart(compare_chart, use_container_width=True)
+                        show_cols = ["시나리오", "PA/시즌", "AVG", "OBP", "SLG", "OPS", "HR/시즌", "BB/시즌", "K/시즌"]
+                        show_cols = [c for c in show_cols if c in hitter_compare.columns]
+                        st.dataframe(hitter_compare[show_cols], use_container_width=True, hide_index=True)
+
+                else:  # 투수
+                    if p_base is None or p_cur is None or p_base.empty or p_cur.empty:
+                        st.info("투수 데이터가 없습니다.")
+                    else:
+                        p_base_labeled = p_base.copy(); p_base_labeled["시나리오"] = "Baseline 2025"
+                        p_cur_labeled  = p_cur.copy();  p_cur_labeled["시나리오"]  = cur_scenario
+                        combined = pd.concat([p_base_labeled, p_cur_labeled], ignore_index=True)
+                        pitcher_names = p_base_labeled["투수"].drop_duplicates().tolist()
+                        default_idx = pitcher_names.index("Nathan Eovaldi") if "Nathan Eovaldi" in pitcher_names else 0
+                        selected_pitcher = st.selectbox("투수 선택", pitcher_names, index=default_idx)
+                        pitcher_compare = combined[combined["투수"] == selected_pitcher].copy()
+                        compare_chart = (
+                            alt.Chart(pitcher_compare)
+                            .mark_bar(cornerRadiusTopLeft=5, cornerRadiusTopRight=5)
+                            .encode(
+                                x=alt.X("시나리오:N", title=None),
+                                y=alt.Y("ERA:Q", title="ERA", scale=alt.Scale(zero=False)),
+                                color=alt.Color(
+                                    "시나리오:N",
+                                    scale=alt.Scale(
+                                        domain=["Baseline 2025", cur_scenario],
+                                        range=[CHART_GRAY, RANGERS_NAVY],
+                                    ),
+                                    legend=None,
+                                ),
+                                tooltip=[
+                                    alt.Tooltip("시나리오:N", title="시나리오"),
+                                    alt.Tooltip("ERA:Q",     title="ERA",  format=".2f"),
+                                    alt.Tooltip("WHIP:Q",    title="WHIP", format=".2f"),
+                                    alt.Tooltip("K%:Q",      title="K%",   format=".3f"),
+                                    alt.Tooltip("BB%:Q",     title="BB%",  format=".3f"),
+                                    alt.Tooltip("IP/시즌:Q", title="IP/시즌", format=".1f"),
+                                ],
+                            )
+                            .properties(height=300)
+                        )
+                        st.altair_chart(compare_chart, use_container_width=True)
+                        show_cols = ["시나리오", "IP/시즌", "ERA", "WHIP", "K%", "BB%", "HR/시즌", "BB/시즌"]
+                        show_cols = [c for c in show_cols if c in pitcher_compare.columns]
+                        st.dataframe(pitcher_compare[show_cols], use_container_width=True, hide_index=True)

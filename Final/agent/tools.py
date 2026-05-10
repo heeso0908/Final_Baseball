@@ -72,40 +72,26 @@ simulate_scenario = estimate_residual_scenario
 # ============================================================
 
 _SCENARIO_ROWS = [
-    {"key": "pareto_aggressive", "source": "Pareto", "label": "공격적 (std=0.652)", "delta": 4.889, "predicted_W": 91.2, "pred_std": 0.6524, "rank": 1, "adjustments_summary": "sv_pct:+0.107, ir_pct:+0.067, onerun_wp:+0.131, xi_wp:+0.220, HR9:-0.265, BB9:-0.582", "decision_note": "상한선 후보: 개선 가능성은 가장 크지만 불확실성 확인 필요"},
-    {"key": "pareto_balanced", "source": "Pareto", "label": "균형점 (std=0.205)", "delta": 3.720, "predicted_W": 90.0, "pred_std": 0.2047, "rank": 2, "adjustments_summary": "sv_pct:+0.032, ir_pct:+0.067, onerun_wp:+0.115, xi_wp:+0.220, HR9:-0.271, BB9:-0.562", "decision_note": "균형 후보: 개선 폭과 안정성의 기본 검토안"},
-    {"key": "pareto_conservative", "source": "Pareto", "label": "보수적 (std=0.002)", "delta": 2.919, "predicted_W": 89.2, "pred_std": 0.0019, "rank": 3, "adjustments_summary": "sv_pct:+0.045, ir_pct:+0.007, onerun_wp:+0.109, xi_wp:+0.176, HR9:-0.102, BB9:+0.099", "decision_note": "안정 후보: 모델 간 의견 차이가 작을 때 참고"},
-    {"key": "best_overall", "source": "그리드", "label": "전체 복합 개선 상한 (delta=+2.00)", "delta": 1.995, "predicted_W": 88.3, "rank": 4, "decision_note": "보조 비교 후보"},
-    {"key": "best_closegame", "source": "그리드", "label": "접전 전용 최적 (delta=+1.83)", "delta": 1.833, "predicted_W": 88.1, "rank": 5, "decision_note": "운영 개선 후보: 접전·연장 성과 개선 우선"},
-    {"key": "manual_bullpen_upgrade", "source": "수동", "label": "불펜 강화", "delta": 1.181, "predicted_W": 87.5, "rank": 6, "decision_note": "보조 비교 후보"},
-    {"key": "best_bullpen", "source": "그리드", "label": "불펜 전용 최적 (delta=+0.13)", "delta": 0.130, "predicted_W": 86.4, "rank": 7, "decision_note": "불펜 단독 개선의 한계 확인"},
-    {"key": "manual_baseline", "source": "수동", "label": "Baseline 2025", "delta": 0.000, "predicted_W": 86.3, "rank": 8, "decision_note": "baseline과 차이가 작아 우선순위 낮음"},
-    {"key": "baseline", "source": "그리드", "label": "baseline (현재 수준) (delta=+0.00)", "delta": 0.000, "predicted_W": 86.3, "rank": 9, "decision_note": "baseline과 차이가 작아 우선순위 낮음"},
-    {"key": "hitter_boost", "source": "수동", "label": "타자 강화", "delta": 0.000, "predicted_W": 86.3, "rank": 10, "decision_note": "baseline과 차이가 작아 우선순위 낮음"},
-    {"key": "best_pitching", "source": "그리드", "label": "투구 프로파일 최적 (delta=+0.02)", "delta": 0.023, "predicted_W": 86.3, "rank": 11, "decision_note": "baseline과 차이가 작아 우선순위 낮음"},
-    {"key": "worst_overall", "source": "그리드", "label": "전체 복합 악화 하한 (delta=-0.68)", "delta": -0.679, "predicted_W": 85.6, "rank": 12, "decision_note": "악화 가능성 점검용 시나리오"},
+    # Phase 8: 12차원 σ NSGA-II 시뮬 직접 평가 결과 (현실 권장 zone: σ_norm ≤ 0.10)
+    {"key": "phase8_max", "source": "Phase 8", "label": "Phase 8: 잔차 초과 달성 (σ=7.7%)", "delta": 15.7, "predicted_W": 96.7, "sigma_norm": 0.077, "rank": 1, "adjustments_summary": "h_single:+13.6%, h_k:-8.0%, p_st_HR:-2.6%, c_K:+7.5%", "decision_note": "시뮬 직접 평가 (12차원 σ): 피타고리안 기대 승수 초과 달성. 타자 단타+K 감소 주도"},
+    {"key": "phase8_recovery", "source": "Phase 8", "label": "Phase 8: 잔차 만회 기준 (σ=8.1%)", "delta": 9.5, "predicted_W": 90.5, "sigma_norm": 0.081, "rank": 2, "adjustments_summary": "h_single:+18.1%, p_st_HR:-4.0%, c_K:+7.9%", "decision_note": "시뮬 직접 평가 (12차원 σ): 잔차 -9 만회 수준. 타자 단타 증가·선발 HR 감소 조합"},
+    {"key": "phase8_safe", "source": "Phase 8", "label": "Phase 8: 소폭 개선 (σ=6.0%)", "delta": 3.65, "predicted_W": 84.65, "sigma_norm": 0.060, "rank": 3, "adjustments_summary": "h_single:+13.6%, h_hr:+11.5%, p_st_HR:-2.4%", "decision_note": "시뮬 직접 평가 (12차원 σ): 최소 정책 변경으로 현실적 소폭 개선"},
+    # v5 ML Pareto (6차원 잔차 보정 모델)
+    {"key": "pareto_aggressive", "source": "Pareto", "label": "공격적 (std=0.652)", "delta": 4.889, "predicted_W": 85.9, "pred_std": 0.6524, "rank": 4, "adjustments_summary": "sv_pct:+0.107, ir_pct:+0.067, onerun_wp:+0.131, xi_wp:+0.220, HR9:-0.265, BB9:-0.582", "decision_note": "상한선 후보: 개선 가능성은 가장 크지만 불확실성 확인 필요"},
+    {"key": "pareto_balanced", "source": "Pareto", "label": "균형점 (std=0.205)", "delta": 3.720, "predicted_W": 84.7, "pred_std": 0.2047, "rank": 5, "adjustments_summary": "sv_pct:+0.032, ir_pct:+0.067, onerun_wp:+0.115, xi_wp:+0.220, HR9:-0.271, BB9:-0.562", "decision_note": "균형 후보: 개선 폭과 안정성의 기본 검토안"},
+    {"key": "pareto_conservative", "source": "Pareto", "label": "보수적 (std=0.002)", "delta": 2.919, "predicted_W": 83.9, "pred_std": 0.0019, "rank": 6, "adjustments_summary": "sv_pct:+0.045, ir_pct:+0.007, onerun_wp:+0.109, xi_wp:+0.176, HR9:-0.102, BB9:+0.099", "decision_note": "안정 후보: 모델 간 의견 차이가 작을 때 참고"},
+    {"key": "manual_baseline", "source": "수동", "label": "Baseline 2025", "delta": 0.000, "predicted_W": 81.0, "rank": 7, "decision_note": "baseline과 차이가 작아 우선순위 낮음"},
 ]
 
 _SCENARIO_BY_KEY = {row["key"]: row for row in _SCENARIO_ROWS}
 
 _OPTIMIZATION_ROWS = [
     {
-        "key": "grid_search",
-        "source": "Grid Search",
-        "label": "Grid Search best_overall",
-        "delta": 1.995,
-        "predicted_W": 88.3,
-        "search_count": "13,824",
-        "runtime": "~0.2초",
-        "space": "sigma in [-0.5, 0.75], 이산 grid",
-        "note": "Cell 43/49 비교 기준. 탐색 범위가 작아 NSGA-II와 직접 우열 비교하면 안 됨.",
-    },
-    {
         "key": "nsga2_max",
         "source": "Pareto(최대)",
         "label": "NSGA-II Pareto 최대",
         "delta": 4.889,
-        "predicted_W": 91.2,
+        "predicted_W": 85.9,
         "pred_std": 0.652,
         "search_count": "pop x gen",
         "runtime": "~2분",
@@ -115,7 +101,6 @@ _OPTIMIZATION_ROWS = [
 ]
 
 _OPTIMIZATION_BY_KEY = {row["key"]: row for row in _OPTIMIZATION_ROWS}
-_GRID_PARETO_CACHE: list[dict] | None = None
 
 _SCENARIO_ALIASES = {
     "aggressive": "pareto_aggressive",
@@ -134,26 +119,12 @@ _SCENARIO_ALIASES = {
     "pareto_conservative": "pareto_conservative",
     "보수적": "pareto_conservative",
     "pareto 보수적": "pareto_conservative",
-    "hopeful": "best_overall",
-    "manual_hopeful": "best_overall",
-    "종합 희망": "best_overall",
-    "종합 희망 (hopeful)": "best_overall",
-    "best_overall": "best_overall",
-    "전체 복합 개선 상한": "best_overall",
-    "best_closegame": "best_closegame",
-    "접전 전용 최적": "best_closegame",
-    "pessimistic": "worst_overall",
-    "manual_pessimistic": "worst_overall",
-    "비관": "worst_overall",
-    "비관 (부상·슬럼프)": "worst_overall",
     "bullpen_sv70": "manual_bullpen_upgrade",
     "manual_bullpen_sv70": "manual_bullpen_upgrade",
     "manual_bullpen_upgrade": "manual_bullpen_upgrade",
     "bullpen upgrade": "manual_bullpen_upgrade",
     "불펜 강화": "manual_bullpen_upgrade",
     "불펜 강화 (sv% 70%)": "manual_bullpen_upgrade",
-    "best_bullpen": "best_bullpen",
-    "불펜 전용 최적": "best_bullpen",
     "manual_baseline": "manual_baseline",
     "기준선": "manual_baseline",
     "기준선 (2025 실제)": "manual_baseline",
@@ -168,32 +139,21 @@ _SCENARIO_ALIASES = {
     "manual_langford": "hitter_boost",
     "langford 도약": "hitter_boost",
     "랭포드 도약": "hitter_boost",
-    "best_pitching": "best_pitching",
-    "투구 프로파일 최적": "best_pitching",
-    "baseline": "baseline",
-    "현재 수준": "baseline",
-    "ace": "best_pitching",
-    "manual_ace": "best_pitching",
-    "선발 에이스": "best_pitching",
-    "선발 에이스 (era 3.15)": "best_pitching",
-    "worst_overall": "worst_overall",
-    "전체 복합 악화 하한": "worst_overall",
-    "grid_search": "grid_search",
-    "grid": "grid_search",
     "nsga2": "nsga2_max",
     "nsga-ii": "nsga2_max",
     "pareto max": "nsga2_max",
     "pareto 최대": "nsga2_max",
     "nsga2_max": "nsga2_max",
-    "grid_pareto_aggressive": "grid_pareto_aggressive",
-    "grid pareto aggressive": "grid_pareto_aggressive",
-    "grid pareto 공격적": "grid_pareto_aggressive",
-    "grid_pareto_balanced": "grid_pareto_balanced",
-    "grid pareto balanced": "grid_pareto_balanced",
-    "grid pareto 균형점": "grid_pareto_balanced",
-    "grid_pareto_conservative": "grid_pareto_conservative",
-    "grid pareto conservative": "grid_pareto_conservative",
-    "grid pareto 보수적": "grid_pareto_conservative",
+    # Phase 8 시뮬 12차원 σ
+    "phase8_max": "phase8_max",
+    "phase8 max": "phase8_max",
+    "phase8 잔차 초과": "phase8_max",
+    "phase8_recovery": "phase8_recovery",
+    "phase8 recovery": "phase8_recovery",
+    "phase8 잔차 만회": "phase8_recovery",
+    "phase8_safe": "phase8_safe",
+    "phase8 safe": "phase8_safe",
+    "phase8 소폭": "phase8_safe",
 }
 
 
@@ -201,15 +161,13 @@ def lookup_pareto(name: str) -> dict:
     """사전 계산된 v5 통합 비교 시나리오를 즉시 반환.
 
     기존 챗봇 호환성을 위해 함수명은 `lookup_pareto`로 유지하지만,
-    Pareto 3종뿐 아니라 수동 시나리오와 Grid 시나리오도 함께 조회한다.
+    Pareto 3종과 Phase 8 시나리오, 수동 시나리오도 함께 조회한다.
     """
     raw = name.strip()
     key = _SCENARIO_ALIASES.get(raw.lower(), _SCENARIO_ALIASES.get(raw, raw))
     row = _SCENARIO_BY_KEY.get(key)
     if row is None and key in _OPTIMIZATION_BY_KEY:
         row = _OPTIMIZATION_BY_KEY[key]
-    if row is None and key.startswith("grid_pareto_"):
-        row = next((r for r in get_grid_pareto_points()["points"] if r["key"] == key), None)
     if row is None:
         return {
             "error": f"알 수 없는 시나리오: {name}",
@@ -231,18 +189,14 @@ def list_precomputed_scenarios() -> dict:
         scen = str(row.get("label", ""))
         src = str(row.get("source", ""))
         delta = float(row.get("delta", 0.0))
+        if src == "Phase 8":
+            return row.get("decision_note", "시뮬 12차원 σ 직접 평가 후보")
         if src == "Pareto" and "공격적" in scen:
             return "상한선 후보: 개선 가능성은 가장 크지만 불확실성 확인 필요"
         if src == "Pareto" and "균형점" in scen:
             return "균형 후보: 개선 폭과 안정성의 기본 비교점"
         if src == "Pareto" and "보수적" in scen:
             return "안정 후보: 모델 간 의견 차이가 작을 때 참고"
-        if src == "그리드" and "접전" in scen:
-            return "운영 개선 후보: 접전·연장 성과 개선 우선"
-        if src == "그리드" and "불펜" in scen:
-            return "불펜 단독 개선의 한계 확인"
-        if src == "그리드" and "악화" in scen:
-            return "악화 가능성 점검용 시나리오"
         if src == "수동" and ("희망" in scen or "Hopeful" in scen):
             return "야구적으로 설명 가능한 현실적 개선 후보"
         if src == "수동" and ("비관" in scen or "부상" in scen):
@@ -263,165 +217,19 @@ def list_precomputed_scenarios() -> dict:
 
 
 def get_optimization_summary() -> dict:
-    """Notebook v5 optimization summary."""
-    nsga_rows = [dict(r) for r in _SCENARIO_ROWS if r["key"].startswith("pareto_")]
+    """Notebook v5/Phase 8 optimization summary."""
+    pareto_rows = [dict(r) for r in _SCENARIO_ROWS if r["key"].startswith("pareto_")]
+    phase8_rows = [dict(r) for r in _SCENARIO_ROWS if r["key"].startswith("phase8_")]
     return {
         "methods": [dict(r) for r in _OPTIMIZATION_ROWS],
-        "nsga2_representatives": nsga_rows,
-        "grid_pareto_note": "Grid Pareto points are loaded from Final/output/grid_pareto.csv when present, matching the v5 notebook output.",
+        "pareto_representatives": pareto_rows,
+        "phase8_representatives": phase8_rows,
         "available_lookup_keys": [
-            "grid_search",
             "nsga2_max",
-            "grid_pareto_aggressive",
-            "grid_pareto_balanced",
-            "grid_pareto_conservative",
+            "pareto_aggressive", "pareto_balanced", "pareto_conservative",
+            "phase8_max", "phase8_recovery", "phase8_safe",
         ],
     }
-
-
-def get_grid_pareto_points() -> dict:
-    """Return notebook Grid Pareto representatives.
-
-    The v5 notebook saves the authoritative representatives to
-    `Final/output/grid_pareto.csv`. If the CSV is unavailable, this falls back
-    to recomputing the 13,824 discrete combinations with `simulation_core`.
-    """
-    global _GRID_PARETO_CACHE
-    if _GRID_PARETO_CACHE is not None:
-        return {"count": len(_GRID_PARETO_CACHE), "points": [dict(r) for r in _GRID_PARETO_CACHE]}
-
-    csv_path = _OUTPUT_DIR / "grid_pareto.csv"
-    if csv_path.exists():
-        key_map = {
-            "공격적 (최대 잔차 승수 개선)": ("grid_pareto_aggressive", "Grid Pareto 공격적"),
-            "균형점 (TOPSIS)": ("grid_pareto_balanced", "Grid Pareto 균형점"),
-            "보수적 (최소 불확실성)": ("grid_pareto_conservative", "Grid Pareto 보수적"),
-        }
-        df = pd.read_csv(csv_path)
-        rows = []
-        for _, rec in df.iterrows():
-            key, label = key_map.get(str(rec["유형"]), (str(rec["유형"]), str(rec["유형"])))
-            rows.append(
-                {
-                    "key": key,
-                    "source": "Grid Pareto",
-                    "label": label,
-                    "delta": round(float(rec["resid_delta"]), 3),
-                    "predicted_W": round(float(rec["pred_W"]), 1),
-                    "pred_std": round(float(rec["pred_std"]), 4),
-                    "adjustments_summary": str(rec.get("주요 조정", "")),
-                    "search_count": 13824,
-                    "space": "v5 notebook grid, sigma in discrete levels up to 0.75",
-                }
-            )
-        _GRID_PARETO_CACHE = rows
-        return {"count": len(rows), "points": [dict(r) for r in rows]}
-
-    import itertools
-    import numpy as np
-
-    simulation_core._ensure_loaded()
-    state = simulation_core._state
-    grid_feats = {
-        "sv_pct": [-0.50, -0.25, 0.00, 0.25, 0.50, 0.75],
-        "ir_pct": [-0.50, -0.25, 0.00, 0.25, 0.50, 0.75],
-        "onerun_wp": [-0.50, -0.25, 0.00, 0.25, 0.50, 0.75],
-        "xi_wp": [-0.25, 0.00, 0.25, 0.50],
-        "HR9": [-0.25, 0.00, 0.25, 0.50],
-        "BB9": [-0.25, 0.00, 0.25, 0.50],
-    }
-    keys = list(grid_feats)
-    combos = list(itertools.product(*grid_feats.values()))
-    lower_better = {"ir_pct", "HR9", "BB9", "WHIP", "babip_against", "era_fip_diff"}
-
-    def sigma_to_delta(feature: str, sigma: float) -> float:
-        sign = -1 if feature in lower_better else 1
-        return sign * sigma * float(state["feat_std"][feature])
-
-    base = state["tex_base"]
-    cfip_base = (
-        (base["ERA"] - base["era_fip_diff"])
-        - (13 * base["HR9"] - 2 * base["K9"] + 3 * base["BB9"]) / 9
-    )
-    vecs = []
-    for combo in combos:
-        sigmas = dict(zip(keys, combo))
-        adj = {**base}
-        for feature, sigma in sigmas.items():
-            adj[feature] += sigma_to_delta(feature, sigma)
-        if any(abs(sigmas.get(f, 0.0)) > 1e-9 for f in ("HR9", "BB9")):
-            adj["era_fip_diff"] = adj["ERA"] - (
-                cfip_base + (13 * adj["HR9"] - 2 * adj["K9"] + 3 * adj["BB9"]) / 9
-            )
-        vecs.append([adj[f] for f in simulation_core.MODEL_FEATURES])
-
-    raw = np.array(vecs)
-    scaled = state["scaler"].transform(raw)
-    preds = np.stack(
-        [
-            state["ridge"].predict(scaled),
-            state["lasso"].predict(scaled),
-            state["rf"].predict(raw),
-            state["xgb"].predict(raw),
-        ],
-        axis=1,
-    )
-    means = preds.mean(axis=1)
-    stds = preds.std(axis=1)
-    deltas = means - state["base_resid"]
-
-    # Non-dominated front for max delta and min std.
-    sorted_idx = np.lexsort((stds, -deltas))
-    front = []
-    best_std = float("inf")
-    for idx in sorted_idx:
-        if stds[idx] < best_std - 1e-12:
-            front.append(idx)
-            best_std = float(stds[idx])
-    front = np.array(front)
-    front_delta = deltas[front]
-    front_std = stds[front]
-
-    aggr_idx = front[int(front_delta.argmax())]
-    cons_idx = front[int(front_std.argmin())]
-    norm_delta = (front_delta - front_delta.min()) / (front_delta.max() - front_delta.min() + 1e-9)
-    norm_std = (front_std - front_std.min()) / (front_std.max() - front_std.min() + 1e-9)
-    bal_idx = front[int((np.sqrt((1 - norm_delta) ** 2 + norm_std ** 2)).argmin())]
-
-    labels = [
-        ("grid_pareto_aggressive", "Grid Pareto 공격적"),
-        ("grid_pareto_balanced", "Grid Pareto 균형점"),
-        ("grid_pareto_conservative", "Grid Pareto 보수적"),
-    ]
-    selected = [aggr_idx, bal_idx, cons_idx]
-    rows = []
-    for (key, label), idx in zip(labels, selected):
-        sigmas = dict(zip(keys, combos[int(idx)]))
-        adj_summary = ", ".join(
-            f"{f}:{sigma_to_delta(f, s):+.3f}" for f, s in sigmas.items() if abs(s) > 1e-9
-        ) or "없음"
-        rows.append(
-            {
-                "key": key,
-                "source": "Grid Pareto",
-                "label": label,
-                "delta": round(float(deltas[idx]), 3),
-                "predicted_W": round(float(state["base_pyth_w"] + means[idx]), 1),
-                "pred_std": round(float(stds[idx]), 4),
-                "sigmas": {k: float(v) for k, v in sigmas.items()},
-                "adjustments_summary": adj_summary,
-                "front_size": int(len(front)),
-                "search_count": len(combos),
-                "space": "Cell 43 grid, sigma in discrete levels up to 0.75",
-            }
-        )
-
-    _GRID_PARETO_CACHE = rows
-    return {"count": len(rows), "points": [dict(r) for r in rows]}
-
-
-def _optimization_feature_keys() -> list[str]:
-    return ["sv_pct", "ir_pct", "onerun_wp", "xi_wp", "HR9", "BB9"]
 
 
 def _vector_from_sigmas(sigmas: dict[str, float]):
@@ -539,7 +347,7 @@ def run_nsga2_optimization(pop_size: int = 200, n_gen: int = 150, force: bool = 
             "point": i + 1,
             "delta": round(float(deltas[i]), 6),
             "pred_std": round(float(stds[i]), 6),
-            "predicted_W": round(float(state["base_pyth_w"] + state["base_resid"] + deltas[i]), 6),
+            "predicted_W": round(float(state["tex_actual_w"] + deltas[i]), 6),
         }
         row.update({f"sigma_{k}": round(float(v), 6) for k, v in zip(keys, x)})
         rows.append(row)
