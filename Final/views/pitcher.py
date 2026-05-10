@@ -33,7 +33,7 @@ def show_pitcher_page(pitcher_name, situation_a, situation_b,
         "Trunk/Hip ratio": KINEMATIC_TERMS["Trunk/Hip ratio"],
         "Cohen's d": BASEBALL_TERMS["Cohen's d"],
         "p-value": BASEBALL_TERMS["p-value"],
-        "SV / BS": BASEBALL_TERMS["SV / BS"],
+        "세이브(SV) / 블론 세이브(BS)": BASEBALL_TERMS["세이브(SV) / 블론 세이브(BS)"],
     })
 
     # ── 1. 영상 비교 ───────────────────────────────────────────
