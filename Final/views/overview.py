@@ -10,7 +10,7 @@ def show():
         <span class="pill pill-white">Scenario Simulation</span>
         <h1>2025 TEX 잔차 분석 대시보드</h1>
         <p>
-        이 대시보드의 목표는 2025 텍사스 레인저스가 실제 승수보다 Pythagorean 기대 승수에서 9.06승 낮게 끝난 이유를 설명하는 것입니다.<br>
+        이 대시보드의 목표는 2025 텍사스 레인저스가 실제 승수보다 피타고리안 기대 승수에서 9.06승 낮게 끝난 이유를 설명하는 것입니다.<br>
         경기력·선수·모션 근거로 원인을 좁히고, Simulation에서는 수동 시나리오와 Grid/Pareto 후보를 같은 기준으로 비교합니다.
         </p>
     </div>
@@ -18,7 +18,7 @@ def show():
 
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        kpi_card("잔차 규모", "-9.06승", "Actual 81W vs Pythag 90.06W", accent="red")
+        kpi_card("잔차 규모", "-9.06승", "실제 81승 vs 피타고리안 기대 90.06승", accent="red")
     with col2:
         kpi_card("분석 흐름", "3단계", "경기력 분석 → 모션 분석 → 시뮬레이션", accent="navy")
     with col3:
