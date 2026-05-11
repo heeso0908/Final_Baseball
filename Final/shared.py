@@ -250,6 +250,8 @@ def _get_integrated_sim_result(raw_dir: str, n_sims: int, custom_boosts: dict,
     )
 
     wins = season_df['W'].values.astype(float)
+    rs_vals = season_df['RS'].values.astype(float)
+    ra_vals = season_df['RA'].values.astype(float)
 
     # ML 잔차 모델 사후 적용
     # bundle은 run_integrated_simulation 내 _ensure_loaded()로 이미 로드된 상태
@@ -260,6 +262,10 @@ def _get_integrated_sim_result(raw_dir: str, n_sims: int, custom_boosts: dict,
             effective_stats.update(custom_stats)
         residual_bonus = _predict_residual(bundle, effective_stats)
         wins = wins + residual_bonus
+
+    actual_rs = float(bundle.tex25["RS"]) if bundle is not None else None
+    actual_ra = float(bundle.tex25["RA"]) if bundle is not None else None
+    actual_w  = float(bundle.tex25["W"])  if bundle is not None else None
 
     distribution = pd.DataFrame({"wins": wins})
     return {
@@ -272,6 +278,11 @@ def _get_integrated_sim_result(raw_dir: str, n_sims: int, custom_boosts: dict,
             "over_81_5": float((wins >= 82).mean()),
             "over_87_5": float((wins >= 88).mean()),
             "integrated_n_seasons": n_seasons,
+            "rs_mean": float(rs_vals.mean()),
+            "ra_mean": float(ra_vals.mean()),
+            "actual_rs": actual_rs,
+            "actual_ra": actual_ra,
+            "actual_w":  actual_w,
         },
         "monthly_summary":   monthly_df,
         "schedule_context":  _build_schedule_context(raw_dir),

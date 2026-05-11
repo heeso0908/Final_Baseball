@@ -82,17 +82,27 @@ def _render_baseline_reference(defaults: dict) -> None:
         with col:
             digits = 3 if "승률" in label or "성공률" in label else 1
             kpi_card(label, fmt_num(value, digits), sub, accent="navy")
-    st.markdown("""
-    <div class="finding-box" style="margin-top:10px;">
-        <strong>통합 Markov 시뮬 기준값</strong> — 타자 Markov + 투수 Markov(Phase 6-7' 메커니즘) 통합 엔진.
-        실점 평균 ≈ <b>604</b> (실제 605).
-        예상 승수는 실제 81승보다 <b>약 10승 높게</b> 나옵니다.
-        이는 시뮬레이션 오류가 아니라 <b>TEX 2025의 Pythagorean 잔차(-9.06승)</b> 때문입니다.
-        TEX의 실제 득실 기준 기대 승수는 90.06승이었으나, 세이브 실패·타이밍 불운 등으로 81승에 그쳤습니다.
-        시뮬레이션은 득실 기반 기댓값에 수렴하므로 이 잔차는 반영되지 않습니다.
-        따라서 절대 승수보다 <b>베이스라인 대비 개선폭(Δ승수)</b>을 기준으로 해석하는 것을 권장합니다.
-    </div>
-    """, unsafe_allow_html=True)
+    actual_w  = tex25.get("W",      81.0)
+    pyth_w    = tex25.get("pyth_W", 90.0)
+    actual_rs = tex25.get("RS")
+    actual_ra = tex25.get("RA")
+    residual  = actual_w - pyth_w
+    rs_ra_str = (
+        f" · 득점 <b>{fmt_num(actual_rs, 0)}</b> / 실점 <b>{fmt_num(actual_ra, 0)}</b>"
+        if actual_rs is not None and actual_ra is not None else ""
+    )
+    res_sign = "+" if residual >= 0 else ""
+    st.markdown(
+        f"""<div class="finding-box" style="margin-top:10px;">
+        <strong>시뮬레이션 구조</strong> —
+        타자 Markov(PA 단위 상태 전이) + 투수 Markov(Phase 6–7&#39; 이닝별 등판 정책)로 경기당 득실점을 산출하고,
+        ML 잔차 모델이 세이브 성공률·접전 승률 등 팀 특성에 따른 보정을 추가 적용합니다.<br>
+        <b>TEX 2025 기준값</b>{rs_ra_str} · 피타고리안 기대 승수 <b>{fmt_num(pyth_w, 1)}승</b> · 실제 <b>{fmt_num(actual_w, 0)}승</b> · 잔차 <b>{res_sign}{fmt_num(residual, 1)}승</b>.<br>
+        잔차(세이브 실패·타이밍 불운)는 ML 모델이 일부 포착하지만 확률적 요인이 남아 시뮬 결과는 피타고리안 기대 승수 수준에 수렴합니다.
+        시나리오 평가 시 절대 승수보다 <b>베이스라인 대비 개선폭(Δ승수)</b>을 기준으로 해석하는 것을 권장합니다.
+        </div>""",
+        unsafe_allow_html=True,
+    )
 
 
 def _render_custom_controls(selected_scenario: str) -> tuple[dict | None, dict | None, bool]:
@@ -532,6 +542,40 @@ def show():
         kpi_card("예상 승수 범위 (P10–P90)", f"{fmt_num(summary.get('p10'))} - {fmt_num(summary.get('p90'))}", f"시뮬레이션의 80% 결과가 이 범위 안에 속합니다", accent="red")
     with k4:
         kpi_card("82승 이상 가능성", fmt_pct(summary.get("over_81_5")), "승률 5할 이상으로 끝날 확률", accent="navy")
+
+    rs_mean  = summary.get("rs_mean")
+    ra_mean  = summary.get("ra_mean")
+    actual_rs = summary.get("actual_rs")
+    actual_ra = summary.get("actual_ra")
+    actual_w  = summary.get("actual_w")
+    if rs_mean is not None and ra_mean is not None:
+        r1, r2, r3 = st.columns([1, 1, 2])
+        rs_sub = f"실제 {fmt_num(actual_rs, 1)}점" if actual_rs is not None else f"경기당 {fmt_num(rs_mean / 162, 2)}"
+        ra_sub = f"실제 {fmt_num(actual_ra, 1)}점" if actual_ra is not None else f"경기당 {fmt_num(ra_mean / 162, 2)}"
+        with r1:
+            kpi_card("평균 득점 (시즌)", fmt_num(rs_mean, 1), rs_sub, accent="red")
+        with r2:
+            kpi_card("평균 실점 (시즌)", fmt_num(ra_mean, 1), ra_sub, accent="navy")
+        with r3:
+            run_diff = rs_mean - ra_mean
+            diff_sign = "+" if run_diff >= 0 else ""
+            diff_color = "#1a7a2e" if run_diff >= 0 else "#c0392b"
+            actual_line = ""
+            if actual_rs is not None and actual_ra is not None and actual_w is not None:
+                actual_diff = actual_rs - actual_ra
+                a_sign = "+" if actual_diff >= 0 else ""
+                actual_line = (
+                    f"&nbsp;·&nbsp; 실제 득실차 <span style='font-weight:700;'>{a_sign}{fmt_num(actual_diff, 1)}</span>점"
+                    f"&nbsp;·&nbsp; 실제 승수 <span style='font-weight:700;'>{fmt_num(actual_w, 0)}</span>승"
+                )
+            st.markdown(
+                f"""<div style="background:#f8f9fa;border-radius:8px;padding:14px 18px;margin-top:4px;font-size:13px;line-height:1.9;">
+                시뮬 득실차&nbsp; <span style="font-weight:700;color:{diff_color};">{diff_sign}{fmt_num(run_diff, 1)}</span>점
+                &nbsp;·&nbsp; 피타고리안 기대승수 <span style="font-weight:700;">{fmt_num((rs_mean**1.83) / (rs_mean**1.83 + ra_mean**1.83) * 162, 1)}</span>승
+                {actual_line}
+                </div>""",
+                unsafe_allow_html=True,
+            )
 
     # 기준 시뮬 대비 증감량 — get_live_scenario_results 캐시 재활용 (추가 시뮬 없음)
     cur_scenario = st.session_state.get("sim_scenario", "Baseline 2025")
