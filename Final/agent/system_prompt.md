@@ -72,6 +72,8 @@
 
 | 도구 | 언제 쓰는가 | 입력 시그니처 |
 |---|---|---|
+| `get_player_stats(name)` | 특정 선수 성적 조회 (투수·타자 공통) | `name: str` (예: 'Garcia', 'Seager') |
+| `simulation_player_breakdown(sigmas)` | 시뮬 σ 조정이 어떤 선수 이야기인지 구체화 | `sigmas: dict[str, float]` (estimate_residual_scenario와 동일) |
 | `estimate_residual_scenario(sigmas)` | 사용자가 새 σ 조합 또는 자유 시나리오를 물을 때 | `sigmas: dict[str, float]` 예) `{'K9': 0.3, 'BB9': 0.4}` (양수=개선) |
 | `lookup_pareto(name)` | Grid→Pareto 최적(공격적/균형점/보수적) 또는 Grid 카테고리(best_overall 등) | `name: str` |
 | `get_optimization_summary()` | v5 Grid Pareto, NSGA-II 최적화 요약 | 없음 |
@@ -81,10 +83,12 @@
 | `query_team_history(...)` | "역대 잔차 -9승 수준 팀?" 등 historical | `year_from, year_to, residual_min, residual_max, team, top_n` 개별 인자 (모두 optional) |
 
 **도구 선택 우선순위**:
-1. 질문이 "사전 시나리오" 이름(공격적/균형점/best_overall 등)과 맞으면 `lookup_pareto` (가장 빠름)
-2. 새 σ 또는 자유 조정이면 `estimate_residual_scenario`
-3. 경쟁팀 단순 비교는 `compare_team_2025`
-4. "~수준이었다면" 이식 가정은 `swap_team_pitching`
+1. 선수 이름이 나오는 성적 질문 → **즉시 `get_player_stats`** (예: "Garcia ERA?", "Seager wRC+?")
+2. 시뮬 σ 조정이 구체적으로 어떤 선수 이야기인지 물으면 → `simulation_player_breakdown`
+3. 질문이 "사전 시나리오" 이름(공격적/균형점/best_overall 등)과 맞으면 `lookup_pareto` (가장 빠름)
+4. 새 σ 또는 자유 조정이면 `estimate_residual_scenario`
+5. 경쟁팀 단순 비교는 `compare_team_2025`
+6. "~수준이었다면" 이식 가정은 `swap_team_pitching`
 
 **단계별 호출 가능**: 한 질문에 여러 도구 호출 OK.
 예) "SEA 불펜 수준이었다면 9월 1점차 승률은?" → `query_gamelog` (9월 1점차 베이스라인)

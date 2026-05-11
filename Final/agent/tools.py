@@ -1281,3 +1281,334 @@ def plot_custom(
     if warnings_:
         out['warnings'] = warnings_
     return out
+
+
+# ============================================================
+# 12. 선수 성적 조회
+# ============================================================
+
+def get_player_stats(name: str) -> dict:
+    """선수 이름으로 TEX 2025 주요 성적을 한 번에 조회.
+
+    투수·타자 구분 없이 이름(부분 일치 가능)으로 검색하며,
+    관련 CSV 여러 개를 합쳐 핵심 지표를 반환한다.
+
+    투수 결과: ERA / FIP / K/9 / BB/9 / HR/9 / BABIP / GB% / WAR / SV / BS
+              + 클러치 지표(WPA / Clutch / pLI)
+              + 경기별 게임로그 요약(경기수 / 평균 IP / 평균 피실점)
+    타자 결과: wRC+ / wOBA / xwOBA / EV / Barrel% / HR / BB
+              + 클러치 지표(WPA / Clutch)
+
+    Args:
+        name: 선수 이름 또는 성 (예: 'Garcia', 'Seager', 'Leiter').
+              대소문자 무관, 부분 일치 허용.
+
+    Returns:
+        found(bool), player_type('pitcher'|'batter'|'both'|'not_found'),
+        pitcher(투수 지표 dict), batter(타자 지표 dict), note(메시지).
+    """
+    name_q = name.strip().lower()
+    result: dict = {'query': name, 'found': False, 'pitcher': None, 'batter': None}
+
+    # ── 투수 ───────────────────────────────────────────────
+    pitcher_rows: list[dict] = []
+
+    # FanGraphs 시즌 집계
+    p_fg_path = _resolve_csv_path('texas_pitchers_2025')
+    if p_fg_path:
+        df_fg = pd.read_csv(p_fg_path)
+        match = df_fg[df_fg['Name'].str.lower().str.contains(name_q, na=False)]
+        for _, row in match.iterrows():
+            sv, bs = int(row.get('SV', 0) or 0), int(row.get('BS', 0) or 0)
+            role = 'SP' if int(row.get('GS', 0) or 0) >= 5 else 'RP'
+            pitcher_rows.append({
+                'name': row['Name'],
+                'role': role,
+                'G': int(row.get('G', 0) or 0),
+                'GS': int(row.get('GS', 0) or 0),
+                'IP': round(float(row.get('IP', 0) or 0), 1),
+                'ERA': round(float(row.get('ERA', 0) or 0), 3),
+                'FIP': round(float(row.get('FIP', 0) or 0), 3),
+                'xFIP': round(float(row.get('xFIP', 0) or 0), 3),
+                'K/9': round(float(row.get('K/9', 0) or 0), 2),
+                'BB/9': round(float(row.get('BB/9', 0) or 0), 2),
+                'HR/9': round(float(row.get('HR/9', 0) or 0), 2),
+                'BABIP': round(float(row.get('BABIP', 0) or 0), 3),
+                'GB%': round(float(row.get('GB%', 0) or 0), 3),
+                'WHIP': round(float(row.get('WHIP', 0) or 0), 3),
+                'WAR': round(float(row.get('WAR', 0) or 0), 2),
+                'SV': sv,
+                'BS': bs,
+                'SV_opp': sv + bs,
+                'sv_pct': round(sv / (sv + bs), 3) if (sv + bs) > 0 else None,
+                'source': 'FanGraphs 시즌 집계',
+            })
+
+    # 클러치 지표
+    p_cl_path = _resolve_csv_path('tex_clutch_pit')
+    if p_cl_path and pitcher_rows:
+        df_cl = pd.read_csv(p_cl_path)
+        for row_d in pitcher_rows:
+            match_cl = df_cl[df_cl['Name'].str.lower().str.contains(name_q, na=False)]
+            if not match_cl.empty:
+                r = match_cl.iloc[0]
+                row_d['WPA'] = round(float(r.get('WPA', 0) or 0), 3)
+                row_d['Clutch'] = round(float(r.get('Clutch', 0) or 0), 3)
+                row_d['pLI'] = round(float(r.get('pLI', 0) or 0), 3)
+
+    # 게임로그 요약
+    p_gl_path = _resolve_csv_path('rangers_pitcher_gamelogs')
+    if p_gl_path and pitcher_rows:
+        df_gl = pd.read_csv(p_gl_path)
+        match_gl = df_gl[df_gl['name'].str.lower().str.contains(name_q, na=False)]
+        if not match_gl.empty:
+            def _ip(s):
+                try:
+                    p = str(s).split('.')
+                    return int(p[0]) + int(p[1]) / 3 if len(p) > 1 else int(p[0])
+                except Exception:
+                    return 0.0
+            ip_vals = match_gl['IP'].apply(_ip)
+            for row_d in pitcher_rows:
+                row_d['gamelog_games'] = int(len(match_gl))
+                row_d['gamelog_avg_IP'] = round(float(ip_vals.mean()), 2) if len(ip_vals) else None
+                row_d['gamelog_avg_ER'] = round(float(match_gl['ER'].mean()), 2) if 'ER' in match_gl.columns else None
+
+    # ── 타자 ───────────────────────────────────────────────
+    batter_rows: list[dict] = []
+
+    # wRC+
+    wrc_path = _resolve_csv_path('tex_wrc+')
+    if wrc_path:
+        df_wrc = pd.read_csv(wrc_path)
+        match_b = df_wrc[df_wrc['Name'].str.lower().str.contains(name_q, na=False)]
+        for _, row in match_b.iterrows():
+            batter_rows.append({
+                'name': row['Name'],
+                'wRC+': round(float(row.get('wRC+', 0) or 0), 1),
+                'source': 'FanGraphs wRC+',
+            })
+
+    # Statcast 지표
+    sc_path = _resolve_csv_path('rangers_hitting_statcast')
+    if sc_path:
+        df_sc = pd.read_csv(sc_path)
+        match_sc = df_sc[df_sc['Player'].str.lower().str.contains(name_q, na=False)]
+        for _, row in match_sc.iterrows():
+            existing = next((r for r in batter_rows if name_q in r['name'].lower()), None)
+            sc_data = {
+                'PA': int(row.get('PA', 0) or 0),
+                'HR': int(row.get('HR', 0) or 0),
+                'BB': int(row.get('BB', 0) or 0),
+                'wOBA': round(float(row.get('wOBA', 0) or 0), 3),
+                'xwOBA': round(float(row.get('xwOBA', 0) or 0), 3),
+                'Exit Velocity': round(float(row.get('Exit Velocity', 0) or 0), 1),
+                'Barrel%': round(float(row.get('Barrel %', 0) or 0), 1),
+                'Hard Hit%': round(float(row.get('Hard Hit %', 0) or 0), 1),
+                'xBA': round(float(row.get('xBA', 0) or 0), 3),
+                'xSLG': round(float(row.get('xSLG', 0) or 0), 3),
+            }
+            if existing:
+                existing.update(sc_data)
+            else:
+                sc_data['name'] = row['Player']
+                sc_data['source'] = 'Statcast'
+                batter_rows.append(sc_data)
+
+    # 클러치 지표 (타자)
+    b_cl_path = _resolve_csv_path('tex_clutch_bat')
+    if b_cl_path and batter_rows:
+        df_bcl = pd.read_csv(b_cl_path)
+        match_bcl = df_bcl[df_bcl['Name'].str.lower().str.contains(name_q, na=False)]
+        if not match_bcl.empty:
+            r = match_bcl.iloc[0]
+            for row_d in batter_rows:
+                row_d['WPA'] = round(float(r.get('WPA', 0) or 0), 3)
+                row_d['Clutch'] = round(float(r.get('Clutch', 0) or 0), 3)
+                row_d['pLI'] = round(float(r.get('pLI', 0) or 0), 3)
+
+    # ── 결과 조합 ───────────────────────────────────────────
+    found = bool(pitcher_rows or batter_rows)
+    if pitcher_rows and batter_rows:
+        player_type = 'both'
+    elif pitcher_rows:
+        player_type = 'pitcher'
+    elif batter_rows:
+        player_type = 'batter'
+    else:
+        player_type = 'not_found'
+
+    result['found'] = found
+    result['player_type'] = player_type
+    if pitcher_rows:
+        result['pitcher'] = pitcher_rows[0] if len(pitcher_rows) == 1 else pitcher_rows
+    if batter_rows:
+        result['batter'] = batter_rows[0] if len(batter_rows) == 1 else batter_rows
+    if not found:
+        result['note'] = (
+            f"'{name}'과 일치하는 TEX 2025 선수를 찾지 못했습니다. "
+            "성(last name)이나 영문 전체 이름으로 다시 시도하세요."
+        )
+    return result
+
+
+# ============================================================
+# 13. 시뮬레이션 → 선수별 기여 분석
+# ============================================================
+
+# 시뮬 피처 → texas_pitchers_2025 컬럼 매핑
+_SIM_TO_PITCHER_COL: dict[str, str] = {
+    'K9':           'K/9',
+    'BB9':          'BB/9',
+    'HR9':          'HR/9',
+    'babip_against':'BABIP',
+    'WHIP':         'WHIP',
+    'go_ao':        'GB%',
+}
+
+
+def simulation_player_breakdown(sigmas: dict[str, float]) -> dict:
+    """시뮬레이션 σ 조정이 실제 선수 성적과 어떻게 연결되는지 분석.
+
+    estimate_residual_scenario와 동일한 sigmas dict를 받아서,
+    각 피처 개선이 TEX 투수진 중 '누구를 얼마나 바꿔야 달성 가능한지'를
+    선수별로 구체화한다.
+
+    매핑 가능한 피처: K9, BB9, HR9, babip_against, WHIP, go_ao.
+    sv_pct / onerun_wp / xi_wp 등 팀 집계 피처는 별도 설명.
+
+    Args:
+        sigmas: {'K9': 0.3, 'BB9': 0.4} 형태. estimate_residual_scenario와 동일.
+                양수 = 개선 방향.
+
+    Returns:
+        - sim_result: estimate_residual_scenario 결과 (예상 승수 + delta)
+        - breakdowns: 피처별 {feature, col, tex_avg, target_value, sigma,
+                       delta_raw, players(이름/현재값/목표값/gap/부담도)} 리스트
+        - team_features: 선수 단위 매핑이 없는 팀 집계 피처 설명
+        - summary: 핵심 해석 문장
+    """
+    from . import simulation_core
+
+    # 1. 시뮬 결과
+    sim_result = simulation_core.estimate_residual_scenario(sigmas)
+    feat_info = simulation_core.feature_info()
+    feat_std = feat_info['feature_std']
+    lower_better = set(feat_info['lower_better'])
+
+    # 2. 투수 데이터 로드
+    p_path = _resolve_csv_path('texas_pitchers_2025')
+    if p_path is None:
+        return {'error': 'texas_pitchers_2025.csv 없음', 'sim_result': sim_result}
+    df_p = pd.read_csv(p_path)
+    df_p['IP_f'] = pd.to_numeric(df_p['IP'], errors='coerce').fillna(0)
+
+    # TEX 팀 IP 가중 평균 계산
+    def _wavg(col: str) -> float:
+        vals = pd.to_numeric(df_p[col], errors='coerce')
+        w = df_p['IP_f']
+        valid = vals.notna() & (w > 0)
+        if not valid.any():
+            return float(vals.mean())
+        return float((vals[valid] * w[valid]).sum() / w[valid].sum())
+
+    # 3. 피처별 분석
+    breakdowns = []
+    team_features = []
+
+    for feat, sigma in sigmas.items():
+        if feat not in _SIM_TO_PITCHER_COL:
+            # 팀 집계 피처 설명
+            desc_map = {
+                'sv_pct':        '세이브 성공률 (SV / SV+BS) — 불펜 마무리 운영 개선으로 달성',
+                'SV_pg':         '9이닝당 세이브 수 — 선발 완투·구원 투수 운영 전략',
+                'onerun_wp':     '1점차 경기 승률 — 클러치 상황 불펜·타선 집중도',
+                'xi_wp':         '득실 동률 경기 승률 — 연장·접전 결정력',
+                'home_away_diff':'홈/원정 승률 차이 — 구장 활용도',
+                'ir_pct':        '물려받은 주자 실점률 — 중계 투수 화력 차단 능력',
+                'era_fip_diff':  'ERA - FIP 차이 — BABIP 운 요소 제거 시 실제 투구력 수렴',
+                'sb_pct':        '도루 성공률 — 포수 송구·배터리 케어',
+                'k_bb':          'K/BB 비율 — 삼진/볼넷 복합 지표 (K9·BB9 조합 시 중복)',
+            }
+            team_features.append({
+                'feature': feat,
+                'sigma': sigma,
+                'delta_raw': round(sigma * feat_std.get(feat, 0), 4),
+                'description': desc_map.get(feat, '팀 집계 지표 — 선수 개인 매핑 불가'),
+            })
+            continue
+
+        col = _SIM_TO_PITCHER_COL[feat]
+        if col not in df_p.columns:
+            continue
+
+        tex_avg = _wavg(col)
+        std = feat_std.get(feat, 0)
+        delta_raw = sigma * std
+        # lower_better면 개선 = 감소
+        if feat in lower_better:
+            target = tex_avg - delta_raw
+        else:
+            target = tex_avg + delta_raw
+
+        # 선수별 gap 계산
+        players_out = []
+        for _, row in df_p.sort_values('IP_f', ascending=False).head(15).iterrows():
+            val = pd.to_numeric(row.get(col), errors='coerce')
+            if pd.isna(val):
+                continue
+            ip = float(row.get('IP_f', 0))
+            if feat in lower_better:
+                gap = val - target  # 양수 = 아직 개선 여지 있음
+            else:
+                gap = target - val  # 양수 = 아직 부족
+            ip_total = df_p['IP_f'].sum()
+            ip_share = round(ip / ip_total, 3) if ip_total > 0 else 0
+
+            players_out.append({
+                'name': row['Name'],
+                'role': 'SP' if int(row.get('GS', 0) or 0) >= 5 else 'RP',
+                'IP': round(ip, 1),
+                'IP_share': ip_share,
+                'current': round(float(val), 3),
+                'target': round(float(target), 3),
+                'gap': round(float(gap), 3),
+                'needs_improvement': bool(gap > 0),
+            })
+
+        # gap 큰 순 정렬 (개선 여지 많은 선수 우선)
+        players_out.sort(key=lambda x: x['gap'], reverse=True)
+
+        breakdowns.append({
+            'feature': feat,
+            'col': col,
+            'sigma': sigma,
+            'delta_raw': round(delta_raw, 4),
+            'lower_better': feat in lower_better,
+            'tex_team_avg': round(tex_avg, 3),
+            'target_value': round(target, 3),
+            'players': players_out[:8],
+        })
+
+    # 4. 요약 문장 생성
+    delta = sim_result.get('delta', 0)
+    pred_w = sim_result.get('predicted_W_calibrated', 81)
+    summary_parts = [f"예상 승수 {pred_w:.1f}승 (베이스라인 대비 +{delta:.2f}승)"]
+    for bd in breakdowns:
+        needs = [p['name'].split()[-1] for p in bd['players'] if p['needs_improvement']][:3]
+        if needs:
+            summary_parts.append(
+                f"{bd['col']} 목표 {bd['target_value']:.2f}: "
+                f"{', '.join(needs)} 등 개선 필요"
+            )
+
+    return {
+        'sim_result': {
+            'predicted_W_calibrated': pred_w,
+            'delta': round(delta, 3),
+            'pred_std': sim_result.get('pred_std'),
+        },
+        'breakdowns': breakdowns,
+        'team_features': team_features,
+        'summary': ' | '.join(summary_parts),
+    }

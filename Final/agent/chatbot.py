@@ -104,8 +104,8 @@ TIER_CONFIG: dict[str, dict] = {
     "basic": {
         "label": ' Basic',
         "name": "Basic",
-        "tagline": "사전 시나리오·게임로그 조회",
-        "tools": {"lookup_pareto", "get_optimization_summary", "query_gamelog", "list_data_sources", "describe_data"},
+        "tagline": "사전 시나리오·게임로그·선수 성적 조회",
+        "tools": {"lookup_pareto", "get_optimization_summary", "query_gamelog", "list_data_sources", "describe_data", "get_player_stats"},
         "prompt_suffix": (
             "\n\n## 응답 깊이 (Basic 플랜)\n"
             "- 핵심 결과 1-2줄로만 답변합니다.\n"
@@ -122,6 +122,7 @@ TIER_CONFIG: dict[str, dict] = {
             "compare_team_2025", "estimate_residual_scenario",
             "plot_scenario_comparison", "plot_team_radar",
             "list_data_sources", "describe_data", "query_data", "plot_custom",
+            "get_player_stats", "simulation_player_breakdown",
         },
         "prompt_suffix": "",  # 표준 프롬프트 그대로
     },
@@ -136,6 +137,7 @@ TIER_CONFIG: dict[str, dict] = {
             "plot_scenario_comparison", "plot_historical_distribution",
             "plot_team_radar",
             "list_data_sources", "describe_data", "query_data", "plot_custom",
+            "get_player_stats", "simulation_player_breakdown",
         },
         "prompt_suffix": (
             "\n\n## 응답 깊이 (Premium 플랜)\n"
@@ -155,6 +157,8 @@ TOOL_DESCRIPTIONS: dict[str, str] = {
     "query_gamelog": "게임로그 필터 조회",
     "compare_team_2025": "경쟁팀 비교",
     "estimate_residual_scenario": "σ 자유 시뮬",
+    "get_player_stats": "선수 성적 조회 (투수·타자)",
+    "simulation_player_breakdown": "시뮬 → 선수별 기여 분석",
     "swap_team_pitching": "팀 이식 시뮬",
     "query_team_history": "10년 historical",
     "plot_scenario_comparison": "시나리오 비교 차트",
@@ -457,6 +461,44 @@ def get_agent(tier: str = "basic") -> Agent:
                 color_by=color_by, filter=filter,
                 sort_by=sort_by, ascending=ascending, limit=limit, title=title,
             )
+
+    if "get_player_stats" in enabled:
+        @agent.tool_plain
+        def get_player_stats(name: str) -> dict:
+            """선수 이름으로 TEX 2025 주요 성적을 한 번에 조회.
+
+            투수·타자 구분 없이 이름(부분 일치 가능)으로 검색한다.
+            "Garcia 성적 알려줘", "Seager wRC+ 얼마야?", "Leiter ERA?"
+            같은 선수별 성적 질문에 가장 먼저 이 도구를 사용한다.
+
+            투수: ERA / FIP / K/9 / BB/9 / HR/9 / BABIP / GB% / WAR / SV / BS
+                  + WPA / Clutch / pLI + 경기별 요약
+            타자: wRC+ / wOBA / xwOBA / EV / Barrel% / HR + WPA / Clutch
+
+            Args:
+                name: 선수 이름 또는 성 (예: 'Garcia', 'Seager', 'Leiter').
+            """
+            return tools.get_player_stats(name)
+
+    if "simulation_player_breakdown" in enabled:
+        @agent.tool_plain
+        def simulation_player_breakdown(sigmas: dict[str, float]) -> dict:
+            """시뮬 σ 조정이 어떤 선수 성적과 연결되는지 분석.
+
+            estimate_residual_scenario와 동일한 sigmas dict를 받아서,
+            각 피처 개선 목표를 달성하려면 현재 TEX 투수진 중 누가 얼마나 바뀌어야
+            하는지를 선수 단위로 구체화한다.
+
+            "BB/9 0.5σ 개선이 실제로 어떤 투수 이야기야?",
+            "K9 올리려면 누가 얼마나 늘려야 해?" 같은 질문에 사용.
+
+            매핑 가능한 피처: K9, BB9, HR9, babip_against, WHIP, go_ao.
+            sv_pct / onerun_wp 등 팀 집계 피처는 별도 설명으로 반환.
+
+            Args:
+                sigmas: {'K9': 0.3, 'BB9': 0.4} 형태. 양수 = 개선.
+            """
+            return tools.simulation_player_breakdown(sigmas)
 
     return agent
 
