@@ -332,9 +332,18 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
 }
 
 .sidebar-project-wrap {
-    padding: 22px 18px 16px 18px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 22px 18px 12px 18px;
     margin-bottom: 0;
+    position: relative;
+}
+.sidebar-project-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 8px;
+    right: 8px;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
 }
 
 .sidebar-section-label {
@@ -365,11 +374,11 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
 .sidebar-divider {
     height: 1px;
     background: rgba(255,255,255,0.08);
-    margin: 12px 18px 14px 18px;
+    margin: 12px 8px 14px 8px;
 }
 
 .sidebar-note-wrap {
-    padding: 6px 18px 0 18px;
+    padding: 12px 18px 12px 18px;
     text-align: left;
     box-sizing: border-box;
 }
@@ -1218,7 +1227,7 @@ div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="s
    사이드바 커스텀 내비게이션 버튼
 ───────────────────────────── */
 section[data-testid="stSidebar"] .stButton {
-    margin: 1px 8px !important;
+    margin: 0 8px !important;
     padding: 0 !important;
 }
 section[data-testid="stSidebar"] .stButton > button {
@@ -1262,7 +1271,7 @@ section[data-testid="stSidebar"] .stButton > button p {
     word-spacing: 0 !important;
 }
 section[data-testid="stSidebar"] [data-testid="stExpander"] {
-    margin: 4px 8px !important;
+    margin: 4px 0 !important;
 }
 section[data-testid="stSidebar"] [data-testid="stExpander"] details,
 section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary {
@@ -1272,6 +1281,9 @@ section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary {
 section[data-testid="stSidebar"] [data-testid="stExpander"] details {
     border-radius: 10px !important;
     overflow: hidden !important;
+    margin: 0 8px !important;
+    width: calc(100% - 16px) !important;
+    box-sizing: border-box !important;
 }
 section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary {
     list-style: none !important;
@@ -1427,18 +1439,19 @@ section[data-testid="stSidebar"] .stButton > button div,
 section[data-testid="stSidebar"] .stButton > button [data-testid="stMarkdownContainer"] {
     width: 100% !important;
     display: flex !important;
+    align-items: center !important;
     justify-content: flex-start !important;
     text-align: left !important;
 }
 
 section[data-testid="stSidebar"] .stButton > button p {
     width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
     text-align: left !important;
     justify-content: flex-start !important;
     margin: 0 !important;
-}
-
-section[data-testid="stSidebar"] .stButton > button p {
+    line-height: 1 !important;
     white-space: nowrap !important;
 }
 
@@ -1503,21 +1516,21 @@ with st.sidebar:
     <div class="sidebar-divider"></div>
     """, unsafe_allow_html=True)
 
-    _nav_btn(" Overview",    "overview")
-    _nav_btn(" Simulation",  "simulation")
-    _nav_btn(" Comparison",  "comparison")
-    _nav_btn(" AI Agent", "ai_agent")
-    _nav_btn(" Conclusions", "conclusions")
+    _nav_btn("  Overview",    "overview")
+    _nav_btn("  Simulation",  "simulation")
+    _nav_btn("  Comparison",  "comparison")
+    _nav_btn("  AI Agent", "ai_agent")
+    _nav_btn("  Conclusions", "conclusions")
 
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
     st.markdown('<span class="sidebar-nav-section">Pitcher Analysis</span>', unsafe_allow_html=True)
     _cur = st.session_state["page"]
     with st.expander("Roster", expanded=(_cur in _PITCHER_PAGES)):
-        _nav_btn(" Leiter",    "leiter")
-        _nav_btn(" Webb",      "webb")
-        _nav_btn(" Garcia",    "garcia")
-        _nav_btn(" Armstrong", "armstrong")
-        _nav_btn(" Jackson",   "jackson")
+        _nav_btn("  Leiter",    "leiter")
+        _nav_btn("  Webb",      "webb")
+        _nav_btn("  Garcia",    "garcia")
+        _nav_btn("  Armstrong", "armstrong")
+        _nav_btn("  Jackson",   "jackson")
 
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
 
@@ -1525,7 +1538,7 @@ with st.sidebar:
     if _missing_v5_outputs:
         st.warning("v5 출력 파일 누락: " + ", ".join(_missing_v5_outputs))
 
-    _nav_btn(" Methodology", "methodology")
+    _nav_btn("  Methodology", "methodology")
 
 
 # ── 페이지 라우팅 ──────────────────────────────────────────────────
