@@ -48,6 +48,7 @@ GCP_PROJECT_ID = get_secret("GCP_PROJECT_ID")
 GCP_LOCATION = get_secret("GCP_LOCATION", "global")
 GEMINI_MODEL = get_secret("GEMINI_MODEL", "gemini-2.5-flash")
 GCP_SERVICE_ACCOUNT_JSON = get_secret("GCP_SERVICE_ACCOUNT_JSON")
+GEMINI_API_KEY = get_secret("GEMINI_API_KEY")
 
 
 def create_vertex_model() -> GoogleModel:
@@ -86,6 +87,14 @@ def create_vertex_model() -> GoogleModel:
     )
 
     return GoogleModel(GEMINI_MODEL, provider=provider)
+
+
+def create_model() -> GoogleModel:
+    """GEMINI_API_KEY 우선, 없으면 Vertex AI 사용."""
+    if GEMINI_API_KEY:
+        provider = GoogleProvider(api_key=GEMINI_API_KEY)
+        return GoogleModel(GEMINI_MODEL, provider=provider)
+    return create_vertex_model()
 
 # ============================================================
 # 가상 구독 티어 — 도구 접근 권한만 차등
@@ -216,7 +225,7 @@ def get_agent(tier: str = "basic") -> Agent:
     티어에 따라 등록하는 도구 + 시스템 프롬프트 suffix가 달라진다.
     @st.cache_resource는 tier 인자별로 별도 캐시되므로 전환 시 즉시 반환.
     """
-    model = create_vertex_model()
+    model = create_model()
 
     config = TIER_CONFIG[tier]
     enabled = config["tools"]
@@ -466,10 +475,11 @@ def render():
 
     st.title("⚾ TEX 2025 분석 챗봇")
 
-    # Vertex AI 설정 확인
-    if not GCP_PROJECT_ID or not GCP_SERVICE_ACCOUNT_JSON:
+    # 인증 정보 확인 — API Key 또는 GCP 중 하나 필요
+    if not GEMINI_API_KEY and (not GCP_PROJECT_ID or not GCP_SERVICE_ACCOUNT_JSON):
         st.error(
-            "Vertex AI 인증 정보가 설정되어 있지 않습니다. "
+            "인증 정보가 설정되어 있지 않습니다. "
+            ".env에 GEMINI_API_KEY를 추가하거나, "
             "Streamlit Cloud Secrets에 GCP_PROJECT_ID와 GCP_SERVICE_ACCOUNT_JSON을 등록하세요."
         )
         st.stop()

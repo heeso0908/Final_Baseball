@@ -360,8 +360,9 @@ class BullpenState:
     bullpen_era: float
     reliever_stats: pd.DataFrame
     closer_names: set[str]
-    closer_pool_p1: list[str]
-    closer_pool_p2: list[str]
+    closer_pool_p1: list[str]   # Mar-Apr  (games 0-30):  Jackson
+    closer_pool_p2: list[str]   # May-Jul  (games 31-109): Garcia 주, Armstrong 보조
+    closer_pool_p3: list[str]   # Aug-Sep  (games 110+):  Armstrong 주, Garcia 보조
 
 
 def _base_state_from_row(row: pd.Series, prefix: str = "on") -> tuple[int, ...]:
@@ -612,7 +613,12 @@ def _choose_bullpen_pitcher(
     relievers = relievers[relievers["IP"] >= 5.0].copy()
 
     if inning >= 9 and lead is not None and 1 <= lead <= 3:
-        closer_names = bullpen.closer_pool_p1 if game_index <= 35 else bullpen.closer_pool_p2
+        if game_index <= 30:
+            closer_names = bullpen.closer_pool_p1    # Mar-Apr: Jackson
+        elif game_index <= 109:
+            closer_names = bullpen.closer_pool_p2    # May-Jul: Garcia 주
+        else:
+            closer_names = bullpen.closer_pool_p3    # Aug-Sep: Armstrong 주
         pool = relievers[relievers["Name"].isin(closer_names)].copy()
         if pool.empty:
             pool = relievers.copy()
@@ -1248,16 +1254,21 @@ def _build_bullpen_state(raw_dir: Path) -> BullpenState:
             ((save_df["GF"].fillna(0) >= 5) | (save_df["SV"].fillna(0) >= 3))
         ]["Name"].tolist()
     )
-    closer_pool_p1 = [name for name in ["Luke Jackson"] if name in closer_names]
-    closer_pool_p2 = [
-        name
-        for name in ["Shawn Armstrong", "Robert Garcia", "Phil Maton", "Chris Martin"]
-        if name in set(save_df["Name"].tolist())
-    ]
+    all_save_names = set(save_df["Name"].tolist())
+    # Mar-Apr: Jackson이 주 마무리
+    closer_pool_p1 = [n for n in ["Luke Jackson"] if n in closer_names]
+    # May-Jul: Garcia 주, Armstrong 보조 (순서가 가중치 역할)
+    closer_pool_p2 = [n for n in ["Robert Garcia", "Shawn Armstrong"]
+                      if n in all_save_names]
+    # Aug-Sep: Armstrong 주, Garcia 보조 (실제 데이터 기반 교체 시점)
+    closer_pool_p3 = [n for n in ["Shawn Armstrong", "Robert Garcia"]
+                      if n in all_save_names]
     if not closer_pool_p1:
         closer_pool_p1 = list(closer_names)
     if not closer_pool_p2:
         closer_pool_p2 = list(closer_names)
+    if not closer_pool_p3:
+        closer_pool_p3 = list(closer_names)
 
     reliever_stats = (
         relievers.groupby("name", as_index=False)
@@ -1326,6 +1337,7 @@ def _build_bullpen_state(raw_dir: Path) -> BullpenState:
         closer_names=closer_names,
         closer_pool_p1=closer_pool_p1,
         closer_pool_p2=closer_pool_p2,
+        closer_pool_p3=closer_pool_p3,
     )
 
 

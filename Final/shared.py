@@ -519,14 +519,76 @@ REPORT_FINDINGS.update({
     },
 })
 
-# card accent cycling (navy / red / navy-soft only)
-_P_C1         = "#0D1B33"      # navy
-_P_C2         = "#B31922"      # rangers-red
-_P_C3         = "#243A5E"      # navy-soft
-_P_C4         = "#0D1B33"
-_P_C5         = "#B31922"
+# ── Kinematic metric descriptions ────────────────────────────
+_METRIC_INFO: dict[str, tuple[str, str]] = {
+    "hip_peak_dps":    ("골반 피크 각속도 XZ", "골반이 XZ 평면에서 최대 회전 속도에 도달하는 정도. 낮을수록 하체 구동력이 약함."),
+    "trunk_peak_dps":  ("몸통 피크 각속도 XZ", "상체(몸통) 회전의 최대 속도. 투구 파워와 직결되는 지표."),
+    "hip_3d_dps":      ("골반 피크 각속도 3D", "3차원 공간 전체를 고려한 골반 회전 속도."),
+    "trunk_3d_dps":    ("몸통 피크 각속도 3D", "3차원 공간 전체를 고려한 몸통 회전 속도."),
+    "trunk_hip_ratio": ("몸통/골반 각속도 비",  "하체 대비 상체 회전 속도 비율. 클수록 에너지 전달 효율이 높음."),
+    "timing_diff_ms":  ("골반-어깨 타이밍 차",  "골반과 어깨 최대 회전 간 시간 차(ms). 양수면 골반이 먼저 회전."),
+    "hss_at_fp_deg":   ("HSS @ FP",             "Foot Plant 시점의 골반-어깨 분리각(°). 투구 메커니즘의 핵심 지표."),
+    "hss_max_deg":     ("HSS 최대",              "투구 전체 동작에서 측정된 최대 골반-어깨 분리각(°)."),
+}
+
+
+def _cohens_d_label(d: float) -> str:
+    ad = abs(d)
+    if ad < 0.2:
+        return "미미한 차이"
+    elif ad < 0.5:
+        return "작은 효과크기"
+    elif ad < 0.8:
+        return "중간 효과크기"
+    else:
+        return "큰 효과크기 (코칭 가능 신호)"
+
+
+def _sig_label(p: float) -> str:
+    if p < 0.05:
+        return "통계적 유의"
+    elif p < 0.10:
+        return "경계 유의"
+    else:
+        return "비유의"
+
+
 _P_M          = 0.055
 _P_CW         = 1 - 2 * _P_M
+
+# ── 섹션별 시맨틱 accent 색상 ─────────────────────────────────
+_PDF_SECTION_ACCENT: dict[str, str] = {
+    # 개요·요약
+    "Purpose":                       "#243A5E",
+    "Residual Summary":              "#B31922",
+    # 타격
+    "Batting Stats":                 "#1D6FA4",
+    # 수비
+    "Defense & Contact Suppression": "#1A6B5A",
+    # 투수
+    "Team Strength / Weakness":      "#0D1B33",
+    "Pitching Staff Overview":       "#243A5E",
+    "Pitching Metric Rank":          "#0D1B33",
+    # 월별·이탈
+    "Monthly Record":                "#5A3E8C",
+    "Key Player Absences":           "#B31922",
+    # 불펜·마무리
+    "Closer Role Transition":        "#B31922",
+    "Inning ERA by Role":            "#0D1B33",
+    "Bullpen Save Situation":        "#B31922",
+    "Clutch Performance":            "#243A5E",
+    # 결론
+    "Team Conclusion":               "#0D1B33",
+    # 선수 보고서
+    "Season Stats":                  "#243A5E",
+    "Team / League Context":         "#0D1B33",
+    "High Leverage & Clutch":        "#B31922",
+    "Motion Finding":                "#0D1B33",
+    "Kinematic Analysis Detail":     "#243A5E",
+    "Action Priority":               "#B31922",
+    "Recommendation":                "#0D1B33",
+    "Interpretation Note":           "#667085",
+}
 
 # ── PDF helpers ───────────────────────────────────────────────
 def _configure_pdf_font():
@@ -559,23 +621,27 @@ def _pdf_new_page():
 
 
 def _pdf_header(ax, title: str, subtitle: str = ""):
-    # Full-bleed navy band (y: 0.840 → 1.0)
+    # 네이비 풀블리드 헤더 밴드
     _rr(ax, 0, 0.840, 1.0, 0.160, 0.001, _P_PRIMARY)
-    # Deeper navy top strip
+    # 상단 짙은 스트립
     _rr(ax, 0, 0.968, 1.0, 0.032, 0.001, _P_NAVY_DEEP)
-    # Red rule at bottom of header
+    # 하단 레드 라인 (굵기 강화)
     ax.plot([0, 1], [0.840, 0.840], transform=ax.transAxes,
-            color=_P_RED, lw=2.0, solid_capstyle="butt")
-    # header 세로 중앙: 유효 영역 0.840~0.966, 중심 ≈ 0.903
-    ax.text(0.5, 0.938, "TEXAS RANGERS  ·  2025 RESIDUAL ANALYSIS",
-            fontsize=7.0, color=_P_NEUTRAL, transform=ax.transAxes,
+            color=_P_RED, lw=3.0, solid_capstyle="butt")
+    # 좌측 레드 accent 블록
+    _rr(ax, 0, 0.840, 0.006, 0.128, 0.001, _P_RED)
+    # 로고/브랜드 kicker
+    ax.text(0.5, 0.957, "TEXAS RANGERS  ·  2025 RESIDUAL ANALYSIS",
+            fontsize=6.5, color=_P_NEUTRAL, transform=ax.transAxes,
             va="top", ha="center", fontweight="bold")
-    ax.text(0.5, 0.920, title,
-            fontsize=18, color=_P_PRIMARY_FG, transform=ax.transAxes,
+    # 타이틀
+    ax.text(0.5, 0.930, title,
+            fontsize=17, color=_P_PRIMARY_FG, transform=ax.transAxes,
             va="top", ha="center", fontweight="bold")
+    # 서브타이틀
     if subtitle:
-        ax.text(0.5, 0.889, subtitle,
-                fontsize=8.5, color=_P_NEUTRAL, transform=ax.transAxes,
+        ax.text(0.5, 0.884, subtitle,
+                fontsize=8.0, color=_P_NEUTRAL, transform=ax.transAxes,
                 va="top", ha="center")
 
 
@@ -613,29 +679,34 @@ def _pdf_card(ax, x: float, y_top: float, w: float, h: float,
               title: str, lines: list[str], accent: str = _P_PRIMARY,
               section_no: int = 0):
     y0 = y_top - h
-    # White card with border
-    _rr(ax, x, y0, w, h, 0.010, "white", edge=_P_BORDER, lw=0.7)
-    # Left accent stripe — tailwind border-l-4 style
-    _rr(ax, x, y0 + 0.010, 0.006, h - 0.020, 0.003, accent)
-    # Title area — muted background
-    title_h = 0.043
-    _rr(ax, x, y_top - title_h, w, title_h, 0.010, _P_SECONDARY)
-    _rr(ax, x, y_top - title_h, w, title_h / 2, 0.001, _P_SECONDARY)
+    # 카드 흰 배경 + 테두리
+    _rr(ax, x, y0, w, h, 0.010, "white", edge=_P_BORDER, lw=0.6)
+    # 왼쪽 accent 스트라이프
+    _rr(ax, x, y0 + 0.010, 0.007, h - 0.020, 0.003, accent)
+    # 제목 영역 — accent 미세 틴트 배경
+    title_h = 0.044
+    import matplotlib.colors as _mc
+    try:
+        r, g, b = _mc.to_rgb(accent)
+        title_bg = (r * 0.06 + 0.94, g * 0.06 + 0.94, b * 0.06 + 0.94)
+    except Exception:
+        title_bg = _P_SECONDARY
+    _rr(ax, x, y_top - title_h, w, title_h, 0.010, title_bg)
+    _rr(ax, x, y_top - title_h, w, title_h / 2, 0.001, title_bg)
     ax.plot([x, x + w], [y_top - title_h, y_top - title_h],
-            transform=ax.transAxes, color=_P_BORDER, lw=0.5)
-    # Title text
-    ax.text(x + 0.026, y_top - title_h / 2, title,
-            fontsize=10.5, color=_P_PRIMARY,
+            transform=ax.transAxes, color=_P_BORDER, lw=0.4)
+    # 제목 텍스트
+    ax.text(x + 0.028, y_top - title_h / 2, title,
+            fontsize=10.5, color=accent,
             transform=ax.transAxes, va="center", fontweight="bold")
-    # Section badge
+    # 섹션 번호 배지
     if section_no:
         badge_w = 0.036
-        badge_x = x + w - badge_w - 0.012
-        _rr(ax, badge_x, y_top - title_h / 2 - 0.011, badge_w, 0.022, 0.011,
-            _P_BORDER)
+        badge_x = x + w - badge_w - 0.014
+        _rr(ax, badge_x, y_top - title_h / 2 - 0.011, badge_w, 0.022, 0.011, accent)
         ax.text(badge_x + badge_w / 2, y_top - title_h / 2,
                 f"{section_no:02d}",
-                fontsize=7.0, color=_P_MUTED_FG,
+                fontsize=7.0, color="white",
                 transform=ax.transAxes, va="center", ha="center", fontweight="bold")
 
     # _estimate_card_height 와 동일한 _cjk_wrap 기반으로 centering 계산
@@ -655,13 +726,44 @@ def _pdf_card(ax, x: float, y_top: float, w: float, h: float,
     top_space    = max(0.010, (available - content_used) / 2)
 
     y = y_top - title_h - top_space
+    bottom = y0 + 0.006
     row_alt = True
+
+    def _draw_text(text, tx, ty, size, color, bold=False, italic=False):
+        kw = dict(fontsize=size, color=color, transform=ax.transAxes,
+                  va="top", fontweight="bold" if bold else "normal")
+        if italic:
+            kw["fontstyle"] = "italic"
+        ax.text(tx, ty, text, **kw)
+
     for line in lines:
-        bottom = y0 + 0.004
+        if y < bottom:
+            return
         if line == "":
-            y -= 0.005
+            y -= 0.006
             continue
-        if ": " in line and not line.startswith("- "):
+
+        # ── 내부 소제목 ("선발 로테이션 성적:" 등)
+        is_subsection = (
+            line.endswith(":")
+            and not line.startswith("- ")
+            and not line.startswith("  ")
+            and "→" not in line
+            and ": " not in line[:-1]       # "Key: Value" 형식 제외
+        )
+        if is_subsection:
+            if y - 0.032 < bottom:
+                return
+            # 얇은 구분선
+            ax.plot([x + 0.016, x + w - 0.016], [y - 0.003, y - 0.003],
+                    transform=ax.transAxes, color=_P_BORDER, lw=0.5)
+            _draw_text(line.rstrip(":"), x + 0.026, y - 0.006,
+                       8.5, accent, bold=True)
+            y -= 0.028
+            continue
+
+        # ── Key: Value 표 행
+        if ": " in line and not line.startswith("- ") and not line.startswith("  ") and "→" not in line:
             label, value = line.split(": ", 1)
             rh = 0.034
             if y - rh < bottom:
@@ -678,23 +780,83 @@ def _pdf_card(ax, x: float, y_top: float, w: float, h: float,
             y -= rh + 0.004
             row_alt = not row_alt
             continue
-        is_bullet = line.startswith("- ")
-        bullet = "·  " if is_bullet else ""
-        content = line[2:] if is_bullet else line
-        for chunk in _cjk_wrap(content):
+
+        # ── "→" 해석 포함 라인 분리 렌더링
+        if "→" in line:
+            arrow_idx = line.index("→")
+            main_part  = line[:arrow_idx].rstrip()
+            interp     = line[arrow_idx + 1:].strip()
+
+            is_bullet = main_part.startswith("- ")
+            indent_x  = x + 0.038 if main_part.startswith("  ") else x + 0.026
+            bullet     = "·  " if is_bullet else ""
+            content    = main_part[2:].rstrip() if is_bullet else main_part.lstrip()
+
+            # 본문 부분
+            for chunk in _cjk_wrap(content):
+                if y < bottom:
+                    return
+                _draw_text(bullet + chunk, indent_x, y, 9.0, _P_FG)
+                bullet = "   " if is_bullet else ""
+                y -= 0.022
+
+            # 해석 부분 — accent 색, 약간 들여쓰기, 작은 폰트
+            if interp:
+                for chunk in _cjk_wrap("→ " + interp):
+                    if y < bottom:
+                        return
+                    _draw_text(chunk, indent_x + 0.012, y, 8.2, accent)
+                    y -= 0.019
+            continue
+
+        # ── 일반 라인 (들여쓰기 2칸 포함)
+        is_indented = line.startswith("  ")
+        is_bullet   = line.startswith("- ") or line.startswith("  - ")
+        if is_indented:
+            raw     = line.strip().lstrip("- ").strip()
+            indent_x = x + 0.038
+            bullet   = "·  " if is_bullet else ""
+        else:
+            raw     = line[2:] if is_bullet else line
+            indent_x = x + 0.026
+            bullet   = "·  " if is_bullet else ""
+
+        for chunk in _cjk_wrap(raw):
             if y < bottom:
                 return
-            ax.text(x + 0.026, y, bullet + chunk,
-                    fontsize=9.0, color=_P_FG, transform=ax.transAxes, va="top")
+            _draw_text(bullet + chunk, indent_x, y, 9.0, _P_FG)
             bullet = "   " if is_bullet else ""
             y -= 0.022
 
 
 def _split_pdf_sections(lines: list[str]) -> list[tuple[str, list[str]]]:
     headings = {
-        "Purpose", "Analysis Flow", "Pitcher-Level Summary", "Team Conclusion",
-        "Player Info", "Motion Finding", "Top Kinematic Metrics", "Recommendation", "Interpretation Note",
-        "Team / League Context", "Residual Summary", "Team Strength / Weakness", "Team Metric Rank",
+        # 공통
+        "Purpose", "Team Conclusion", "Recommendation", "Interpretation Note",
+        "Player Info",
+        # 팀 보고서
+        "Residual Summary",
+        "Batting Stats",
+        "Defense & Contact Suppression",
+        "Team Strength / Weakness",
+        "Pitching Staff Overview",
+        "Pitching Metric Rank",
+        "Monthly Record",
+        "Key Player Absences",
+        "Closer Role Transition",
+        "Inning ERA by Role",
+        "Bullpen Save Situation",
+        "Clutch Performance",
+        # 선수 보고서
+        "Season Stats",
+        "Team / League Context",
+        "High Leverage & Clutch",
+        "Motion Finding",
+        "Kinematic Analysis Detail",
+        "Action Priority",
+        # 레거시
+        "Analysis Flow", "Pitcher-Level Summary", "Team Metric Rank",
+        "Top Kinematic Metrics",
     }
     sections: list[tuple[str, list[str]]] = []
     current_title = "Summary"
@@ -736,13 +898,26 @@ def _estimate_card_height(body: list[str]) -> float:
     h = 0.043  # title_h
     for line in body:
         if line == "":
-            h += 0.005
-        elif ": " in line and not line.startswith("- "):
-            h += 0.038
+            h += 0.006
+        elif (line.endswith(":") and not line.startswith("- ")
+              and not line.startswith("  ") and "→" not in line
+              and ": " not in line[:-1]):
+            h += 0.028                          # 소제목
+        elif ": " in line and not line.startswith("- ") and "→" not in line:
+            h += 0.038                          # Key: Value 행
+        elif "→" in line:
+            arrow_idx = line.index("→")
+            main = line[:arrow_idx].rstrip()
+            interp = line[arrow_idx + 1:].strip()
+            content = main[2:].rstrip() if main.startswith("- ") else main.lstrip()
+            h += len(_cjk_wrap(content)) * 0.022
+            if interp:
+                h += len(_cjk_wrap("→ " + interp)) * 0.019
         else:
-            h += len(_cjk_wrap(line[2:] if line.startswith("- ") else line)) * 0.022
-    h += 0.020  # 상하 대칭 여백
-    return min(0.75, max(0.10, h))
+            raw = line.strip().lstrip("- ").strip()
+            h += len(_cjk_wrap(raw)) * 0.022
+    h += 0.022  # 상하 여백
+    return min(0.80, max(0.10, h))
 
 
 def _add_pdf_page(pdf: PdfPages, title: str, lines: list) -> int:
@@ -753,8 +928,9 @@ def _add_pdf_page(pdf: PdfPages, title: str, lines: list) -> int:
     subtitle = "Residual diagnosis · Motion evidence · Decision candidates"
     _pdf_header(ax, title, subtitle)
 
+    _FALLBACK_ACCENTS = [_P_PRIMARY, _P_RED, _P_NAVY_SOFT,
+                         _P_PRIMARY, _P_NAVY_SOFT, _P_RED]
     y = 0.824
-    accents = [_P_C1, _P_C2, _P_C3, _P_C1, _P_C2, _P_C3, _P_C1, _P_C2]
     for idx, (heading, body) in enumerate(sections):
         height = _estimate_card_height(body)
         if y - height < 0.058:
@@ -767,7 +943,9 @@ def _add_pdf_page(pdf: PdfPages, title: str, lines: list) -> int:
             ax.plot([_P_M, 1 - _P_M], [0.824, 0.824], transform=ax.transAxes,
                     color=_P_BORDER, lw=0.5)
             y = 0.812
-        accent = accents[idx % len(accents)]
+        accent = _PDF_SECTION_ACCENT.get(
+            heading, _FALLBACK_ACCENTS[idx % len(_FALLBACK_ACCENTS)]
+        )
         _pdf_card(ax, _P_M, y, _P_CW, height, heading, body,
                   accent=accent, section_no=idx + 1)
         y -= height + 0.016
@@ -812,8 +990,10 @@ def _rank_text(value: float, series: pd.Series, higher_is_better: bool) -> str:
     if values.empty or pd.isna(value):
         return "-"
     rank = int((values > value).sum() + 1) if higher_is_better else int((values < value).sum() + 1)
-    top_pct = rank / len(values) * 100
-    return f"{rank}/{len(values)}위, 상위 {top_pct:.0f}%"
+    n = len(values)
+    top_pct = rank / n * 100
+    pct_label = f"하위 {100 - top_pct:.0f}%" if top_pct > 50 else f"상위 {top_pct:.0f}%"
+    return f"{rank}/{n}위, {pct_label}"
 
 
 def _player_percentile_lines(player: str) -> list[str]:
@@ -848,22 +1028,42 @@ def _team_metric_lines() -> list[str]:
     if tex.empty:
         return ["- TEX 팀 행을 찾지 못했습니다."]
     row = tex.iloc[0]
-    stat_specs = [
-        ("ERA", "ERA", False),
-        ("FIP", "FIP", False),
-        ("WHIP", "WHIP", False),
-        ("K/9", "K/9", True),
-        ("BB/9", "BB/9", False),
-        ("HR/9", "HR/9", False),
-        ("WAR", "WAR", True),
-        ("BS", "BS", False),
-    ]
+    _INTERP: dict[str, dict] = {
+        "ERA":  {True:  "실점 억제 리그 최고 수준 → 투수진 기여 우수",
+                 False: "실점 허용이 많아 투수진 전반이 팀 승수를 깎는 요인"},
+        "FIP":  {True:  "수비 무관 구위 우수 → ERA보다 실질 투구력이 높을 가능성",
+                 False: "수비 도움 없이는 ERA보다 실점이 늘어날 구위 수준"},
+        "WHIP": {True:  "출루 허용 억제 우수 → 이닝 관리 효율 높음",
+                 False: "주자를 자주 허용해 실점 위험 누적"},
+        "K/9":  {True:  "탈삼진 능력 우수 → 타구 의존도 낮고 구위로 해결",
+                 False: "탈삼진이 적어 타구 처리에 수비 의존도 높음"},
+        "BB/9": {True:  "볼넷 허용이 적어 자책점 대비 실점 손실 최소화",
+                 False: "볼넷 허용이 많아 무사 진루·빅이닝 위험 높음"},
+        "HR/9": {True:  "홈런 허용이 적어 장타 실점 억제 효과적",
+                 False: "홈런 허용이 많아 단숨에 점수를 내주는 빈도 높음"},
+        "WAR":  {True:  "투수진 누적 가치 우수 → 팀 성적 기여도 높음",
+                 False: "투수진 누적 가치 낮음 → 대체 선수 대비 실질 기여 부족"},
+        "BS":   {True:  "세이브 실패가 적어 마무리 운영 안정적",
+                 False: "세이브 실패 누적 → 잡은 리드를 날리는 빈도가 잔차 확대의 직접 원인"},
+    }
     lines = []
-    for label, col, higher_is_better in stat_specs:
+    for label, col, higher_is_better in [
+        ("ERA", "ERA", False), ("FIP", "FIP", False), ("WHIP", "WHIP", False),
+        ("K/9", "K/9", True), ("BB/9", "BB/9", False), ("HR/9", "HR/9", False),
+        ("WAR", "WAR", True), ("BS", "BS", False),
+    ]:
         if col not in teams.columns:
             continue
         value = pd.to_numeric(pd.Series([row[col]]), errors="coerce").iloc[0]
-        lines.append(f"- {label}: {value:.2f} / MLB 30팀 중 {_rank_text(value, teams[col], higher_is_better)}")
+        rtext = _rank_text(value, teams[col], higher_is_better)
+        # Good if rank in top half, bad if bottom half
+        all_v = pd.to_numeric(teams[col], errors="coerce").dropna()
+        n = len(all_v)
+        rank = int((all_v > value).sum() + 1) if higher_is_better else int((all_v < value).sum() + 1)
+        is_good = rank <= n // 2
+        interp = _INTERP.get(col, {}).get(is_good, "")
+        interp_str = f" → {interp}" if interp else ""
+        lines.append(f"- {label}: {value:.2f} ({rtext}){interp_str}")
     return lines
 
 
@@ -901,8 +1101,834 @@ def _team_strength_lines() -> list[str]:
     lines.extend([f"- {item}" for item in strengths[:4]] or ["- 상위권으로 뚜렷하게 잡히는 단일 지표는 제한적입니다."])
     lines.append("약점 또는 점검 지점")
     lines.extend([f"- {item}" for item in weaknesses[:4]] or ["- 리그 최하위권 지표는 많지 않지만, 하이 레버리지 운영에서 실제 승수 손실이 커졌습니다."])
-    lines.append("특징")
-    lines.append("- 평균적인 투수 지표만 보면 81승보다 높은 기대 승수를 설명할 여지가 있으나, 접전·세이브 실패·득실 타이밍에서 실제 승수와의 차이가 커졌습니다.")
+    lines.append(
+        "- 투수 지표(ERA) 기준으로는 강팀이지만, 블론 세이브 누적과 접전 승률 하락이 실제 승수를"
+        " 기대치보다 약 9승 끌어내렸습니다."
+    )
+    return lines
+
+
+def _player_season_stats_lines(player: str) -> list[str]:
+    row = _match_pitcher_row(player)
+    if row is None:
+        return ["- 시즌 성적 데이터를 찾지 못했습니다."]
+
+    def _s(col, fmt=".2f"):
+        try:
+            return f"{float(row[col]):{fmt}}"
+        except Exception:
+            return "-"
+
+    w = _s("W", "g"); l = _s("L", "g")
+    g = _s("G", "g"); gs = _s("GS", "g")
+    ip = _s("IP", ".1f")
+    sv = _s("SV", "g"); bs = _s("BS", "g")
+    lines = [
+        f"- 성적: {w}승 {l}패 / {g}게임 ({gs}선발) / {ip}이닝 / {sv}세이브 / {bs}블론",
+        f"- ERA {_s('ERA')}  ·  FIP {_s('FIP')}  ·  xERA {_s('xERA')}",
+        f"- WHIP {_s('WHIP')}  ·  K/9 {_s('K/9')}  ·  BB/9 {_s('BB/9')}  ·  HR/9 {_s('HR/9')}",
+        f"- WAR {_s('WAR')}  ·  BABIP {_s('BABIP')}  ·  LOB% {_s('LOB%')}  ·  GB% {_s('GB%')}",
+    ]
+    try:
+        era_v = float(row["ERA"]); fip_v = float(row["FIP"])
+        gap = fip_v - era_v
+        if abs(gap) > 0.40:
+            msg = ("FIP가 ERA보다 높아 수비·운 도움을 받은 편" if gap > 0
+                   else "FIP가 ERA보다 낮아 실제 구위 대비 실점이 많은 편")
+            lines.append(f"- ERA-FIP 괴리 {abs(gap):.2f}: {msg}.")
+    except Exception:
+        pass
+    return lines
+
+
+def _player_situation_lines(player: str) -> list[str]:
+    clutch_df = _read_raw_csv("tex_clutch_pit.csv")
+    save_df   = _read_raw_csv("tex_2025_save_situation_splits.csv")
+    lines: list[str] = []
+
+    clutch_row = None
+    if not clutch_df.empty:
+        for col in ("NameASCII", "Name"):
+            if col in clutch_df.columns:
+                mask = clutch_df[col].astype(str).str.contains(player, case=False, regex=False)
+                if mask.any():
+                    clutch_row = clutch_df.loc[mask].iloc[0]
+                    break
+
+    save_row = None
+    if not save_df.empty and "Name" in save_df.columns:
+        mask = save_df["Name"].astype(str).str.contains(player, case=False, regex=False)
+        if mask.any():
+            save_row = save_df.loc[mask].iloc[0]
+
+    if clutch_row is not None:
+        try:
+            pli    = float(clutch_row.get("pLI", "nan"))
+            clutch = float(clutch_row.get("Clutch", "nan"))
+            wpa    = float(clutch_row.get("WPA", "nan"))
+            sd     = clutch_row.get("SD", "-")
+            md     = clutch_row.get("MD", "-")
+            clutch_desc = "기대 대비 클러치 상황에서 선전" if clutch > 0 else "기대 대비 클러치 상황에서 부진"
+            lines += [
+                f"- 평균 레버리지(pLI): {pli:.2f}  ·  WPA(승리 기여): {wpa:+.3f}",
+                f"- Clutch 점수: {clutch:+.3f}  ({clutch_desc})",
+                f"- 득점권 상황 등판(SD): {sd}회  ·  중요 상황 등판(MD): {md}회",
+            ]
+        except Exception:
+            pass
+
+    if save_row is not None:
+        try:
+            sv_n   = int(float(save_row.get("SV", 0)))
+            bs_n   = int(float(save_row.get("BS", 0)))
+            total  = sv_n + bs_n
+            sv_era = save_row.get("ERA", "-")
+            if total > 0:
+                bs_rate = bs_n / total * 100
+                lines.append(
+                    f"- 세이브 상황: {sv_n}세이브 / {bs_n}블론 / 기회 {total}회 / 블론율 {bs_rate:.0f}% / ERA {sv_era}"
+                )
+        except Exception:
+            pass
+
+    meta = data["meta"]["pitchers"].get(player, {})
+    sit  = meta.get("situation", "-")
+    n_a  = meta.get("n_a", "-"); n_b = meta.get("n_b", "-")
+    lines.append(f"- 모션 분석 케이스: {sit} (좋은 결과 {n_a}경기 / 나쁜 결과 {n_b}경기)")
+    return lines or ["- 상황별 성적 데이터가 없습니다."]
+
+
+def _player_kinematic_detail_lines(player: str) -> list[str]:
+    pitcher_df = data["pitcher_ag"][data["pitcher_ag"]["player"] == player].copy()
+    if pitcher_df.empty:
+        return ["- 키네마틱 분석 데이터가 없습니다."]
+    top = pitcher_df.reindex(
+        pitcher_df["cohens_d"].abs().sort_values(ascending=False).index
+    ).head(5)
+    lines: list[str] = []
+    for _, row in top.iterrows():
+        metric = str(row.get("metric", ""))
+        metric_name, description = _METRIC_INFO.get(metric, (metric, ""))
+        d    = float(row["cohens_d"])
+        p    = float(row["u_p"])
+        diff = float(row["diff"])
+        direction = "높음" if diff > 0 else "낮음"
+        lines += [
+            f"■ {metric_name}",
+            f"  차이: {diff:+.2f} (A 상황이 {direction}) / Cohen's d {d:.2f} ({_cohens_d_label(d)}) / {_sig_label(p)} (p={p:.3f})",
+        ]
+        if description:
+            lines.append(f"  → {description}")
+    return lines
+
+
+def _player_action_priority_lines(player: str) -> list[str]:
+    _ACTION_MAP: dict[str, dict] = {
+        "Leiter": {
+            "signal":      "약 (Cohen's d 대부분 < 0.5)",
+            "coaching":    ["초구 스트라이크 확보율 점검", "구종 구성 다양화 (체인지업/커브 비중 재검토)"],
+            "operational": ["불리한 카운트별 구종 운영 프로토콜 표준화", "좌/우 타자별 접근법 및 스플릿 점검"],
+        },
+        "Webb": {
+            "signal":      "강 (Trunk/Hip ratio d=3.05, HSS @ FP d=2.16)",
+            "coaching":    ["하체-상체 분리(HSS @ FP) 안정화 루틴 설계", "릴리스 전 몸통 회전 타이밍 교정"],
+            "operational": ["연속 등판 제한 (3일 이내 재등판 주의)", "하이 레버리지 이닝 연속 배치 관리"],
+        },
+        "Garcia": {
+            "signal":      "약 (Cohen's d 대부분 < 0.9, p > 0.25) — null finding 우세",
+            "coaching":    ["현재 모션 분석상 명확한 폼 교정 대상 없음"],
+            "operational": ["마무리 고정 여부 재검토", "좌타자 매치업 재설계", "연투 후 다음 등판 성과 추적"],
+        },
+        "Armstrong": {
+            "signal":      "중간 (일부 지표 변동, 표본 소규모로 해석 제한)",
+            "coaching":    ["워밍업 루틴 표준화 (짧은 등판 특성 고려)"],
+            "operational": ["구위 하락 경기 다음 등판 패턴 확인", "특정 타순·상황 전용 기용 여부 판단"],
+        },
+        "Jackson": {
+            "signal":      "약-중간 (사이드암보다 측면 기울기 오버핸드 패턴으로 재해석)",
+            "coaching":    ["현재 투구 패턴 폼 교정보다 유지 권장"],
+            "operational": ["플래툰 스플릿 기반 specialist 배치", "좌타자 상대 제한 운영", "전천후 기용 회피"],
+        },
+    }
+    info = _ACTION_MAP.get(player)
+    if not info:
+        return ["- 해당 선수의 액션 우선순위 데이터가 없습니다."]
+    lines = [f"모션 신호 강도: {info['signal']}", ""]
+    lines.append("[코칭 가능 항목]")
+    lines.extend(f"- {item}" for item in info["coaching"])
+    lines.append("[운영·배치로 풀 항목]")
+    lines.extend(f"- {item}" for item in info["operational"])
+    return lines
+
+
+def _team_bullpen_lines() -> list[str]:
+    save_df   = _read_raw_csv("tex_2025_save_situation_splits.csv")
+    clutch_df = _read_raw_csv("tex_clutch_pit.csv")
+    if save_df.empty:
+        return ["- 세이브 상황 데이터를 찾지 못했습니다."]
+    lines: list[str] = []
+
+    # 팀 전체 세이브 상황 요약
+    team_mask = save_df["Name"].astype(str).str.contains("Team Total", case=False, na=False)
+    if team_mask.any():
+        r = save_df.loc[team_mask].iloc[0]
+        sv = r.get("SV", "-"); bs = r.get("BS", "-"); era = r.get("ERA", "-")
+        try:
+            total   = int(float(sv)) + int(float(bs))
+            bs_rate = int(float(bs)) / total * 100 if total > 0 else 0
+            lines.append(
+                f"- 팀 전체: {sv}세이브 / {bs}블론 / 총 {total}기회 / 블론율 {bs_rate:.0f}% / 상황 ERA {era}"
+            )
+            lines.append(
+                f"  → BS {bs}회는 MLB 28위권 수준 — ERA 1위(실점 억제 최고)이면서도 잔차 -9승이 생긴"
+                f" 핵심 이유가 바로 세이브 상황 붕괴입니다."
+            )
+        except Exception:
+            lines.append(f"- 팀 SV {sv} / BS {bs}")
+
+    # 개별 투수 WPA 조회
+    def _wpa(name_key: str) -> str:
+        if clutch_df.empty:
+            return ""
+        for col in ("NameASCII", "Name"):
+            if col not in clutch_df.columns:
+                continue
+            mask = clutch_df[col].astype(str).str.contains(name_key, case=False, regex=False)
+            if mask.any():
+                w = clutch_df.loc[mask, "WPA"].values[0] if "WPA" in clutch_df.columns else float("nan")
+                try:
+                    return f" / WPA {float(w):+.3f}"
+                except Exception:
+                    return ""
+        return ""
+
+    lines.append("주요 투수별 세이브 상황:")
+    key_pitchers = [("Garcia", "마무리"), ("Armstrong", "셋업"), ("Jackson", "계투"),
+                    ("Martin", "계투"), ("Milner", "계투")]
+    for kp, role in key_pitchers:
+        mask = save_df["Name"].astype(str).str.contains(kp, case=False, na=False)
+        if not mask.any():
+            continue
+        r    = save_df.loc[mask].iloc[0]
+        sv   = r.get("SV", 0); bs_v = r.get("BS", 0); name = r.get("Name", kp)
+        era  = r.get("ERA", "-")
+        wpa  = _wpa(kp)
+        try:
+            total = int(float(sv)) + int(float(bs_v))
+            if total > 0:
+                bs_rate = int(float(bs_v)) / total * 100
+                lines.append(
+                    f"  - {name} ({role}): {sv}SV / {bs_v}BS / 블론율 {bs_rate:.0f}%"
+                    f" / ERA {era}{wpa}"
+                )
+        except Exception:
+            lines.append(f"  - {name} ({role}): SV {sv} / BS {bs_v}")
+
+    # 핵심 구조적 사실 — 불펜 취약 이유 설명
+    lines += [
+        "",
+        "불펜 붕괴 구조 분석:",
+        "- Robert Garcia: BS 7회, WPA -0.93(팀 최하위) — 하이 레버리지 등판마다 기대 이하 성과가 누적됐습니다.",
+        "- Hoby Milner: 하이 레버리지 상황 피슬래시 .333/.362/.448 — 중요 장면에서 오히려 피타율이 올라갔습니다.",
+        "- Chris Martin: 시즌 중 IL 3회·55경기 결장 — 셋업 역할 공백이 중후반 불펜 운용을 왜곡했습니다.",
+        "- 트레이드 데드라인: Phil Maton·Danny Coulombe 영입으로 보강을 시도했으나 시즌 후반 흐름 반전에는 부족했습니다.",
+    ]
+    return lines
+
+
+def _team_clutch_lines() -> list[str]:
+    clutch_df = _read_raw_csv("tex_clutch_pit.csv")
+    if clutch_df.empty:
+        return ["- 클러치 데이터를 찾지 못했습니다."]
+    df = clutch_df.copy()
+    df["_wpa"]    = pd.to_numeric(df.get("WPA",    pd.Series(dtype=float)), errors="coerce")
+    df["_clutch"] = pd.to_numeric(df.get("Clutch", pd.Series(dtype=float)), errors="coerce")
+    lines: list[str] = []
+    lines.append("WPA 상위 기여 투수 (실제 승리 기여도 높음):")
+    for _, row in df.nlargest(3, "_wpa").iterrows():
+        name = row.get("Name", "-"); wpa = float(row["_wpa"])
+        lines.append(f"- {name}: WPA {wpa:+.3f}")
+    lines.append("Clutch 점수 하위 투수 (하이 레버리지에서 기대보다 부진):")
+    for _, row in df.nsmallest(3, "_clutch").iterrows():
+        name = row.get("Name", "-"); c = float(row["_clutch"])
+        lines.append(f"- {name}: Clutch {c:+.3f}")
+    lines.append("- Clutch 점수 음수 = 하이 레버리지에서 기대 대비 득점 허용이 많음을 의미합니다.")
+    return lines
+
+
+def _team_inning_lines() -> list[str]:
+    df = _read_raw_csv("tex_2025_pitching_inning_splits.csv")
+    if df.empty:
+        return ["- 이닝별 성적 데이터를 찾지 못했습니다."]
+    df["_Split"] = df["Split"].astype(str).str.strip()
+
+    _INNING_LABELS = {
+        "1st inning": "1회",
+        "2nd inning": "2회",
+        "3rd inning": "3회",
+        "4th inning": "4회",
+        "5th inning": "5회",
+        "6th inning": "6회",
+        "7th inning": "7회",
+        "8th inning": "8회",
+        "9th inning": "9회",
+        "Ext inning":  "연장",
+    }
+
+    lines: list[str] = []
+
+    # 회별 세부 ERA 테이블
+    lines.append("회별 ERA (피OPS):")
+    era_map: dict[str, float] = {}
+    for key, label in _INNING_LABELS.items():
+        row = df[df["_Split"] == key]
+        if row.empty:
+            continue
+        r = row.iloc[0]
+        try:
+            era = float(r["ERA"]); ops = float(r["OPS"])
+            era_map[key] = era
+            lines.append(f"  {label}: ERA {era:.2f} / 피OPS {ops:.3f}")
+        except Exception:
+            pass
+
+    # 핵심 패턴 해석
+    lines.append("")
+    e8  = era_map.get("8th inning", float("nan"))
+    e9  = era_map.get("9th inning", float("nan"))
+    ext = era_map.get("Ext inning",  float("nan"))
+    e13 = era_map.get("1st inning",  float("nan"))
+
+    if not any(map(pd.isna, [e8, e9])) and e9 > e8:
+        diff89 = e9 - e8
+        lines.append(
+            f"- 8회 ERA {e8:.2f} → 9회 ERA {e9:.2f} (차이 +{diff89:.2f}): "
+            f"8회까지 효율적으로 막다가 9회에서 붕괴하는 패턴 — 전문 마무리 부재의 직접 결과입니다."
+        )
+    if not pd.isna(ext):
+        lines.append(
+            f"- 연장 ERA {ext:.2f}: 연장 상황에서 실점이 급증해 접전 경기를 승리로 전환하는 데 실패했습니다."
+        )
+
+    # 구간별 ERA 비교
+    lines.append("")
+    lines.append("구간별 ERA:")
+    for split, label in [("Innings 1-3", "선발 초반(1-3회)"),
+                         ("Innings 4-6", "선발 중반(4-6회)"),
+                         ("Innings 7-9", "불펜(7-9회)")]:
+        row = df[df["_Split"] == split]
+        if row.empty:
+            continue
+        r = row.iloc[0]
+        try:
+            era = float(r["ERA"]); ops = float(r["OPS"])
+            lines.append(f"  {label}: ERA {era:.2f} / 피OPS {ops:.3f}")
+        except Exception:
+            pass
+
+    return lines
+
+
+def _team_pitching_staff_lines() -> list[str]:
+    """선발 로테이션 + 불펜 주요 성적 요약 및 전문 마무리 부재 분석."""
+    pit_df  = _read_raw_csv("texas_pitchers_2025.csv")
+    save_df = _read_raw_csv("tex_2025_save_situation_splits.csv")
+    if pit_df.empty:
+        return ["- 투수 성적 데이터를 찾지 못했습니다."]
+
+    for c in ("IP", "ERA", "FIP", "WAR", "GS", "G", "SV", "BS", "K/9", "BB/9"):
+        if c in pit_df.columns:
+            pit_df[c] = pd.to_numeric(pit_df[c], errors="coerce")
+
+    starters  = pit_df[pit_df["GS"] >= 5].sort_values("WAR", ascending=False)
+    relievers = pit_df[pit_df["GS"] < 5].sort_values("WAR", ascending=False)
+
+    lines: list[str] = []
+
+    # ── 선발 로테이션 ─────────────────────────────────────
+    lines.append("선발 로테이션 성적:")
+    for _, r in starters.iterrows():
+        name = str(r.get("Name", "-"))
+        g    = int(r.get("G",   0))
+        gs   = int(r.get("GS",  0))
+        ip   = float(r.get("IP",  float("nan")))
+        era  = float(r.get("ERA", float("nan")))
+        fip  = float(r.get("FIP", float("nan")))
+        war  = float(r.get("WAR", float("nan")))
+        ip_s  = f"{ip:.1f}" if not pd.isna(ip)  else "-"
+        era_s = f"{era:.2f}" if not pd.isna(era) else "-"
+        fip_s = f"{fip:.2f}" if not pd.isna(fip) else "-"
+        war_s = f"{war:.1f}" if not pd.isna(war) else "-"
+
+        # 해석 태그 (FIP와 ERA 모두 참고)
+        if not pd.isna(era) and not pd.isna(fip):
+            ref_era = max(era, fip)  # FIP가 높으면 실질 구위로 보정
+            if ref_era < 3.20:
+                tag = "에이스급"
+            elif ref_era < 4.00:
+                tag = "안정적"
+            elif ref_era < 5.00:
+                tag = "보완 필요"
+            else:
+                tag = "교체 검토"
+        else:
+            tag = ""
+        # GS 비율이 낮으면 겸용 표시
+        role_tag = "선발/불펜 겸용" if g > 0 and gs / g < 0.6 else ""
+        combined_tag = " / ".join(filter(None, [tag, role_tag]))
+        tag_s = f" [{combined_tag}]" if combined_tag else ""
+        lines.append(
+            f"  - {name}: {gs}선발 / {ip_s}이닝 / ERA {era_s} / FIP {fip_s} / WAR {war_s}{tag_s}"
+        )
+
+    # ── 불펜 핵심 인원 ────────────────────────────────────
+    lines.append("")
+    lines.append("불펜 핵심 투수:")
+    for _, r in relievers.head(8).iterrows():
+        name = str(r.get("Name", "-"))
+        g    = int(r.get("G",  0))
+        ip   = float(r.get("IP",  float("nan")))
+        era  = float(r.get("ERA", float("nan")))
+        sv   = int(r.get("SV", 0))
+        bs   = int(r.get("BS", 0))
+        war  = float(r.get("WAR", float("nan")))
+        ip_s  = f"{ip:.1f}" if not pd.isna(ip)  else "-"
+        era_s = f"{era:.2f}" if not pd.isna(era) else "-"
+        war_s = f"{war:.1f}" if not pd.isna(war) else "-"
+        sv_bs = f" / {sv}SV {bs}BS" if (sv + bs) > 0 else ""
+        lines.append(
+            f"  - {name}: {g}G / {ip_s}이닝 / ERA {era_s}{sv_bs} / WAR {war_s}"
+        )
+
+    # ── 전문 마무리 부재 진단 ─────────────────────────────
+    lines.append("")
+    lines.append("전문 마무리 부재 진단:")
+
+    # 세이브 분산도 계산
+    closers = [("Jackson", "Luke Jackson"), ("Armstrong", "Shawn Armstrong"), ("Garcia", "Robert Garcia")]
+    closer_sv: list[tuple[str, int, int, str]] = []
+    for key, display in closers:
+        mask = pit_df["Name"].astype(str).str.contains(key, case=False, na=False)
+        if not mask.any():
+            continue
+        r  = pit_df.loc[mask].iloc[0]
+        sv = int(r.get("SV", 0)); bs = int(r.get("BS", 0))
+        era_v = r.get("ERA", float("nan"))
+        era_s = f"{float(era_v):.2f}" if not pd.isna(era_v) else "-"
+        closer_sv.append((display, sv, bs, era_s))
+
+    total_sv = sum(x[1] for x in closer_sv)
+    total_bs_team = 29  # 팀 총 BS (세이브 상황 데이터 기준)
+
+    for display, sv, bs, era_s in closer_sv:
+        total_opp = sv + bs
+        bs_rate = bs / total_opp * 100 if total_opp > 0 else 0
+        sv_share = sv / total_sv * 100 if total_sv > 0 else 0
+        lines.append(
+            f"  - {display}: {sv}세이브 (전체의 {sv_share:.0f}%) / {bs}블론 / 블론율 {bs_rate:.0f}% / 시즌 ERA {era_s}"
+        )
+
+    lines += [
+        f"  → Jackson·Armstrong·Garcia 세 명이 세이브를 {total_sv}개 나눠 가졌습니다.",
+        f"    단일 마무리가 정착하지 못한 상태에서 팀 전체 블론 {total_bs_team}회가 누적됐고,",
+        f"    '잡은 리드를 지키지 못하는' 패턴이 -9.06승 잔차의 가장 큰 구조적 원인입니다.",
+    ]
+
+    return lines
+
+
+def _team_decision_matrix_lines() -> list[str]:
+    matrix = [
+        ("Leiter",    "선발",   "약 (d<0.5)",        "운영",   "구종 선택·카운트 운영"),
+        ("Webb",      "선발",   "강 (d=2~3)",         "코칭",   "하체-상체 분리, 타이밍"),
+        ("Garcia",    "마무리", "약 (d<0.9, null)",   "운영",   "매치업·연투 관리"),
+        ("Armstrong", "셋업",   "중간 (d~0.7~1.0)",  "운영",   "워밍업 루틴·등판 빈도"),
+        ("Jackson",   "계투",   "약-중 (패턴 재해석)", "운영",  "플래툰 전용 배치"),
+    ]
+    lines = ["선수 / 역할 / 모션 신호 강도 / 우선 조치 / 핵심 포인트", "─" * 58]
+    for player, role, signal, priority, point in matrix:
+        lines.append(f"{player} ({role}) | 모션: {signal} | {priority} 우선 | {point}")
+    return lines
+
+
+def _team_batting_lines() -> list[str]:
+    """팀 타격 지표 요약 + wRC+ 기준 선수 현황."""
+    wrc_df  = _read_raw_csv("tex_wrc+.csv")
+    bat_df  = _read_raw_csv("batting_stats_2025_all.csv")
+    mlb_df  = _read_raw_csv("mlb_team_seasons.csv")
+    lines: list[str] = []
+
+    # ── 팀 OPS·득점 ──────────────────────────────────────
+    if not mlb_df.empty and "year" in mlb_df.columns:
+        mlb25 = mlb_df[pd.to_numeric(mlb_df["year"], errors="coerce") == 2025].copy()
+        tex   = mlb25[mlb25["team"].astype(str).str.contains("Texas|Rangers", case=False, na=False)]
+        if not tex.empty and not mlb25.empty:
+            r        = tex.iloc[0]
+            rs       = int(float(r.get("RS", 0)))
+            ops_v    = float(r.get("OPS", float("nan")))
+            sb       = int(float(r.get("SB", 0)))
+            ops_s    = pd.to_numeric(mlb25["OPS"], errors="coerce")
+            ops_rank = int((ops_s > ops_v).sum() + 1)
+            n        = int(ops_s.dropna().count())
+            if ops_rank > 20:
+                ops_interp = f"리그 하위권({ops_rank}/{n}위) → 팀 전체 득점 생산력이 잔차를 키운 주요 원인"
+            elif ops_rank > 15:
+                ops_interp = f"리그 평균 이하({ops_rank}/{n}위) → 타선 전체 득점 생산력 제한"
+            else:
+                ops_interp = f"리그 {ops_rank}/{n}위"
+            lines.append(
+                f"- 팀 득점: {rs}점  ·  팀 OPS: {ops_v:.3f} ({ops_interp})  ·  도루: {sb}개"
+            )
+
+    # ── wRC+ 선수별 현황 ──────────────────────────────────
+    if not wrc_df.empty and "wRC+" in wrc_df.columns:
+        wrc_df["_w"] = pd.to_numeric(wrc_df["wRC+"], errors="coerce")
+        top5 = wrc_df.dropna(subset=["_w"]).sort_values("_w", ascending=False).head(5)
+        lines.append("타선 주요 선수 (wRC+ 기준):")
+        tex_bat = pd.DataFrame()
+        if not bat_df.empty and "Tm" in bat_df.columns:
+            tex_bat = bat_df[bat_df["Tm"].astype(str).str.contains("Texas|Rangers", case=False, na=False)]
+        for _, row in top5.iterrows():
+            name  = str(row.get("Name", "-"))
+            wrc_v = float(row["_w"])
+            extra = ""
+            if not tex_bat.empty:
+                last  = name.split()[-1]
+                pmask = tex_bat["Name"].astype(str).str.contains(last, case=False, regex=False)
+                if pmask.any():
+                    pr = tex_bat.loc[pmask].iloc[0]
+                    g  = int(float(pr.get("G", 0)))
+                    hr = int(float(pr.get("HR", 0)))
+                    op = float(pr.get("OPS", float("nan")))
+                    extra = f" | {g}G / {hr}HR / OPS {op:.3f}"
+            lines.append(f"  - {name}: wRC+ {wrc_v:.0f}{extra}")
+
+        # 타선 깊이 평가
+        wrc_vals = top5["_w"].tolist()
+        if len(wrc_vals) >= 2:
+            leader = float(wrc_vals[0])
+            second = float(wrc_vals[1])
+            fifth  = float(wrc_vals[-1])
+            if leader >= 130 and second < 125:
+                lines.append(
+                    f"  → Seager(wRC+ {leader:.0f})가 타선을 이끌지만 2~5위({second:.0f}~{fifth:.0f})는"
+                    f" 리그 평균 수준에 불과 — Seager 외 확실한 중심타선이 없어 부상·부진 시 타선 전체가 빠르게 붕괴됩니다."
+                )
+
+    return lines or ["- 타격 데이터를 찾지 못했습니다."]
+
+
+def _team_defense_lines() -> list[str]:
+    """팀 수비 관련 지표 (투수-수비 복합 프록시) — 순위 기반 해석."""
+    teams  = _read_raw_csv("mlb_teams_2025_pitching.csv")
+    mlb_df = _read_raw_csv("mlb_team_seasons.csv")
+    lines: list[str] = []
+
+    if not teams.empty and "Team" in teams.columns:
+        tex = teams[teams["Team"].astype(str).str.upper() == "TEX"]
+        if not tex.empty:
+            r = tex.iloc[0]
+
+            def _fmt_val(v: float, series: pd.Series) -> str:
+                return f"{v:.1f}%" if series.dropna().max() > 1.0 else f"{v:.3f}"
+
+            def _rank_of(col: str, higher_better: bool) -> tuple[float, int, int] | None:
+                if col not in teams.columns:
+                    return None
+                val = pd.to_numeric(pd.Series([r[col]]), errors="coerce").iloc[0]
+                if pd.isna(val):
+                    return None
+                all_v = pd.to_numeric(teams[col], errors="coerce").dropna()
+                rank = int((all_v > val).sum() + 1) if higher_better else int((all_v < val).sum() + 1)
+                return val, rank, len(all_v)
+
+            res = _rank_of("BABIP", False)
+            if res:
+                val, rank, n = res
+                interp = ("리그 최상위 수준의 안타 억제 → 수비·피칭이 맞물려 잘 작동" if rank <= 5
+                          else "리그 평균 수준의 안타 허용" if rank <= 15
+                          else "안타 허용 억제 측면에서 약점")
+                lines.append(f"- BABIP 허용: {val:.3f} (MLB {rank}/{n}위) → {interp}")
+
+            res = _rank_of("Hard%", False)
+            if res:
+                val, rank, n = res
+                all_v = pd.to_numeric(teams["Hard%"], errors="coerce").dropna()
+                display = _fmt_val(val, all_v)
+                interp = ("강한 타구를 잘 억제 → 투수 구위·수비 합산 효과 우수" if rank <= 10
+                          else "강한 타구 허용이 평균보다 많아 장타 허용 위험 내재" if rank > 20
+                          else "강한 타구 허용 리그 평균 수준")
+                lines.append(f"- 강한 타구 허용률(Hard%): {display} (MLB {rank}/{n}위) → {interp}")
+
+            res = _rank_of("GB%", True)
+            if res:
+                val, rank, n = res
+                all_v = pd.to_numeric(teams["GB%"], errors="coerce").dropna()
+                display = _fmt_val(val, all_v)
+                interp = ("땅볼 유도 능력 우수 → 장타 억제에 실질적으로 유리" if rank <= 10
+                          else "땅볼 비율 평균 이하 → 장타 억제 측면에서 강점이 아님" if rank > 20
+                          else "땅볼 비율 리그 평균 수준")
+                lines.append(f"- 땅볼 비율(GB%): {display} (MLB {rank}/{n}위) → {interp}")
+
+            res = _rank_of("HR/FB", False)
+            if res:
+                val, rank, n = res
+                all_v = pd.to_numeric(teams["HR/FB"], errors="coerce").dropna()
+                display = _fmt_val(val, all_v)
+                interp = ("플라이볼 대비 홈런 허용이 적음 → 구장 환경·구위 합산 억제 효과" if rank <= 10
+                          else "홈런 허용 비율이 높아 장타 허용 위험" if rank > 20
+                          else "홈런 허용 비율 리그 평균 수준")
+                lines.append(f"- 홈런/플라이볼(HR/FB): {display} (MLB {rank}/{n}위) → {interp}")
+
+    if not mlb_df.empty and "year" in mlb_df.columns:
+        mlb25 = mlb_df[pd.to_numeric(mlb_df["year"], errors="coerce") == 2025].copy()
+        tex   = mlb25[mlb25["team"].astype(str).str.contains("Texas|Rangers", case=False, na=False)]
+        if not tex.empty:
+            r       = tex.iloc[0]
+            onerun  = float(r.get("onerun_wp", float("nan")))
+            onerun_n = int(float(r.get("onerun_n", 0)))
+            if not pd.isna(onerun):
+                interp = ("접전에서도 승리를 챙기는 패턴 → 잔차 완충 효과 일부 있음" if onerun >= 0.500
+                          else "접전에서 무너지는 패턴 → 블론 세이브와 맞물려 잔차를 확대시킨 직접 원인")
+                lines.append(f"- 1점차 경기 승률: {onerun:.3f} ({onerun_n}경기) → {interp}")
+
+    return lines or ["- 수비 관련 데이터를 찾지 못했습니다."]
+
+
+def _team_monthly_lines() -> list[str]:
+    """월별 팀 성적 (W/L/RS/RA/승률)."""
+    df = _read_raw_csv("texas_2025_game_log.csv")
+    if df.empty or "Date" not in df.columns:
+        return ["- 경기 기록 데이터를 찾지 못했습니다."]
+
+    import re
+    _MONTH_ORDER = ["Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"]
+
+    def _parse_month(d: str) -> str:
+        m = re.search(r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)", str(d))
+        return m.group(1) if m else "Unknown"
+
+    df = df.copy()
+    df["_month"] = df["Date"].apply(_parse_month)
+    df["_win"]   = df["W/L"].astype(str).str.startswith("W").astype(int)
+    df["_loss"]  = df["W/L"].astype(str).str.startswith("L").astype(int)
+    df["_rs"]    = pd.to_numeric(df["R"],  errors="coerce")
+    df["_ra"]    = pd.to_numeric(df["RA"], errors="coerce")
+
+    monthly = (
+        df.groupby("_month")
+        .agg(G=("_win", "count"), W=("_win", "sum"), L=("_loss", "sum"),
+             RS=("_rs", "sum"), RA=("_ra", "sum"))
+        .reset_index()
+    )
+    monthly["_ord"] = monthly["_month"].apply(
+        lambda x: _MONTH_ORDER.index(x) if x in _MONTH_ORDER else 99
+    )
+    monthly = monthly.sort_values("_ord")
+
+    lines: list[str] = []
+    for _, row in monthly.iterrows():
+        mon  = row["_month"]; g = int(row["G"]); w = int(row["W"]); l = int(row["L"])
+        rs   = int(row["RS"]); ra = int(row["RA"])
+        wpct = w / g if g > 0 else 0
+        diff = rs - ra
+        sign = "+" if diff >= 0 else ""
+        lines.append(
+            f"- {mon}: {w}승 {l}패 / 승률 {wpct:.3f} / 득점 {rs} / 실점 {ra} / 득실차 {sign}{diff}"
+        )
+
+    # ── 월별 패턴 해석 ────────────────────────────────────
+    if not monthly.empty:
+        monthly["_diff"] = monthly["RS"] - monthly["RA"]
+        monthly["_wpct"] = monthly.apply(lambda r: r["W"] / r["G"] if r["G"] > 0 else 0, axis=1)
+
+        best_w  = monthly.loc[monthly["W"].idxmax()]
+        worst_w = monthly.loc[monthly["W"].idxmin()]
+        best_d  = monthly.loc[monthly["_diff"].idxmax()]
+
+        lines.append("")
+        lines.append("월별 흐름 해석:")
+
+        # Peak month
+        bm  = str(best_w["_month"]); bw = int(best_w["W"]); bl = int(best_w["G"]) - bw
+        bd  = int(best_d["_diff"]); bdm = str(best_d["_month"])
+        lines.append(
+            f"- {bm}이 {bw}승 {bl}패로 시즌 최고 성적. 득실차 기준 최고월은 {bdm}(+{bd}점)."
+        )
+
+        # Late-season collapse
+        sep = monthly[monthly["_month"] == "Sep"]
+        aug = monthly[monthly["_month"] == "Aug"]
+        if not sep.empty:
+            sw  = int(sep.iloc[0]["W"]); sl = int(sep.iloc[0]["G"]) - sw
+            sd  = int(sep.iloc[0]["_diff"]); sign_sd = "+" if sd >= 0 else ""
+            lines.append(
+                f"- 9월 {sw}승 {sl}패(득실차 {sign_sd}{sd}) — 플레이오프 경합 마지막 달에 승률이 급락했습니다."
+            )
+            if not aug.empty:
+                aw  = int(aug.iloc[0]["W"]); al = int(aug.iloc[0]["G"]) - aw
+                ad  = int(aug.iloc[0]["_diff"]); sign_ad = "+" if ad >= 0 else ""
+                lines.append(
+                    f"- 8월({aw}승 {al}패, {sign_ad}{ad}) → 9월로의 성적 하락은 Garcia 블론 집중 구간·Martin IL 시기와"
+                    f" 겹치며 불펜 붕괴가 팀 성적 하락의 직접 원인으로 작용했습니다."
+                )
+
+    return lines
+
+
+def _team_absence_lines() -> list[str]:
+    """주요 선수 결장 현황 (타자 PA 80↑·경기 120↓, 투수 별도 포함)."""
+    bat_df  = _read_raw_csv("batting_stats_2025_all.csv")
+    ros_df  = _read_raw_csv("rangers_roster_2025.csv")
+    pit_df  = _read_raw_csv("texas_pitchers_2025.csv")
+    TOTAL_GAMES = 162
+    lines: list[str] = []
+
+    # ── 타자 결장 ─────────────────────────────────────────
+    batter_names: set[str] = set()
+    if not ros_df.empty and "type" in ros_df.columns and "name" in ros_df.columns:
+        batter_names = set(
+            ros_df[ros_df["type"] == "batter"]["name"].astype(str).str.strip().tolist()
+        )
+
+    if not bat_df.empty and "Tm" in bat_df.columns:
+        tex = bat_df[bat_df["Tm"].astype(str).str.contains("Texas|Rangers", case=False, na=False)].copy()
+        tex["_g"]  = pd.to_numeric(tex["G"],  errors="coerce")
+        tex["_pa"] = pd.to_numeric(tex["PA"], errors="coerce")
+
+        candidates = tex[(tex["_pa"] >= 80) & (tex["_g"] < 120)].copy()
+        if batter_names:
+            def _is_batter(name: str) -> bool:
+                last = name.split()[-1]
+                return any(last.lower() in bn.lower() for bn in batter_names)
+            candidates = candidates[candidates["Name"].astype(str).apply(_is_batter)]
+
+        candidates["_missed"] = TOTAL_GAMES - candidates["_g"]
+        candidates = candidates[candidates["_missed"] >= 30].sort_values("_missed", ascending=False)
+
+        for _, row in candidates.head(6).iterrows():
+            name   = str(row.get("Name", "-"))
+            g      = int(row["_g"])
+            missed = int(row["_missed"])
+            pa     = int(row["_pa"])
+            ops    = float(row.get("OPS", float("nan")))
+            ops_str = f" / OPS {ops:.3f}" if not pd.isna(ops) else ""
+            lines.append(f"  - {name} (타자): {g}경기 출전 (PA {pa}) / 추정 결장 {missed}경기{ops_str}")
+
+    # ── 선발투수 결장·제한 등판 ───────────────────────────
+    if not pit_df.empty and "Name" in pit_df.columns:
+        pit_df["_gs"] = pd.to_numeric(
+            pit_df.get("GS", pit_df.get("G", pd.Series(dtype=float))), errors="coerce"
+        )
+        key_starters = [
+            ("deGrom",    "Jacob deGrom",    "재활 복귀 후 이닝 제한 운용"),
+        ]
+        for key, display, note in key_starters:
+            mask = pit_df["Name"].astype(str).str.contains(key, case=False, na=False)
+            if not mask.any():
+                continue
+            r  = pit_df.loc[mask].iloc[0]
+            gs = r.get("_gs", float("nan"))
+            if pd.isna(gs):
+                continue
+            gs = int(gs)
+            if gs < 30:
+                lines.append(f"  - {display} (선발투수): {gs}경기 등판 — {note}")
+
+    if not lines:
+        return []
+
+    header = ["- 주요 선수 결장·이탈 현황 (162경기 기준):"]
+    footer = ["- 결장 수치는 출전 경기 역산 추정치이며, 부상 외 이유(선발 제외 등)도 포함될 수 있습니다."]
+    return header + lines + footer
+
+
+def _team_closer_transition_lines() -> list[str]:
+    """마무리 투수 역할 변화 분석 (게임 로그 세이브 컬럼 기반)."""
+    import re as _re
+
+    game_df = _read_raw_csv("texas_2025_game_log.csv")
+    save_df = _read_raw_csv("tex_2025_save_situation_splits.csv")
+    if game_df.empty or "Date" not in game_df.columns:
+        return ["- 게임 로그 데이터를 찾지 못했습니다."]
+
+    _MONTH_ORDER = ["Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"]
+
+    def _parse_month(d: str) -> str:
+        m = _re.search(r"(Mar|Apr|May|Jun|Jul|Aug|Sep|Oct)", str(d))
+        return m.group(1) if m else "Unknown"
+
+    df = game_df.copy()
+    df["_month"]    = df["Date"].apply(_parse_month)
+    df["_win"]      = df["W/L"].astype(str).str.startswith("W")
+    df["_has_save"] = df["Save"].notna() & (df["Save"].astype(str).str.strip() != "")
+
+    # TEX 세이브 = 팀이 이긴 경기에서 기록된 세이브
+    tex_sv = df[df["_win"] & df["_has_save"]].copy()
+
+    lines: list[str] = []
+
+    # ── 월별 주요 마무리 투수 ─────────────────────────────
+    lines.append("월별 마무리 투수 사용 현황 (팀 승리 세이브 기준):")
+    phase_summary: list[str] = []
+    prev_closer = ""
+    for mon in _MONTH_ORDER:
+        sub = tex_sv[tex_sv["_month"] == mon]
+        if sub.empty:
+            continue
+        top = sub["Save"].value_counts()
+        top1_name  = top.index[0]
+        top1_count = int(top.iloc[0])
+        total      = len(sub)
+        others = [f"{k}({v})" for k, v in top.items() if k != top1_name]
+        others_str = "  기타: " + ", ".join(others) if others else ""
+        lines.append(
+            f"  {mon}: 주 마무리 {top1_name} ({top1_count}/{total}회){others_str}"
+        )
+        if top1_name != prev_closer and prev_closer:
+            phase_summary.append(f"{mon}에 {prev_closer} → {top1_name} 교체")
+        prev_closer = top1_name
+
+    # ── 교체 시점 요약 ────────────────────────────────────
+    if phase_summary:
+        lines.append("")
+        lines.append("마무리 역할 변화 시점:")
+        for s in phase_summary:
+            lines.append(f"  - {s}")
+
+    # ── 투수별 세이브 상황 성적 (BS 포함) ────────────────
+    lines.append("")
+    lines.append("주요 마무리 후보 세이브 상황 성적:")
+    if not save_df.empty and "Name" in save_df.columns:
+        key_closers = ["Garcia", "Armstrong", "Jackson"]
+        for kp in key_closers:
+            mask = save_df["Name"].astype(str).str.contains(kp, case=False, na=False)
+            if not mask.any():
+                continue
+            r    = save_df.loc[mask].iloc[0]
+            name = str(r.get("Name", kp))
+            sv   = int(float(r.get("SV", 0)))
+            bs   = int(float(r.get("BS", 0)))
+            era  = r.get("ERA", "-")
+            total = sv + bs
+            bs_rate = bs / total * 100 if total > 0 else 0
+            lines.append(
+                f"  - {name}: {sv}SV / {bs}BS / 블론율 {bs_rate:.0f}%"
+                f" (세이브 상황 ERA {era})"
+            )
+
+    lines.append("")
+    lines.append(
+        "- 역할 변화 해석: Jackson(초반 마무리) → 5월 분산 운용 → Garcia(6-7월 주 마무리) "
+        "→ Armstrong(8-9월 사실상 마무리)으로 시즌 내 세 차례 교체가 발생했습니다."
+    )
+    lines.append(
+        "- Garcia의 세이브 상황 블론율 44%(7BS)와 ERA 5.04는 7월 이후 역할 교체의 직접 원인으로 보입니다."
+    )
+    lines.append(
+        "- Armstrong은 낮은 블론율(25%)로 마무리 전환 이후 상대적으로 안정적이었으나, "
+        "시즌 초반부터 마무리로 운영됐다면 블론 세이브 총량을 줄일 수 있었을지 검토 가치가 있습니다."
+    )
     return lines
 
 
@@ -1045,85 +2071,127 @@ def _legacy_build_team_report_pdf() -> bytes:
 
 
 # ── Data loading ──────────────────────────────────────────────
-# Report builders are redefined here to keep the dashboard copy readable and
-# to add the percentile/radar pages used by the final presentation.
 def build_player_report_pdf(player: str) -> bytes:
-    info = data["meta"]["pitchers"].get(player, {})
+    info    = data["meta"]["pitchers"].get(player, {})
     finding = REPORT_FINDINGS.get(player, {})
-    pitcher_df = data["pitcher_ag"][data["pitcher_ag"]["player"] == player].copy()
     raw_row = _match_pitcher_row(player)
     display_name = str(raw_row["Name"]) if raw_row is not None and "Name" in raw_row.index else player
-    top_metrics = []
-    if not pitcher_df.empty:
-        top = pitcher_df.reindex(pitcher_df["cohens_d"].abs().sort_values(ascending=False).index).head(5)
-        for _, row in top.iterrows():
-            top_metrics.append(
-                f"- {row['label']}: diff {row['diff']:.2f}, Cohen's d {row['cohens_d']:.2f}, p {row['u_p']:.3f}"
-            )
     lines = [
         "Purpose",
         "2025 Texas Rangers는 실제 81승, Pythagorean 기대 승수 90.06승으로 -9.06승의 잔차를 기록했습니다.",
-        "이 문서는 하이 레버리지 상황에서 부진했던 투수 중 대표 케이스를 선수 단위로 정리하고, 팀 내 위치와 리그 평균 대비 특징을 함께 보여줍니다.",
+        "이 문서는 하이 레버리지 상황에서 부진했던 투수 중 대표 케이스를 선수 단위로 정리하고,",
+        "시즌 성적·상황별 레버리지·3D 키네마틱 분석을 결합하여 코칭과 운영 관점의 판단 근거를 제시합니다.",
         "",
         "Player Info",
         f"Player: {display_name}",
         f"Role: {finding.get('role', info.get('role', '-'))}",
-        f"Case: {info.get('situation', '-')}",
-        f"Sample: n={info.get('n_a', '-')}/{info.get('n_b', '-')}",
+        f"분석 케이스: {info.get('situation', '-')}  ·  샘플: A={info.get('n_a', '-')} / B={info.get('n_b', '-')}경기",
+        "",
+        "Season Stats",
+        *_player_season_stats_lines(player),
         "",
         "Team / League Context",
         *_player_percentile_lines(player),
         "",
+        "High Leverage & Clutch",
+        *_player_situation_lines(player),
+        "",
         "Motion Finding",
         finding.get("summary", "-"),
         "",
-        "Top Kinematic Metrics",
-        *(top_metrics or ["- 통계적으로 비교 가능한 키네마틱 지표가 없습니다."]),
+        "Kinematic Analysis Detail",
+        *_player_kinematic_detail_lines(player),
+        "",
+        "Action Priority",
+        *_player_action_priority_lines(player),
         "",
         "Recommendation",
         finding.get("recommendation", "-"),
         "",
         "Interpretation Note",
-        "선수별 리포트는 잔차 분석의 하위 근거입니다. 한 선수의 모션만으로 -9.06승 전체를 설명하지 않고, 경기 운영·선수 상태·Simulation 의사결정 후보와 함께 해석해야 합니다.",
-        "- 종합 결론: 이 선수는 하이 레버리지 부진 대표 케이스 중 하나이며, 코칭 가능한 동작 문제와 운영·배치로 풀어야 할 문제를 분리해서 판단하는 것이 핵심입니다.",
+        "이 보고서는 모션 분석을 잔차 분석의 하위 근거로 사용합니다.",
+        "단일 선수의 폼만으로 -9.06승 전체를 설명하지 않고, 경기 운영·Simulation 의사결정 후보와 함께 해석해야 합니다.",
+        "- 코칭 가능 신호가 명확한 선수(Webb)와 운영·배치로 풀어야 할 선수(Garcia 등)를 분리하는 것이 핵심입니다.",
     ]
     buffer = BytesIO()
     with PdfPages(buffer) as pdf:
-        last_page = _add_pdf_page(pdf, f"TEX 2025 Player Report - {player}", lines)
+        last_page = _add_pdf_page(pdf, f"TEX 2025 Player Report — {display_name}", lines)
         _add_player_radar_page(pdf, player, page_no=last_page + 1)
     return buffer.getvalue()
 
 
 def build_team_report_pdf() -> bytes:
-    player_lines = [
-        f"- {player}: {finding['summary']} Recommendation: {finding['recommendation']}"
-        for player, finding in REPORT_FINDINGS.items()
-    ]
     lines = [
         "Purpose",
         "2025 Texas Rangers는 실제 81승, Pythagorean 기대 승수 90.06승으로 -9.06승의 잔차를 기록했습니다.",
-        "팀 전체 리포트는 잔차 요약, 팀 투수 지표의 장단점, 하이 레버리지 부진 대표 케이스, 최종 운영 결론을 한 흐름으로 정리합니다.",
+        "팀 전체 리포트는 잔차 요약, 타격·수비 지표, 투수 지표 강약점,",
+        "월별 성적 흐름, 주요 선수 결장 현황, 불펜 운영, 클러치·이닝 분석, 최종 결론을 한 흐름으로 정리합니다.",
         "",
         "Residual Summary",
-        "Actual Wins: 81.0",
-        "Pythagorean Expected Wins: 90.06",
-        "Residual: -9.06 wins",
+        "Actual Wins: 81.0  ·  Pythagorean Expected: 90.06  ·  Residual: -9.06 wins",
         "- 득실점 기반 기대 승수보다 실제 승수가 약 9승 낮았습니다.",
-        "- 이 차이는 전력 자체가 약했다는 뜻만은 아니며, 접전 운영·세이브 실패·승패 타이밍 같은 경기 맥락을 함께 봐야 합니다.",
+        "- 이 차이는 전력 약세만이 아니라 접전 운영·세이브 실패·승패 타이밍의 누적 결과입니다.",
+        "",
+        "Batting Stats",
+        *_team_batting_lines(),
+        "",
+        "Defense & Contact Suppression",
+        *_team_defense_lines(),
         "",
         "Team Strength / Weakness",
         *_team_strength_lines(),
         "",
-        "Team Metric Rank",
+        "Pitching Staff Overview",
+        *_team_pitching_staff_lines(),
+        "",
+        "Pitching Metric Rank",
         *_team_metric_lines(),
         "",
-        "Pitcher-Level Summary",
-        *player_lines,
+        "Monthly Record",
+        *_team_monthly_lines(),
         "",
+    ]
+    _absence = _team_absence_lines()
+    if _absence:
+        lines += ["Key Player Absences", *_absence, ""]
+    lines += [
+        "Closer Role Transition",
+        *_team_closer_transition_lines(),
+        "",
+        "Inning ERA by Role",
+        *_team_inning_lines(),
+        "",
+        "Bullpen Save Situation",
+        *_team_bullpen_lines(),
+        "",
+        "Clutch Performance",
+        *_team_clutch_lines(),
+        "",
+    ]
+
+    # ── 결론: ERA·FIP 동적 조회 ────────────────────────────
+    _teams_raw = _read_raw_csv("mlb_teams_2025_pitching.csv")
+    _era_str = "리그 최저"; _fip_str = "-"; _era_rank = 1; _fip_rank = "-"
+    if not _teams_raw.empty and "Team" in _teams_raw.columns:
+        _tex_r = _teams_raw[_teams_raw["Team"].astype(str).str.upper() == "TEX"]
+        if not _tex_r.empty:
+            _r = _tex_r.iloc[0]
+            _era_v = pd.to_numeric(pd.Series([_r.get("ERA", float("nan"))]), errors="coerce").iloc[0]
+            _fip_v = pd.to_numeric(pd.Series([_r.get("FIP", float("nan"))]), errors="coerce").iloc[0]
+            if not pd.isna(_era_v):
+                _era_rank = int((pd.to_numeric(_teams_raw["ERA"], errors="coerce") < _era_v).sum() + 1)
+                _era_str = f"{_era_v:.2f} (MLB {_era_rank}위)"
+            if not pd.isna(_fip_v):
+                _fip_rank = int((pd.to_numeric(_teams_raw["FIP"], errors="coerce") < _fip_v).sum() + 1)
+                _fip_str = f"{_fip_v:.2f} (MLB {_fip_rank}위)"
+
+    lines += [
         "Team Conclusion",
-        "하이 레버리지 부진 대표 케이스의 모션 분석은 잔차 -9.06승의 전체 원인이 아니라, 운영 판단을 더 구체화하는 하위 근거입니다.",
-        "Webb처럼 코칭 가능한 신호가 보이는 선수와 Garcia처럼 모션보다 배치·매치업 점검이 중요한 선수를 분리해야 합니다.",
-        "최종 판단은 Simulation의 의사결정 후보 순위표를 중심으로, 승수 개선 폭과 예측 안정성, 선수별 projection, 하이 레버리지 부진 케이스의 모션 근거를 함께 종합해야 합니다.",
+        f"ERA {_era_str}이면서 -9.06승 잔차 — 이것이 2025 Rangers의 핵심 모순입니다.",
+        f"실점 억제는 리그 최고 수준이었으나, 블론 세이브(29회)가 이 이점을 승리로 전환하는 데 실패했습니다.",
+        f"FIP {_fip_str}로 ERA-FIP 괴리가 있어 수비·운 보정 시 실질 구위는 ERA보다 낮게 재평가됩니다.",
+        "타선 깊이 부재(Seager 이외 중심타선 없음)·불펜 핵심 인원 부상 이탈·9월 급락이 잔차를 구조적으로 누적시켰습니다.",
+        "최종 판단은 Simulation 의사결정 후보 순위표를 중심으로 승수 개선 폭, 예측 안정성, 선수 운용 지표를 함께 종합해야 합니다.",
     ]
     buffer = BytesIO()
     with PdfPages(buffer) as pdf:

@@ -437,14 +437,19 @@ def _transition(state, ownership, outs, event, current_pid=None, rng=None):
 # ──────────────────────────────────────────────────
 
 # 선수 ID
-GARCIA  = 676395
-JACKSON = 592426
-MATON   = 664208
+GARCIA    = 676395
+JACKSON   = 592426
+MATON     = 664208
+ARMSTRONG = 542888   # 실제 8-9월 주 마무리
 
+# 실제 게임 로그 세이브 데이터 기반 시기별 마무리 풀
+# - period_1 (game 0-114, 4월~7/23): Garcia·Jackson 공동 (Jackson 초반 주력)
+# - transition (game 115-121, 7/24~7/31): Jackson 방출 후 Garcia 단독
+# - period_2 (game 122~, 8/1~): Armstrong 주 마무리, Garcia 보조
 PERIOD_CLOSER_POOLS = {
-    'period_1':   [GARCIA, JACKSON],   # 4월 ~ 7/23
-    'transition': [GARCIA],             # 7/24 ~ 7/31
-    'period_2':   [GARCIA, MATON],     # 8/1 ~ 시즌 끝
+    'period_1':   [GARCIA, JACKSON],     # 4월 ~ 7/23
+    'transition': [GARCIA],              # 7/24 ~ 7/31
+    'period_2':   [ARMSTRONG, GARCIA],   # 8/1 ~ 시즌 끝 (Armstrong 주력으로 교체)
 }
 
 
