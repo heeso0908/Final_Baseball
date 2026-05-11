@@ -585,6 +585,7 @@ _PDF_SECTION_ACCENT: dict[str, str] = {
     "High Leverage & Clutch":        "#B31922",
     "Motion Finding":                "#0D1B33",
     "Kinematic Analysis Detail":     "#243A5E",
+    "OpenBiomechanics Reference":    "#0D9488",
     "Action Priority":               "#B31922",
     "Recommendation":                "#0D1B33",
     "Interpretation Note":           "#667085",
@@ -853,6 +854,7 @@ def _split_pdf_sections(lines: list[str]) -> list[tuple[str, list[str]]]:
         "High Leverage & Clutch",
         "Motion Finding",
         "Kinematic Analysis Detail",
+        "OpenBiomechanics Reference",
         "Action Priority",
         # 레거시
         "Analysis Flow", "Pitcher-Level Summary", "Team Metric Rank",
@@ -1142,9 +1144,13 @@ def _player_season_stats_lines(player: str) -> list[str]:
 
 
 def _player_situation_lines(player: str) -> list[str]:
+    """*하이 레버리지(결정적 순간)* — 1점차·연장·득점권 등 경기 승부에 직접 영향 큰 상황."""
     clutch_df = _read_raw_csv("tex_clutch_pit.csv")
     save_df   = _read_raw_csv("tex_2025_save_situation_splits.csv")
-    lines: list[str] = []
+    # 헤더 — 용어 anchor 1줄 (비전공자 친화)
+    lines: list[str] = [
+        "※ '하이 레버리지'(결정적 순간) = 1점차·연장·득점권 등 *승패에 직결되는 상황*. 그 안에서 이 선수가 얼마나 잘했는지.",
+    ]
 
     clutch_row = None
     if not clutch_df.empty:
@@ -1205,20 +1211,144 @@ def _player_kinematic_detail_lines(player: str) -> list[str]:
     top = pitcher_df.reindex(
         pitcher_df["cohens_d"].abs().sort_values(ascending=False).index
     ).head(5)
+    # 비교 상황 (A/B) 라벨 — 첫 행에서 추출
+    sit_a = str(top.iloc[0].get("situation_a", "A"))
+    sit_b = str(top.iloc[0].get("situation_b", "B"))
     lines: list[str] = []
+    # 헤더 — 비전공자 친화 1줄 가이드
+    lines.append(f"※ 같은 선수의 *{sit_a} 경기*와 *{sit_b} 경기*에서 폼이 얼마나 달랐는지 비교. 차이 클수록 *상황별 폼 변동*이 큼.")
+    lines.append("   '차이 크기' = Cohen's d (0.2 작음 / 0.5 중간 / 0.8 큼 / 2.0+ 매우 큼).  '통계 명확성' = p-value (0.05 미만이면 우연 가능성 낮음).")
+    lines.append("")
     for _, row in top.iterrows():
         metric = str(row.get("metric", ""))
         metric_name, description = _METRIC_INFO.get(metric, (metric, ""))
         d    = float(row["cohens_d"])
         p    = float(row["u_p"])
         diff = float(row["diff"])
-        direction = "높음" if diff > 0 else "낮음"
+        direction = "더 컸음" if diff > 0 else "더 작았음"
+        d_label = _cohens_d_label(d)
+        p_label = _sig_label(p)
         lines += [
             f"■ {metric_name}",
-            f"  차이: {diff:+.2f} (A 상황이 {direction}) / Cohen's d {d:.2f} ({_cohens_d_label(d)}) / {_sig_label(p)} (p={p:.3f})",
+            f"   {sit_a} 경기에서 {abs(diff):.2f} {direction}  ·  차이 크기 {d_label} (d={d:.2f})  ·  {p_label} (p={p:.3f})",
         ]
         if description:
-            lines.append(f"  → {description}")
+            lines.append(f"   → {description}")
+    return lines
+
+
+# ──────────────────────────────────────────────────
+# OpenBiomechanics 레퍼런스 비교 (411 college~prosp 투수)
+# ──────────────────────────────────────────────────
+
+# 우리 metric → openbiomechanics 컬럼 매핑 + 단위 변환 계수 (poi 값에 곱함)
+# 주의: 방송 영상(30fps, 시간 해상도 33ms) 기반이라 *시간 단위 metric*은 제외.
+#       각도/각속도는 절대값 차이는 있을 수 있으나 percentile 위치는 유의미.
+_OPENBIO_MAP: dict[str, tuple[str, float]] = {
+    "hip_peak_dps":    ("max_pelvis_rotational_velo", 1.0),
+    "trunk_peak_dps":  ("max_torso_rotational_velo",  1.0),
+    "hip_3d_dps":      ("max_pelvis_rotational_velo", 1.0),
+    "trunk_3d_dps":    ("max_torso_rotational_velo",  1.0),
+    "hss_at_fp_deg":   ("rotation_hip_shoulder_separation_fp", 1.0),
+    "hss_max_deg":     ("max_rotation_hip_shoulder_separation", 1.0),
+    # "timing_diff_ms": 방송 33ms 해상도 vs force plate 2.8ms → 직접 비교 부적절, 제외
+    # "trunk_hip_ratio": openbiomechanics에 직접 컬럼 없음
+}
+
+
+def _load_poi_metrics():
+    """openbiomechanics poi_metrics.csv 로드 (캐시).
+
+    경로 후보 여러 곳에서 검색 — 우리 환경/배포 환경 모두 호환.
+    """
+    if "_poi_cached" in _load_poi_metrics.__dict__:
+        return _load_poi_metrics._poi_cached
+    candidates = [
+        BASE_DIR / "../Notebooks/지소윤/baseball_kinematics/openbiomechanics/baseball_pitching/data/poi/poi_metrics.csv",
+        BASE_DIR / "data/poi_metrics.csv",  # 배포 환경 fallback
+    ]
+    for path in candidates:
+        if path.exists():
+            try:
+                df = pd.read_csv(path)
+                _load_poi_metrics._poi_cached = df
+                return df
+            except Exception:
+                pass
+    _load_poi_metrics._poi_cached = None
+    return None
+
+
+def _player_reference_comparison_lines(player: str) -> list[str]:
+    """openbiomechanics 411명 투수 레퍼런스와 비교 — 비전공자 친화 출력."""
+    poi = _load_poi_metrics()
+    if poi is None or poi.empty:
+        return ["- 비교 데이터를 불러올 수 없습니다."]
+    pitcher_df = data["pitcher_ag"][data["pitcher_ag"]["player"] == player].copy()
+    if pitcher_df.empty:
+        return ["- 선수 동작 분석 데이터가 없습니다."]
+
+    lines: list[str] = []
+    lines.append("이 선수의 폼을 *동급 411명 투수 데이터셋(openbiomechanics)*과 비교했습니다. 상위 %는 강함, 하위 %는 약함.")
+    lines.append("※ 우리 데이터는 방송 영상에서 추출한 2D→3D 추정값 — *절대 수치보다 상대 순위*로 해석. 시간 측정은 비교 제외.")
+    lines.append("")
+
+    high_metrics = []   # 상위권 (강점)
+    low_metrics = []    # 하위권 (약점)
+
+    for _, row in pitcher_df.iterrows():
+        metric = str(row["metric"])
+        if metric not in _OPENBIO_MAP:
+            continue
+        poi_col, scale = _OPENBIO_MAP[metric]
+        if poi_col not in poi.columns:
+            continue
+        ref_vals = poi[poi_col].dropna() * scale
+        if len(ref_vals) < 10:
+            continue
+
+        n_a, n_b = int(row.get("n_a", 0)), int(row.get("n_b", 0))
+        n_total = max(1, n_a + n_b)
+        player_mean = (float(row["a_mean"]) * n_a + float(row["b_mean"]) * n_b) / n_total
+
+        ref_mean = float(ref_vals.mean())
+        ref_std  = float(ref_vals.std())
+        pct = float((ref_vals < player_mean).mean()) * 100
+
+        # 비전공자 친화 라벨
+        if pct >= 90:   pct_label, intuition = "상위 10%", "(최상위 수준)"
+        elif pct >= 80: pct_label, intuition = "상위 20%", "(강한 편)"
+        elif pct >= 60: pct_label, intuition = "상위 40%", "(평균보다 좋음)"
+        elif pct >= 40: pct_label, intuition = "중위 (평균 근처)", "(평범)"
+        elif pct >= 20: pct_label, intuition = "하위 40%", "(평균보다 약함)"
+        elif pct >= 10: pct_label, intuition = "하위 20%", "(약한 편)"
+        else:           pct_label, intuition = "하위 10%", "(최하위 수준)"
+
+        label = str(row.get("label", metric))
+
+        # 단위 표시
+        if "각속도" in label:
+            unit = " °/s"
+        elif "°" in label or "FP" in label or "max" in label.lower():
+            unit = "°"
+        else:
+            unit = ""
+
+        # 2줄로 압축 — metric 1행 + 위치 1행
+        lines += [
+            f"■ {label} — 이 선수 {player_mean:.0f}{unit}  vs  411명 평균 {ref_mean:.0f}±{ref_std:.0f}{unit}",
+            f"   → {pct_label} {intuition}",
+        ]
+
+        # 강점/약점 집계
+        if pct >= 80:
+            high_metrics.append((label, pct))
+        elif pct <= 20:
+            low_metrics.append((label, pct))
+
+    if len(lines) <= 5:
+        return ["- 비교 가능한 metric이 없습니다."]
+    # 한 줄 요약 제거 — 선수별 패턴은 다음의 Action Priority 섹션이 종합 해석 담당
     return lines
 
 
@@ -2078,14 +2208,14 @@ def build_player_report_pdf(player: str) -> bytes:
     display_name = str(raw_row["Name"]) if raw_row is not None and "Name" in raw_row.index else player
     lines = [
         "Purpose",
-        "2025 Texas Rangers는 실제 81승, Pythagorean 기대 승수 90.06승으로 -9.06승의 잔차를 기록했습니다.",
-        "이 문서는 하이 레버리지 상황에서 부진했던 투수 중 대표 케이스를 선수 단위로 정리하고,",
-        "시즌 성적·상황별 레버리지·3D 키네마틱 분석을 결합하여 코칭과 운영 관점의 판단 근거를 제시합니다.",
+        "2025 Texas Rangers는 81승을 했습니다. 하지만 *득점·실점만 보면 90승*을 했어야 합니다 (피타고리안 기댓값).",
+        "이 9승의 차이를 *어디서 잃었는지* 알아내려고, 결정적 순간(연장전·1점차·만루 등)에서 부진했던 투수를 골라",
+        "성적·상황별 결과·3D 폼 분석을 합쳐 *코칭으로 풀 부분*과 *운영·배치로 풀 부분*을 구분합니다.",
         "",
         "Player Info",
-        f"Player: {display_name}",
-        f"Role: {finding.get('role', info.get('role', '-'))}",
-        f"분석 케이스: {info.get('situation', '-')}  ·  샘플: A={info.get('n_a', '-')} / B={info.get('n_b', '-')}경기",
+        f"선수: {display_name}",
+        f"역할: {finding.get('role', info.get('role', '-'))}",
+        f"분석 비교: {info.get('situation', '-')}  ·  표본: A 상황 {info.get('n_a', '-')}경기 / B 상황 {info.get('n_b', '-')}경기",
         "",
         "Season Stats",
         *_player_season_stats_lines(player),
@@ -2101,6 +2231,9 @@ def build_player_report_pdf(player: str) -> bytes:
         "",
         "Kinematic Analysis Detail",
         *_player_kinematic_detail_lines(player),
+        "",
+        "OpenBiomechanics Reference",
+        *_player_reference_comparison_lines(player),
         "",
         "Action Priority",
         *_player_action_priority_lines(player),
