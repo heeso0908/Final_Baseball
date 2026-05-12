@@ -102,9 +102,11 @@ def create_model() -> GoogleModel:
 
 TIER_CONFIG: dict[str, dict] = {
     "basic": {
-        "label": ' Basic',
+        "icon": "lightning-charge-fill",
+        "icon_glyph": "\uf46c",
+        "label": "Basic",
         "name": "Basic",
-        "tagline": "사전 시나리오·게임로그·선수 성적 조회",
+        "tagline": "사전 시나리오 · 게임로그 · 선수 성적 조회",
         "tools": {"lookup_pareto", "get_optimization_summary", "query_gamelog", "list_data_sources", "describe_data", "get_player_stats"},
         "prompt_suffix": (
             "\n\n## 응답 깊이 (Basic 플랜)\n"
@@ -114,9 +116,11 @@ TIER_CONFIG: dict[str, dict] = {
         ),
     },
     "plus": {
-        "label": ' Plus',
+        "icon": "gem",
+        "icon_glyph": "\uf3e6",
+        "label": "Plus",
         "name": "Plus",
-        "tagline": "+ 자유 시나리오·팀 비교·시각화",
+        "tagline": "+ 자유 시나리오 · 팀 비교 · 시각화",
         "tools": {
             "lookup_pareto", "get_optimization_summary", "query_gamelog",
             "compare_team_2025", "estimate_residual_scenario",
@@ -127,9 +131,11 @@ TIER_CONFIG: dict[str, dict] = {
         "prompt_suffix": "",  # 표준 프롬프트 그대로
     },
     "premium": {
-        "label": ' Premium',
-        "name": "premium",
-        "tagline": "+ 이식 시뮬·historical·전체 시각화",
+        "icon": "stars",
+        "icon_glyph": "\uf589",
+        "label": "Premium",
+        "name": "Premium",
+        "tagline": "+ 이식 시뮬 · historical · 전체 시각화",
         "tools": {
             "lookup_pareto", "get_optimization_summary", "query_gamelog",
             "compare_team_2025", "estimate_residual_scenario",
@@ -155,19 +161,19 @@ TOOL_DESCRIPTIONS: dict[str, str] = {
     "lookup_pareto": "사전 시나리오 조회",
     "get_optimization_summary": "최적화 요약",
     "query_gamelog": "게임로그 필터 조회",
-    "compare_team_2025": "경쟁팀 비교",
-    "estimate_residual_scenario": "σ 자유 시뮬",
-    "get_player_stats": "선수 성적 조회 (투수·타자)",
-    "simulation_player_breakdown": "시뮬 → 선수별 기여 분석",
-    "swap_team_pitching": "팀 이식 시뮬",
-    "query_team_history": "10년 historical",
-    "plot_scenario_comparison": "시나리오 비교 차트",
-    "plot_historical_distribution": "historical 분포 차트",
-    "plot_team_radar": "팀 비교 레이더 차트",
     "list_data_sources": "데이터셋 목록 조회",
     "describe_data": "데이터셋 컬럼/샘플 확인",
+    "get_player_stats": "선수 성적 조회 (투수·타자)",
+    "compare_team_2025": "경쟁팀 비교",
+    "estimate_residual_scenario": "σ 자유 시나리오",
+    "plot_scenario_comparison": "시나리오 비교 차트",
+    "plot_team_radar": "팀 비교 레이더 차트",
     "query_data": "데이터셋 자유 쿼리 (필터/정렬/제한)",
     "plot_custom": "임의 데이터셋 차트 (bar/line/scatter/hist/box)",
+    "simulation_player_breakdown": "시뮬레이션 → 선수별 기여 분석",
+    "swap_team_pitching": "팀 이식 시뮬레이션",
+    "query_team_history": "10년 historical",
+    "plot_historical_distribution": "historical 분포 차트",
 }
 
 
@@ -207,7 +213,7 @@ def _render_tool_calls(tool_calls: list[dict], key_prefix: str = "") -> None:
                 st.warning(f"차트 렌더 실패: {e}")
 
     # 2) 도구 호출 raw 내역은 expander 안에 (디버깅용)
-    with st.expander(f" 도구 호출 내역 ({len(tool_calls)}건)"):
+    with st.expander(f"🧰 도구 호출 내역 ({len(tool_calls)}건)"):
         for tc in tool_calls:
             st.markdown(f"**{tc['name']}**")
             st.code(f"args: {tc['args']}", language="python")
@@ -222,7 +228,7 @@ def _render_tool_calls(tool_calls: list[dict], key_prefix: str = "") -> None:
                 st.code(f"result: {result}", language="python")
 
 
-@st.cache_resource(show_spinner="ML 모델 학습 + Agent 초기화 중...")
+@st.cache_resource(show_spinner="머신러닝 모델 학습 + Agent 초기화 중...")
 def get_agent(tier: str = "basic") -> Agent:
     """Agent 인스턴스를 티어별로 1회씩 생성해 세션 간 공유.
 
@@ -247,7 +253,7 @@ def get_agent(tier: str = "basic") -> Agent:
             양수 sigma = 항상 개선 방향 (BB9/HR9/ir_pct 같은 lower-better도 양수=개선).
 
             주요 출력: predicted_W_calibrated (실제 81승 기준 보정값) 사용 권장.
-            predicted_W_raw는 ML 점추정(~86) 그대로의 값.
+            predicted_W_raw는 머신러닝 점추정(~86) 그대로의 값.
 
             조정 가능 피처: sv_pct, SV_pg, onerun_wp, xi_wp, home_away_diff, WHIP,
             k_bb, K9, BB9, HR9, ir_pct, babip_against, go_ao, sb_pct, era_fip_diff.
@@ -261,10 +267,8 @@ def get_agent(tier: str = "basic") -> Agent:
 
             유효 이름:
             - Pareto: 'aggressive', 'balanced', 'conservative' (또는 한국어 alias)
+            - Phase 8: 'phase8_max', 'phase8_recovery', 'phase8_safe'
             - Manual: 'baseline', 'bullpen upgrade', 'hitter' 또는 'hitter boost'
-            - Grid: 'best_overall', 'best_bullpen', 'best_closegame',
-                    'best_pitching', 'worst_overall', 'baseline'
-            - Optimization: 'grid_search', 'nsga2', 'grid_pareto_aggressive'
             """
             return tools.lookup_pareto(name)
 
@@ -347,7 +351,7 @@ def get_agent(tier: str = "basic") -> Agent:
             LLM은 caption + data만 참고하면 충분.
             """
             return tools.plot_scenario_comparison(scenarios)
-        
+
     if "plot_team_radar" in enabled:
         @agent.tool_plain
         def plot_team_radar(teams: list[str]) -> dict:
@@ -507,17 +511,1024 @@ def get_agent(tier: str = "basic") -> Agent:
 # Streamlit UI
 # ============================================================
 
+_PANEL_CSS = """<style>
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+/* AI Agent left panel */
+[data-testid="column"]:has(.tex-agent-panel-marker),
+[data-testid="stColumn"]:has(.tex-agent-panel-marker),
+[data-tex-panel="1"] {
+    background:
+        radial-gradient(120% 90% at 100% 0%, rgba(179,25,34,0.10) 0%, transparent 54%),
+        linear-gradient(180deg, #0D1B33 0%, #071A35 100%) !important;
+    border-radius: 18px !important;
+    padding: 0 !important;
+    min-height: 200px;
+    box-shadow: 0 18px 42px -24px rgba(13,27,51,0.55);
+    overflow: hidden !important;
+}
+
+[data-testid="column"]:has(.tex-agent-panel-marker) > div[data-testid="stVerticalBlock"],
+[data-testid="stColumn"]:has(.tex-agent-panel-marker) > div[data-testid="stVerticalBlock"],
+[data-tex-panel="1"] > div[data-testid="stVerticalBlock"] {
+    padding: 8px 0 28px 0 !important;
+    gap: 0 !important;
+}
+
+.tex-agent-panel-marker {
+    display: none !important;
+}
+
+/* Section labels */
+.ap-label {
+    display: block !important;
+    color: rgba(255,255,255,0.86) !important;
+    font-family: "Sora", "Manrope", "Noto Sans KR", sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: none !important;
+
+    margin: 32px 16px 16px 16px !important;
+    padding: 0 !important;
+    line-height: 1.25 !important;
+
+    position: relative !important;
+    z-index: 5 !important;
+}
+
+/* 구분선 */
+.ap-hr {
+    height: 1px;
+    background: rgba(255,255,255,0.105);
+    margin: 12px 20px 8px 20px !important;
+}
+
+/* Card list */
+.ap-list {
+    width: calc(100% - 22px);
+    margin: 0 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    box-sizing: border-box;
+}
+
+/* Card row */
+.ap-row {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    box-sizing: border-box;
+
+    background: rgba(255,255,255,0.065);
+    border: 1px solid rgba(255,255,255,0.115);
+    border-radius: 13px;
+
+    padding: 10px 11px;
+    color: rgba(255,255,255,0.88);
+
+    font-family: "Manrope", "Noto Sans KR", system-ui, sans-serif;
+    font-size: 11.6px;
+    font-weight: 600;
+    line-height: 1.45;
+
+    overflow: hidden;
+}
+
+.ap-row.locked {
+    background: rgba(255,255,255,0.035);
+    border-color: rgba(255,255,255,0.075);
+    color: rgba(255,255,255,0.50);
+}
+
+.ap-icon {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+
+    font-family: "bootstrap-icons" !important;
+    font-size: 10px;
+    color: rgba(255,255,255,0.82);
+    line-height: 1;
+
+    margin-top: 1px;
+}
+
+.ap-icon .bi {
+    font-family: "bootstrap-icons" !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+}
+
+.ap-row.locked .ap-icon {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.42);
+}
+
+.ap-body {
+    min-width: 0;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.ap-name {
+    display: block;
+    color: rgba(255,255,255,0.96);
+    font-family: "JetBrains Mono", "Manrope", monospace;
+    font-size: 11.2px;
+    font-weight: 800;
+    line-height: 1.35;
+
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.ap-desc {
+    display: block;
+    color: rgba(255,255,255,0.62);
+    font-family: "Manrope", "Noto Sans KR", system-ui, sans-serif;
+    font-size: 11.2px;
+    font-weight: 500;
+    line-height: 1.42;
+
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+}
+
+.ap-example {
+    display: block;
+    color: rgba(255,255,255,0.84);
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.45;
+    word-break: keep-all;
+}
+
+/* 상위 플랜 안내 영역 */
+.ap-note-wrap {
+    width: calc(100% - 22px);
+    margin: 14px 11px 26px 11px !important;
+    box-sizing: border-box;
+}
+
+/* 상위 플랜 안내 문구 */
+.ap-note {
+    width: 100%;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 10px 12px !important;
+    margin: 0 !important;
+
+    border-radius: 12px;
+    background: rgba(255,255,255,0.055);
+    border: 1px solid rgba(255,255,255,0.11);
+
+    color: rgba(255,255,255,0.74);
+    font-family: "Manrope", "Noto Sans KR", system-ui, sans-serif;
+    font-size: 11.5px !important;
+    font-weight: 650;
+    line-height: 1.45 !important;
+
+    word-break: keep-all;
+}
+
+.ap-note .bi {
+    font-family: "bootstrap-icons" !important;
+    font-size: 11px !important;
+    line-height: 1 !important;
+    color: rgba(255,255,255,0.72);
+}
+
+/* 제목 바로 아래 리스트 간격 */
+.ap-label + .ap-list {
+    margin-top: 0 !important;
+}
+
+/* Section title spacing */
+.ap-label {
+    display: block !important;
+    color: rgba(255,255,255,0.86) !important;
+    font-family: "Sora", "Manrope", "Noto Sans KR", sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.03em !important;
+    text-transform: none !important;
+
+    margin: 30px 16px 0 16px !important;
+    padding: 0 !important;
+    line-height: 1.25 !important;
+
+    position: relative !important;
+    z-index: 5 !important;
+}
+
+/* 제목과 첫 번째 박스 사이 간격 */
+.ap-title-gap {
+    height: 30px;
+}
+
+/* 첫 번째 섹션은 패널 상단과 너무 멀어지지 않게 */
+[data-tex-panel="1"] .ap-label:first-of-type,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-label:first-of-type {
+    margin-top: 28px !important;
+}
+
+/* 구분선 다음 제목 간격 */
+.ap-hr + div .ap-label,
+.ap-hr + .ap-label {
+    margin-top: 26px !important;
+}
+
+/* Buttons */
+[data-testid="column"]:has(.tex-agent-panel-marker) .stButton,
+[data-tex-panel="1"] .stButton {
+    width: calc(100% - 22px) !important;
+    margin: 0 11px 9px 11px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+[data-testid="column"]:has(.tex-agent-panel-marker) .stButton > button,
+[data-tex-panel="1"] .stButton > button {
+    width: 100% !important;
+    min-height: 42px !important;
+    box-sizing: border-box !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    padding: 10px 11px !important;
+    margin: 0 !important;
+
+    background: rgba(255,255,255,0.065) !important;
+    border: 1px solid rgba(255,255,255,0.115) !important;
+    border-radius: 13px !important;
+
+    color: rgba(255,255,255,0.86) !important;
+
+    font-family: "bootstrap-icons", "Manrope", "Noto Sans KR", system-ui, sans-serif !important;
+    font-size: 11.8px !important;
+    font-weight: 650 !important;
+    text-align: left !important;
+    line-height: 1.35 !important;
+
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
+
+[data-testid="column"]:has(.tex-agent-panel-marker) .stButton > button:hover,
+[data-tex-panel="1"] .stButton > button:hover {
+    background: rgba(255,255,255,0.105) !important;
+    border-color: rgba(255,255,255,0.18) !important;
+}
+
+[data-testid="column"]:has(.tex-agent-panel-marker) .stButton > button div,
+[data-testid="column"]:has(.tex-agent-panel-marker) .stButton > button p,
+[data-tex-panel="1"] .stButton > button div,
+[data-tex-panel="1"] .stButton > button p {
+    color: inherit !important;
+    font-family: "bootstrap-icons", "Manrope", "Noto Sans KR", system-ui, sans-serif !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    line-height: 1.35 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    text-align: left !important;
+}
+
+[data-testid="column"]:has(.tex-agent-panel-marker) .stButton > button:disabled,
+[data-testid="column"]:has(.tex-agent-panel-marker) .stButton > button[disabled],
+[data-tex-panel="1"] .stButton > button:disabled,
+[data-tex-panel="1"] .stButton > button[disabled] {
+    opacity: 1 !important;
+    color: rgba(255,255,255,0.50) !important;
+    -webkit-text-fill-color: rgba(255,255,255,0.50) !important;
+    cursor: default !important;
+    background: rgba(255,255,255,0.035) !important;
+    border-color: rgba(255,255,255,0.06) !important;
+}
+
+/* 패널 첫 번째 제목: 구독 플랜 */
+[data-tex-panel="1"] .ap-label:first-of-type,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-label:first-of-type {
+    margin-top: 26px !important;
+}
+
+/* 상위 플랜 안내 박스 전후 강제 여백 */
+.ap-note-spacer-top {
+    height: 25px;
+}
+
+.ap-note-spacer-bottom {
+    height: 26px;
+}
+
+.ap-note-wrap {
+    width: calc(100% - 22px);
+    margin: 0 11px !important;
+    box-sizing: border-box;
+}
+
+.ap-note {
+    width: 100%;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 10px 12px !important;
+    margin: 0 !important;
+
+    border-radius: 12px;
+    background: rgba(255,255,255,0.055);
+    border: 1px solid rgba(255,255,255,0.11);
+
+    color: rgba(255,255,255,0.74);
+    font-family: "Manrope", "Noto Sans KR", system-ui, sans-serif;
+    font-size: 11.5px !important;
+    font-weight: 650;
+    line-height: 1.45 !important;
+}
+
+.ap-note .bi {
+    font-family: "bootstrap-icons" !important;
+    font-size: 11px !important;
+    line-height: 1 !important;
+    color: rgba(255,255,255,0.72);
+}
+
+/* 전체 카드 폭 통일: 플랜 / 버튼 / 도구 / 예시 질문 */
+[data-tex-panel="1"] .plan-list,
+[data-testid="column"]:has(.tex-agent-panel-marker) .plan-list,
+[data-tex-panel="1"] .ap-list,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-list,
+[data-tex-panel="1"] .ap-note-wrap,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-note-wrap,
+[data-tex-panel="1"] .stButton,
+[data-testid="column"]:has(.tex-agent-panel-marker) .stButton {
+    width: calc(100% - 28px) !important;
+    max-width: calc(100% - 28px) !important;
+    margin-left: 14px !important;
+    margin-right: 14px !important;
+    box-sizing: border-box !important;
+}
+
+/* 플랜 카드 내부 */
+[data-tex-panel="1"] .plan-card,
+[data-testid="column"]:has(.tex-agent-panel-marker) .plan-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* 도구/예시 질문 카드 내부 */
+[data-tex-panel="1"] .ap-row,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-row {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* 챗봇 설정 버튼 내부 */
+[data-tex-panel="1"] .stButton > button,
+[data-testid="column"]:has(.tex-agent-panel-marker) .stButton > button {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* 각 리스트의 아래 여백은 유지 */
+[data-tex-panel="1"] .plan-list,
+[data-testid="column"]:has(.tex-agent-panel-marker) .plan-list {
+    margin-bottom: 30px !important;
+}
+
+[data-tex-panel="1"] .ap-list,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-list {
+    margin-bottom: 0 !important;
+}
+
+/* Plan buttons: aligned card style */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"],
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] {
+    width: calc(100% - 28px) !important;
+    max-width: calc(100% - 28px) !important;
+    margin: 0 14px 25px 14px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"] button,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] button {
+    position: relative !important;
+
+    width: 100% !important;
+    min-height: 72px !important;
+    box-sizing: border-box !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    padding: 14px 18px 14px 58px !important;
+    border-radius: 16px !important;
+
+    background:
+        radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,0.075) 0%, transparent 58%),
+        linear-gradient(145deg, rgba(255,255,255,0.080), rgba(255,255,255,0.045)) !important;
+    border: 1px solid rgba(255,255,255,0.14) !important;
+
+    color: rgba(255,255,255,0.74) !important;
+    box-shadow:
+        0 1px 0 0 rgba(255,255,255,0.09) inset,
+        0 12px 26px -22px rgba(0,0,0,0.58) !important;
+
+    text-align: left !important;
+    transition: all 0.16s ease !important;
+}
+
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"] button:hover,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] button:hover {
+    background:
+        radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,0.13) 0%, transparent 58%),
+        linear-gradient(145deg, rgba(255,255,255,0.115), rgba(255,255,255,0.060)) !important;
+    border-color: rgba(255,255,255,0.24) !important;
+    transform: translateY(-1px);
+}
+
+/* 선택된 플랜 */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"] button[data-testid="baseButton-primary"],
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] button[data-testid="baseButton-primary"] {
+    background:
+        radial-gradient(120% 90% at 100% 0%, rgba(179,25,34,0.20) 0%, transparent 56%),
+        linear-gradient(145deg, rgba(255,255,255,0.155), rgba(255,255,255,0.075)) !important;
+    border-color: rgba(255,255,255,0.30) !important;
+    color: #FFFFFF !important;
+    box-shadow:
+        0 1px 0 0 rgba(255,255,255,0.12) inset,
+        0 15px 30px -22px rgba(0,0,0,0.65) !important;
+}
+
+/* 왼쪽 고정 아이콘 공통 */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"] button::before,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] button::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.13);
+    color: #FFFFFF;
+
+    font-family: "bootstrap-icons" !important;
+    font-size: 13px !important;
+    font-weight: normal !important;
+    line-height: 1 !important;
+}
+
+/* 플랜별 Bootstrap icon */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_basic"] button::before,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_basic"] button::before {
+    content: "\F46C"; /* lightning-charge-fill */
+}
+
+[data-tex-panel="1"] div[class*="st-key-plan_btn_plus"] button::before,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_plus"] button::before {
+    content: "\F3E6"; /* gem */
+}
+
+[data-tex-panel="1"] div[class*="st-key-plan_btn_premium"] button::before,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_premium"] button::before {
+    content: "\F589"; /* stars */
+}
+
+/* 버튼 내부 wrapper */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"] button div,
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"] button [data-testid="stMarkdownContainer"],
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] button div,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] button [data-testid="stMarkdownContainer"] {
+    width: 100% !important;
+    display: block !important;
+    text-align: left !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 실제 텍스트 */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"] button p,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] button p {
+    width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    color: rgba(255,255,255,0.70) !important;
+    font-family: "Sora", "Manrope", "Noto Sans KR", sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 650 !important;
+    line-height: 1.48 !important;
+
+    white-space: pre-line !important;
+    text-align: left !important;
+    letter-spacing: -0.01em !important;
+}
+
+/* 첫 줄: Basic / Plus / Premium */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"] button p::first-line,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] button p::first-line {
+    color: #FFFFFF !important;
+    font-size: 14.5px !important;
+    font-weight: 900 !important;
+    line-height: 1.5 !important;
+}
+
+/* 선택된 카드 설명 줄 */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"] button[data-testid="baseButton-primary"] p,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] button[data-testid="baseButton-primary"] p {
+    color: rgba(255,255,255,0.82) !important;
+}
+
+/* 플랜 카드 간격 조정 */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"],
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] {
+    margin: 0 14px 0px 14px !important;
+}
+
+/* Premium 아래와 다음 섹션 사이 간격 */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_premium"],
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_premium"] {
+    margin-bottom: 24px !important;
+}
+
+/* Final width normalization: 모든 박스 폭 통일 */
+[data-tex-panel="1"] {
+    --agent-box-x: 20px;
+    --agent-box-w: calc(100% - 40px);
+}
+
+/* 플랜 버튼 outer wrapper는 추가 여백 제거 */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"],
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* 모든 st.button 계열: 플랜 / 모델 / 초기화 / 재로드 */
+[data-tex-panel="1"] .stButton,
+[data-testid="column"]:has(.tex-agent-panel-marker) .stButton {
+    width: var(--agent-box-w) !important;
+    max-width: var(--agent-box-w) !important;
+    margin-left: var(--agent-box-x) !important;
+    margin-right: var(--agent-box-x) !important;
+    box-sizing: border-box !important;
+}
+
+/* 사용 가능한 도구 / 예시 질문 / 상위 플랜 안내 */
+[data-tex-panel="1"] .ap-list,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-list,
+[data-tex-panel="1"] .ap-note-wrap,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-note-wrap {
+    width: var(--agent-box-w) !important;
+    max-width: var(--agent-box-w) !important;
+    margin-left: var(--agent-box-x) !important;
+    margin-right: var(--agent-box-x) !important;
+    box-sizing: border-box !important;
+}
+
+/* 내부 박스는 부모 폭 100% */
+[data-tex-panel="1"] .stButton > button,
+[data-testid="column"]:has(.tex-agent-panel-marker) .stButton > button,
+[data-tex-panel="1"] .ap-row,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-row,
+[data-tex-panel="1"] .ap-note,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-note {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* 플랜 버튼 간격 */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_"] .stButton,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_"] .stButton {
+    margin-bottom: 10px !important;
+}
+
+/* Premium 아래와 구분선 사이 */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_premium"] .stButton,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_premium"] .stButton {
+    margin-bottom: 24px !important;
+}
+
+/* Section title size up */
+[data-tex-panel="1"] .ap-label,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-label {
+    color: rgba(255,255,255,0.94) !important;
+    font-family: "Sora", "Manrope", "Noto Sans KR", sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1.25 !important;
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+}
+
+/* Premium 아래 여백 줄이기 */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_premium"],
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_premium"] {
+    margin-bottom: 0 !important;
+}
+
+/* Premium 버튼 내부 stButton 여백도 제거 */
+[data-tex-panel="1"] div[class*="st-key-plan_btn_premium"] .stButton,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-plan_btn_premium"] .stButton {
+    margin-bottom: 6px !important;
+}
+
+/* 구독 플랜 → 챗봇 설정 사이 구분선만 간격 축소 */
+[data-tex-panel="1"] .ap-hr.plan-to-settings,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-hr.plan-to-settings {
+    margin: 12px 20px 8px 20px !important;
+}
+
+/* Model 표시 버튼은 disabled 상태여도 잘 보이게 */
+[data-tex-panel="1"] div[class*="st-key-agent_model_display"] button,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-agent_model_display"] button {
+    opacity: 1 !important;
+    color: rgba(255,255,255,0.88) !important;
+    -webkit-text-fill-color: rgba(255,255,255,0.88) !important;
+}
+
+/* Model 버튼 내부 텍스트까지 같이 보정 */
+[data-tex-panel="1"] div[class*="st-key-agent_model_display"] button *,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-agent_model_display"] button * {
+    opacity: 1 !important;
+    color: rgba(255,255,255,0.88) !important;
+    -webkit-text-fill-color: rgba(255,255,255,0.88) !important;
+}
+
+/* Model 버튼 hover/클릭 느낌 제거 */
+[data-tex-panel="1"] div[class*="st-key-agent_model_display"] button:hover,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-agent_model_display"] button:hover {
+    transform: none !important;
+    cursor: default !important;
+}
+
+/* Premium일 때 안내 박스 대신 최소 간격만 유지 */
+[data-tex-panel="1"] .ap-note-premium-gap,
+[data-testid="column"]:has(.tex-agent-panel-marker) .ap-note-premium-gap {
+    height: 40px !important;
+}
+
+/* 예시 질문 버튼: 기존 ap-row 카드처럼 보이게 */
+[data-tex-panel="1"] div[class*="st-key-example_question_"],
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"] {
+    width: var(--agent-box-w) !important;
+    max-width: var(--agent-box-w) !important;
+    margin-left: var(--agent-box-x) !important;
+    margin-right: var(--agent-box-x) !important;
+    margin-bottom: 9px !important;
+    box-sizing: border-box !important;
+}
+
+[data-tex-panel="1"] div[class*="st-key-example_question_"] button,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"] button {
+    position: relative !important;
+
+    width: 100% !important;
+    min-height: 42px !important;
+    box-sizing: border-box !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    padding: 10px 12px 10px 42px !important;
+    border-radius: 13px !important;
+
+    background: rgba(255,255,255,0.065) !important;
+    border: 1px solid rgba(255,255,255,0.115) !important;
+
+    color: rgba(255,255,255,0.86) !important;
+    box-shadow: none !important;
+
+    text-align: left !important;
+    font-family: "Manrope", "Noto Sans KR", system-ui, sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 650 !important;
+    line-height: 1.45 !important;
+}
+
+[data-tex-panel="1"] div[class*="st-key-example_question_"] button:hover,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"] button:hover {
+    background: rgba(255,255,255,0.105) !important;
+    border-color: rgba(255,255,255,0.18) !important;
+    transform: translateY(-1px);
+}
+
+[data-tex-panel="1"] div[class*="st-key-example_question_"] button::before,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"] button::before {
+    content: "\F4BD"; /* chat-dots-fill */
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.82);
+
+    font-family: "bootstrap-icons" !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+}
+
+[data-tex-panel="1"] div[class*="st-key-example_question_"] button p,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"] button p {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: inherit !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    text-align: left !important;
+    white-space: normal !important;
+    word-break: keep-all !important;
+}
+
+/* 예시 질문 버튼 최종 정렬 보정 */
+[data-tex-panel="1"] div[class*="st-key-example_question_"]:not(.stButton),
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"]:not(.stButton) {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* 예시 질문 stButton wrapper 폭: ap-row와 동일하게 */
+[data-tex-panel="1"] div[class*="st-key-example_question_"].stButton,
+[data-tex-panel="1"] div[class*="st-key-example_question_"] .stButton,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"].stButton,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"] .stButton {
+    width: var(--agent-box-w) !important;
+    max-width: var(--agent-box-w) !important;
+    margin-left: var(--agent-box-x) !important;
+    margin-right: var(--agent-box-x) !important;
+    margin-bottom: 9px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* 예시 질문 버튼 박스 */
+[data-tex-panel="1"] div[class*="st-key-example_question_"] button,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"] button {
+    position: relative !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 42px !important;
+    box-sizing: border-box !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    padding: 10px 12px 10px 42px !important;
+    margin: 0 !important;
+
+    border-radius: 13px !important;
+    background: rgba(255,255,255,0.065) !important;
+    border: 1px solid rgba(255,255,255,0.115) !important;
+    box-shadow: none !important;
+
+    color: rgba(255,255,255,0.86) !important;
+    text-align: left !important;
+
+    font-family: "Manrope", "Noto Sans KR", system-ui, sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 650 !important;
+    line-height: 1.45 !important;
+}
+
+[data-tex-panel="1"] div[class*="st-key-example_question_"] button:hover,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"] button:hover {
+    background: rgba(255,255,255,0.105) !important;
+    border-color: rgba(255,255,255,0.18) !important;
+    transform: translateY(-1px);
+}
+
+/* 왼쪽 채팅 아이콘 */
+[data-tex-panel="1"] div[class*="st-key-example_question_"] button::before,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"] button::before {
+    content: "\F4BD";
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.82);
+
+    font-family: "bootstrap-icons" !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+}
+
+/* 버튼 내부 텍스트 wrapper 정렬 */
+[data-tex-panel="1"] div[class*="st-key-example_question_"] button div,
+[data-tex-panel="1"] div[class*="st-key-example_question_"] button [data-testid="stMarkdownContainer"],
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"] button div,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"] button [data-testid="stMarkdownContainer"] {
+    width: 100% !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+}
+
+/* 실제 질문 텍스트 */
+[data-tex-panel="1"] div[class*="st-key-example_question_"] button p,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_"] button p {
+    width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    color: inherit !important;
+    font-family: "Manrope", "Noto Sans KR", system-ui, sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 650 !important;
+    line-height: 1.45 !important;
+
+    text-align: left !important;
+    white-space: normal !important;
+    word-break: keep-all !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 마지막 예시 질문 아래 여백 */
+[data-tex-panel="1"] div[class*="st-key-example_question_5"].stButton,
+[data-tex-panel="1"] div[class*="st-key-example_question_5"] .stButton,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_5"].stButton,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-example_question_5"] .stButton {
+    margin-bottom: 8px !important;
+}
+
+/* Model 표시 버튼 색상: 대화 초기화 / Agent 재로드와 동일하게 맞춤 */
+[data-tex-panel="1"] div[class*="st-key-agent_model_display"] button,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-agent_model_display"] button {
+    opacity: 1 !important;
+
+    background: rgba(255,255,255,0.065) !important;
+    border: 1px solid rgba(255,255,255,0.115) !important;
+
+    color: rgba(255,255,255,0.86) !important;
+    -webkit-text-fill-color: rgba(255,255,255,0.86) !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+    cursor: default !important;
+}
+
+/* disabled 상태여도 텍스트 흐려지지 않게 */
+[data-tex-panel="1"] div[class*="st-key-agent_model_display"] button *,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-agent_model_display"] button * {
+    opacity: 1 !important;
+    color: rgba(255,255,255,0.86) !important;
+    -webkit-text-fill-color: rgba(255,255,255,0.86) !important;
+}
+
+/* hover해도 Model 박스 색상 변하지 않게 */
+[data-tex-panel="1"] div[class*="st-key-agent_model_display"] button:hover,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-agent_model_display"] button:hover {
+    background: rgba(255,255,255,0.065) !important;
+    border-color: rgba(255,255,255,0.115) !important;
+    transform: none !important;
+}
+
+/* Model 버튼 disabled 배경 최종 보정 */
+[data-tex-panel="1"] div[class*="st-key-agent_model_display"] button:disabled,
+[data-tex-panel="1"] div[class*="st-key-agent_model_display"] button[disabled],
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-agent_model_display"] button:disabled,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-agent_model_display"] button[disabled] {
+    opacity: 1 !important;
+
+    background: rgba(255,255,255,0.065) !important;
+    border: 1px solid rgba(255,255,255,0.115) !important;
+
+    color: rgba(255,255,255,0.86) !important;
+    -webkit-text-fill-color: rgba(255,255,255,0.86) !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+    cursor: default !important;
+}
+
+/* Model 버튼 내부 텍스트도 disabled 흐림 제거 */
+[data-tex-panel="1"] div[class*="st-key-agent_model_display"] button:disabled *,
+[data-tex-panel="1"] div[class*="st-key-agent_model_display"] button[disabled] *,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-agent_model_display"] button:disabled *,
+[data-testid="column"]:has(.tex-agent-panel-marker) div[class*="st-key-agent_model_display"] button[disabled] * {
+    opacity: 1 !important;
+    color: rgba(255,255,255,0.86) !important;
+    -webkit-text-fill-color: rgba(255,255,255,0.86) !important;
+}
+
+</style>"""
+
+_PANEL_JS = """<script>
+(function () {
+    function applyPanel() {
+        try {
+            var doc = window.parent.document;
+            var m = doc.querySelector('.tex-agent-panel-marker');
+            if (!m) return;
+            var el = m;
+            for (var i = 0; i < 16; i++) {
+                el = el.parentElement;
+                if (!el) return;
+                var tid = el.getAttribute('data-testid');
+                if (tid === 'column' || tid === 'stColumn') {
+                    el.setAttribute('data-tex-panel', '1');
+                    return;
+                }
+            }
+        } catch (e) {}
+    }
+    applyPanel();
+    [60, 200, 600, 1500].forEach(function(t){ setTimeout(applyPanel, t); });
+    try {
+        new MutationObserver(applyPanel).observe(
+            window.parent.document.documentElement,
+            { childList: true, subtree: true }
+        );
+    } catch(e) {}
+})();
+</script>"""
+
+
+
+
 def render():
     """Streamlit 챗봇 페이지 렌더링. app.py에서 호출 가능."""
-    # set_page_config는 한 번만 호출 가능 — 이미 호출되었으면 무시
     try:
         st.set_page_config(page_title="TEX 2025 챗봇", page_icon="⚾", layout="wide")
     except st.errors.StreamlitAPIException:
         pass
 
-    st.title("⚾ TEX 2025 분석 챗봇")
-
-    # 인증 정보 확인 — API Key 또는 GCP 중 하나 필요
     if not GEMINI_API_KEY and (not GCP_PROJECT_ID or not GCP_SERVICE_ACCOUNT_JSON):
         st.error(
             "인증 정보가 설정되어 있지 않습니다. "
@@ -526,304 +1537,135 @@ def render():
         )
         st.stop()
 
-    # 세션 상태 — 대화 메시지 + Agent 메시지 히스토리
     if "chat_messages" not in st.session_state:
-        st.session_state.chat_messages = []  # UI 표시용 [{role, content}]
+        st.session_state.chat_messages = []
     if "agent_history" not in st.session_state:
-        st.session_state.agent_history = None  # PydanticAI 메시지 히스토리
+        st.session_state.agent_history = None
 
-    # 사이드바 — 구독 플랜 + 컨트롤
-    with st.sidebar:
-        st.markdown("""
-<style>
+    st.markdown(_PANEL_CSS, unsafe_allow_html=True)
 
-section[data-testid="stSidebar"] {
-    --agent-card-x: 0px;
-    --agent-card-gap: 7px;
-    --agent-title-gap: 12px;
-    --agent-note-gap: 14px;
-    --agent-card-min-height: 48px;
-    --agent-card-padding-y: 10px;
-    --agent-card-padding-x: 12px;
-    --agent-card-radius: 10px;
-    --agent-card-bg: rgba(255,255,255,0.08);
-    --agent-card-border: rgba(255,255,255,0.16);
-}
+    col_panel, col_chat = st.columns([1.18, 2.82], gap="medium")
 
-section[data-testid="stSidebar"] .agent-sidebar-list {
-    width: calc(100% - (var(--agent-card-x) * 2)) !important;
-    margin: var(--agent-title-gap) var(--agent-card-x) 8px var(--agent-card-x) !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: var(--agent-card-gap) !important;
-}
+    # ── 왼쪽 패널 ────────────────────────────────────────────
+    with col_panel:
+        st.markdown('<span class="tex-agent-panel-marker"></span>', unsafe_allow_html=True)
+        # JS via iframe (components.html executes scripts; st.markdown does not)
+        import streamlit.components.v1 as _components
+        _components.html(_PANEL_JS, height=0, scrolling=False)
 
-section[data-testid="stSidebar"] .agent-sidebar-row {
-    width: 100% !important;
-    min-height: var(--agent-card-min-height) !important;
-    box-sizing: border-box !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    background: var(--agent-card-bg) !important;
-    border: 1px solid var(--agent-card-border) !important;
-    border-radius: var(--agent-card-radius) !important;
-    padding: var(--agent-card-padding-y) var(--agent-card-padding-x) !important;
-    margin: 0 !important;
-    color: rgba(255,255,255,0.90) !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
-    line-height: 1.4 !important;
-}
-
-section[data-testid="stSidebar"] .agent-sidebar-icon {
-    font-family: "bootstrap-icons" !important;
-    color: rgba(255,255,255,0.86) !important;
-    font-size: 13px !important;
-    line-height: 1 !important;
-    flex: 0 0 auto !important;
-}
-
-section[data-testid="stSidebar"] .agent-sidebar-desc,
-section[data-testid="stSidebar"] .agent-sidebar-code {
-    color: rgba(255,255,255,0.88) !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
-    line-height: 1.4 !important;
-}
-
-section[data-testid="stSidebar"] [data-testid="stVerticalBlock"]:has(.agent-control-zone) {
-    gap: 0 !important;
-}
-
-section[data-testid="stSidebar"] .element-container:has(.agent-control-zone),
-section[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.agent-control-zone) {
-    display: none !important;
-    height: 0 !important;
-    min-height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-/* chatbot settings: element-container siblings after agent-control-zone marker */
-section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container:has([data-testid="stButton"]),
-section[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.agent-control-zone) ~ [data-testid="stElementContainer"]:has([data-testid="stButton"]) {
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container [data-testid="stButton"] {
-    width: calc(100% - (var(--agent-card-x) * 2)) !important;
-    margin: 0 var(--agent-card-x) var(--agent-card-gap) var(--agent-card-x) !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-}
-
-section[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.agent-control-zone) ~ [data-testid="stElementContainer"] [data-testid="stButton"] {
-    width: calc(100% - (var(--agent-card-x) * 2)) !important;
-    margin: 0 var(--agent-card-x) var(--agent-card-gap) var(--agent-card-x) !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-}
-
-section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container:has(h3) + .element-container:has([data-testid="stButton"]) [data-testid="stButton"],
-section[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.agent-control-zone) ~ [data-testid="stElementContainer"]:has(h3) + [data-testid="stElementContainer"]:has([data-testid="stButton"]) [data-testid="stButton"] {
-    margin-top: var(--agent-title-gap) !important;
-}
-
-section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container:has([data-testid="stButton"]):last-child [data-testid="stButton"],
-section[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.agent-control-zone) ~ [data-testid="stElementContainer"]:has([data-testid="stButton"]):last-child [data-testid="stButton"] {
-    margin-bottom: 0 !important;
-}
-
-section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container [data-testid="stButton"] > button {
-    width: 100% !important;
-    min-height: var(--agent-card-min-height) !important;
-    box-sizing: border-box !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    margin: 0 !important;
-    padding: var(--agent-card-padding-y) var(--agent-card-padding-x) !important;
-    background: var(--agent-card-bg) !important;
-    border: 1px solid var(--agent-card-border) !important;
-    border-radius: var(--agent-card-radius) !important;
-    color: rgba(255,255,255,0.90) !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
-    line-height: 1.4 !important;
-    text-align: left !important;
-    box-shadow: none !important;
-    opacity: 1 !important;
-}
-
-section[data-testid="stSidebar"] [data-testid="stElementContainer"]:has(.agent-control-zone) ~ [data-testid="stElementContainer"] [data-testid="stButton"] > button {
-    width: 100% !important;
-    min-height: var(--agent-card-min-height) !important;
-    box-sizing: border-box !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    margin: 0 !important;
-    padding: var(--agent-card-padding-y) var(--agent-card-padding-x) !important;
-    background: var(--agent-card-bg) !important;
-    border: 1px solid var(--agent-card-border) !important;
-    border-radius: var(--agent-card-radius) !important;
-    color: rgba(255,255,255,0.90) !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
-    line-height: 1.4 !important;
-    text-align: left !important;
-    box-shadow: none !important;
-    opacity: 1 !important;
-}
-
-section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container [data-testid="stButton"] > button div {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container [data-testid="stButton"] > button p {
-    margin: 0 !important;
-    padding: 0 !important;
-    color: inherit !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
-    line-height: 1.4 !important;
-    text-align: left !important;
-    white-space: nowrap !important;
-}
-
-section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container [data-testid="stButton"] > button:hover {
-    background: rgba(255,255,255,0.13) !important;
-    border-color: rgba(255,255,255,0.20) !important;
-}
-
-section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container [data-testid="stButton"] > button:disabled,
-section[data-testid="stSidebar"] .element-container:has(.agent-control-zone) ~ .element-container [data-testid="stButton"] > button[disabled] {
-    opacity: 1 !important;
-    color: rgba(255,255,255,0.90) !important;
-    -webkit-text-fill-color: rgba(255,255,255,0.90) !important;
-    cursor: default !important;
-}
-
-section[data-testid="stSidebar"] [data-baseweb="radio-group"] {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: var(--agent-card-gap) !important;
-}
-
-section[data-testid="stSidebar"] [data-baseweb="radio-group"] > * {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-}
-
-section[data-testid="stSidebar"] div[data-testid="stRadio"] {
-    width: calc(100% - (var(--agent-card-x) * 2)) !important;
-    margin: var(--agent-title-gap) var(--agent-card-x) 8px var(--agent-card-x) !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-}
-
-section[data-testid="stSidebar"] div[data-testid="stRadio"] div[role="radiogroup"] label {
-    align-items: center !important;
-    min-height: var(--agent-card-min-height) !important;
-    padding: var(--agent-card-padding-y) var(--agent-card-padding-x) !important;
-    border-radius: var(--agent-card-radius) !important;
-    background: var(--agent-card-bg) !important;
-    border-color: var(--agent-card-border) !important;
-    box-sizing: border-box !important;
-    margin: 0 !important;
-}
-
-section[data-testid="stSidebar"] .agent-sidebar-note {
-    margin: var(--agent-note-gap) var(--agent-card-x) 2px var(--agent-card-x) !important;
-}
-
-</style>
-""", unsafe_allow_html=True)
-        st.markdown("### 구독 플랜")
-
-        tier = st.radio(
-            "플랜 선택",
-            options=list(TIER_CONFIG.keys()),
-            format_func=lambda t: f"{TIER_CONFIG[t]['label']} — {TIER_CONFIG[t]['tagline']}",
-            label_visibility="collapsed",
+        # 구독 플랜
+        st.markdown(
+            '<div class="ap-label">구독 플랜</div><div class="ap-title-gap"></div>',
+            unsafe_allow_html=True,
         )
 
-        # 티어 변경 감지 — 대화 초기화 (상위 티어 도구 호출이 하위에서 무의미)
-        if st.session_state.get("current_tier") != tier:
-            st.session_state.chat_messages = []
-            st.session_state.agent_history = None
-            st.session_state.current_tier = tier
+        def _set_agent_tier(tier_key: str):
+            st.session_state.current_tier = tier_key
 
-        st.markdown("---")
-        st.markdown('<div class="agent-control-zone" style="display:none">x</div>', unsafe_allow_html=True)
-        st.markdown("### 챗봇 설정")
-        _model = GEMINI_MODEL
 
+        if "current_tier" not in st.session_state:
+            st.session_state.current_tier = "basic"
+
+        tier = st.session_state.current_tier
+
+        for key in ["basic", "plus", "premium"]:
+            config = TIER_CONFIG[key]
+
+            label = (
+                f'{config["label"]}\n'
+                f'{config["tagline"]}'
+            )
+
+            st.button(
+                label,
+                key=f"plan_btn_{key}",
+                use_container_width=True,
+                type="primary" if tier == key else "secondary",
+                on_click=_set_agent_tier,
+                args=(key,),
+            )
+
+        tier = st.session_state.current_tier
+        
+        # 챗봇 설정
+        st.markdown('<div class="ap-hr plan-to-settings"></div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="ap-label">챗봇 설정</div><div class="ap-title-gap"></div>',
+            unsafe_allow_html=True,
+        )
         st.button(
-                f"\uf4f1\u2002Model: {_model}",
-                key="agent_model_display",
-                use_container_width=True,
-                disabled=True,
+            f" Model: {GEMINI_MODEL}",
+            key="agent_model_display",
+            use_container_width=True,
+            disabled=True,
         )
-    
-        if st.button(
-                "\uf78a\u2002대화 초기화",
-                key="agent_reset_btn",
-                use_container_width=True,
-        ):
+        if st.button(" 대화 초기화", key="agent_reset_btn", use_container_width=True):
             st.session_state.chat_messages = []
             st.session_state.agent_history = None
             st.rerun()
-    
-        if st.button(
-                "\uf116\u2002Agent 재로드",
-                key="agent_reload_btn",
-                use_container_width=True,
-        ):
+        if st.button(" Agent 재로드", key="agent_reload_btn", use_container_width=True):
             get_agent.clear()
             st.session_state.chat_messages = []
             st.session_state.agent_history = None
             st.rerun()
-    
-        st.markdown("---")
-        st.markdown("### 사용 가능한 도구")
+
+        # 사용 가능한 도구
+        st.markdown('<div class="ap-hr"></div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="ap-label">사용 가능한 도구</div><div class="ap-title-gap"></div>',
+            unsafe_allow_html=True,
+        )
         enabled = TIER_CONFIG[tier]["tools"]
         tool_rows = []
         for name, desc in TOOL_DESCRIPTIONS.items():
             is_enabled = name in enabled
-            icon = "\uf26a" if is_enabled else "\uf47a"
+            icon_html = (
+                '<i class="bi bi-check-circle-fill"></i>'
+                if is_enabled
+                else '<i class="bi bi-lock-fill"></i>'
+            )
             state_class = "" if is_enabled else " locked"
+
             tool_rows.append(
-                f'<div class="agent-sidebar-row{state_class}">'
-                f'<span class="agent-sidebar-icon">{icon}</span>'
-                f'<span><span class="agent-sidebar-code">{name}</span>'
-                f' <span class="agent-sidebar-desc">— {desc}</span></span>'
+                f'<div class="ap-row{state_class}">'
+                f'<span class="ap-icon">{icon_html}</span>'
+                f'<div class="ap-body">'
+                f'<span class="ap-name">{name}</span>'
+                f'<span class="ap-desc">{desc}</span>'
+                f'</div>'
                 f'</div>'
             )
+            
         st.markdown(
-            '<div class="agent-sidebar-list">' + "".join(tool_rows) + '</div>',
+            '<div class="ap-list">' + "".join(tool_rows) + '</div>',
             unsafe_allow_html=True,
         )
-        if tier != "premium":
-            locked = [n for n in TOOL_DESCRIPTIONS if n not in enabled]
-            if locked:
-                st.markdown(
-                    f'<div class="agent-sidebar-note">\uf46d 상위 플랜에서 {len(locked)}개 도구 추가 활성화</div>',
-                    unsafe_allow_html=True,
-                )
+        locked = [n for n in TOOL_DESCRIPTIONS if n not in enabled]
 
-        st.markdown("---")
-        st.markdown("### 예시 질문")
+        if tier != "premium" and locked:
+            st.markdown(
+                f'<div class="ap-note-spacer-top"></div>'
+                f'<div class="ap-note-wrap">'
+                f'<div class="ap-note">'
+                f'<i class="bi bi-unlock-fill"></i>'
+                f'<span>상위 플랜에서 {len(locked)}개 도구 추가 활성화</span>'
+                f'</div>'
+                f'</div>'
+                f'<div class="ap-note-spacer-bottom"></div>',
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                '<div class="ap-note-premium-gap"></div>',
+                unsafe_allow_html=True,
+            )
+
+        # 예시 질문
+        st.markdown('<div class="ap-hr"></div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="ap-label">예시 질문</div><div class="ap-title-gap"></div>',
+            unsafe_allow_html=True,
+        )
         example_questions = [
             "균형점 시나리오 결과 알려줘",
             "TEX가 SEA 수준 선발진이었다면?",
@@ -832,93 +1674,112 @@ section[data-testid="stSidebar"] .agent-sidebar-note {
             "K9 0.3σ 올리고 BB9 0.4σ 줄이면?",
             "SEA, LAD와 팀 성적 비교 레이더 차트 그려줘",
         ]
-        example_rows = "".join(
-            f'<div class="agent-sidebar-row">'
-            f'<span class="agent-sidebar-icon">\uf4bd</span>'
-            f'<span>{question}</span>'
-            f'</div>'
-            for question in example_questions
+        
+        def _set_example_question(question: str):
+            st.session_state.pending_user_input = question
+
+
+        for idx, question in enumerate(example_questions):
+            st.button(
+                question,
+                key=f"example_question_{idx}",
+                use_container_width=True,
+                on_click=_set_example_question,
+                args=(question,),
+            )
+
+    # ── 오른쪽 채팅 영역 ──────────────────────────────────────
+    with col_chat:
+        st.caption(
+            f"현재 플랜: **{TIER_CONFIG[tier]['name']}** · "
+            f"활성 도구 {len(enabled)}개 / {len(TOOL_DESCRIPTIONS)}개"
         )
-        st.markdown(
-            f'<div class="agent-sidebar-list">{example_rows}</div>',
-            unsafe_allow_html=True,
-        )
 
-    # 현재 플랜 + 도구 개수 안내
-    st.caption(
-        f"현재 플랜: **{TIER_CONFIG[tier]['name']}** · "
-        f"활성 도구 {len(enabled)}개 / {len(TOOL_DESCRIPTIONS)}개"
-    )
+        agent = get_agent(tier)
 
-    agent = get_agent(tier)
+        def _queue_typed_input():
+            text = st.session_state.get("agent_chat_input", "")
+            if text:
+                st.session_state.pending_user_input = text
 
-    # 기존 대화 표시
-    for msg in st.session_state.chat_messages:
-        with st.chat_message(msg["role"]):
-            st.markdown(msg["content"])
-            if msg.get("tool_calls"):
-                _render_tool_calls(msg["tool_calls"], key_prefix=f"hist_{id(msg)}")
+        def _run_user_query(user_input: str):
+            st.session_state.chat_messages.append({
+                "role": "user",
+                "content": user_input,
+            })
 
-    # 입력
-    user_input = st.chat_input("질문을 입력하세요...")
-    if not user_input:
-        return
+            with st.chat_message("user"):
+                st.markdown(user_input)
 
-    # 사용자 메시지 표시 + 저장
-    st.session_state.chat_messages.append({"role": "user", "content": user_input})
-    with st.chat_message("user"):
-        st.markdown(user_input)
+            with st.chat_message("assistant"):
+                with st.spinner("분석 중..."):
+                    try:
+                        result = agent.run_sync(
+                            user_input,
+                            message_history=st.session_state.agent_history,
+                        )
+                    except Exception as e:
+                        err_text = f"⚠️ Agent 호출 실패: {e}"
+                        st.error(err_text)
+                        st.session_state.chat_messages.append({
+                            "role": "assistant",
+                            "content": err_text,
+                            "tool_calls": [],
+                        })
+                        return
 
-    # Agent 호출
-    with st.chat_message("assistant"):
-        with st.spinner("분석 중..."):
-            try:
-                result = agent.run_sync(
-                    user_input,
-                    message_history=st.session_state.agent_history,
-                )
-            except Exception as e:
-                err_text = f" Agent 호출 실패: {e}"
-                st.error(err_text)
-                # 에러도 채팅 히스토리에 보존 (재실행 시 컨텍스트 유지)
+                st.markdown(result.output)
+
+                tool_calls: list[dict] = []
+                pending_calls: dict[str, dict] = {}
+
+                for msg in result.new_messages():
+                    for part in getattr(msg, "parts", []):
+                        cls_name = part.__class__.__name__
+
+                        if cls_name == "ToolCallPart":
+                            call_info = {
+                                "name": getattr(part, "tool_name", "?"),
+                                "args": getattr(part, "args", {}),
+                                "result": None,
+                            }
+                            pending_calls[getattr(part, "tool_call_id", id(part))] = call_info
+                            tool_calls.append(call_info)
+
+                        elif cls_name == "ToolReturnPart":
+                            call_id = getattr(part, "tool_call_id", None)
+                            if call_id in pending_calls:
+                                pending_calls[call_id]["result"] = getattr(part, "content", None)
+
+                if tool_calls:
+                    _render_tool_calls(tool_calls, key_prefix="latest")
+
+                st.session_state.agent_history = result.all_messages()
                 st.session_state.chat_messages.append({
                     "role": "assistant",
-                    "content": err_text,
-                    "tool_calls": [],
+                    "content": result.output,
+                    "tool_calls": tool_calls,
                 })
-                return
 
-        st.markdown(result.output)
+        # 1) 기존 대화 먼저 출력
+        for msg in st.session_state.chat_messages:
+            with st.chat_message(msg["role"]):
+                st.markdown(msg["content"])
+                if msg.get("tool_calls"):
+                    _render_tool_calls(msg["tool_calls"], key_prefix=f"hist_{id(msg)}")
 
-        # 도구 호출 + 결과 페어로 추출 (LLM 디버깅 가능하도록)
-        tool_calls: list[dict] = []
-        pending_calls: dict[str, dict] = {}  # tool_call_id → call info
-        for msg in result.new_messages():
-            for part in getattr(msg, "parts", []):
-                cls_name = part.__class__.__name__
-                if cls_name == "ToolCallPart":
-                    call_info = {
-                        "name": getattr(part, "tool_name", "?"),
-                        "args": getattr(part, "args", {}),
-                        "result": None,
-                    }
-                    pending_calls[getattr(part, "tool_call_id", id(part))] = call_info
-                    tool_calls.append(call_info)
-                elif cls_name == "ToolReturnPart":
-                    call_id = getattr(part, "tool_call_id", None)
-                    if call_id in pending_calls:
-                        pending_calls[call_id]["result"] = getattr(part, "content", None)
+        # 2) 예시 질문 클릭 / 입력 제출로 들어온 질문 처리
+        pending_input = st.session_state.pop("pending_user_input", None)
 
-        if tool_calls:
-            _render_tool_calls(tool_calls, key_prefix="latest")
+        if pending_input:
+            _run_user_query(pending_input)
 
-        # 세션 상태 업데이트
-        st.session_state.agent_history = result.all_messages()
-        st.session_state.chat_messages.append({
-            "role": "assistant",
-            "content": result.output,
-            "tool_calls": tool_calls,
-        })
+        # 3) 채팅 입력창은 항상 맨 마지막에 렌더링
+        st.chat_input(
+            "질문을 입력하세요...",
+            key="agent_chat_input",
+            on_submit=_queue_typed_input,
+        )
 
 
 if __name__ == "__main__":

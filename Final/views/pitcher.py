@@ -1,12 +1,69 @@
 import streamlit as st
 import pandas as pd
-from shared import data, ASSETS, kpi_card, page_hero, glossary_box, KINEMATIC_TERMS, BASEBALL_TERMS
+import re
+from html import escape
+from shared import data, ASSETS, kpi_card, page_hero, KINEMATIC_TERMS, BASEBALL_TERMS
+
+_HR = "<hr style='margin: 44px 0 44px 0; border:none; border-top:1px solid #E2E8F0;'>"
 
 
 _SITUATION_LABEL = {
     "SO": "삼진", "BB": "볼넷", "Walk": "볼넷",
     "SV": "세이브", "BS": "블론 세이브",
 }
+
+
+def _interpretation_html(markdown_text: str) -> str:
+    html: list[str] = []
+    in_list = False
+    for raw_line in markdown_text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            if in_list:
+                html.append("</ul>")
+                in_list = False
+            continue
+        if line.startswith("### "):
+            if in_list:
+                html.append("</ul>")
+                in_list = False
+            html.append(f'<h3 style="font-size:18px;margin:18px 0 8px;color:#0D1B33;">{escape(line[4:])}</h3>')
+            continue
+        if line.startswith("- "):
+            if not in_list:
+                html.append('<ul style="margin:6px 0 14px 20px;padding:0;color:#334155;line-height:1.75;font-size:15px;">')
+                in_list = True
+            html.append(f"<li>{escape(line[2:])}</li>")
+            continue
+        if in_list:
+            html.append("</ul>")
+            in_list = False
+        html.append(f'<p style="margin:0 0 10px;color:#334155;line-height:1.75;font-size:15px;">{escape(line)}</p>')
+    if in_list:
+        html.append("</ul>")
+    return "\n".join(html)
+
+
+def _pitcher_terms_box(terms: dict[str, str]):
+    rows = "".join(
+        f'<div style="display:grid;grid-template-columns:minmax(88px,0.28fr) 1fr;gap:10px;'
+        f'padding:8px 0;border-top:1px solid rgba(13,27,51,0.08);">'
+        f'<div style="font-weight:800;color:#0D1B33;">{escape(term)}</div>'
+        f'<div style="color:#475569;">{escape(desc)}</div></div>'
+        for term, desc in terms.items()
+    )
+    st.markdown("""
+    <div class="glass-card">
+        <div class="section-copy">표와 그래프를 읽기 전에 필요한 용어만 짧게 정리했습니다.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="glass-card">'
+        f'<div style="font-size:13px;line-height:1.55;">{rows}</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
 
 def show_pitcher_page(pitcher_name, situation_a, situation_b,
                       interpretation_md, key_findings):
@@ -27,7 +84,9 @@ def show_pitcher_page(pitcher_name, situation_a, situation_b,
     n_a = pitcher_df['n_a'].iloc[0] if len(pitcher_df) > 0 else 0
     n_b = pitcher_df['n_b'].iloc[0] if len(pitcher_df) > 0 else 0
 
-    glossary_box("이 페이지의 주요 용어", {
+
+    st.markdown("## 1. 주요 용어")
+    _pitcher_terms_box({
         "HSS @ FP": KINEMATIC_TERMS["HSS @ FP"],
         "HSS max": KINEMATIC_TERMS["HSS max"],
         "Trunk/Hip ratio": KINEMATIC_TERMS["Trunk/Hip ratio"],
@@ -37,8 +96,10 @@ def show_pitcher_page(pitcher_name, situation_a, situation_b,
     })
 
     # ── 1. 영상 비교 ───────────────────────────────────────────
+    st.markdown(_HR, unsafe_allow_html=True)
+    st.markdown("## 2. 영상 비교")
     st.markdown(
-        '<div class="glass-card"><div class="section-heading">영상 비교</div>'
+        '<div class="glass-card">'
         '<div class="section-copy">원본과 스켈레톤 오버레이를 전환하며 같은 투수의 성공/실패 장면을 비교합니다.</div></div>',
         unsafe_allow_html=True
     )
@@ -92,8 +153,10 @@ def show_pitcher_page(pitcher_name, situation_a, situation_b,
                 st.warning(f"영상 없음: {case_b}.mp4")
 
     # ── 2. 핵심 키네마틱 지표 ──────────────────────────────────
+    st.markdown(_HR, unsafe_allow_html=True)
+    st.markdown("## 3. 핵심 키네마틱 지표")
     st.markdown(
-        '<div class="glass-card"><div class="section-heading">핵심 키네마틱 지표</div>'
+        '<div class="glass-card">'
         '<div class="section-copy">Cohen&#39;s d 절대값이 큰 순서로 상위 지표를 요약했습니다.</div></div>',
         unsafe_allow_html=True
     )
@@ -102,13 +165,27 @@ def show_pitcher_page(pitcher_name, situation_a, situation_b,
         for col, (label, mean_a, mean_b, p_val, d) in zip(kpi_cols, key_findings):
             with col:
                 delta_str = f"{mean_a - mean_b:+.2f}"
-                sig_text = "유의" if p_val < 0.05 else "n.s."
+                sig_text = "유의" if p_val < 0.05 else "유의하지 않음"
                 accent = "red" if p_val < 0.05 else "navy"
                 kpi_card(label, f"{mean_a:.2f}", f"Δ {delta_str} | p={p_val:.3f} | d={d:+.2f} ({sig_text})", accent=accent)
+        st.markdown("""
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;align-items:center;">
+            <span style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#667085;">
+                <span style="width:12px;height:12px;border-radius:3px;background:rgba(179,25,34,0.14);border:1px solid rgba(179,25,34,0.28);display:inline-block;"></span>
+                p&lt;0.05
+            </span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#667085;">
+                <span style="width:12px;height:12px;border-radius:3px;background:rgba(36,58,94,0.12);border:1px solid rgba(36,58,94,0.24);display:inline-block;"></span>
+                유의하지 않음
+            </span>
+        </div>
+        """, unsafe_allow_html=True)
 
     # ── 3. 통계 검정 결과 ──────────────────────────────────────
+    st.markdown(_HR, unsafe_allow_html=True)
+    st.markdown("## 4. 통계 검정 결과")
     st.markdown(
-        '<div class="glass-card"><div class="section-heading">통계 검정 결과</div>'
+        '<div class="glass-card">'
         '<div class="section-copy">p-value가 낮고 효과 크기 |d|가 클수록 상황별 폼 차이가 뚜렷합니다.</div></div>',
         unsafe_allow_html=True
     )
@@ -122,20 +199,46 @@ def show_pitcher_page(pitcher_name, situation_a, situation_b,
             try:
                 p = float(row['p (Mann-Whitney)'])
                 if p < 0.01:
-                    return ['background-color: #FFE4E1'] * len(row)
+                    return ['background-color: rgba(179, 25, 34, 0.14); color: #1B2435;'] * len(row)
                 elif p < 0.05:
-                    return ['background-color: #FFF8DC'] * len(row)
+                    return ['background-color: rgba(36, 58, 94, 0.12); color: #1B2435;'] * len(row)
             except Exception:
                 pass
             return [''] * len(row)
 
-        st.dataframe(display_df.style.apply(highlight_sig, axis=1), use_container_width=True, hide_index=True)
-        st.caption("🟥 p<0.01 | 🟨 p<0.05")
+        styled_df = display_df.style.apply(highlight_sig, axis=1)
+        st.dataframe(styled_df, use_container_width=True, hide_index=True)
+        st.markdown("""
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;align-items:center;">
+            <span style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#667085;">
+                <span style="width:12px;height:12px;border-radius:3px;background:rgba(179,25,34,0.14);border:1px solid rgba(179,25,34,0.28);display:inline-block;"></span>
+                p&lt;0.01
+            </span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#667085;">
+                <span style="width:12px;height:12px;border-radius:3px;background:rgba(36,58,94,0.12);border:1px solid rgba(36,58,94,0.24);display:inline-block;"></span>
+                p&lt;0.05
+            </span>
+        </div>
+        """, unsafe_allow_html=True)
     else:
         st.info("해당 투수의 통계 데이터가 없습니다.")
 
     # ── 4. 분석 해석 ───────────────────────────────────────────
+    st.markdown(_HR, unsafe_allow_html=True)
+    st.markdown("## 5. 분석 해석")
+    interpretation_body = interpretation_md.strip()
+    interpretation_title = ""
+    title_match = re.match(r"^\*\*(.+?)\*\*\s*", interpretation_body)
+    if title_match:
+        interpretation_title = title_match.group(1)
+        interpretation_body = interpretation_body[title_match.end():].lstrip()
+    if interpretation_title:
+        st.markdown(
+            f'<div class="glass-card">'
+            f'<div class="section-copy">{interpretation_title}</div></div>',
+            unsafe_allow_html=True
+        )
     st.markdown(
-        f'<div class="glass-card"><div class="section-heading" style="margin-bottom:12px">분석 해석</div>\n\n{interpretation_md}\n\n</div>',
+        f'<div class="glass-card">{_interpretation_html(interpretation_body)}</div>',
         unsafe_allow_html=True
     )

@@ -52,11 +52,11 @@ def estimate_residual_scenario(sigmas: dict[str, float]) -> dict:
 
     Returns:
         - `predicted_W_calibrated`: 사용자에게 보여줄 보정 승수 (실제 81승 기준)
-        - `predicted_W_raw`: ML 점추정 (보정 전, ~86 부근)
+        - `predicted_W_raw`: 머신러닝 점추정 (보정 전, ~86 부근)
         - `delta`: 베이스라인 잔차 대비 변화
         - `pred_std`: 4모델 예측 std (시나리오 불확실성)
         - `baseline_W_actual`: 81 (TEX 2025 실제)
-        - `calibration_offset`: -5.2 부근 (ML 베이스라인 보정값)
+        - `calibration_offset`: -5.2 부근 (머신러닝 베이스라인 보정값)
         - `adjustments`: 피처별 σ → 원본 변화량 + new_value
         - `warnings`: 입력 검증 경고
     """
@@ -76,7 +76,7 @@ _SCENARIO_ROWS = [
     {"key": "phase8_max", "source": "Phase 8", "label": "Phase 8: 잔차 초과 달성 (σ=7.7%)", "delta": 15.7, "predicted_W": 96.7, "sigma_norm": 0.077, "rank": 1, "adjustments_summary": "h_single:+13.6%, h_k:-8.0%, p_st_HR:-2.6%, c_K:+7.5%", "decision_note": "시뮬 직접 평가 (12차원 σ): 피타고리안 기대 승수 초과 달성. 타자 단타+K 감소 주도"},
     {"key": "phase8_recovery", "source": "Phase 8", "label": "Phase 8: 잔차 만회 기준 (σ=8.1%)", "delta": 9.5, "predicted_W": 90.5, "sigma_norm": 0.081, "rank": 2, "adjustments_summary": "h_single:+18.1%, p_st_HR:-4.0%, c_K:+7.9%", "decision_note": "시뮬 직접 평가 (12차원 σ): 잔차 -9 만회 수준. 타자 단타 증가·선발 HR 감소 조합"},
     {"key": "phase8_safe", "source": "Phase 8", "label": "Phase 8: 소폭 개선 (σ=6.0%)", "delta": 3.65, "predicted_W": 84.65, "sigma_norm": 0.060, "rank": 3, "adjustments_summary": "h_single:+13.6%, h_hr:+11.5%, p_st_HR:-2.4%", "decision_note": "시뮬 직접 평가 (12차원 σ): 최소 정책 변경으로 현실적 소폭 개선"},
-    # v5 ML Pareto (6차원 잔차 보정 모델)
+    # v5 머신러닝 Pareto (6차원 잔차 보정 모델)
     {"key": "pareto_aggressive", "source": "Pareto", "label": "공격적 (std=0.652)", "delta": 4.889, "predicted_W": 85.9, "pred_std": 0.6524, "rank": 4, "adjustments_summary": "sv_pct:+0.107, ir_pct:+0.067, onerun_wp:+0.131, xi_wp:+0.220, HR9:-0.265, BB9:-0.582", "decision_note": "상한선 후보: 개선 가능성은 가장 크지만 불확실성 확인 필요"},
     {"key": "pareto_balanced", "source": "Pareto", "label": "균형점 (std=0.205)", "delta": 3.720, "predicted_W": 84.7, "pred_std": 0.2047, "rank": 5, "adjustments_summary": "sv_pct:+0.032, ir_pct:+0.067, onerun_wp:+0.115, xi_wp:+0.220, HR9:-0.271, BB9:-0.562", "decision_note": "균형 후보: 개선 폭과 안정성의 기본 검토안"},
     {"key": "pareto_conservative", "source": "Pareto", "label": "보수적 (std=0.002)", "delta": 2.919, "predicted_W": 83.9, "pred_std": 0.0019, "rank": 6, "adjustments_summary": "sv_pct:+0.045, ir_pct:+0.007, onerun_wp:+0.109, xi_wp:+0.176, HR9:-0.102, BB9:+0.099", "decision_note": "안정 후보: 모델 간 의견 차이가 작을 때 참고"},
@@ -232,6 +232,10 @@ def get_optimization_summary() -> dict:
     }
 
 
+def _optimization_feature_keys() -> list[str]:
+    return list(simulation_core.RESIDUAL_PROXY_FEATS)
+
+
 def _vector_from_sigmas(sigmas: dict[str, float]):
     import numpy as np
 
@@ -317,7 +321,7 @@ def run_nsga2_optimization(pop_size: int = 200, n_gen: int = 150, force: bool = 
                 xu=np.full(len(keys), 1.5),
             )
 
-        def _evaluate(self, x_pop, out, *args, **kwargs):
+        def _evaluate(self, x_pop, out, *_args, **_kwargs):
             raw = np.vstack([
                 _vector_from_sigmas(dict(zip(keys, x))).reshape(1, -1)
                 for x in x_pop
@@ -607,7 +611,7 @@ def query_team_history(
 def plot_scenario_comparison(scenarios: list[str]) -> dict:
     """여러 시나리오의 예상 승수를 baseline과 막대그래프로 비교.
 
-    이름들은 lookup_pareto와 동일하게 받는다 (Pareto 또는 Grid).
+    이름들은 lookup_pareto와 동일하게 받는다 (Pareto 또는 Phase 8).
     'baseline'은 자동 포함되며, 막대 위에 delta가 함께 표시된다.
 
     Args:
@@ -945,7 +949,7 @@ DATA_CATALOG: dict[str, str] = {
     'pitcher_stats_ag': '동작분석 5인 투수 집계 (BABIP 운/실력 분류)',
     'pitcher_stats_mb': '동작분석 5인 투수 메커니즘 분석 결과',
     'model_comparison': '4모델 (Ridge/Lasso/RF/XGB) 잔차 모델 비교',
-    'model_summary': 'ML 잔차 모델 학습 요약 (피처 중요도 등)',
+    'model_summary': '머신러닝 잔차 모델 학습 요약 (피처 중요도 등)',
 }
 
 
