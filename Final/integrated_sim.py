@@ -24,7 +24,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from markov_pitching import simulate_tex_RA, simulate_inning_RA, get_pitcher_name
+from markov_pitching import simulate_tex_RA, simulate_inning_RA, get_pitcher_name, _pick_pitcher
 from simulator import (
     _train_model_bundle, _build_batting_pool, _build_advancement_tables,
     _advance_runners, _simulate_inning as _batting_inning,
@@ -45,6 +45,16 @@ TEX_EXTRA_INN_WIN_RATE: float = 9 / 17
 
 # 월 표시 순서
 _MONTH_ORDER = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
+
+
+def _build_starter_rotation(raw_dir: Path) -> list[int]:
+    """game_idx(0-161) → 실제 선발 투수 player_id 리스트. GS=1 기록을 날짜순 정렬."""
+    path = raw_dir / 'rangers_pitcher_gamelogs.csv'
+    if not path.exists():
+        return []
+    df = pd.read_csv(path)
+    gs = df[df['GS'] == 1].sort_values('Date').reset_index(drop=True)
+    return gs['player_id'].tolist()
 
 
 def _load_game_months(raw_dir: Path) -> list[str]:
@@ -75,7 +85,8 @@ def _ensure_loaded(raw_dir: Path = _DEFAULT_RAW_DIR) -> None:
         'sprint_map':   sprint_map,
         'hbp_df':       hbp_df,
         'advancement':  advancement,
-        'game_months':  _load_game_months(raw_dir),
+        'game_months':      _load_game_months(raw_dir),
+        'starter_rotation': _build_starter_rotation(raw_dir),
     })
 
 
@@ -266,6 +277,8 @@ def simulate_game_integrated(
     used_closer_flag = [False]
     all_batter_stats: dict | None = {} if track_stats else None
     pitcher_game_stats: dict | None = {} if track_stats else None
+    rotation = _state.get('starter_rotation', [])
+    game_starter_pid = rotation[game_idx] if game_idx < len(rotation) else _pick_pitcher('starter', 1, 0, rng)
 
     for inning in range(1, 10):
         # TEX 공격 — 타자 Markov (이닝 단위)
@@ -289,6 +302,7 @@ def simulate_game_integrated(
             inning, score_diff, used_closer_flag, rng,
             game_idx=game_idx, pitcher_adjustments=pitcher_adjustments,
             pitcher_game_stats=pitcher_game_stats,
+            game_starter_pid=game_starter_pid,
         )
         tex_ra += inning_ra
 

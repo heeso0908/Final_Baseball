@@ -443,20 +443,38 @@ MATON     = 664208
 ARMSTRONG = 542888   # 실제 8-9월 주 마무리
 
 # 실제 게임 로그 세이브 데이터 기반 시기별 마무리 풀
-# - period_1 (game 0-114, 4월~7/23): Garcia·Jackson 공동 (Jackson 초반 주력)
-# - transition (game 115-121, 7/24~7/31): Jackson 방출 후 Garcia 단독
-# - period_2 (game 122~, 8/1~): Armstrong 주 마무리, Garcia 보조
+# - period_1 (game 0-71,   개막~6월 중순): Jackson 주 마무리
+# - period_2 (game 72-113, 6월 중순~7월 말): Garcia 주 마무리
+# - period_3 (game 114-123, 8월 초~8월 중순): Maton 주 마무리
+# - period_4 (game 124-161, 8월 중순~시즌 끝): Armstrong 주 마무리
 PERIOD_CLOSER_POOLS = {
-    'period_1':   [GARCIA, JACKSON],     # 4월 ~ 7/23
-    'transition': [GARCIA],              # 7/24 ~ 7/31
-    'period_2':   [ARMSTRONG, GARCIA],   # 8/1 ~ 시즌 끝 (Armstrong 주력으로 교체)
+    'period_1': [JACKSON],    # 개막 ~ 6월 중순
+    'period_2': [GARCIA],     # 6월 중순 ~ 7월 말
+    'period_3': [MATON],      # 8월 초 ~ 8월 중순
+    'period_4': [ARMSTRONG],  # 8월 중순 ~ 시즌 끝
+}
+
+# 각 기간에서 마무리가 아닌 투수를 setup 풀에 추가
+# (closer tier 투수가 해당 기간 마무리를 맡지 않을 때 setup으로 활용)
+_PERIOD_SETUP_ADDITIONS: dict[str, list[int]] = {
+    'period_1': [GARCIA, ARMSTRONG],  # Jackson closer → Garcia·Armstrong setup
+    'period_2': [ARMSTRONG],          # Garcia closer → Armstrong setup
+    'period_3': [GARCIA, ARMSTRONG],  # Maton closer → Garcia·Armstrong setup
+    'period_4': [GARCIA],             # Armstrong closer → Garcia setup
 }
 
 
+def _game_idx_to_period(game_idx) -> str | None:
+    if game_idx is None:
+        return None
+    if game_idx < 72:    return 'period_1'
+    if game_idx < 114:   return 'period_2'
+    if game_idx < 124:   return 'period_3'
+    return 'period_4'
+
+
 def _closer_pool_by_game(game_idx):
-    if game_idx < 115:    return PERIOD_CLOSER_POOLS['period_1']
-    elif game_idx < 122:  return PERIOD_CLOSER_POOLS['transition']
-    return PERIOD_CLOSER_POOLS['period_2']
+    return PERIOD_CLOSER_POOLS[_game_idx_to_period(game_idx)]
 
 
 def _pick_closer(inning, score_diff, rng, game_idx=None, forced_closer=None):
@@ -474,16 +492,54 @@ def _pick_closer(inning, score_diff, rng, game_idx=None, forced_closer=None):
     return _pick_pitcher('closer', inning, score_diff, rng)
 
 
+def _pick_setup_with_period(inning, score_diff, rng, game_idx=None):
+    """period-aware setup 투수 선택.
+
+    해당 기간 마무리가 아닌 closer-tier 투수를 setup 풀에 블렌딩.
+    Garcia 등 고정 마무리 아닌 기간에도 등판 기회 보장.
+    """
+    period = _game_idx_to_period(game_idx)
+    extras = _PERIOD_SETUP_ADDITIONS.get(period, []) if period else []
+
+    if not extras:
+        return _pick_pitcher('setup', inning, score_diff, rng)
+
+    appearances = _state['appearances']
+    sb = _score_bucket(score_diff)
+
+    base = appearances[
+        (appearances['inning'] == inning) &
+        (appearances['score_bucket'] == sb) &
+        (appearances['tier'] == 'setup')
+    ]
+    if len(base) == 0:
+        base = appearances[appearances['tier'] == 'setup']
+
+    extra = appearances[
+        appearances['pitcher'].isin(extras) &
+        (appearances['inning'] == inning) &
+        (appearances['score_bucket'] == sb)
+    ]
+    if len(extra) == 0:
+        extra = appearances[appearances['pitcher'].isin(extras)]
+
+    combined = pd.concat([base, extra]).drop_duplicates()
+    counts = combined['pitcher'].value_counts()
+    pids, probs = counts.index.values, counts.values / counts.sum()
+    return int(rng.choice(pids, p=probs))
+
+
 # ──────────────────────────────────────────────────
 # 핵심 시뮬: 한 이닝 / 한 게임 / TEX RA
 # ──────────────────────────────────────────────────
 
 def _simulate_inning(pitcher_tier, inning, score_diff, used_closer_flag, rng,
                      game_idx=None, forced_closer=None, adjustments=None,
-                     pitcher_game_stats=None):
+                     pitcher_game_stats=None, game_starter_pid=None):
     """한 이닝 시뮬 — Phase 6C + 시기별 closer.
 
     pitcher_game_stats: {pid: {BF, K, BB, HR, H, outs, ER}} 누적 dict (None이면 추적 생략).
+    game_starter_pid: 경기 시작 시 고정된 선발 투수 pid (None이면 이닝마다 새로 샘플링).
     """
     if pitcher_tier == 'closer' and used_closer_flag[0]:
         pitcher_tier = 'setup'
@@ -491,6 +547,10 @@ def _simulate_inning(pitcher_tier, inning, score_diff, used_closer_flag, rng,
     if pitcher_tier == 'closer':
         pid = _pick_closer(inning, score_diff, rng, game_idx, forced_closer)
         used_closer_flag[0] = True
+    elif pitcher_tier == 'starter' and game_starter_pid is not None:
+        pid = game_starter_pid
+    elif pitcher_tier == 'setup':
+        pid = _pick_setup_with_period(inning, score_diff, rng, game_idx)
     else:
         pid = _pick_pitcher(pitcher_tier, inning, score_diff, rng)
 
@@ -538,6 +598,8 @@ def _simulate_inning(pitcher_tier, inning, score_diff, used_closer_flag, rng,
                     if new_tier == 'closer':
                         new_pid = _pick_closer(inning, sd_rem, rng, game_idx, forced_closer)
                         used_closer_flag[0] = True
+                    elif new_tier == 'setup':
+                        new_pid = _pick_setup_with_period(inning, sd_rem, rng, game_idx)
                     else:
                         new_pid = _pick_pitcher(new_tier, inning, sd_rem, rng)
                     current_tier = new_tier
@@ -590,6 +652,7 @@ def simulate_inning_RA(
     game_idx=None,
     pitcher_adjustments=None,
     pitcher_game_stats=None,
+    game_starter_pid=None,
 ) -> int:
     """단일 이닝 RA 시뮬 — 이닝별 연동 전용 공개 인터페이스.
 
@@ -601,6 +664,7 @@ def simulate_inning_RA(
         game_idx: 0-161 시즌 게임 인덱스
         pitcher_adjustments: σ 시나리오 dict
         pitcher_game_stats: {pid: stats} 누적 dict (None이면 추적 생략)
+        game_starter_pid: 경기 시작 시 고정된 선발 투수 pid
     """
     _ensure_loaded()
     tier = _pick_tier(inning, score_diff, rng)
@@ -608,6 +672,7 @@ def simulate_inning_RA(
         tier, inning, score_diff, used_closer_flag, rng,
         game_idx=game_idx, adjustments=pitcher_adjustments,
         pitcher_game_stats=pitcher_game_stats,
+        game_starter_pid=game_starter_pid,
     )
 
 
