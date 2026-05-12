@@ -60,8 +60,8 @@ def section_badges(*items):
 def finding_box(title, body):
     st.markdown(f"""
     <div class="finding-box">
-        <strong>{title}</strong><br>
-        {body}
+        <strong>{title}</strong>
+        <div class="finding-box-body">{body}</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -70,7 +70,7 @@ def glass_note(body):
     st.markdown(f'<div class="glass-card">{body}</div>', unsafe_allow_html=True)
 
 
-def glossary_box(title: str, terms: dict[str, str]):
+def glossary_box(title: str, terms: dict[str, str], mb: int | None = None, show_header: bool = True):
     if "?" in title or "吏" in title:
         title = "키네마틱 지표 용어"
     rows = "".join(
@@ -80,12 +80,14 @@ def glossary_box(title: str, terms: dict[str, str]):
         f'<div style="color:#475569;">{desc}</div></div>'
         for term, desc in terms.items()
     )
-    st.markdown(f"""
-    <div class="glass-card">
+    mb_style = f"margin-bottom:{mb}px;" if mb is not None else ""
+    header_html = f"""
         <div class="chart-title">{title}</div>
         <div class="chart-caption" style="margin-bottom:18px; padding-bottom:2px;">
             표와 그래프를 읽기 전에 필요한 용어만 짧게 정리했습니다.
-        </div>
+        </div>""" if show_header else ""
+    st.markdown(f"""
+    <div class="glass-card" style="{mb_style}">{header_html}
         <div style="font-size:13px;line-height:1.55;margin-top:10px;">{rows}</div>
     </div>
     """, unsafe_allow_html=True)
@@ -105,10 +107,11 @@ KINEMATIC_TERMS = {
 BASEBALL_TERMS = {
     "K/9": "9이닝당 탈삼진 수입니다. 높을수록 삼진을 많이 잡는 투수입니다.",
     "BB/9": "9이닝당 볼넷 수입니다. 낮을수록 제구가 안정적입니다.",
-    "ERA": "평균자책점입니다. 투수가 허용한 자책점을 9이닝 기준으로 환산한 값입니다.",
+    "ERA": "평균 자책점입니다. 투수가 허용한 자책점을 9이닝 기준으로 환산한 값입니다.",
     "FIP": "수비 영향을 줄이고 삼진, 볼넷, 피홈런 중심으로 투수 성과를 본 지표입니다.",
     "WHIP": "이닝당 허용한 안타와 볼넷 수입니다. 낮을수록 주자를 덜 내보냅니다.",
     "WAR": "대체 선수 대비 승리 기여도입니다. 높을수록 팀 승리에 더 많이 기여했다는 뜻입니다.",
+    "Clutch": "득점 중요도가 높은 장면에서 얼마나 잘 막아냈는지 보는 지표입니다. 양수면 결정적 순간에 강했다는 뜻, 음수면 중요한 장면에서 오히려 더 많이 실점했다는 뜻입니다.",
     "세이브(SV) / 블론 세이브(BS)": "마무리 투수의 결과를 보는 두 지표입니다. 세이브는 리드를 지켜 경기를 마무리한 경우, 블론 세이브는 이어받은 리드를 놓친 경우입니다. 블론 세이브가 많을수록 접전에서 팀이 실점에 취약하다는 신호입니다.",
     "Cohen's d": "두 상황의 평균 차이가 얼마나 큰지 보는 효과 크기입니다. 보통 |d|가 클수록 차이가 큽니다.",
     "p-value": "관찰된 차이가 우연일 가능성을 보는 값입니다. 작을수록 통계적으로 차이가 있다고 해석하기 쉽습니다.",
@@ -231,8 +234,8 @@ def _get_integrated_sim_result(raw_dir: str, n_sims: int, custom_boosts: dict,
 
     최대 50시즌으로 제한. 선수별 타자·투수 성적 DataFrame을 player_projection /
     pitcher_projection으로 반환.
-    ML 잔차 모델(_predict_residual) 사후 적용 — Markov 순수 시뮬은 Pythagorean 수준에서 수렴하므로
-    ML이 포착하는 잔차 요인(sv_pct, onerun_wp 등)을 시나리오 stats 기준으로 보정.
+    머신러닝 잔차 모델(_predict_residual) 사후 적용 — Markov 순수 시뮬은 피타고리안 수준에서 수렴하므로
+    머신러닝이 포착하는 잔차 요인(sv_pct, onerun_wp 등)을 시나리오 stats 기준으로 보정.
     """
     from integrated_sim import run_integrated_simulation, _state as _isim_state
     from simulator import _predict_residual
@@ -253,7 +256,7 @@ def _get_integrated_sim_result(raw_dir: str, n_sims: int, custom_boosts: dict,
     rs_vals = season_df['RS'].values.astype(float)
     ra_vals = season_df['RA'].values.astype(float)
 
-    # ML 잔차 모델 사후 적용
+    # 머신러닝 잔차 모델 사후 적용
     # bundle은 run_integrated_simulation 내 _ensure_loaded()로 이미 로드된 상태
     bundle = _isim_state.get('bundle')
     if bundle is not None:
@@ -520,6 +523,11 @@ REPORT_FINDINGS.update({
 })
 
 # ── Kinematic metric descriptions ────────────────────────────
+REPORT_FINDINGS = {
+    player: REPORT_FINDINGS[player]
+    for player in ["Webb", "Leiter", "Garcia", "Armstrong", "Jackson"]
+}
+
 _METRIC_INFO: dict[str, tuple[str, str]] = {
     "hip_peak_dps":    ("골반 피크 각속도 XZ", "골반이 XZ 평면에서 최대 회전 속도에 도달하는 정도. 낮을수록 하체 구동력이 약함."),
     "trunk_peak_dps":  ("몸통 피크 각속도 XZ", "상체(몸통) 회전의 최대 속도. 투구 파워와 직결되는 지표."),
@@ -582,7 +590,7 @@ _PDF_SECTION_ACCENT: dict[str, str] = {
     # 선수 보고서
     "Season Stats":                  "#243A5E",
     "Team / League Context":         "#0D1B33",
-    "High Leverage & Clutch":        "#B31922",
+    "하이 레버리지 & Clutch":        "#B31922",
     "Motion Finding":                "#0D1B33",
     "Kinematic Analysis Detail":     "#243A5E",
     "OpenBiomechanics Reference":    "#0D9488",
@@ -717,14 +725,15 @@ def _pdf_card(ax, x: float, y_top: float, w: float, h: float,
             if ln == "":
                 ch += 0.005
             elif ": " in ln and not ln.startswith("- "):
-                ch += 0.038
+                _, value = ln.split(": ", 1)
+                ch += max(0.038, len(_cjk_wrap(value, max_vw=70)) * 0.021 + 0.012)
             else:
                 ch += len(_cjk_wrap(ln[2:] if ln.startswith("- ") else ln)) * 0.022
         return ch
 
-    available    = h - title_h
-    content_used = _body_h(lines)
-    top_space    = max(0.010, (available - content_used) / 2)
+    # 본문은 제목 바로 아래에서 시작한다. 세로 가운데 정렬을 쓰면 짧은 섹션에서
+    # Kinematic Analysis Detail / OpenBiomechanics Reference처럼 윗부분이 비어 보인다.
+    top_space = 0.014
 
     y = y_top - title_h - top_space
     bottom = y0 + 0.006
@@ -766,18 +775,22 @@ def _pdf_card(ax, x: float, y_top: float, w: float, h: float,
         # ── Key: Value 표 행
         if ": " in line and not line.startswith("- ") and not line.startswith("  ") and "→" not in line:
             label, value = line.split(": ", 1)
-            rh = 0.034
+            value_chunks = _cjk_wrap(value, max_vw=70)
+            rh = max(0.034, len(value_chunks) * 0.021 + 0.012)
             if y - rh < bottom:
                 return
             if row_alt:
                 _rr(ax, x + 0.016, y - rh + 0.002, w - 0.032, rh - 0.003,
                     0.004, _P_GRID)
-            ax.text(x + 0.026, y - rh / 2 + 0.002, label,
+            ax.text(x + 0.026, y - 0.012, label,
                     fontsize=8.0, color=_P_MUTED_FG,
-                    transform=ax.transAxes, va="center", fontweight="bold")
-            ax.text(x + 0.260, y - rh / 2 + 0.002, value,
-                    fontsize=9.0, color=_P_FG,
-                    transform=ax.transAxes, va="center")
+                    transform=ax.transAxes, va="top", fontweight="bold")
+            vy = y - 0.010
+            for chunk in value_chunks:
+                ax.text(x + 0.260, vy, chunk,
+                        fontsize=9.0, color=_P_FG,
+                        transform=ax.transAxes, va="top")
+                vy -= 0.021
             y -= rh + 0.004
             row_alt = not row_alt
             continue
@@ -851,7 +864,7 @@ def _split_pdf_sections(lines: list[str]) -> list[tuple[str, list[str]]]:
         # 선수 보고서
         "Season Stats",
         "Team / League Context",
-        "High Leverage & Clutch",
+        "하이 레버리지 & Clutch",
         "Motion Finding",
         "Kinematic Analysis Detail",
         "OpenBiomechanics Reference",
@@ -876,16 +889,15 @@ def _split_pdf_sections(lines: list[str]) -> list[tuple[str, list[str]]]:
     return sections
 
 
-def _cjk_wrap(text: str) -> list[str]:
+def _cjk_wrap(text: str, max_vw: int = 96) -> list[str]:
     """한글(2) · 라틴(1) 시각 폭 기준으로 줄바꿈 (기준폭 110 visual units)."""
-    MAX_VW = 110
     words = text.split(" ")
     lines: list[str] = []
     cur, cur_w = "", 0
     for word in words:
         vw = sum(2 if "가" <= c <= "퟿" or "一" <= c <= "鿿" else 1 for c in word)
         gap = 1 if cur else 0
-        if cur and cur_w + gap + vw > MAX_VW:
+        if cur and cur_w + gap + vw > max_vw:
             lines.append(cur)
             cur, cur_w = word, vw
         else:
@@ -906,7 +918,8 @@ def _estimate_card_height(body: list[str]) -> float:
               and ": " not in line[:-1]):
             h += 0.028                          # 소제목
         elif ": " in line and not line.startswith("- ") and "→" not in line:
-            h += 0.038                          # Key: Value 행
+            _, value = line.split(": ", 1)
+            h += max(0.038, len(_cjk_wrap(value, max_vw=70)) * 0.021 + 0.012)
         elif "→" in line:
             arrow_idx = line.index("→")
             main = line[:arrow_idx].rstrip()
@@ -919,12 +932,33 @@ def _estimate_card_height(body: list[str]) -> float:
             raw = line.strip().lstrip("- ").strip()
             h += len(_cjk_wrap(raw)) * 0.022
     h += 0.022  # 상하 여백
-    return min(0.80, max(0.10, h))
+    return max(0.10, h)
+
+
+def _chunk_pdf_body(body: list[str], max_height: float = 0.735) -> list[list[str]]:
+    chunks: list[list[str]] = []
+    current: list[str] = []
+    for line in body:
+        trial = current + [line]
+        if current and _estimate_card_height(trial) > max_height:
+            chunks.append(current)
+            current = [line]
+        else:
+            current = trial
+    if current:
+        chunks.append(current)
+    return chunks or [[]]
 
 
 def _add_pdf_page(pdf: PdfPages, title: str, lines: list) -> int:
     _configure_pdf_font()
     sections = _split_pdf_sections(lines)
+    render_sections: list[tuple[str, list[str]]] = []
+    for heading, body in sections:
+        chunks = _chunk_pdf_body(body)
+        for chunk_idx, chunk in enumerate(chunks):
+            chunk_heading = heading if chunk_idx == 0 else f"{heading} (continued)"
+            render_sections.append((chunk_heading, chunk))
     page_no = 1
     fig, ax = _pdf_new_page()
     subtitle = "Residual diagnosis · Motion evidence · Decision candidates"
@@ -933,7 +967,7 @@ def _add_pdf_page(pdf: PdfPages, title: str, lines: list) -> int:
     _FALLBACK_ACCENTS = [_P_PRIMARY, _P_RED, _P_NAVY_SOFT,
                          _P_PRIMARY, _P_NAVY_SOFT, _P_RED]
     y = 0.824
-    for idx, (heading, body) in enumerate(sections):
+    for idx, (heading, body) in enumerate(render_sections):
         height = _estimate_card_height(body)
         if y - height < 0.058:
             _pdf_footer(ax, page_no)
@@ -945,8 +979,9 @@ def _add_pdf_page(pdf: PdfPages, title: str, lines: list) -> int:
             ax.plot([_P_M, 1 - _P_M], [0.824, 0.824], transform=ax.transAxes,
                     color=_P_BORDER, lw=0.5)
             y = 0.812
+        base_heading = heading.replace(" (continued)", "")
         accent = _PDF_SECTION_ACCENT.get(
-            heading, _FALLBACK_ACCENTS[idx % len(_FALLBACK_ACCENTS)]
+            base_heading, _FALLBACK_ACCENTS[idx % len(_FALLBACK_ACCENTS)]
         )
         _pdf_card(ax, _P_M, y, _P_CW, height, heading, body,
                   accent=accent, section_no=idx + 1)
@@ -1102,7 +1137,7 @@ def _team_strength_lines() -> list[str]:
     lines = ["강점"]
     lines.extend([f"- {item}" for item in strengths[:4]] or ["- 상위권으로 뚜렷하게 잡히는 단일 지표는 제한적입니다."])
     lines.append("약점 또는 점검 지점")
-    lines.extend([f"- {item}" for item in weaknesses[:4]] or ["- 리그 최하위권 지표는 많지 않지만, 하이 레버리지 운영에서 실제 승수 손실이 커졌습니다."])
+    lines.extend([f"- {item}" for item in weaknesses[:4]] or ["- 리그 최하위권 지표는 많지 않지만, 하이 레버리지 투수 운영에서 실제 승수 손실이 커졌습니다."])
     lines.append(
         "- 투수 지표(ERA) 기준으로는 강팀이지만, 블론 세이브 누적과 접전 승률 하락이 실제 승수를"
         " 기대치보다 약 9승 끌어내렸습니다."
@@ -1219,6 +1254,7 @@ def _player_kinematic_detail_lines(player: str) -> list[str]:
     lines.append(f"※ 같은 선수의 *{sit_a} 경기*와 *{sit_b} 경기*에서 폼이 얼마나 달랐는지 비교. 차이 클수록 *상황별 폼 변동*이 큼.")
     lines.append("   '차이 크기' = Cohen's d (0.2 작음 / 0.5 중간 / 0.8 큼 / 2.0+ 매우 큼).  '통계 명확성' = p-value (0.05 미만이면 우연 가능성 낮음).")
     lines.append("")
+    lines = []
     for _, row in top.iterrows():
         metric = str(row.get("metric", ""))
         metric_name, description = _METRIC_INFO.get(metric, (metric, ""))
@@ -1293,6 +1329,7 @@ def _player_reference_comparison_lines(player: str) -> list[str]:
     lines.append("※ 우리 데이터는 방송 영상에서 추출한 2D→3D 추정값 — *절대 수치보다 상대 순위*로 해석. 시간 측정은 비교 제외.")
     lines.append("")
 
+    lines = []
     high_metrics = []   # 상위권 (강점)
     low_metrics = []    # 하위권 (약점)
 
@@ -1676,6 +1713,7 @@ def _team_decision_matrix_lines() -> list[str]:
         ("Jackson",   "계투",   "약-중 (패턴 재해석)", "운영",  "플래툰 전용 배치"),
     ]
     lines = ["선수 / 역할 / 모션 신호 강도 / 우선 조치 / 핵심 포인트", "─" * 58]
+    matrix[0], matrix[1] = matrix[1], matrix[0]
     for player, role, signal, priority, point in matrix:
         lines.append(f"{player} ({role}) | 모션: {signal} | {priority} 우선 | {point}")
     return lines
@@ -2142,7 +2180,7 @@ def _legacy_build_player_report_pdf(player: str) -> bytes:
             )
     lines = [
         "Purpose",
-        "2025 Texas Rangers의 실제 81승과 Pythagorean 기대 승수 90.06승 사이의 -9.06승 잔차를 설명하기 위한 선수별 보조 보고서입니다.",
+        "2025 Texas Rangers의 실제 81승과 피타고리안 기대 승수 90.06승 사이의 -9.06승 잔차를 설명하기 위한 선수별 보조 보고서입니다.",
         "이 문서는 Simulation 의사결정 후보를 해석할 때 코칭 가능 영역과 운영·보강 영역을 구분하는 근거로 사용합니다.",
         "",
         "Player Info",
@@ -2172,13 +2210,13 @@ def _legacy_build_player_report_pdf(player: str) -> bytes:
 def _legacy_build_team_report_pdf() -> bytes:
     lines = [
         "Purpose",
-        "2025 Texas Rangers는 실제 81승, Pythagorean 기대 승수 90.06승으로 -9.06승 잔차를 기록했습니다.",
-        "본 대시보드는 이 차이를 설명하기 위해 경기력 분석, 선수 분석, 하이 레버리지 부진 대표 케이스 모션 분석, Simulation 의사결정 후보 비교를 순서대로 연결합니다.",
+        "2025 Texas Rangers는 실제 81승, 피타고리안 기대 승수 90.06승으로 -9.06승 잔차를 기록했습니다.",
+        "본 대시보드는 이 차이를 설명하기 위해 경기력 분석, 선수 분석, 하이 레버리지 부진 대표 케이스 동작 분석, 시뮬레이션 의사결정 후보 비교를 순서대로 연결합니다.",
         "",
         "Analysis Flow",
         "1. 경기력 분석: 득실과 실제 승패가 어긋난 구간, 1점차/연장/세이브 상황 등 잔차가 커진 경기 맥락을 확인합니다.",
         "2. 선수 분석: 부상, 타격/투수 지표, 선수별 projection 변화가 팀 승수에 미친 조건을 분리합니다.",
-        "3. 하이 레버리지 부진 대표 케이스 모션 분석: 코칭 가능 영역과 운영·보강 영역을 3D 키네마틱으로 구분합니다.",
+        "3. 하이 레버리지 부진 대표 케이스 동작 분석: 코칭으로 고칠 수 있는 영역과 운영·보강이 필요한 영역을 3D 분석으로 구분합니다.",
         "4. Simulation: 수동 시나리오와 Grid/Pareto 후보를 같은 기준으로 비교합니다.",
         "5. 의사결정 후보 순위표: 승수 개선 폭, 예측 안정성, 실행 관점의 해석을 함께 봅니다.",
         "6. AI Agent: 시나리오 조회, 최적화 요약, 팀 비교 질의를 보조합니다.",
@@ -2190,9 +2228,9 @@ def _legacy_build_team_report_pdf() -> bytes:
     lines.extend([
         "",
         "Team Conclusion",
-        "하이 레버리지 부진 대표 케이스 모션 분석은 잔차 -9.06승의 전체 원인이 아니라, 선수/운영 분석을 더 구체화하는 하위 레이어입니다.",
+        "하이 레버리지 부진 케이스 동작 분석은 9승 차이의 전체 원인이 아니라, 선수·운영 분석을 더 구체화하는 보조 근거입니다.",
         "Webb처럼 코칭 가능한 폼 분기가 있는 선수와 Garcia처럼 모션 외 요인을 우선 검토해야 하는 선수를 분리하는 것이 핵심입니다.",
-        "최종 판단은 Simulation의 의사결정 후보 순위표를 중심으로, 승수 개선 폭과 예측 안정성, 선수별 projection, 하이 레버리지 부진 케이스 모션 근거를 함께 종합해야 합니다.",
+        "최종 판단은 시뮬레이션의 의사결정 후보 순위표를 중심으로, 승수 개선 폭과 예측 안정성, 선수별 전망, 하이 레버리지 부진 케이스 동작 분석 근거를 함께 종합해야 합니다.",
     ])
     buffer = BytesIO()
     with PdfPages(buffer) as pdf:
@@ -2223,7 +2261,7 @@ def build_player_report_pdf(player: str) -> bytes:
         "Team / League Context",
         *_player_percentile_lines(player),
         "",
-        "High Leverage & Clutch",
+        "하이 레버리지 & Clutch",
         *_player_situation_lines(player),
         "",
         "Motion Finding",
@@ -2256,12 +2294,12 @@ def build_player_report_pdf(player: str) -> bytes:
 def build_team_report_pdf() -> bytes:
     lines = [
         "Purpose",
-        "2025 Texas Rangers는 실제 81승, Pythagorean 기대 승수 90.06승으로 -9.06승의 잔차를 기록했습니다.",
+        "2025 Texas Rangers는 실제 81승, 피타고리안 기대 승수 90.06승으로 -9.06승의 잔차를 기록했습니다.",
         "팀 전체 리포트는 잔차 요약, 타격·수비 지표, 투수 지표 강약점,",
         "월별 성적 흐름, 주요 선수 결장 현황, 불펜 운영, 클러치·이닝 분석, 최종 결론을 한 흐름으로 정리합니다.",
         "",
         "Residual Summary",
-        "Actual Wins: 81.0  ·  Pythagorean Expected: 90.06  ·  Residual: -9.06 wins",
+        "Actual Wins: 81.0  ·  피타고리안 Expected: 90.06  ·  Residual: -9.06 wins",
         "- 득실점 기반 기대 승수보다 실제 승수가 약 9승 낮았습니다.",
         "- 이 차이는 전력 약세만이 아니라 접전 운영·세이브 실패·승패 타이밍의 누적 결과입니다.",
         "",

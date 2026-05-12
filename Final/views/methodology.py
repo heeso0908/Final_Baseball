@@ -1,28 +1,43 @@
 import streamlit as st
 from shared import data, ASSETS, page_hero, finding_box, glossary_box, KINEMATIC_TERMS
 
+_HR = "<hr style='margin: 44px 0 44px 0; border:none; border-top:1px solid #E2E8F0;'>"
+
 
 def show():
     page_hero(
         "Methodology",
-        "Motion Analysis Pipeline",
-        "잔차 원인을 경기 운영과 선수 상태로 좁힌 뒤, 하이 레버리지 상황에서 부진했던 투수 대표 케이스를 검증하기 위해 MotionBERT와 MotionAGFormer의 측정 안정성을 비교했습니다. 최종적으로 더 안정적인 MotionAGFormer 기반 키네마틱 지표를 모션 근거 레이어에 사용합니다.",
-        [("MotionBERT", "white"), ("MotionAGFormer", "white"), ("CV Stability", "white")],
+        "AI 동작 분석 모델 선택 근거",
+        """승수 차이의 원인을 경기 운영과 선수 성적으로 좁힌 뒤, 결정적 순간에 부진했던 투수의 투구 동작을 검증하기 위해 두 가지 AI 모델(MotionBERT, MotionAGFormer)의 측정 안정성을 비교했습니다.<br>
+        더 일관된 결과를 내는 MotionAGFormer를 최종 채택해 투구 동작 분석에 사용합니다.""",
+        [("MotionBERT", "white"), ("MotionAGFormer", "white"), ("측정 안정성", "white")],
     )
 
     df_model = data['model_sum'].pivot_table(
         index='metric', columns='model', values='cv_pct'
     ).reset_index()
 
-    glossary_box("키네마틱 지표 용어", KINEMATIC_TERMS)
+    st.markdown(_HR, unsafe_allow_html=True)
+    st.markdown("## 1. 키네마틱 지표 용어")
+    st.markdown(
+        """
+        <div class="glass-card" style="margin-bottom:18px;">
+            <div class="section-copy">표와 그래프를 읽기 전에 필요한 용어만 짧게 정리했습니다.</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    glossary_box("키네마틱 지표 용어", KINEMATIC_TERMS, mb=0, show_header=False)
 
+    st.markdown(_HR, unsafe_allow_html=True)
+    st.markdown("## 2. 모델 및 지표 검증")
     top_left, top_right = st.columns([1.1, 1], gap="large")
 
     with top_left:
         with st.container():
             st.markdown(
                 '<div class="glass-card"><div class="section-heading">모델별 측정 안정성</div>'
-                '<div class="section-copy">반복 측정의 흔들림이 작은 모델을 선택해야 투수별 폼 차이를 의사결정 근거로 사용할 수 있습니다. CV%는 낮을수록 안정적입니다.</div></div>',
+                '<div class="section-copy">같은 동작을 반복 측정했을 때 결과가 얼마나 일관되는지 비교합니다. 흔들림이 작을수록 신뢰할 수 있는 모델입니다.<br>CV%(변동계수)가 낮을수록 안정적입니다.</div></div>',
                 unsafe_allow_html=True
             )
             if 'MotionBERT' in df_model.columns and 'MotionAGFormer' in df_model.columns:
@@ -42,7 +57,7 @@ def show():
         with st.container():
             st.markdown(
                 '<div class="glass-card"><div class="section-heading">측정 지표 정의</div>'
-                '<div class="section-copy">코칭 가능 영역과 운영·매치업 이슈를 구분하기 위해 투구 폼의 분리, 회전, 타이밍을 설명하는 3D 키네마틱 지표를 사용합니다.</div></div>',
+                '<div class="section-copy">코칭으로 고칠 수 있는 문제인지 판단하기 위해, 투구 시 골반과 어깨의 분리·회전 속도·타이밍 차이를 3D로 측정합니다.</div></div>',
                 unsafe_allow_html=True
             )
             import pandas as pd

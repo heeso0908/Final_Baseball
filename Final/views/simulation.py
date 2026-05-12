@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 from shared import (
     data, RAW_DIR, SIMULATION_OPTIONS, DEFAULT_SIM_RUNS,
-    kpi_card, section_badges, finding_box,
+    kpi_card, page_hero, section_badges, finding_box,
     get_simulation_result, get_scenario_snapshots,
     get_simulation_batters, get_simulation_defaults,
     get_live_scenario_results,
@@ -12,14 +12,19 @@ from shared import (
 from agent.tools import list_precomputed_scenarios
 
 
+_HR = "<hr style='margin: 44px 0 44px 0; border:none; border-top:1px solid #E2E8F0;'>"
+_HR_SOFT = "<hr style='margin: 24px 0; border:none; border-top:1px solid #EDF0F5;'>"
 _HITTER_MULT_COLUMNS = ["hr_mult", "bb_mult", "k_mult", "single_mult", "double_mult"]
 RANGERS_RED = "#B31922"
+RANGERS_RED_SOFT = "#D04A52"
 RANGERS_NAVY = "#0D1B33"
-RANGERS_BLUE = "#003278"
-CHART_GRAY = "#8F9AAA"
+NAVY_SOFT = "#243A5E"
+CHART_GRAY = "#B8BDC7"
+CHART_MUTED = "#667085"
+CHART_GREEN = "#2F9E65"
 
 SCENARIO_LABELS = {
-    "Baseline 2025": "기준 시뮬 (조정 없음)",
+    "Baseline 2025": "기준 시뮬레이션 (조정 없음)",
     "Bullpen Upgrade": "불펜 강화",
     "Hitter Boost": "타자 강화",
 }
@@ -38,16 +43,22 @@ def _scenario_type_label(source: str) -> str:
         "수동": "Manual",
         "Pareto": "Pareto",
         "Phase 8": "Phase 8",
-        "현재 시뮬": "현재 시뮬",
+        "현재 시뮬레이션": "현재 시뮬레이션",
     }
     return labels.get(str(source), str(source))
 
 
 def _render_source_legend() -> None:
-    st.caption(
-        "Manual: 사람이 직접 정한 실행 시나리오 · "
-        "Pareto: v5 ML 잔차 모델 6차원 Pareto 후보 · "
-        "Phase 8: 12차원 σ NSGA-II 시뮬 직접 평가 (현실 권장 zone σ≤10%)"
+    st.markdown(
+        "<div style='margin: 2px 0 36px; font-size:12px; color:#94A3B8; line-height:1.65;'>"
+        "시나리오 구분 &nbsp;:&nbsp; Manual — 사람이 직접 정한 실행 시나리오 &nbsp;·&nbsp; "
+        "Pareto — 머신러닝 잔차 모델 6차원 Pareto 최적화 후보 &nbsp;·&nbsp; "
+        "Phase 8 — 12차원 NSGA-II 시뮬레이션 직접 평가 (현실 권장 zone σ≤10%)<br>"
+        "컬럼 설명 &nbsp;:&nbsp; 기준 대비 개선승수 — 모든 구분이 동일한 통합 Markov 시뮬레이션 기준으로 계산 &nbsp;·&nbsp; "
+        "예측 흔들림 — 낮을수록 여러 모델이 비슷하게 평가한 안정적인 후보 &nbsp;·&nbsp; "
+        "σ 비용 — Phase 8 전용, 낮을수록 현실적으로 실행하기 쉬운 정책 조합"
+        "</div>",
+        unsafe_allow_html=True,
     )
 
 
@@ -71,10 +82,21 @@ def _short_chart_label(name: str) -> str:
 
 def _render_baseline_reference(defaults: dict) -> None:
     tex25 = defaults.get("tex25", {})
+
+    finding_box(
+        "시뮬레이션 구조",
+        "타자 Markov(PA 단위 상태 전이) + 투수 Markov(Phase 6–7' 이닝별 등판 정책)로 경기당 득실점을 산출하고, "
+        "머신러닝 잔차 모델이 세이브 성공률·접전 승률 등 팀 특성에 따른 보정을 추가 적용합니다.<br>"
+        "시나리오 평가 시 절대 승수보다 <b>베이스라인 대비 개선폭(Δ승수)</b>을 기준으로 해석하는 것을 권장합니다.",
+    )
+
+    st.markdown(_HR_SOFT, unsafe_allow_html=True)
+    st.markdown("### TEX 2025 기준값")
+
     cols = st.columns(4)
     items = [
         ("실제 승수", tex25.get("W"), "2025 최종 결과"),
-        ("득실 기반 기대 승수", tex25.get("pyth_W"), "득점/실점만 보면 기대되는 승수"),
+        ("피타고리안 기대 승수", tex25.get("pyth_W"), "득점/실점만 보면 기대되는 승수"),
         ("세이브 성공률", tex25.get("sv_pct"), "불펜 기준값"),
         ("1점 차 승률", tex25.get("onerun_wp"), "접전 경기 기준값"),
     ]
@@ -82,26 +104,20 @@ def _render_baseline_reference(defaults: dict) -> None:
         with col:
             digits = 3 if "승률" in label or "성공률" in label else 1
             kpi_card(label, fmt_num(value, digits), sub, accent="navy")
+
     actual_w  = tex25.get("W",      81.0)
     pyth_w    = tex25.get("pyth_W", 90.0)
     actual_rs = tex25.get("RS")
     actual_ra = tex25.get("RA")
     residual  = actual_w - pyth_w
-    rs_ra_str = (
-        f" · 득점 <b>{fmt_num(actual_rs, 0)}</b> / 실점 <b>{fmt_num(actual_ra, 0)}</b>"
+    res_sign = "+" if residual >= 0 else ""
+    rs_ra_plain = (
+        f"득점 {fmt_num(actual_rs, 0)} / 실점 {fmt_num(actual_ra, 0)} · "
         if actual_rs is not None and actual_ra is not None else ""
     )
-    res_sign = "+" if residual >= 0 else ""
-    st.markdown(
-        f"""<div class="finding-box" style="margin-top:10px;">
-        <strong>시뮬레이션 구조</strong> —
-        타자 Markov(PA 단위 상태 전이) + 투수 Markov(Phase 6–7&#39; 이닝별 등판 정책)로 경기당 득실점을 산출하고,
-        ML 잔차 모델이 세이브 성공률·접전 승률 등 팀 특성에 따른 보정을 추가 적용합니다.<br>
-        <b>TEX 2025 기준값</b>{rs_ra_str} · 피타고리안 기대 승수 <b>{fmt_num(pyth_w, 1)}승</b> · 실제 <b>{fmt_num(actual_w, 0)}승</b> · 잔차 <b>{res_sign}{fmt_num(residual, 1)}승</b>.<br>
-        잔차(세이브 실패·타이밍 불운)는 ML 모델이 일부 포착하지만 확률적 요인이 남아 시뮬 결과는 피타고리안 기대 승수 수준에 수렴합니다.
-        시나리오 평가 시 절대 승수보다 <b>베이스라인 대비 개선폭(Δ승수)</b>을 기준으로 해석하는 것을 권장합니다.
-        </div>""",
-        unsafe_allow_html=True,
+    st.caption(
+        f"{rs_ra_plain}피타고리안 기대 승수 {fmt_num(pyth_w, 1)}승 · 실제 {fmt_num(actual_w, 0)}승 · 잔차 {res_sign}{fmt_num(residual, 1)}승 · "
+        "잔차(세이브 실패·타이밍 불운)는 머신러닝 모델이 일부 포착하지만 확률적 요인이 남아 시뮬레이션 결과는 피타고리안 기대 승수 수준에 수렴합니다."
     )
 
 
@@ -117,7 +133,7 @@ def _render_custom_controls(selected_scenario: str) -> tuple[dict | None, dict |
         return None, None, True
 
     if selected_scenario == "Bullpen Upgrade":
-        st.markdown("### 불펜 조건")
+        st.markdown("### 불펜 강화")
         sv_baseline = float(tex25.get("sv_pct", stats.get("sv_pct", 0.700)))
         onerun_baseline = float(tex25.get("onerun_wp", stats.get("onerun_wp", 0.500)))
         delta_sv = st.slider(
@@ -140,7 +156,7 @@ def _render_custom_controls(selected_scenario: str) -> tuple[dict | None, dict |
         )
         st.caption(
             f"기준값: 세이브 성공률 {sv_baseline:.3f} · 1점 차 승률 {onerun_baseline:.3f} (2025 TEX 실제). "
-            "Δ=0이면 기준 시뮬과 동일. 양수=개선, 음수=악화."
+            "Δ=0이면 기준 시뮬레이션과 동일. 양수=개선, 음수=악화."
         )
 
         sv_result    = round(sv_baseline + delta_sv, 4)
@@ -171,7 +187,7 @@ def _render_custom_controls(selected_scenario: str) -> tuple[dict | None, dict |
         return custom_stats_out, None, True
 
     if selected_scenario == "Hitter Boost":
-        st.markdown("### 타자 조건")
+        st.markdown("### 타자 강화")
         hitters = get_simulation_batters(str(RAW_DIR))
         default_hitters = ["Wyatt Langford"] if "Wyatt Langford" in hitters else hitters[:1]
         selected_hitters = st.multiselect(
@@ -271,7 +287,7 @@ def _render_decision_board(
     except Exception:
         pass
 
-    # 사용자가 기준 시뮬을 직접 돌린 경우 → 그 결과를 baseline으로 덮어쓰고 delta 재계산
+    # 사용자가 기준 시뮬레이션을 직접 돌린 경우 → 그 결과를 baseline으로 덮어쓰고 delta 재계산
     if baseline_override is not None:
         baseline_W = round(float(baseline_override), 1)
         mask_base = leaderboard['key'] == 'manual_baseline'
@@ -285,12 +301,12 @@ def _render_decision_board(
                 abs_W = float(leaderboard.loc[mask, 'predicted_W'].iloc[0])
                 leaderboard.loc[mask, 'delta'] = round(abs_W - baseline_W, 2)
 
-    # 수동 시뮬 결과를 테이블에 합류
+    # 수동 시뮬레이션 결과를 테이블에 합류
     if sim_result_mean is not None and sim_label is not None:
         manual_delta = round(sim_result_mean - baseline_W, 2)
         manual_row = {
             'key':          'current_sim',
-            'source':       '현재 시뮬',
+            'source':       '현재 시뮬레이션',
             'label':        sim_label,
             'predicted_W':  round(sim_result_mean, 1),
             'delta':        manual_delta,
@@ -340,7 +356,6 @@ def _render_decision_board(
             height=(len(show_table) + 1) * 35 + 3,
         )
         _render_source_legend()
-        st.caption("기준 대비 개선승수: Phase 8 · Pareto · Baseline 모두 동일한 통합 Markov 시뮬 baseline_W 기준으로 계산됩니다. 예측 흔들림은 낮을수록 ML 모델들이 더 비슷하게 본 후보입니다. σ 비용은 Phase 8 전용으로 낮을수록 현실적으로 실행하기 쉬운 정책 조합입니다.")
 
         chart_df = leaderboard.copy()
         chart_df["구분_설명"] = chart_df["source"].map(_scenario_type_label)
@@ -361,8 +376,8 @@ def _render_decision_board(
                     "구분_설명:N",
                     title="구분",
                     scale=alt.Scale(
-                        domain=["현재 시뮬", "Manual", "Pareto", "Phase 8"],
-                        range=["#F5A623", RANGERS_RED, CHART_GRAY, "#2F9E65"],
+                        domain=["현재 시뮬레이션", "Manual", "Pareto", "Phase 8"],
+                        range=[RANGERS_RED_SOFT, CHART_GREEN, CHART_GRAY, NAVY_SOFT],
                     ),
                 ),
                 tooltip=[
@@ -396,40 +411,28 @@ def _render_decision_board(
 
 
 def show():
-    st.markdown("""
-    <div class="hero-card">
-        <span class="pill pill-white">반복 시뮬레이션</span>
-        <span class="pill pill-white">잔차 보정 모델</span>
-        <span class="pill pill-white">2025 시즌 재구성</span>
-        <h1>2025 TEX 시즌 시뮬레이션</h1>
-        <p>
-        2025 텍사스 레인저스의 실제 시즌을 기준으로 주요 전력 변수 변화가 승수에 미치는 영향을 재구성합니다.
-        Baseline 2025를 기준값으로 고정하고, 수동 시나리오와 Pareto / Phase 8 후보를 같은 기준으로 비교합니다.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    section_badges(
-        ("Baseline 2025 / 불펜 강화 / 타자 강화", "red"),
-        ("162경기 일정 기반", "navy"),
+    page_hero(
+        "Simulation",
+        "2025 TEX 시즌 시뮬레이션",
+        "2025 텍사스 레인저스의 실제 시즌을 기준으로 주요 전력 변수 변화가 승수에 미치는 영향을 재구성합니다.<br>"
+        "Baseline 2025를 기준값으로 고정하고, 수동 시나리오와 Pareto / Phase 8 후보를 같은 기준으로 비교합니다.",
+        [("Monte Carlo", "white"), ("Pythagorean Model", "white"), ("Scenario Compare", "white")],
     )
 
-    st.markdown("---")
-
-    st.markdown("## 시나리오 실행")
+    st.markdown("## 1. 시나리오 실행")
     st.markdown("""
     <div class="glass-card">
         <div class="chart-title">실행 방식</div>
         <div class="chart-caption">
-            시뮬레이션은 페이지 최초 진입 시 자동 실행되지 않습니다.
+            시뮬레이션은 페이지 최초 진입 시 자동 실행되지 않습니다.<br>
             기준값을 먼저 확인한 뒤, 아래 조건을 선택하고 버튼을 누르면 경기력·선수 조건 변화가 잔차와 승수에 미치는 결과를 계산합니다.
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("### Baseline 2025")
     _render_baseline_reference(get_simulation_defaults(str(RAW_DIR)))
 
+    st.markdown(_HR_SOFT, unsafe_allow_html=True)
     st.markdown("### 조건 선택")
     scenario_keys = list(SIMULATION_OPTIONS)
     scenario_options = [SCENARIO_LABELS.get(s, s) for s in scenario_keys]
@@ -439,30 +442,35 @@ def show():
     current_scenario_label = SCENARIO_LABELS.get(current_scenario_key, current_scenario_key)
     if st.session_state.get("simulation_scenario_select") not in scenario_options:
         st.session_state["simulation_scenario_select"] = current_scenario_label
-    selected_scenario_label = st.selectbox(
-        "실행할 시나리오",
-        scenario_options,
-        index=scenario_options.index(current_scenario_label),
-        key="simulation_scenario_select",
-    )
+
+    sel_col, run_col = st.columns([2, 1])
+    with sel_col:
+        selected_scenario_label = st.selectbox(
+            "실행할 시나리오",
+            scenario_options,
+            index=scenario_options.index(current_scenario_label),
+            key="simulation_scenario_select",
+        )
+    with run_col:
+        simulation_runs = st.slider(
+            "반복 실행 횟수",
+            min_value=100,
+            max_value=1000,
+            value=int(st.session_state.get("sim_runs", DEFAULT_SIM_RUNS)),
+            step=100,
+            key="simulation_runs_slider",
+        )
     selected_scenario = SCENARIO_KEYS.get(selected_scenario_label, selected_scenario_label)
-    simulation_runs = st.slider(
-        "반복 실행 횟수",
-        min_value=100,
-        max_value=1000,
-        value=int(st.session_state.get("sim_runs", DEFAULT_SIM_RUNS)),
-        step=100,
-        key="simulation_runs_slider",
-    )
     custom_stats, custom_boosts, can_run = _render_custom_controls(selected_scenario)
 
-    use_fast_mode = False
-    st.caption(
-        "통합 시뮬 엔진(integrated_sim) 사용 중 — "
-        "타자 Markov(simulator.py) + 투수 Markov(markov_pitching.py) + "
-        "Phase 6-7' 메커니즘(high-leverage 패널티, closer 타이밍, 시기별 불펜 풀) 반영. "
-        "설정한 반복 횟수만큼 실행되며 완료까지 수 분이 걸릴 수 있습니다."
-    )
+    with st.expander("**엔진 상세 정보**"):
+        st.markdown("""
+        <div style="font-size:14px; line-height:1.85; color:#334155; padding:10px 6px 24px;">
+        통합 시뮬레이션 엔진(integrated_sim) 사용 중 — 타자 Markov(simulator.py) + 투수 Markov(markov_pitching.py) +
+        Phase 6-7' 메커니즘(하이 레버리지 패널티, closer 타이밍, 시기별 불펜 풀) 반영<br>
+        설정한 반복 횟수만큼 실행되며 완료까지 수 분이 걸릴 수 있습니다.
+        </div>
+        """, unsafe_allow_html=True)
 
     run_click = st.button(
         "시뮬레이션 실행",
@@ -481,15 +489,14 @@ def show():
             st.error("data_raw 폴더가 없습니다. app.py/simulator.py에서 쓰던 CSV 파일들을 data_raw 폴더에 넣어주세요.")
             return
         try:
-            spinner_msg = "시뮬레이션 실행 중 (상세 모드, 시간이 걸릴 수 있습니다)..." if not use_fast_mode else "시뮬레이션 실행 중..."
-            with st.spinner(spinner_msg):
+            with st.spinner("시뮬레이션 실행 중..."):
                 st.session_state["simulation_result"] = get_simulation_result(
                     str(RAW_DIR),
                     selected_scenario,
                     simulation_runs,
                     custom_stats=custom_stats,
                     custom_boosts=custom_boosts,
-                    fast_mode=use_fast_mode,
+                    fast_mode=False,
                 )
                 st.session_state["sim_scenario"] = selected_scenario
                 st.session_state["sim_runs"] = simulation_runs
@@ -508,10 +515,10 @@ def show():
     if result is None:
         finding_box(
             "아직 시뮬레이션을 실행하지 않았습니다.",
-            "상단에서 시나리오와 반복 횟수를 선택한 뒤 시뮬레이션 실행 버튼을 누르면 선택한 조건의 승수 분포와 월별 흐름이 계산됩니다. 아래에서는 Pareto / Phase 8 후보를 먼저 비교할 수 있습니다."
+            "상단에서 시나리오와 반복 횟수를 선택한 뒤 시뮬레이션 실행 버튼을 누르면 선택한 조건의 승수 분포와 월별 흐름이 계산됩니다.<br>아래에서는 Pareto / Phase 8 후보를 먼저 비교할 수 있습니다."
         )
-        st.markdown("---")
-        st.markdown("## 후보 비교")
+        st.markdown(_HR, unsafe_allow_html=True)
+        st.markdown("## 2. 후보 비교")
         _render_decision_board()
         return
 
@@ -523,13 +530,13 @@ def show():
     pitchers = result.get("pitcher_projection", pd.DataFrame()).copy()
     is_integrated = "integrated_n_seasons" in summary
 
-    st.markdown("---")
-    st.markdown("## 시뮬레이션 결과 요약")
+    st.markdown(_HR, unsafe_allow_html=True)
+    st.markdown("## 2. 시뮬레이션 결과 요약")
     if is_integrated:
         n_int = summary.get("integrated_n_seasons", "?")
         st.success(
             f"통합 Markov 엔진 결과 ({n_int}시즌) — "
-            "타자 Markov + 투수 Markov(Phase 6-7' 메커니즘 포함)로 계산된 승수 분포입니다. "
+            "타자 Markov + 투수 Markov(Phase 6-7' 메커니즘 포함)로 계산된 승수 분포입니다.\n"
             "월별·선수별 세부 데이터는 이 모드에서는 제공되지 않습니다."
         )
 
@@ -569,8 +576,8 @@ def show():
                     f"&nbsp;·&nbsp; 실제 승수 <span style='font-weight:700;'>{fmt_num(actual_w, 0)}</span>승"
                 )
             st.markdown(
-                f"""<div style="background:#f8f9fa;border-radius:8px;padding:14px 18px;margin-top:4px;font-size:13px;line-height:1.9;">
-                시뮬 득실차&nbsp; <span style="font-weight:700;color:{diff_color};">{diff_sign}{fmt_num(run_diff, 1)}</span>점
+                f"""<div class="glass-card" style="margin-top:4px;font-size:13px;line-height:1.9;">
+                시뮬레이션 득실차&nbsp; <span style="font-weight:700;color:{diff_color};">{diff_sign}{fmt_num(run_diff, 1)}</span>점
                 &nbsp;·&nbsp; 피타고리안 기대승수 <span style="font-weight:700;">{fmt_num((rs_mean**1.83) / (rs_mean**1.83 + ra_mean**1.83) * 162, 1)}</span>승
                 {actual_line}
                 </div>""",
@@ -598,9 +605,8 @@ def show():
                         f"<span style='color:{o_color};font-weight:700'>{cur_over81*100:.1f}%</span>"
                     )
                 st.markdown(
-                    f"""<div style="background:#f0f4ff;border-left:4px solid #3b5bdb;border-radius:6px;
-                        padding:12px 16px;margin:12px 0;font-size:14px;line-height:1.8;">
-                      <b>기준 시뮬 대비 증감</b>&nbsp;&nbsp;
+                    f"""<div class="finding-box-navy" style="margin:12px 0;">
+                      <strong>기준 시뮬레이션 대비 증감</strong>&nbsp;&nbsp;
                       예상 승수 평균
                       <span style='color:{color};font-weight:700;font-size:16px;'>
                         {sign} {abs(delta_mean):.2f}승
@@ -613,16 +619,14 @@ def show():
         except Exception:
             pass
 
-    st.markdown("""
-    <div class="finding-box">
-        <strong>해석 기준</strong><br>
-        이 결과는 미래 예측이라기보다 <b>2025 시즌을 조건 변화에 따라 다시 재구성한 결과</b>입니다.
-        피타고리안 기대 승수와 실제 승수의 괴리를 설명하기 위해, 시나리오별 승수 분포와 보정값을 함께 확인합니다.
-    </div>
-    """, unsafe_allow_html=True)
+    finding_box(
+        "해석 기준",
+        "이 결과는 미래 예측이라기보다 <b>2025 시즌을 조건 변화에 따라 다시 재구성한 결과</b>입니다.<br>"
+        "피타고리안 기대 승수와 실제 승수의 괴리를 설명하기 위해, 시나리오별 승수 분포와 보정값을 함께 확인합니다.",
+    )
 
-    st.markdown("---")
-    st.markdown("## 후보 비교")
+    st.markdown(_HR, unsafe_allow_html=True)
+    st.markdown("## 3. 후보 비교")
     _cur_scenario = st.session_state.get("sim_scenario", "")
     _cur_label    = _display_scenario_name(_cur_scenario) if _cur_scenario else None
     _is_baseline  = _cur_scenario == "Baseline 2025"
@@ -648,7 +652,7 @@ def show():
                 .properties(height=330)
             )
             st.altair_chart(win_chart, use_container_width=True)
-            st.caption("막대가 높을수록 시뮬레이션에서 자주 나온 승수입니다. 오른쪽으로 갈수록 더 좋은 시즌 결과입니다.")
+            st.caption("막대가 높을수록 시뮬레이션에서 자주 나온 승수입니다.\n오른쪽으로 갈수록 더 좋은 시즌 결과입니다.")
         else:
             st.info("승수 분포 데이터가 없습니다.")
 
@@ -667,8 +671,8 @@ def show():
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("---")
-    st.markdown("## 월별 시뮬레이션 흐름")
+    st.markdown(_HR, unsafe_allow_html=True)
+    st.markdown("## 4. 월별 시뮬레이션 흐름")
     monthly_left, monthly_right = st.columns([1.35, 1], gap="large")
 
     with monthly_left:
@@ -676,7 +680,7 @@ def show():
             month_order = list(monthly["month"])
             monthly_band = (
                 alt.Chart(monthly)
-                .mark_area(opacity=0.20, color=CHART_GRAY)
+                .mark_area(opacity=0.25, color=CHART_GRAY)
                 .encode(
                     x=alt.X("month:N", sort=month_order, title=None),
                     y=alt.Y("p25_wins:Q", title="월별 예상 승수"),
@@ -720,7 +724,8 @@ def show():
         else:
             st.info("스케줄 요약 데이터가 없습니다.")
 
-    st.markdown("---")
+    st.markdown(_HR, unsafe_allow_html=True)
+    st.markdown("## 5. 선수별 시나리오 보드")
     hitter_tab, pitcher_tab, scenario_tab = st.tabs(
         ["Hitters", "Pitchers", "Scenario Board"]
     )
@@ -844,7 +849,7 @@ def show():
                                     "시나리오:N",
                                     scale=alt.Scale(
                                         domain=["Baseline 2025", cur_scenario],
-                                        range=[CHART_GRAY, RANGERS_RED],
+                                        range=[CHART_GRAY, RANGERS_RED_SOFT],
                                     ),
                                     legend=None,
                                 ),
@@ -885,7 +890,7 @@ def show():
                                     "시나리오:N",
                                     scale=alt.Scale(
                                         domain=["Baseline 2025", cur_scenario],
-                                        range=[CHART_GRAY, RANGERS_NAVY],
+                                        range=[CHART_GRAY, NAVY_SOFT],
                                     ),
                                     legend=None,
                                 ),

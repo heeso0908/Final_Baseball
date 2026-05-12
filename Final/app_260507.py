@@ -1,4 +1,4 @@
-﻿"""TEX 2025 Pythagorean Residual Analysis Dashboard."""
+﻿"""TEX 2025 피타고리안 Residual Analysis Dashboard."""
 # ── 한글 폰트 설정 ── Streamlit 명령어보다 먼저 실행해야 함 ──
 import platform as _platform
 import sys as _sys
@@ -6,6 +6,7 @@ import glob as _glob
 from pathlib import Path
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as _fm
+from PIL import Image as _Image
 
 
 def _setup_korean_font():
@@ -39,9 +40,15 @@ _setup_korean_font()
 # ── Streamlit 페이지 설정 ── 첫 번째 st.* 호출이어야 함 ───────────
 import streamlit as st
 
+_PAGE_ICON_PATH = Path(__file__).resolve().parent / "assets" / "images" / "logo_page.png"
+try:
+    _PAGE_ICON = _Image.open(_PAGE_ICON_PATH) if _PAGE_ICON_PATH.exists() else "⚾"
+except Exception:
+    _PAGE_ICON = "⚾"
+
 st.set_page_config(
     page_title="TEX 2025 Residual Analysis",
-    page_icon="⚾",
+    page_icon=_PAGE_ICON,
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -64,7 +71,6 @@ import views.conclusions as v_conclusions
 _APP_DIR = Path(__file__).resolve().parent
 _V5_OUTPUT_FILES = {
     "Pareto": _APP_DIR / "output" / "pareto_summary.csv",
-    "Grid Pareto": _APP_DIR / "output" / "grid_pareto.csv",
     "Decision Leaderboard": _APP_DIR / "output" / "scenario_decision_leaderboard.csv",
 }
 
@@ -169,6 +175,14 @@ span[data-testid="stIconMaterial"],
 [data-testid="stMultiSelect"] span,
 [data-testid="stMultiSelect"] input {
     font-size: 13px !important;
+}
+
+[data-testid="stSelectbox"] label,
+[data-testid="stSlider"] label {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #1E293B !important;
+    letter-spacing: -0.01em;
 }
 
 [data-testid="stToolbar"] {
@@ -330,10 +344,18 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     display: block !important;
     margin: 0 auto !important;
 }
+.sidebar-brand-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100%;
+    text-decoration: none !important;
+    cursor: pointer;
+}
 
 .sidebar-project-wrap {
-    padding: 22px 18px 12px 18px;
-    margin-bottom: 0;
+    padding: 22px 18px 18px 18px;
+    margin-bottom: 10px;
     position: relative;
 }
 .sidebar-project-wrap::after {
@@ -570,9 +592,19 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     margin-bottom: 0 !important;
 }
 
+.glass-card .chart-title,
+.glass-card.glass-card-accent .chart-title,
+.glass-card.glass-card-red .chart-title,
+.glass-card.glass-card-navy .chart-title,
+.glass-card.glass-card-amber .chart-title {
+    font-size: 18px;
+}
+
 .glass-card .chart-caption {
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.65;
+    color: #334155;
+    margin-top: 10px;
 }
 
 .glass-card-accent {
@@ -722,13 +754,22 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     color: #344054;
     border-radius: 18px;
     padding: 16px 18px;
-    font-size: 13px;
-    line-height: 1.65;
+    font-size: 15px;
+    line-height: 1.7;
     margin: 15px 0;
     box-shadow: 0 10px 28px -18px rgba(179,25,34,0.28);
 }
 .finding-box strong {
+    display: block;
     color: var(--rangers-red);
+    font-size: 17px;
+    font-family: "Sora", "Manrope", sans-serif;
+    letter-spacing: -0.015em;
+    margin-bottom: 10px;
+}
+.finding-box-body {
+    font-size: 15px;
+    line-height: 1.7;
 }
 
 .finding-box-navy {
@@ -739,13 +780,16 @@ section[data-testid="stSidebar"] .element-container:has(.sidebar-sticky-head) {
     color: #344054;
     border-radius: 18px;
     padding: 12px 16px;
-    font-size: 13px;
-    line-height: 1.65;
+    font-size: 15px;
+    line-height: 1.7;
     margin: 0 0 8px 0;
     box-shadow: 0 10px 28px -18px rgba(13,27,51,0.28);
 }
 .finding-box-navy strong {
     color: var(--navy);
+    font-size: 17px;
+    font-family: "Sora", "Manrope", sans-serif;
+    letter-spacing: -0.015em;
 }
 
 [data-testid="stMetric"] {
@@ -777,6 +821,10 @@ div[data-testid="stDataFrame"] {
     overflow: hidden;
     border: 1px solid rgba(13, 27, 51, 0.08);
     box-shadow: var(--shadow-card);
+}
+div[data-testid="stDataFrame"] th {
+    color: #1B2435 !important;
+    font-weight: 800 !important;
 }
 
 .stTabs [data-baseweb="tab-list"] {
@@ -813,6 +861,15 @@ div[data-testid="stDataFrame"] {
     border-radius: 12px;
     border: 1px solid rgba(13, 27, 51, 0.08);
     font-weight: 700;
+}
+button[data-testid="baseButton-primary"] {
+    background-color: #B31922 !important;
+    border-color: #B31922 !important;
+    color: #ffffff !important;
+}
+button[data-testid="baseButton-primary"]:hover {
+    background-color: #9A1419 !important;
+    border-color: #9A1419 !important;
 }
 
 div[data-baseweb="select"] > div {
@@ -1004,6 +1061,17 @@ div[data-baseweb="select"] > div {
 }
 .quote-card p, .quote-card li, .quote-card strong {
     color: white !important;
+}
+.quote-card strong {
+    display: block;
+    font-size: 18px;
+    font-family: "Sora", "Manrope", sans-serif;
+    letter-spacing: -0.015em;
+    margin-bottom: 10px;
+}
+.quote-card p {
+    font-size: 15px;
+    line-height: 1.7;
 }
 @media (max-width: 1100px) {
     .inline-stat-grid { grid-template-columns: 1fr 1fr; }
@@ -1225,214 +1293,61 @@ div[data-testid="stElementContainer"]:has(.video-mode-head) + div[data-testid="s
 
 /* ─────────────────────────────
    사이드바 커스텀 내비게이션 버튼
+   - 기존 디자인 유지
+   - Bootstrap Icons 유지
+   - hover/active 박스 잘림 방지
+   - AI Agent 선택 시 추가 패널 지원
 ───────────────────────────── */
 section[data-testid="stSidebar"] .stButton {
-    margin: 0 8px !important;
+    width: calc(100% - 20px) !important;
+    max-width: calc(100% - 20px) !important;
+    margin: 0 10px 8px 10px !important;
     padding: 0 !important;
-}
-section[data-testid="stSidebar"] .stButton > button {
-    width: 100% !important;
-    text-align: left !important;
-    justify-content: flex-start !important;
-    background: transparent !important;
-    color: rgba(255,255,255,0.85) !important;
-    border: none !important;
-    border-left: 3px solid transparent !important;
-    border-radius: 10px !important;
-    padding: 10px 14px !important;
-    font-family: "Manrope", sans-serif !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    margin: 0 !important;
-    transition: background 0.15s, border-color 0.15s !important;
-    box-shadow: none !important;
-}
-section[data-testid="stSidebar"] .stButton > button:hover {
-    background: #10264A !important;
-    color: #FFFFFF !important;
-}
-section[data-testid="stSidebar"] .stButton > button[data-testid="baseButton-primary"] {
-    background: rgba(26,50,87,0.90) !important;
-    color: #FFFFFF !important;
-    border-left: 3px solid #B31922 !important;
-    font-weight: 700 !important;
-}
-section[data-testid="stSidebar"] .stButton > button[data-testid="baseButton-primary"]:hover {
-    background: #1E3A65 !important;
-}
-section[data-testid="stSidebar"] .stButton > button p {
-    font-family: "bootstrap-icons", "Manrope", "Pretendard", "Noto Sans KR", sans-serif !important;
-    color: inherit !important;
-    font-size: inherit !important;
-    font-weight: inherit !important;
-    margin: 0 !important;
-    text-align: left !important;
-    letter-spacing: 0 !important;
-    word-spacing: 0 !important;
-}
-section[data-testid="stSidebar"] [data-testid="stExpander"] {
-    margin: 4px 0 !important;
-}
-section[data-testid="stSidebar"] [data-testid="stExpander"] details,
-section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary {
-    background: rgba(13,27,51,0.40) !important;
-    border: 1px solid rgba(255,255,255,0.12) !important;
-}
-section[data-testid="stSidebar"] [data-testid="stExpander"] details {
-    border-radius: 10px !important;
-    overflow: hidden !important;
-    margin: 0 8px !important;
-    width: calc(100% - 16px) !important;
     box-sizing: border-box !important;
-}
-section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary {
-    list-style: none !important;
-}
-section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary::-webkit-details-marker {
-    display: none !important;
-}
-section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary,
-section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"],
-section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"] p {
-    color: rgba(255,255,255,0.88) !important;
-    font-family: "Manrope", sans-serif !important;
-    font-size: 14px !important;
-    font-weight: 800 !important;
-    padding: 10px 14px !important;
-}
-section[data-testid="stSidebar"] [data-testid="stExpander"] summary p,
-section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"] p {
-    font-family: "Manrope", "Pretendard", "Noto Sans KR", sans-serif !important;
-    font-weight: 800 !important;
-}
-section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary:hover,
-section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"]:hover {
-    background: #10264A !important;
-}
-section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary svg,
-section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"] svg {
-    fill: rgba(255,255,255,0.60) !important;
-    stroke: rgba(255,255,255,0.60) !important;
-    width: 16px !important;
-    height: 16px !important;
-    flex: 0 0 16px !important;
-}
-section[data-testid="stSidebar"] div[data-testid="stRadio"] div[role="radiogroup"] {
-    gap: 7px !important;
-}
-section[data-testid="stSidebar"] div[data-testid="stRadio"] div[role="radiogroup"] label {
-    align-items: flex-start !important;
-    width: 100% !important;
-    min-height: 48px !important;
-    padding: 10px 12px !important;
-    margin: 0 !important;
-    background: rgba(255,255,255,0.08) !important;
-    border: 1px solid rgba(255,255,255,0.16) !important;
-    border-left: 3px solid transparent !important;
-    border-radius: 10px !important;
-    transition: background 0.15s, border-color 0.15s, color 0.15s !important;
-}
-section[data-testid="stSidebar"] div[data-testid="stRadio"] div[role="radiogroup"] label:hover {
-    background: rgba(255,255,255,0.14) !important;
-    border-color: rgba(255,255,255,0.28) !important;
-}
-section[data-testid="stSidebar"] div[data-testid="stRadio"] div[role="radiogroup"] label:has(input:checked) {
-    background: #FFFFFF !important;
-    border-color: #FFFFFF !important;
-    border-left-color: #B31922 !important;
-}
-section[data-testid="stSidebar"] div[data-testid="stRadio"] div[role="radiogroup"] label p {
-    color: rgba(255,255,255,0.92) !important;
-    font-family: "Manrope", "Pretendard", "Noto Sans KR", sans-serif !important;
-    font-size: 13px !important;
-    font-weight: 650 !important;
-    line-height: 1.35 !important;
-    white-space: normal !important;
-    word-break: keep-all !important;
-}
-section[data-testid="stSidebar"] div[data-testid="stRadio"] div[role="radiogroup"] label:has(input:checked) p {
-    color: #0D1B33 !important;
-    font-weight: 800 !important;
-}
-section[data-testid="stSidebar"] [data-testid="stCaptionContainer"] p {
-    color: rgba(255,255,255,0.72) !important;
-    font-family: "Manrope", "Pretendard", "Noto Sans KR", sans-serif !important;
-    line-height: 1.5 !important;
-}
-.agent-sidebar-list {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    margin: 8px 8px 2px 8px;
-}
-.agent-sidebar-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 8px 10px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: rgba(255,255,255,0.92);
-    font-family: "Manrope", "Noto Sans KR", sans-serif;
-    font-size: 12.5px;
-    font-weight: 650;
-    line-height: 1.35;
-    word-break: keep-all;
-}
-.agent-sidebar-row.locked {
-    color: rgba(255,255,255,0.68);
-    background: rgba(255,255,255,0.045);
-}
-.agent-sidebar-icon {
-    flex: 0 0 auto;
-    width: 15px;
-    color: #FFFFFF;
-    font-family: "bootstrap-icons";
-    font-size: 13px;
-    line-height: 1.35;
-    text-align: center;
-}
-.agent-sidebar-row.locked .agent-sidebar-icon {
-    color: rgba(255,255,255,0.56);
-}
-.agent-sidebar-code {
-    color: #FFFFFF;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 11.5px;
-    font-weight: 700;
-}
-.agent-sidebar-desc {
-    color: rgba(255,255,255,0.78);
-    font-weight: 600;
-}
-.agent-sidebar-note {
-    margin: 8px 8px 2px 8px;
-    padding: 8px 10px;
-    border-radius: 8px;
-    background: rgba(179,25,34,0.16);
-    border: 1px solid rgba(179,25,34,0.28);
-    color: #FFFFFF;
-    font-family: "Manrope", "Pretendard", "Noto Sans KR", sans-serif;
-    font-size: 12.5px;
-    font-weight: 700;
-    line-height: 1.4;
-}
-.sidebar-nav-section {
-    display: block;
-    color: rgba(255,255,255,0.48);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    padding: 12px 18px 5px 18px;
 }
 
 section[data-testid="stSidebar"] .stButton > button {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 42px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
     text-align: left !important;
+    background: transparent !important;
+    color: rgba(255,255,255,0.85) !important;
+    border: 1px solid transparent !important;
+    border-left: none !important;
+    border-radius: 12px !important;
+    padding: 10px 13px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    font-family: "Manrope", "Pretendard", "Noto Sans KR", sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+    transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease !important;
+    overflow: hidden !important;
+}
+
+section[data-testid="stSidebar"] .stButton > button:hover {
+    background: rgba(255,255,255,0.08) !important;
+    color: #FFFFFF !important;
+    border-color: rgba(255,255,255,0.10) !important;
+}
+
+section[data-testid="stSidebar"] .stButton > button[data-testid="baseButton-primary"] {
+    background: rgba(26,50,87,0.92) !important;
+    color: #FFFFFF !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-left: none !important;
+    font-weight: 800 !important;
+    box-shadow: 0 10px 26px -18px rgba(0,0,0,0.45) !important;
+}
+
+section[data-testid="stSidebar"] .stButton > button[data-testid="baseButton-primary"]:hover {
+    background: #1E3A65 !important;
+    border-color: rgba(255,255,255,0.18) !important;
 }
 
 section[data-testid="stSidebar"] .stButton > button div,
@@ -1442,23 +1357,287 @@ section[data-testid="stSidebar"] .stButton > button [data-testid="stMarkdownCont
     align-items: center !important;
     justify-content: flex-start !important;
     text-align: left !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 section[data-testid="stSidebar"] .stButton > button p {
     width: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-    text-align: left !important;
-    justify-content: flex-start !important;
+
+    /* p 전체를 flex로 두면 ::first-letter 조정이 잘 안 먹을 수 있어서 block으로 변경 */
+    display: block !important;
+
+    /* 텍스트는 일반 폰트 기준으로 정렬 */
+    font-family: "Manrope", "Pretendard", "Noto Sans KR", "bootstrap-icons", sans-serif !important;
+
+    color: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+
     margin: 0 !important;
-    line-height: 1 !important;
+    padding: 0 !important;
+    text-align: left !important;
+
+    line-height: 1.2 !important;
+    letter-spacing: 0 !important;
+    word-spacing: 0 !important;
     white-space: nowrap !important;
 }
 
+/* 첫 글자, 즉 Bootstrap icon 문자만 따로 정렬 */
+section[data-testid="stSidebar"] .stButton > button p::first-letter {
+    font-family: "bootstrap-icons" !important;
+    font-size: 15px !important;
+    font-weight: normal !important;
+    line-height: 1 !important;
+    vertical-align: -0.08em !important;
+}
 
-/* ─────────────────────────────────────────────────────────
-   다크 모드 - OS prefers-color-scheme CSS 변수 오버라이드
-───────────────────────────────────────────────────────── */
+.sidebar-nav-section {
+    display: block;
+    color: rgba(255,255,255,0.48);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 14px 18px 7px 18px;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 16px 10px 16px 10px;
+}
+
+/* Roster expander - 오른쪽 잘림 방지 */
+section[data-testid="stSidebar"] [data-testid="stExpander"] {
+    width: calc(100% - 20px) !important;
+    max-width: calc(100% - 20px) !important;
+    margin: 4px 10px 10px 10px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stExpander"] details {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    background: rgba(13,27,51,0.40) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stExpander"] summary,
+section[data-testid="stSidebar"] [data-testid="stExpander"] details[open] > summary,
+section[data-testid="stSidebar"] [data-testid="stExpander"] summary:focus,
+section[data-testid="stSidebar"] [data-testid="stExpander"] summary:focus-visible,
+section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"],
+section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"]:focus,
+section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"]:focus-visible {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+
+    background: rgba(13,27,51,0.40) !important;
+    color: rgba(255,255,255,0.88) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Roster 내부 버튼 폭 보정 */
+section[data-testid="stSidebar"] [data-testid="stExpander"] .stButton {
+    width: calc(100% - 12px) !important;
+    max-width: calc(100% - 12px) !important;
+    margin: 0 6px 7px 6px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stExpander"] .stButton > button {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 38px !important;
+    padding: 9px 12px !important;
+    box-sizing: border-box !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stExpander"] summary p,
+section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"] p {
+    color: rgba(255,255,255,0.88) !important;
+    font-family: "Manrope", "Pretendard", "Noto Sans KR", sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary:hover,
+section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"]:hover {
+    background: #10264A !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stExpander"] details > summary svg,
+section[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderHeader"] svg {
+    fill: rgba(255,255,255,0.60) !important;
+    stroke: rgba(255,255,255,0.60) !important;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stCaptionContainer"] p {
+    color: rgba(255,255,255,0.72) !important;
+    font-family: "Manrope", "Pretendard", "Noto Sans KR", sans-serif !important;
+    line-height: 1.5 !important;
+}
+
+.agent-sidebar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin: 10px 10px 4px 10px;
+}
+
+.agent-sidebar-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 10px 11px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.075);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.92);
+    font-family: "Manrope", "Noto Sans KR", sans-serif;
+    font-size: 12.5px;
+    font-weight: 650;
+    line-height: 1.38;
+    word-break: keep-all;
+}
+
+.agent-sidebar-row.locked {
+    color: rgba(255,255,255,0.68);
+    background: rgba(255,255,255,0.045);
+}
+
+.agent-sidebar-icon {
+    flex: 0 0 auto;
+    width: 16px;
+    color: #FFFFFF;
+    font-family: "bootstrap-icons";
+    font-size: 13px;
+    line-height: 1.38;
+    text-align: center;
+}
+
+.agent-sidebar-row.locked .agent-sidebar-icon {
+    color: rgba(255,255,255,0.56);
+}
+
+.agent-sidebar-code {
+    color: #FFFFFF;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+    font-weight: 700;
+}
+
+.agent-sidebar-desc {
+    color: rgba(255,255,255,0.78);
+    font-weight: 600;
+}
+
+.agent-sidebar-note {
+    margin: 10px 10px 4px 10px;
+    padding: 10px 11px;
+    border-radius: 12px;
+    background: rgba(179,25,34,0.16);
+    border: 1px solid rgba(179,25,34,0.28);
+    color: #FFFFFF;
+    font-family: "Manrope", "Pretendard", "Noto Sans KR", sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+/* ─────────────────────────────
+   AI Agent 추가 사이드바 패널
+───────────────────────────── */
+.ai-agent-panel {
+    margin: 18px 10px 16px 10px;
+    padding: 16px 14px 15px 14px;
+    border-radius: 18px;
+    background:
+        radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,0.10) 0%, transparent 52%),
+        linear-gradient(145deg, rgba(255,255,255,0.085), rgba(255,255,255,0.045));
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow:
+        0 1px 0 0 rgba(255,255,255,0.12) inset,
+        0 14px 34px -22px rgba(0,0,0,0.45);
+}
+
+.ai-agent-kicker {
+    color: rgba(255,255,255,0.54);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.ai-agent-title {
+    color: #FFFFFF;
+    font-family: "Sora", "Manrope", sans-serif;
+    font-size: 16px;
+    font-weight: 850;
+    letter-spacing: -0.02em;
+    margin-bottom: 5px;
+}
+
+.ai-agent-desc {
+    color: rgba(255,255,255,0.66);
+    font-size: 12px;
+    line-height: 1.55;
+    margin-bottom: 13px;
+}
+
+.ai-agent-mini-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.ai-agent-mini-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 10px 10px;
+    border-radius: 13px;
+    background: rgba(7,18,37,0.42);
+    border: 1px solid rgba(255,255,255,0.10);
+}
+
+.ai-agent-mini-icon {
+    color: #FFFFFF;
+    font-size: 14px;
+    line-height: 1.35;
+    opacity: 0.9;
+}
+
+.ai-agent-mini-text {
+    color: rgba(255,255,255,0.90);
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.35;
+}
+
+.ai-agent-mini-sub {
+    display: block;
+    color: rgba(255,255,255,0.56);
+    font-size: 11px;
+    font-weight: 500;
+    margin-top: 3px;
+}
+
+
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -1469,12 +1648,36 @@ if "page" not in st.session_state:
 
 _PITCHER_PAGES = {"leiter", "webb", "garcia", "armstrong", "jackson"}
 
+# ── query param을 page 상태에 반영 ──────────────────────────────────
+VALID_PAGES = {
+    "overview",
+    "simulation",
+    "methodology",
+    "leiter",
+    "webb",
+    "garcia",
+    "armstrong",
+    "jackson",
+    "comparison",
+    "ai_agent",
+    "conclusions",
+}
+
+query_page = st.query_params.get("page", None)
+
+if isinstance(query_page, list):
+    query_page = query_page[0]
+
+if query_page in VALID_PAGES:
+    st.session_state["page"] = query_page
+
 
 def _nav_btn(label, page_id):
     is_active = st.session_state["page"] == page_id
     if st.button(label, key=f"_nb_{page_id}", use_container_width=True,
                  type="primary" if is_active else "secondary"):
         st.session_state["page"] = page_id
+        st.query_params["page"] = page_id
         st.rerun()
 
 
@@ -1484,12 +1687,18 @@ logo_path = ASSETS / "images" / "logo.png"
 with st.sidebar:
     if logo_path.exists():
         logo_base64 = image_to_base64(logo_path)
-        brand_html = f'<img class="sidebar-logo-full" src="data:image/png;base64,{logo_base64}">'
+        brand_html = (
+            f'<a class="sidebar-brand-link" href="?page=overview" target="_self" aria-label="Overview로 이동">'
+            f'<img class="sidebar-logo-full" src="data:image/png;base64,{logo_base64}">'
+            f'</a>'
+        )
     else:
         brand_html = """
+        <a class="sidebar-brand-link" href="?page=overview" target="_self" aria-label="Overview로 이동">
         <div style="font-family:Sora, Manrope, sans-serif; color:#0D1B33; font-size:18px; font-weight:800; line-height:1.05;">
             Monday<br>Likes Baseball
         </div>
+        </a>
         """
 
     st.markdown(f"""
@@ -1505,40 +1714,70 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="sidebar-note-wrap">
-        <div class="sidebar-section-label">PROJECT NOTE</div>
-        <div class="sidebar-note-body">
-            <span class="note-line">TEX 2025 잔차 -9.06승 원인 진단</span>
-            <span class="note-subline">— 수동 시나리오 · Grid/Pareto 후보 비교</span>
-        </div>
-    </div>
-    <div class="sidebar-divider"></div>
-    """, unsafe_allow_html=True)
-
+    st.markdown('<span class="sidebar-nav-section">Analysis</span>', unsafe_allow_html=True)
     _nav_btn("  Overview",    "overview")
     _nav_btn("  Simulation",  "simulation")
-    _nav_btn("  Comparison",  "comparison")
-    _nav_btn("  AI Agent", "ai_agent")
-    _nav_btn("  Conclusions", "conclusions")
 
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
-    st.markdown('<span class="sidebar-nav-section">Pitcher Analysis</span>', unsafe_allow_html=True)
+    st.markdown('<span class="sidebar-nav-section">Motion Analysis</span>', unsafe_allow_html=True)
+    _nav_btn("  Comparison",  "comparison")
+
     _cur = st.session_state["page"]
     with st.expander("Roster", expanded=(_cur in _PITCHER_PAGES)):
-        _nav_btn("  Leiter",    "leiter")
-        _nav_btn("  Webb",      "webb")
+        _nav_btn("  Webb",      "webb")
+        _nav_btn("  Leiter",    "leiter")
         _nav_btn("  Garcia",    "garcia")
         _nav_btn("  Armstrong", "armstrong")
         _nav_btn("  Jackson",   "jackson")
-
-    st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
+    _nav_btn("  Methodology", "methodology")
 
     _missing_v5_outputs = [name for name, path in _V5_OUTPUT_FILES.items() if not path.exists()]
     if _missing_v5_outputs:
         st.warning("v5 출력 파일 누락: " + ", ".join(_missing_v5_outputs))
 
-    _nav_btn("  Methodology", "methodology")
+    st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
+    st.markdown('<span class="sidebar-nav-section">Output</span>', unsafe_allow_html=True)
+    _nav_btn("  Conclusions", "conclusions")
+
+    st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
+    st.markdown('<span class="sidebar-nav-section">Assistant</span>', unsafe_allow_html=True)
+    _nav_btn("  AI Agent", "ai_agent")
+
+    # AI Agent 선택 시에만 추가 사이드바 패널 표시
+    if st.session_state.get("page") == "ai_agent":
+        st.markdown("""
+        <div class="sidebar-divider"></div>
+        <div class="ai-agent-panel">
+            <div class="ai-agent-kicker">AI Agent Panel</div>
+            <div class="ai-agent-title">TEX 분석 어시스턴트</div>
+            <div class="ai-agent-desc">
+                시나리오, 게임로그, 팀 비교, historical 데이터를 질의형으로 확인하는 전용 작업 영역입니다.
+            </div>
+            <div class="ai-agent-mini-grid">
+                <div class="ai-agent-mini-card">
+                    <i class="bi bi-stars ai-agent-mini-icon"></i>
+                    <div class="ai-agent-mini-text">
+                        Plan-based Tools
+                        <span class="ai-agent-mini-sub">플랜에 따라 도구 접근 범위 차등</span>
+                    </div>
+                </div>
+                <div class="ai-agent-mini-card">
+                    <i class="bi bi-database-check ai-agent-mini-icon"></i>
+                    <div class="ai-agent-mini-text">
+                        CSV Grounded
+                        <span class="ai-agent-mini-sub">업로드된 분석 데이터 기반 응답</span>
+                    </div>
+                </div>
+                <div class="ai-agent-mini-card">
+                    <i class="bi bi-chat-dots ai-agent-mini-icon"></i>
+                    <div class="ai-agent-mini-text">
+                        Scenario Q&A
+                        <span class="ai-agent-mini-sub">승수 변화·잔차 원인 질의 지원</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 
 # ── 페이지 라우팅 ──────────────────────────────────────────────────
