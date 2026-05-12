@@ -34,20 +34,20 @@ from integrated_sim import run_integrated_simulation, _ensure_loaded
 
 SIGMA_DIMS = [
     # 타자 (team-wide multiplier)
-    {'id': 'h_hr',     'group': 'hitter',  'sub': 'team',    'key': 'hr_mult',     'lo': 0.85, 'hi': 1.30},
-    {'id': 'h_bb',     'group': 'hitter',  'sub': 'team',    'key': 'bb_mult',     'lo': 0.85, 'hi': 1.30},
-    {'id': 'h_k',      'group': 'hitter',  'sub': 'team',    'key': 'k_mult',      'lo': 0.70, 'hi': 1.15},
-    {'id': 'h_single', 'group': 'hitter',  'sub': 'team',    'key': 'single_mult', 'lo': 0.85, 'hi': 1.30},
+    {'id': 'h_hr',     'group': 'hitter',  'sub': 'team',    'key': 'hr_mult',     'lo': 0.90, 'hi': 1.15},
+    {'id': 'h_bb',     'group': 'hitter',  'sub': 'team',    'key': 'bb_mult',     'lo': 0.90, 'hi': 1.15},
+    {'id': 'h_k',      'group': 'hitter',  'sub': 'team',    'key': 'k_mult',      'lo': 0.85, 'hi': 1.10},
+    {'id': 'h_single', 'group': 'hitter',  'sub': 'team',    'key': 'single_mult', 'lo': 0.90, 'hi': 1.15},
     # 투수 tier
-    {'id': 'p_cl_K',   'group': 'pitcher', 'sub': 'closer',  'key': 'K_pct',  'lo': 0.80, 'hi': 1.25},
-    {'id': 'p_cl_BB',  'group': 'pitcher', 'sub': 'closer',  'key': 'BB_pct', 'lo': 0.75, 'hi': 1.20},
-    {'id': 'p_cl_BAB', 'group': 'pitcher', 'sub': 'closer',  'key': 'BABIP',  'lo': 0.80, 'hi': 1.20},
-    {'id': 'p_cl_HR',  'group': 'pitcher', 'sub': 'closer',  'key': 'HR_pct', 'lo': 0.50, 'hi': 1.30},
-    {'id': 'p_su_K',   'group': 'pitcher', 'sub': 'setup',   'key': 'K_pct',  'lo': 0.80, 'hi': 1.25},
-    {'id': 'p_st_HR',  'group': 'pitcher', 'sub': 'starter', 'key': 'HR_pct', 'lo': 0.50, 'hi': 1.30},
-    # 공통 (pitcher.common)
-    {'id': 'c_K',      'group': 'pitcher', 'sub': 'common',  'key': 'team_K_pct_mult',  'lo': 0.90, 'hi': 1.15},
-    {'id': 'c_BB',     'group': 'pitcher', 'sub': 'common',  'key': 'team_BB_pct_mult', 'lo': 0.90, 'hi': 1.15},
+    {'id': 'p_cl_K',   'group': 'pitcher', 'sub': 'closer',  'key': 'K_pct',  'lo': 0.90, 'hi': 1.15},
+    {'id': 'p_cl_BB',  'group': 'pitcher', 'sub': 'closer',  'key': 'BB_pct', 'lo': 0.85, 'hi': 1.15},
+    {'id': 'p_cl_BAB', 'group': 'pitcher', 'sub': 'closer',  'key': 'BABIP',  'lo': 0.90, 'hi': 1.10},
+    {'id': 'p_cl_HR',  'group': 'pitcher', 'sub': 'closer',  'key': 'HR_pct', 'lo': 0.70, 'hi': 1.15},
+    {'id': 'p_su_K',   'group': 'pitcher', 'sub': 'setup',   'key': 'K_pct',  'lo': 0.90, 'hi': 1.15},
+    {'id': 'p_st_HR',  'group': 'pitcher', 'sub': 'starter', 'key': 'HR_pct', 'lo': 0.70, 'hi': 1.15},
+    # 공통
+    {'id': 'c_K',      'group': 'pitcher', 'sub': 'common',  'key': 'team_K_pct_mult',  'lo': 0.95, 'hi': 1.10},
+    {'id': 'c_BB',     'group': 'pitcher', 'sub': 'common',  'key': 'team_BB_pct_mult', 'lo': 0.95, 'hi': 1.10},
 ]
 N_VAR = len(SIGMA_DIMS)
 LOWER = np.array([d['lo'] for d in SIGMA_DIMS])
