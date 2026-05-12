@@ -20,11 +20,13 @@ Usage:
 from __future__ import annotations
 
 import bisect
+from collections import deque
 from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from markov_pitching import simulate_tex_RA, simulate_inning_RA, get_pitcher_name, _pick_pitcher
+from markov_pitching import (simulate_tex_RA, simulate_inning_RA, get_pitcher_name,
+                              _pick_pitcher, get_pitcher_avg_ip, get_pitcher_tier)
 from simulator import (
     _train_model_bundle, _build_batting_pool, _build_advancement_tables,
     _advance_runners, _simulate_inning as _batting_inning,
@@ -45,6 +47,10 @@ TEX_EXTRA_INN_WIN_RATE: float = 9 / 17
 
 # 월 표시 순서
 _MONTH_ORDER = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
+
+_LATZ_PID: int = 656641          # Latz, Jacob — 선발↔불펜 하이브리드
+_BULLPEN_MAX_INN: int = 2         # 불펜 투수 게임당 최대 이닝 (carry-over 상한)
+_START_REST: int = 5              # 선발 전후 불펜 제외 경기 수
 
 
 def _build_starter_rotation(raw_dir: Path) -> list[int]:
@@ -261,12 +267,12 @@ def simulate_game_integrated(
     game_idx: int,
     pitcher_adjustments: dict | None = None,
     track_stats: bool = False,
+    restricted_pids: set | None = None,
 ) -> tuple:
-    """1경기 시뮬 → (RS, RA, W, batter_stats, pitcher_stats).
+    """1경기 시뮬 → (RS, RA, W, batter_stats, pitcher_stats, used_pids).
 
     이닝별 연동: 매 이닝 공격(타자 Markov) 후 해당 시점 점수차로 수비(투수 Markov) 실행.
     동점 시 TEX 2025 실제 연장전 승률(9/17 ≈ 0.529)로 확률 샘플링.
-    track_stats=False이면 batter_stats, pitcher_stats은 None.
     """
     lineup_probs, profiles, selected = lineup_pool.sample()
     advancement = _state['advancement']
@@ -277,8 +283,17 @@ def simulate_game_integrated(
     used_closer_flag = [False]
     all_batter_stats: dict | None = {} if track_stats else None
     pitcher_game_stats: dict | None = {} if track_stats else None
+    game_used_pids: set = set()
     rotation = _state.get('starter_rotation', [])
     game_starter_pid = rotation[game_idx] if game_idx < len(rotation) else _pick_pitcher('starter', 1, 0, rng)
+    current_bullpen_pid: int | None = None
+    used_bullpen_this_game: set = set()
+    bullpen_innings_this_game: dict[int, int] = {}
+
+    # 선발 퇴판 이닝: 절단 정규분포 N(avg_ip, 1.5), 분산을 기하분포 대비 축소
+    starter_avg_ip = get_pitcher_avg_ip(game_starter_pid, include_starter=True)
+    _max_starter_inn = 9 if get_pitcher_tier(game_starter_pid) == 'starter' else 4
+    starter_exit_inning = int(np.clip(np.round(rng.normal(starter_avg_ip, 1.5)), 1, _max_starter_inn))
 
     for inning in range(1, 10):
         # TEX 공격 — 타자 Markov (이닝 단위)
@@ -296,25 +311,47 @@ def simulate_game_integrated(
             )
         tex_rs += inning_rs
 
-        # TEX 수비 — 투수 Markov (실시간 점수차 반영)
+        # TEX 수비 — 투수 Markov
         score_diff = tex_rs - tex_ra
+        effective_starter_pid = game_starter_pid if inning <= starter_exit_inning else None
+        if effective_starter_pid is None:
+            used_bullpen_this_game.add(game_starter_pid)
+        effective_restricted = (restricted_pids or set()) | used_bullpen_this_game
+        final_pid_out = [None]
         inning_ra = simulate_inning_RA(
             inning, score_diff, used_closer_flag, rng,
             game_idx=game_idx, pitcher_adjustments=pitcher_adjustments,
             pitcher_game_stats=pitcher_game_stats,
-            game_starter_pid=game_starter_pid,
+            game_starter_pid=effective_starter_pid,
+            restricted_pids=effective_restricted,
+            used_pids_out=game_used_pids,
+            incumbent_pid=current_bullpen_pid,
+            final_pid_out=final_pid_out,
         )
         tex_ra += inning_ra
+
+        # 불펜 carry-over (최대 _BULLPEN_MAX_INN 이닝)
+        last_pid = final_pid_out[0]
+        avg_ip = get_pitcher_avg_ip(last_pid) if last_pid else 0.0
+        stay_prob = (1.0 - 1.0 / avg_ip) if avg_ip > 1.0 else 0.0
+        if avg_ip > 0.0:
+            bullpen_innings_this_game[last_pid] = bullpen_innings_this_game.get(last_pid, 0) + 1
+        inn_so_far = bullpen_innings_this_game.get(last_pid, 0) if last_pid else 0
+        if avg_ip > 0.0 and inn_so_far < _BULLPEN_MAX_INN and rng.random() < stay_prob:
+            current_bullpen_pid = last_pid
+        else:
+            current_bullpen_pid = None
+            if last_pid and avg_ip > 0.0:
+                used_bullpen_this_game.add(last_pid)
 
     if tex_rs > tex_ra:
         w = 1.0
     elif tex_rs == tex_ra:
-        # 실제 연장전 승률로 확률 샘플링 (TEX 2025: 9W-8L)
         w = 1.0 if rng.random() < TEX_EXTRA_INN_WIN_RATE else 0.0
     else:
         w = 0.0
 
-    return tex_rs, tex_ra, w, all_batter_stats, pitcher_game_stats
+    return tex_rs, tex_ra, w, all_batter_stats, pitcher_game_stats, game_used_pids
 
 
 def run_integrated_season(
@@ -333,11 +370,45 @@ def run_integrated_season(
     game_months = _state.get('game_months', [])
     monthly_w: dict[str, float] = {}
 
+    starter_rotation = _state.get('starter_rotation', [])
+
+    # 선발 투수별 등판 game_idx 목록 (선발 전후 _START_REST 경기 불펜 제한용)
+    starter_game_map: dict[int, list[int]] = {}
+    for gidx, pid in enumerate(starter_rotation[:n_games]):
+        starter_game_map.setdefault(pid, []).append(gidx)
+
+    # Latz 선발 기간: 첫 선발~마지막 선발 사이 전 경기 불펜 제한
+    latz_starts = starter_game_map.get(_LATZ_PID, [])
+    latz_period = (min(latz_starts), max(latz_starts)) if latz_starts else None
+
+    # 3연투 방지: 투수별 최근 2경기 등판 game_idx 기록
+    recent_apps: dict[int, deque] = {}
+
     for game_idx in range(n_games):
-        rs, ra, w, bat, pit = simulate_game_integrated(
+        restricted_pids: set[int] = set()
+
+        # 1. 3연투 방지: 직전 2경기 연속 등판 투수 제한
+        for pid, dq in recent_apps.items():
+            if (game_idx - 1) in dq and (game_idx - 2) in dq:
+                restricted_pids.add(pid)
+
+        # 2. 선발 전후 _START_REST 경기 이내 선발 예정/복귀 투수 불펜 제한
+        for pid, starts in starter_game_map.items():
+            for s_idx in starts:
+                if s_idx != game_idx and abs(s_idx - game_idx) <= _START_REST:
+                    restricted_pids.add(pid)
+                    break
+
+        # 3. Latz 선발 기간 동안 불펜 제한 (실제 선발 등판일 제외)
+        current_starter = starter_rotation[game_idx] if game_idx < len(starter_rotation) else None
+        if latz_period and latz_period[0] <= game_idx <= latz_period[1] and current_starter != _LATZ_PID:
+            restricted_pids.add(_LATZ_PID)
+
+        rs, ra, w, bat, pit, game_used_pids = simulate_game_integrated(
             rng, lineup_pool, game_idx,
             pitcher_adjustments=pitcher_adjustments,
             track_stats=track_stats,
+            restricted_pids=restricted_pids,
         )
         rs_total += rs
         ra_total += ra
@@ -360,6 +431,12 @@ def run_integrated_season(
                 )
                 for k, v in stats.items():
                     s[k] += v
+
+        # 3연투 방지 기록 갱신
+        for pid in game_used_pids:
+            if pid not in recent_apps:
+                recent_apps[pid] = deque(maxlen=2)
+            recent_apps[pid].append(game_idx)
 
     return {
         'W': w_total, 'RS': rs_total, 'RA': ra_total,

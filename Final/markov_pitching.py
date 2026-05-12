@@ -107,6 +107,22 @@ def _ensure_loaded():
 
     stats = tex_pitch.groupby('pitcher').apply(compute_stats, include_groups=False)
     result = pitcher_summary.join(stats, how='left')
+    result['avg_ip'] = result['n_innings'] / result['n_appearances'].clip(lower=1)
+
+    # 불펜 전용 appearances: inning=1에 등장한 game_pk = 선발 등판으로 간주, 해당 game 전체 행 제외
+    # → Latz 등 하이브리드 투수의 선발 이닝이 불펜 선택 비중에 반영되지 않도록
+    start_pairs = appearances[appearances['inning'] == 1][['pitcher', 'game_pk']].drop_duplicates()
+    start_pairs = start_pairs.assign(_start=True)
+    apps_flagged = appearances.merge(start_pairs, on=['pitcher', 'game_pk'], how='left')
+    bullpen_appearances = apps_flagged[apps_flagged['_start'].isna()].drop(columns=['_start'])
+
+    bp_summary = bullpen_appearances.groupby('pitcher').agg(
+        bp_n_apps=('game_pk', 'nunique'),
+        bp_n_innings=('inning', 'count'),
+    )
+    bp_summary['bullpen_avg_ip'] = bp_summary['bp_n_innings'] / bp_summary['bp_n_apps'].clip(lower=1)
+    result = result.join(bp_summary[['bullpen_avg_ip']], how='left')
+    result['bullpen_avg_ip'] = result['bullpen_avg_ip'].fillna(result['avg_ip'])
 
     # tier별 가중 평균 통계
     tier_stats = {}
@@ -140,13 +156,14 @@ def _ensure_loaded():
             break
 
     _state.update({
-        'tex_pitch':    tex_pitch,
-        'appearances':  appearances,
-        'result':       result,
-        'tier_stats':   tier_stats,
-        'policy_dict':  policy_dict,
-        'tier_map':     pitcher_summary['tier'].to_dict(),
-        'pid_to_name':  pid_to_name,
+        'tex_pitch':          tex_pitch,
+        'appearances':        appearances,
+        'bullpen_appearances': bullpen_appearances,
+        'result':             result,
+        'tier_stats':         tier_stats,
+        'policy_dict':        policy_dict,
+        'tier_map':           pitcher_summary['tier'].to_dict(),
+        'pid_to_name':        pid_to_name,
     })
 
 
@@ -175,19 +192,44 @@ def _pick_tier(inning, score_diff, rng):
     return rng.choice(tiers, p=probs)
 
 
-def _pick_pitcher(tier, inning, score_diff, rng):
-    appearances = _state['appearances']
+def _pick_pitcher(tier, inning, score_diff, rng, restricted_pids=None):
+    bp_apps = _state['bullpen_appearances']
     sb = _score_bucket(score_diff)
-    candidates = appearances[
-        (appearances['inning'] == inning) &
-        (appearances['score_bucket'] == sb) &
-        (appearances['tier'] == tier)
-    ]
-    if len(candidates) == 0:
-        candidates = appearances[appearances['tier'] == tier]
+
+    if tier == 'middle_reliever':
+        # middle_reliever + setup 블렌딩 — closer-pool 투수 제외
+        # middle_reliever 행에 3배 가중치를 줘서 Latz 등이 과도하게 희석되지 않도록
+        pool = bp_apps[
+            bp_apps['tier'].isin(['middle_reliever', 'setup']) &
+            ~bp_apps['pitcher'].isin(_CLOSER_PIDS)
+        ]
+        candidates = pool[
+            (pool['inning'] == inning) &
+            (pool['score_bucket'] == sb)
+        ]
+        if len(candidates) == 0:
+            candidates = pool
+    else:
+        candidates = bp_apps[
+            (bp_apps['inning'] == inning) &
+            (bp_apps['score_bucket'] == sb) &
+            (bp_apps['tier'] == tier)
+        ]
+        if len(candidates) == 0:
+            candidates = bp_apps[bp_apps['tier'] == tier]
+
     if len(candidates) == 0:
         return None
-    counts = candidates['pitcher'].value_counts()
+    if restricted_pids:
+        filtered = candidates[~candidates['pitcher'].isin(restricted_pids)]
+        if len(filtered) > 0:
+            candidates = filtered
+    counts = candidates['pitcher'].value_counts().astype(float)
+    if tier == 'middle_reliever':
+        mr_pids = set(bp_apps[bp_apps['tier'] == 'middle_reliever']['pitcher'])
+        for pid in counts.index:
+            if pid in mr_pids:
+                counts[pid] *= 10
     pids, probs = counts.index.values, counts.values / counts.sum()
     return int(rng.choice(pids, p=probs))
 
@@ -447,6 +489,8 @@ ARMSTRONG = 542888   # 실제 8-9월 주 마무리
 # - period_2 (game 72-113, 6월 중순~7월 말): Garcia 주 마무리
 # - period_3 (game 114-123, 8월 초~8월 중순): Maton 주 마무리
 # - period_4 (game 124-161, 8월 중순~시즌 끝): Armstrong 주 마무리
+_CLOSER_PIDS: frozenset = frozenset({GARCIA, JACKSON, MATON, ARMSTRONG})
+
 PERIOD_CLOSER_POOLS = {
     'period_1': [JACKSON],    # 개막 ~ 6월 중순
     'period_2': [GARCIA],     # 6월 중순 ~ 7월 말
@@ -492,7 +536,7 @@ def _pick_closer(inning, score_diff, rng, game_idx=None, forced_closer=None):
     return _pick_pitcher('closer', inning, score_diff, rng)
 
 
-def _pick_setup_with_period(inning, score_diff, rng, game_idx=None):
+def _pick_setup_with_period(inning, score_diff, rng, game_idx=None, restricted_pids=None):
     """period-aware setup 투수 선택.
 
     해당 기간 마무리가 아닌 closer-tier 투수를 setup 풀에 블렌딩.
@@ -502,7 +546,7 @@ def _pick_setup_with_period(inning, score_diff, rng, game_idx=None):
     extras = _PERIOD_SETUP_ADDITIONS.get(period, []) if period else []
 
     if not extras:
-        return _pick_pitcher('setup', inning, score_diff, rng)
+        return _pick_pitcher('setup', inning, score_diff, rng, restricted_pids)
 
     appearances = _state['appearances']
     sb = _score_bucket(score_diff)
@@ -524,6 +568,10 @@ def _pick_setup_with_period(inning, score_diff, rng, game_idx=None):
         extra = appearances[appearances['pitcher'].isin(extras)]
 
     combined = pd.concat([base, extra]).drop_duplicates()
+    if restricted_pids:
+        filtered = combined[~combined['pitcher'].isin(restricted_pids)]
+        if len(filtered) > 0:
+            combined = filtered
     counts = combined['pitcher'].value_counts()
     pids, probs = counts.index.values, counts.values / counts.sum()
     return int(rng.choice(pids, p=probs))
@@ -535,24 +583,42 @@ def _pick_setup_with_period(inning, score_diff, rng, game_idx=None):
 
 def _simulate_inning(pitcher_tier, inning, score_diff, used_closer_flag, rng,
                      game_idx=None, forced_closer=None, adjustments=None,
-                     pitcher_game_stats=None, game_starter_pid=None):
+                     pitcher_game_stats=None, game_starter_pid=None,
+                     restricted_pids=None, used_pids_out=None,
+                     incumbent_pid=None, final_pid_out=None):
     """한 이닝 시뮬 — Phase 6C + 시기별 closer.
 
-    pitcher_game_stats: {pid: {BF, K, BB, HR, H, outs, ER}} 누적 dict (None이면 추적 생략).
-    game_starter_pid: 경기 시작 시 고정된 선발 투수 pid (None이면 이닝마다 새로 샘플링).
+    incumbent_pid: 이전 이닝에서 이어받는 불펜 투수 (carry-over).
+    restricted_pids: 이번 경기/시즌 등판 제한 투수 집합.
+    used_pids_out: 이 이닝에서 등판한 투수 pid를 추가할 set.
+    final_pid_out: [pid] — 이닝 마지막 투수를 기록할 1-element list.
     """
+    # 선발 퇴판 전이면 policy tier 무시하고 선발 강제
+    if game_starter_pid is not None:
+        pitcher_tier = 'starter'
+
     if pitcher_tier == 'closer' and used_closer_flag[0]:
         pitcher_tier = 'setup'
 
     if pitcher_tier == 'closer':
         pid = _pick_closer(inning, score_diff, rng, game_idx, forced_closer)
         used_closer_flag[0] = True
-    elif pitcher_tier == 'starter' and game_starter_pid is not None:
-        pid = game_starter_pid
+    elif pitcher_tier == 'starter':
+        if game_starter_pid is not None:
+            pid = game_starter_pid
+        else:
+            pitcher_tier = 'middle_reliever'
+            pid = _pick_pitcher('middle_reliever', inning, score_diff, rng, restricted_pids)
+    elif pitcher_tier in ('setup', 'middle_reliever') and incumbent_pid is not None and (
+            not restricted_pids or incumbent_pid not in restricted_pids):
+        pid = incumbent_pid
     elif pitcher_tier == 'setup':
-        pid = _pick_setup_with_period(inning, score_diff, rng, game_idx)
+        pid = _pick_setup_with_period(inning, score_diff, rng, game_idx, restricted_pids)
     else:
-        pid = _pick_pitcher(pitcher_tier, inning, score_diff, rng)
+        pid = _pick_pitcher(pitcher_tier, inning, score_diff, rng, restricted_pids)
+
+    if used_pids_out is not None and pid is not None:
+        used_pids_out.add(pid)
 
     sampled = _sample_pitcher_stats(pid, rng, adjustments)
     state = (False, False, False)
@@ -599,12 +665,17 @@ def _simulate_inning(pitcher_tier, inning, score_diff, used_closer_flag, rng,
                         new_pid = _pick_closer(inning, sd_rem, rng, game_idx, forced_closer)
                         used_closer_flag[0] = True
                     elif new_tier == 'setup':
-                        new_pid = _pick_setup_with_period(inning, sd_rem, rng, game_idx)
+                        new_pid = _pick_setup_with_period(inning, sd_rem, rng, game_idx, restricted_pids)
                     else:
-                        new_pid = _pick_pitcher(new_tier, inning, sd_rem, rng)
+                        new_pid = _pick_pitcher(new_tier, inning, sd_rem, rng, restricted_pids)
                     current_tier = new_tier
                     current_pid = new_pid
+                    if used_pids_out is not None and new_pid is not None:
+                        used_pids_out.add(new_pid)
                     sampled = _sample_pitcher_stats(new_pid, rng, adjustments)
+
+    if final_pid_out is not None:
+        final_pid_out[0] = current_pid
     return runs
 
 
@@ -653,19 +724,12 @@ def simulate_inning_RA(
     pitcher_adjustments=None,
     pitcher_game_stats=None,
     game_starter_pid=None,
+    restricted_pids=None,
+    used_pids_out=None,
+    incumbent_pid=None,
+    final_pid_out=None,
 ) -> int:
-    """단일 이닝 RA 시뮬 — 이닝별 연동 전용 공개 인터페이스.
-
-    Args:
-        inning: 1-9
-        score_diff: 현재 TEX 득점 - 현재 TEX 실점 (실시간 점수차)
-        used_closer_flag: [bool] mutable 플래그 (게임 단위로 공유)
-        rng: numpy Generator
-        game_idx: 0-161 시즌 게임 인덱스
-        pitcher_adjustments: σ 시나리오 dict
-        pitcher_game_stats: {pid: stats} 누적 dict (None이면 추적 생략)
-        game_starter_pid: 경기 시작 시 고정된 선발 투수 pid
-    """
+    """단일 이닝 RA 시뮬 — 이닝별 연동 전용 공개 인터페이스."""
     _ensure_loaded()
     tier = _pick_tier(inning, score_diff, rng)
     return _simulate_inning(
@@ -673,13 +737,52 @@ def simulate_inning_RA(
         game_idx=game_idx, adjustments=pitcher_adjustments,
         pitcher_game_stats=pitcher_game_stats,
         game_starter_pid=game_starter_pid,
+        restricted_pids=restricted_pids,
+        used_pids_out=used_pids_out,
+        incumbent_pid=incumbent_pid,
+        final_pid_out=final_pid_out,
     )
+
+
+_DEFAULT_STARTER_AVG_IP: float = 5.5   # PXP 데이터 없는 선발 투수 fallback
 
 
 def get_pitcher_name(pid) -> str:
     """pitcher ID → 이름 (없으면 'P{pid}')."""
     _ensure_loaded()
     return _state.get('pid_to_name', {}).get(pid, f'P{pid}')
+
+
+def get_pitcher_tier(pid) -> str:
+    """투수 PXP 기반 tier 반환. 데이터 없으면 'fringe'."""
+    _ensure_loaded()
+    return _state['tier_map'].get(pid, 'fringe')
+
+
+def get_pitcher_avg_ip(pid, include_starter: bool = False) -> float:
+    """투수의 게임당 평균 등판 이닝.
+
+    include_starter=False (불펜 carry-over용):
+        - starter/closer → 0.0
+        - setup/middle_reliever → bullpen_avg_ip (선발 게임 제외 순수 불펜 평균)
+    include_starter=True (선발 퇴판 이닝 샘플링용):
+        - starter tier → avg_ip (전체 평균)
+        - non-starter tier → _DEFAULT_STARTER_AVG_IP (선발 등판 시 기본값)
+    """
+    _ensure_loaded()
+    result = _state['result']
+    if pid is None or pid not in result.index:
+        return _DEFAULT_STARTER_AVG_IP if include_starter else 1.0
+    row = result.loc[pid]
+    tier = row.get('tier', '')
+    if tier == 'closer':
+        return 0.0
+    if tier == 'starter':
+        return float(row.get('avg_ip', _DEFAULT_STARTER_AVG_IP)) if include_starter else 0.0
+    # setup / middle_reliever / fringe
+    if include_starter:
+        return _DEFAULT_STARTER_AVG_IP
+    return float(row.get('bullpen_avg_ip', row.get('avg_ip', 1.0)))
 
 
 def get_loaded_state():
