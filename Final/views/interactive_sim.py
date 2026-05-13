@@ -11,7 +11,7 @@ import streamlit.components.v1 as components
 # HTML 위치: Final/baseball_simulator.html
 # views/interactive_sim.py → ../../baseball_simulator.html (= Final/baseball_simulator.html)
 FINAL_DIR = Path(__file__).resolve().parents[1]
-HTML_PATH = FINAL_DIR / "baseball_simulator.html"
+_HTML_PATH = FINAL_DIR / "baseball_simulator.html"
 
 
 def show() -> None:
