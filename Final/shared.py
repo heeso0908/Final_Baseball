@@ -603,12 +603,38 @@ _PDF_SECTION_ACCENT: dict[str, str] = {
 
 # ── PDF helpers ───────────────────────────────────────────────
 def _configure_pdf_font():
-    preferred = ["Malgun Gothic", "AppleGothic", "Noto Sans CJK KR", "Noto Sans KR", "DejaVu Sans"]
+    # 우선순위: macOS → Windows → Linux(Streamlit Cloud) → fallback
+    preferred = [
+        "AppleGothic",          # macOS 기본
+        "Apple SD Gothic Neo",  # macOS 대안
+        "Malgun Gothic",        # Windows
+        "NanumGothic",          # Linux (fonts-nanum 설치 후 — 공백 없는 이름)
+        "Nanum Gothic",         # Linux (다른 표기)
+        "Noto Sans CJK KR",     # Linux (fonts-noto-cjk 설치 후)
+        "Noto Sans KR",
+        "DejaVu Sans",          # 최후 (한국어 깨짐)
+    ]
     available = {f.name for f in fm.fontManager.ttflist}
+    chosen = None
     for font in preferred:
         if font in available:
             mpl.rcParams["font.family"] = font
+            chosen = font
             break
+    # 폰트 매칭 실패 시 fc-list로 시스템에서 찾아 등록 시도 (Streamlit Cloud 안전망)
+    if chosen is None or chosen == "DejaVu Sans":
+        import subprocess, os
+        try:
+            result = subprocess.run(["fc-list", ":lang=ko", "file"],
+                                     capture_output=True, text=True, timeout=5)
+            for path in (line.split(":")[0].strip() for line in result.stdout.splitlines() if line):
+                if path and os.path.exists(path):
+                    fm.fontManager.addfont(path)
+                    chosen = fm.FontProperties(fname=path).get_name()
+                    mpl.rcParams["font.family"] = chosen
+                    break
+        except Exception:
+            pass
     mpl.rcParams["axes.unicode_minus"] = False
 
 
@@ -2375,7 +2401,7 @@ def build_team_report_pdf() -> bytes:
 @st.cache_data
 def load_data():
     # 데이터는 Final/data/ (분석 라이브러리·노트북과 공유)
-    base = Path(__file__).resolve().parent / "data"
+    base = Path(__file__).resolve().parent. / "data"
     return {
         'pitcher_ag': pd.read_csv(base / "pitcher_stats_ag.csv", encoding="utf-8-sig"),
         'pitcher_mb': pd.read_csv(base / "pitcher_stats_mb.csv", encoding="utf-8-sig"),

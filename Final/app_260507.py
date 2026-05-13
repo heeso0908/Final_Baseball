@@ -63,6 +63,7 @@ st.set_page_config(
 from shared import ASSETS, image_to_base64
 import views.overview as v_overview
 import views.simulation as v_simulation
+import views.interactive_sim as v_interactive_sim
 import views.methodology as v_methodology
 import views.pitcher as v_pitcher          # noqa: F401  (사이드 이펙트용 임포트)
 import views.leiter as v_leiter
@@ -1654,6 +1655,7 @@ _PITCHER_PAGES = {"leiter", "webb", "garcia", "armstrong", "jackson"}
 VALID_PAGES = {
     "overview",
     "simulation",
+    "interactive_sim",
     "methodology",
     "leiter",
     "webb",
@@ -1684,7 +1686,7 @@ def _nav_btn(label, page_id):
 
 
 # ── 사이드바 ────────────────────────────────────────────────────────
-logo_path = ASSETS / "images" / "logo.png"
+logo_path = Path(__file__).resolve().parent / "assets" / "images" / "logo.png"
 
 with st.sidebar:
     if logo_path.exists():
@@ -1719,6 +1721,7 @@ with st.sidebar:
     st.markdown('<span class="sidebar-nav-section">Analysis</span>', unsafe_allow_html=True)
     _nav_btn("  Overview",    "overview")
     _nav_btn("  Simulation",  "simulation")
+    _nav_btn("  Interactive Sim",  "interactive_sim")
 
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
     st.markdown('<span class="sidebar-nav-section">Motion Analysis</span>', unsafe_allow_html=True)
@@ -1785,6 +1788,8 @@ if page == "overview":
     v_overview.show()
 elif page == "simulation":
     v_simulation.show()
+elif page == "interactive_sim":
+    v_interactive_sim.show()
 elif page == "methodology":
     v_methodology.show()
 elif page == "leiter":
