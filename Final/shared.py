@@ -28,11 +28,12 @@ TEX_LIGHT = "#F6F8FB"
 TEX_MUTED = "#64748B"
 
 # ── Paths ─────────────────────────────────────────────────────
-BASE_DIR = Path(__file__).resolve().parent  # Final/streamlit/
-# 분석 라이브러리·데이터·자산은 부모(Final/)에서 공유
-PROJECT_ROOT = BASE_DIR.parent
-RAW_DIR  = PROJECT_ROOT / "data_raw"
-ASSETS   = PROJECT_ROOT / "assets"
+BASE_DIR = Path(__file__).resolve().parent  # Final/
+PROJECT_ROOT = BASE_DIR.parent             # repo root/
+
+DATA_DIR = BASE_DIR / "data"
+RAW_DIR = BASE_DIR / "data_raw"
+ASSETS = BASE_DIR / "assets"
 
 # ── Simulation config ─────────────────────────────────────────
 SIMULATION_OPTIONS = [
@@ -1321,16 +1322,14 @@ _OPENBIO_MAP: dict[str, tuple[str, float]] = {
 
 
 def _load_poi_metrics():
-    """openbiomechanics poi_metrics.csv 로드 (캐시).
-
-    경로 후보 여러 곳에서 검색 — 우리 환경/배포 환경 모두 호환.
-    """
     if "_poi_cached" in _load_poi_metrics.__dict__:
         return _load_poi_metrics._poi_cached
+
     candidates = [
-        BASE_DIR / "../Notebooks/지소윤/baseball_kinematics/openbiomechanics/baseball_pitching/data/poi/poi_metrics.csv",
-        BASE_DIR / "data/poi_metrics.csv",  # 배포 환경 fallback
+        DATA_DIR / "poi_metrics.csv",
+        PROJECT_ROOT / "Notebooks" / "지소윤" / "baseball_kinematics" / "openbiomechanics" / "baseball_pitching" / "data" / "poi" / "poi_metrics.csv",
     ]
+
     for path in candidates:
         if path.exists():
             try:
@@ -1339,6 +1338,7 @@ def _load_poi_metrics():
                 return df
             except Exception:
                 pass
+
     _load_poi_metrics._poi_cached = None
     return None
 
@@ -2400,13 +2400,13 @@ def build_team_report_pdf() -> bytes:
 
 @st.cache_data
 def load_data():
-    # 데이터는 Final/data/ (분석 라이브러리·노트북과 공유)
-    base = Path(__file__).resolve().parent / "data"
+    base = DATA_DIR
+
     return {
         'pitcher_ag': pd.read_csv(base / "pitcher_stats_ag.csv", encoding="utf-8-sig"),
         'pitcher_mb': pd.read_csv(base / "pitcher_stats_mb.csv", encoding="utf-8-sig"),
         'model_comp': pd.read_csv(base / "model_comparison.csv", encoding="utf-8-sig"),
-        'model_sum':  pd.read_csv(base / "model_summary.csv",    encoding="utf-8-sig"),
+        'model_sum':  pd.read_csv(base / "model_summary.csv", encoding="utf-8-sig"),
         'meta': json.load(open(base / "meta.json", encoding="utf-8")),
     }
 
