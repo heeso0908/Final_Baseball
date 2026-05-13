@@ -1721,7 +1721,7 @@ with st.sidebar:
     st.markdown('<span class="sidebar-nav-section">Analysis</span>', unsafe_allow_html=True)
     _nav_btn("  Overview",    "overview")
     _nav_btn("  Simulation",  "simulation")
-    _nav_btn("  Interactive Sim",  "interactive_sim")
+    _nav_btn("  Interactive Simulation",  "interactive_sim")
 
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
     st.markdown('<span class="sidebar-nav-section">Motion Analysis</span>', unsafe_allow_html=True)
