@@ -2401,7 +2401,7 @@ def build_team_report_pdf() -> bytes:
 @st.cache_data
 def load_data():
     # 데이터는 Final/data/ (분석 라이브러리·노트북과 공유)
-    base = Path(__file__).resolve().parent. / "data"
+    base = Path(__file__).resolve().parent / "data"
     return {
         'pitcher_ag': pd.read_csv(base / "pitcher_stats_ag.csv", encoding="utf-8-sig"),
         'pitcher_mb': pd.read_csv(base / "pitcher_stats_mb.csv", encoding="utf-8-sig"),
