@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚾ TEX 2025 잔차 만회 시뮬레이션</title>
+<style>
+/* ── 프로젝트 라이트 팔레트 (streamlit theme과 일치) ── */
+:root {
+  --navy:           #0D1B33;
+  --navy-deep:      #071225;
+  --navy-soft:      #243A5E;
+  --rangers-red:    #B31922;
+  --rangers-red-soft:#D04A52;
+
+  --background:     #FAFBFC;
+  --foreground:     #1B2435;
+  --card:           #FFFFFF;
+  --muted:          #F3F5F8;
+  --muted-foreground:#667085;
+  --border:         #E4E8EF;
+  --grid-line:      #E9EDF3;
+
+  --positive:       #2F9E65;
+  --negative:       #B31922;
+  --neutral:        #B8BDC7;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo',
+               'Segoe UI', 'Malgun Gothic', system-ui, sans-serif;
+  min-height: 100vh;
+  padding: 24px;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px 26px;
+  margin-bottom: 18px;
+  box-shadow: 0 1px 3px rgba(13,27,51,0.04);
+}
+.panel-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--muted-foreground);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+/* HEADER */
+.matchup-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.title { font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.subtitle { font-size: 14px; color: var(--muted-foreground); margin-bottom: 18px; }
+
+.result-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 14px;
+  margin-top: 6px;
+}
+.result-card {
+  background: var(--muted);
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.result-card.primary {
+  background: linear-gradient(135deg, rgba(47,158,101,0.10), rgba(36,58,94,0.04));
+  border-color: rgba(47,158,101,0.30);
+}
+.result-label {
+  font-size: 11px;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.result-value {
+  font-size: 38px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -1px;
+  color: var(--navy);
+}
+.result-value.teal { color: var(--positive); }
+.result-value.coral { color: var(--rangers-red); }
+.result-sub {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+.result-sub strong { color: var(--foreground); }
+
+/* SLIDERS */
+.group-label {
+  font-size: 11px;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 16px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.group-label:first-child { margin-top: 4px; }
+.sliders-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+.slider-group { display: flex; flex-direction: column; gap: 6px; }
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.slider-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.slider-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--positive);
+  font-variant-numeric: tabular-nums;
+}
+.slider-value.below { color: var(--rangers-red); }
+.slider-desc {
+  font-size: 10px;
+  color: var(--muted-foreground);
+  margin-top: -2px;
+}
+input[type="range"] {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  background: var(--navy-soft);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(36,58,94,0.18);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 16px; height: 16px; background: var(--navy-soft);
+  border-radius: 50%; border: none; cursor: pointer;
+}
+
+/* BUTTONS */
+.button-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+button {
+  background: var(--muted);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+button:hover { background: #E9EDF3; border-color: #C7CFDB; }
+button.primary {
+  background: linear-gradient(180deg, var(--navy-soft) 0%, var(--navy) 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(13,27,51,0.18);
+}
+button.aggressive {
+  background: linear-gradient(180deg, var(--rangers-red-soft) 0%, var(--rangers-red) 100%);
+  color: #fff;
+  border-color: transparent;
+}
+button.balanced {
+  background: linear-gradient(180deg, #4F6E9A 0%, var(--navy-soft) 100%);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+canvas { display: block; width: 100%; height: auto; }
+
+@media (max-width: 900px) {
+  .result-row { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="panel">
+    <div class="matchup-label">⚾ Phase 8 NSGA-II v5 — 12차원 σ Pareto Lookup + 회귀 근사</div>
+    <div class="title">TEX 2025 잔차 만회 시뮬레이션</div>
+    <div class="subtitle">σ 슬라이더로 정책 시나리오 조정 → 예상 시즌 승수 즉시 표시. v5 Pareto 50점 lookup + 선형 회귀(R²=0.96) 기반.</div>
+
+    <div class="result-row">
+      <div class="result-card primary">
+        <div class="result-label">예상 시즌 승수 (162경기)</div>
+        <div class="result-value teal" id="W-display">89.8</div>
+        <div class="result-sub">
+          실제 81 대비: <strong id="dW-actual">+8.8</strong>승 ·
+          baseline 89.8 대비: <strong id="dW-base">+0.0</strong>승
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="result-label">σ_norm (정책 변경 비용)</div>
+        <div class="result-value" id="sigma-display">0.000</div>
+        <div class="result-sub">RMS|x-1|, 0=무변화 / 0.08=balanced / 0.10+=외삽 경계</div>
+      </div>
+      <div class="result-card">
+        <div class="result-label">가장 가까운 Pareto 점</div>
+        <div class="result-value" id="nearest-arch" style="font-size:24px;">baseline</div>
+        <div class="result-sub">W=<strong id="nearest-W">89.8</strong> · σ=<strong id="nearest-sigma">0.000</strong> · 거리 <strong id="nearest-dist">0.00</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REALITY CAVEAT -->
+  <div class="panel" style="background:linear-gradient(135deg, rgba(179,25,34,0.06), rgba(179,25,34,0.02)); border-color:rgba(179,25,34,0.25);">
+    <div style="display:flex; align-items:flex-start; gap:14px;">
+      <div style="font-size:22px; line-height:1;">⚠️</div>
+      <div style="flex:1; font-size:13.5px; line-height:1.7; color:var(--foreground);">
+        <b style="color:var(--rangers-red);">결과 해석 — 이상 시나리오 가정에 유의</b><br>
+        NSGA-II Pareto 한 점은 <b>4-5개 차원이 *동시에* 보강된 이상 시나리오</b>입니다. 한 시즌에 그렇게 여러 stat이 *모두* 동시에 좋아질 확률은 낮으며 (대대적 코칭/트레이드/드래프트가 모두 맞아떨어져야 가능), 실제로는 <b>부분 보강 → 효과 비례 감소</b>.<br>
+        <span style="color:var(--muted-foreground);">σ_norm ≤ 0.05</span> = noise 영역 (baseline 표준편차 안) ·
+        <span style="color:var(--muted-foreground);">≤ 0.08</span> = 분포 안 권장 ·
+        <span style="color:var(--rangers-red);">> 0.10</span> = 외삽 경계 (시뮬 가정 하에서만 유효)
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDERS -->
+  <div class="panel">
+    <div class="panel-title">σ 12차원 정책 변수 (1.00 = 현재 baseline 유지)</div>
+
+    <div class="group-label">타자 (team-wide multiplier)</div>
+    <div class="sliders-row" id="hitter-sliders"></div>
+
+    <div class="group-label">투수 tier (closer / setup / starter)</div>
+    <div class="sliders-row" id="pitcher-sliders"></div>
+
+    <div class="group-label">공통 (모든 투수 일괄)</div>
+    <div class="sliders-row" id="common-sliders"></div>
+
+    <div class="button-row">
+      <button onclick="reset()">초기화 (σ=1)</button>
+      <button class="balanced" onclick="applyArchetype('conservative')">Conservative</button>
+      <button class="primary" onclick="applyArchetype('balanced')">Balanced (TOPSIS)</button>
+      <button class="aggressive" onclick="applyArchetype('aggressive')">Aggressive (max W)</button>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="grid">
+    <div class="panel">
+      <div class="panel-title">📊 Pareto 표면 — σ_norm vs W (사용자 점 빨간 별)</div>
+      <canvas id="pareto-chart" width="640" height="440"></canvas>
+    </div>
+    <div class="panel">
+      <div class="panel-title">📈 Driver 분해 — 차원별 ΔW 기여</div>
+      <canvas id="driver-chart" width="640" height="440"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const DATA = {"pareto":[{"W":91.3,"sigma_norm":0.0307784763576653,"RA":604.65,"archetype":"conservative","h_hr":1.0677065909942238,"h_bb":0.9896864759248554,"h_k":1.0512086885739793,"h_single":1.0393379045505031,"p_cl_K":0.9956301260014871,"p_cl_BB":1.0289817586318073,"p_cl_BAB":1.0254422016128426,"p_cl_HR":1.0076776245047825,"p_su_K":1.016819552313045,"p_st_HR":1.0125853595852217,"c_K":1.0222932074515447,"c_BB":1.0019642129505155},{"W":109.1,"sigma_norm":0.0915776841988332,"RA":531.95,"archetype":"aggressive","h_hr":1.123273938433574,"h_bb":1.023331199336741,"h_k":0.9070120835864623,"h_single":1.127553448383658,"p_cl_K":1.06946117103709,"p_cl_BB":1.0325896407722828,"p_cl_BAB":0.9475093101172098,"p_cl_HR":1.017712518405092,"p_su_K":1.115220196438372,"p_st_HR":0.8322459265311787,"c_K":1.0977042184129613,"c_BB":1.0078129019734223},{"W":106.0,"sigma_norm":0.1141334030511777,"RA":521.65,"archetype":"","h_hr":1.0656643168674371,"h_bb":1.0291690196420762,"h_k":0.9076858798364972,"h_single":1.0925592165126314,"p_cl_K":1.077465528937802,"p_cl_BB":0.8543870465183409,"p_cl_BAB":1.0319956317027508,"p_cl_HR":0.7912051344440936,"p_su_K":1.100200067947736,"p_st_HR":0.794571203634514,"c_K":1.0997494972537225,"c_BB":0.9928304934713544},{"W":102.55,"sigma_norm":0.0821612101508374,"RA":520.2,"archetype":"","h_hr":1.121060662211992,"h_bb":0.9858320345964148,"h_k":1.0217220025175582,"h_single":1.075669170100057,"p_cl_K":1.0257566690209237,"p_cl_BB":0.9315269934879334,"p_cl_BAB":0.9477012147876992,"p_cl_HR":0.9927736755093238,"p_su_K":1.1097282927514576,"p_st_HR":0.832996711169267,"c_K":1.0975902236644428,"c_BB":0.9514417897773724},{"W":108.05,"sigma_norm":0.1129171039745989,"RA":522.0,"archetype":"","h_hr":1.0656643168674371,"h_bb":1.0644606799817,"h_k":0.9076858798364972,"h_single":1.1131758307063826,"p_cl_K":1.0771768453401234,"p_cl_BB":0.8546642896421591,"p_cl_BAB":1.0029495673391382,"p_cl_HR":0.7912051344440936,"p_su_K":1.0177628420359603,"p_st_HR":0.794571203634514,"c_K":1.0997494972537225,"c_BB":0.9924886684597838},{"W":107.85,"sigma_norm":0.098878396746386,"RA":524.75,"archetype":"","h_hr":1.0617847246418666,"h_bb":1.1377727876436166,"h_k":0.9118687862053952,"h_single":1.1318599622825778,"p_cl_K":1.0354423885443975,"p_cl_BB":1.0004356232387617,"p_cl_BAB":0.92058431330374,"p_cl_HR":0.9121343992548676,"p_su_K":1.1242518807905943,"p_st_HR":0.8247253576297456,"c_K":1.0867279166432289,"c_BB":1.0201336777816656},{"W":94.85,"sigma_norm":0.0432078788552511,"RA":590.3,"archetype":"","h_hr":1.0665930164388948,"h_bb":0.9639056356787312,"h_k":0.9496172324808304,"h_single":1.0405681415116133,"p_cl_K":0.9948674046824864,"p_cl_BB":1.067811181023458,"p_cl_BAB":1.034830393329483,"p_cl_HR":0.9961608386686706,"p_su_K":1.0305061385209693,"p_st_HR":0.9281904255728318,"c_K":1.0232514903198802,"c_BB":1.0009760453807408},{"W":93.75,"sigma_norm":0.0335927656363431,"RA":584.1,"archetype":"","h_hr":1.0050925380962477,"h_bb":0.9640212338601404,"h_k":0.9395182918449424,"h_single":1.0082671104595773,"p_cl_K":1.0194271229614449,"p_cl_BB":0.9984066087548206,"p_cl_BAB":0.9526348854785652,"p_cl_HR":0.9989620290321868,"p_su_K":1.0060119715793834,"p_st_HR":0.9444562656086276,"c_K":1.018663931898288,"c_BB":0.9510018051620892},{"W":99.35,"sigma_norm":0.0587957206445805,"RA":566.1,"archetype":"","h_hr":1.043139442060718,"h_bb":0.945864390950022,"h_k":0.8960972381193588,"h_single":1.0856480632369148,"p_cl_K":1.0609969473682574,"p_cl_BB":0.9994474251753896,"p_cl_BAB":1.026519297835368,"p_cl_HR":0.9986527084612506,"p_su_K":0.9930530250477572,"p_st_HR":0.9174087469251,"c_K":1.0838354598056188,"c_BB":1.015369116974043},{"W":96.45,"sigma_norm":0.0674120874979346,"RA":549.4,"archetype":"","h_hr":1.058449425476547,"h_bb":0.985665268500727,"h_k":1.0370335555832089,"h_single":1.0321856638799056,"p_cl_K":0.9769478982237434,"p_cl_BB":1.0711757721254649,"p_cl_BAB":1.0332600021182594,"p_cl_HR":0.9954885968028868,"p_su_K":1.034464647135842,"p_st_HR":0.8235100234216015,"c_K":1.0834038308087013,"c_BB":0.95013257311982},{"W":101.7,"sigma_norm":0.0597950477796841,"RA":568.25,"archetype":"","h_hr":1.1176084029144415,"h_bb":0.9640212338601404,"h_k":0.9395182918449424,"h_single":1.1195225186999471,"p_cl_K":1.038429744412006,"p_cl_BB":0.9994201707691752,"p_cl_BAB":0.9526633720011088,"p_cl_HR":0.9989620290321868,"p_su_K":1.0171013373024624,"p_st_HR":0.9444604458894796,"c_K":1.018624135190108,"c_BB":0.9510865671877392},{"W":94.35,"sigma_norm":0.0344082856847068,"RA":580.4,"archetype":"","h_hr":1.0038381768457236,"h_bb":0.9640212338601404,"h_k":0.9395182918449424,"h_single":1.0082671104595773,"p_cl_K":1.0194271229614449,"p_cl_BB":0.9984066087548206,"p_cl_BAB":0.9526348854785652,"p_cl_HR":0.9989620290321868,"p_su_K":1.0268899290170554,"p_st_HR":0.9444604458894796,"c_K":1.018624135190108,"c_BB":0.9510865671877392},{"W":91.65,"sigma_norm":0.0333688042520821,"RA":593.25,"archetype":"","h_hr":1.0677065909942238,"h_bb":0.9730508983593652,"h_k":1.0491571510929374,"h_single":1.0393379045505031,"p_cl_K":0.9959754055456044,"p_cl_BB":1.0289817586318073,"p_cl_BAB":1.025337812972554,"p_cl_HR":0.9798843735469068,"p_su_K":1.016791701851103,"p_st_HR":1.0125853595852217,"c_K":1.0417577147985757,"c_BB":0.9992582282167048},{"W":104.35,"sigma_norm":0.0848978619977318,"RA":526.1,"archetype":"","h_hr":1.086405489503261,"h_bb":0.9710005120858404,"h_k":0.9434638798709089,"h_single":1.1170177807161623,"p_cl_K":0.976324354951628,"p_cl_BB":0.9388229408626731,"p_cl_BAB":0.9191635832954356,"p_cl_HR":0.9984409433993112,"p_su_K":1.1002217106293954,"p_st_HR":0.8241605964860708,"c_K":1.097130309687442,"c_BB":0.9924448006643884},{"W":97.25,"sigma_norm":0.0588955426397456,"RA":558.35,"archetype":"","h_hr":1.043524099153607,"h_bb":0.9858320345964148,"h_k":1.0146562782411883,"h_single":1.077410869923894,"p_cl_K":1.0257566690209237,"p_cl_BB":0.9315269934879334,"p_cl_BAB":0.9429213116856104,"p_cl_HR":0.9927736755093238,"p_su_K":1.1100300497913818,"p_st_HR":1.008464075513866,"c_K":1.099973615762633,"c_BB":0.95013257311982},{"W":95.75,"sigma_norm":0.0487862269654282,"RA":576.3,"archetype":"","h_hr":1.0433282081383732,"h_bb":0.9869682256625372,"h_k":0.957802836876756,"h_single":1.0799926820901735,"p_cl_K":1.0568791012426129,"p_cl_BB":1.044052735250057,"p_cl_BAB":0.9515098944733036,"p_cl_HR":1.0284077724989558,"p_su_K":1.0093891661382857,"p_st_HR":0.9156853917418556,"c_K":1.0186662846775751,"c_BB":0.950453522142429},{"W":102.15,"sigma_norm":0.0533508159420507,"RA":573.5,"archetype":"","h_hr":1.043139442060718,"h_bb":0.9898740115487682,"h_k":0.8960972381193588,"h_single":1.0838743716727,"p_cl_K":1.0609969473682574,"p_cl_BB":1.0019773377884482,"p_cl_BAB":1.0298629274019722,"p_cl_HR":0.9986083046550632,"p_su_K":1.010303274083386,"p_st_HR":0.9174087469251,"c_K":1.0529888259294182,"c_BB":1.0028136400318863},{"W":105.65,"sigma_norm":0.0942885844194557,"RA":521.0,"archetype":"","h_hr":0.9558015961462428,"h_bb":1.1377727876436166,"h_k":0.9118687862053952,"h_single":1.124839886992642,"p_cl_K":1.0354423885443975,"p_cl_BB":1.0004356232387617,"p_cl_BAB":0.9213213600154312,"p_cl_HR":0.9121343992548676,"p_su_K":1.1242518807905943,"p_st_HR":0.8519310750816905,"c_K":1.098981987596375,"c_BB":1.008347606955492},{"W":92.65,"sigma_norm":0.0313779207361627,"RA":599.95,"archetype":"","h_hr":1.0677065909942238,"h_bb":0.96803395857369,"h_k":1.0153727395528989,"h_single":1.0185819843257282,"p_cl_K":1.0007132666441398,"p_cl_BB":0.937815847707235,"p_cl_BAB":1.0164372102559187,"p_cl_HR":1.0070349867533412,"p_su_K":1.0165111636803497,"p_st_HR":1.0190113922630128,"c_K":1.023825251959434,"c_BB":0.9845558837336664},{"W":92.45,"sigma_norm":0.0314814860197991,"RA":597.7,"archetype":"","h_hr":1.0677065909942238,"h_bb":0.9681302744021626,"h_k":1.0512086885739793,"h_single":1.0393379045505031,"p_cl_K":0.9956301260014871,"p_cl_BB":1.0289817586318073,"p_cl_BAB":1.01633282161563,"p_cl_HR":1.0076776245047825,"p_su_K":1.016819552313045,"p_st_HR":1.0125853595852217,"c_K":1.0222932074515447,"c_BB":0.9994305054451502},{"W":98.05,"sigma_norm":0.0511547975767277,"RA":562.45,"archetype":"","h_hr":1.0654904002064975,"h_bb":0.9862129109606456,"h_k":1.020682830626156,"h_single":1.0753385421166697,"p_cl_K":0.993793334742858,"p_cl_BB":0.9315269934879334,"p_cl_BAB":0.9454281670925128,"p_cl_HR":0.9919441632628744,"p_su_K":1.0148619751355037,"p_st_HR":1.0270983478608666,"c_K":1.0980152653153046,"c_BB":0.95013257311982},{"W":106.5,"sigma_norm":0.0891666069517334,"RA":523.6,"archetype":"","h_hr":1.08176981026271,"h_bb":0.9825807009662152,"h_k":0.9066588660173244,"h_single":1.1170177807161623,"p_cl_K":0.9964660335008588,"p_cl_BB":1.0722673240772045,"p_cl_BAB":0.9191635832954356,"p_cl_HR":1.031706856596032,"p_su_K":1.1002217106293954,"p_st_HR":0.8235709850047456,"c_K":1.0980621163011464,"c_BB":0.9505018176009076},{"W":99.85,"sigma_norm":0.0688572740939979,"RA":550.7,"archetype":"","h_hr":0.9557343411829484,"h_bb":0.946617596241832,"h_k":0.911156196892586,"h_single":1.079745305361174,"p_cl_K":1.021533492498385,"p_cl_BB":0.9358666013485822,"p_cl_BAB":0.9597002449556824,"p_cl_HR":1.0106560403435985,"p_su_K":0.9922908393447846,"p_st_HR":0.8513719949239339,"c_K":1.0835579194091385,"c_BB":0.9511309999329968},{"W":98.3,"sigma_norm":0.0495038871073291,"RA":564.95,"archetype":"","h_hr":1.043524099153607,"h_bb":0.9862404670767304,"h_k":1.016226651174211,"h_single":1.0753385421166697,"p_cl_K":0.993793334742858,"p_cl_BB":0.9315269934879334,"p_cl_BAB":0.9429213116856104,"p_cl_HR":0.9918491615881722,"p_su_K":1.0148619751355037,"p_st_HR":1.031915936935915,"c_K":1.0980152653153046,"c_BB":0.95013257311982},{"W":107.4,"sigma_norm":0.0904852645091356,"RA":533.4,"archetype":"","h_hr":1.123273938433574,"h_bb":1.023331199336741,"h_k":0.9070120835864623,"h_single":1.127553448383658,"p_cl_K":1.0271226174130714,"p_cl_BB":1.0181524215097066,"p_cl_BAB":0.9475093101172098,"p_cl_HR":1.017712518405092,"p_su_K":1.115220196438372,"p_st_HR":0.8322459265311787,"c_K":1.0976972083226313,"c_BB":0.9500246700339974},{"W":105.05,"sigma_norm":0.0757097344034277,"RA":546.45,"archetype":"","h_hr":1.0617174527145128,"h_bb":0.946617596241832,"h_k":0.911156196892586,"h_single":1.0856341994210394,"p_cl_K":1.0257566690209237,"p_cl_BB":0.9358666013485822,"p_cl_BAB":0.9597002449556824,"p_cl_HR":0.9927736755093238,"p_su_K":0.9922908393447846,"p_st_HR":0.8241662774719889,"c_K":1.0835579194091385,"c_BB":0.95013257311982},{"W":101.0,"sigma_norm":0.0735280124466565,"RA":541.45,"archetype":"","h_hr":1.04442984352671,"h_bb":1.025520439043105,"h_k":0.9100156485326412,"h_single":1.0417193601938854,"p_cl_K":1.0417326891149246,"p_cl_BB":0.931235860411142,"p_cl_BAB":0.9244528352134423,"p_cl_HR":0.9886122495931378,"p_su_K":1.017853652739091,"p_st_HR":0.8302450346752023,"c_K":1.093411988202743,"c_BB":0.9526190847048824},{"W":105.8,"sigma_norm":0.0808011208804238,"RA":596.5,"archetype":"","h_hr":1.130993211437419,"h_bb":1.1467885510022489,"h_k":0.8940411401466711,"h_single":1.1268007829993858,"p_cl_K":0.9983504907632064,"p_cl_BB":1.001877741205922,"p_cl_BAB":0.9559443035197264,"p_cl_HR":1.0283812817621452,"p_su_K":0.9577765402084878,"p_st_HR":1.014270063161807,"c_K":1.0867991943435542,"c_BB":1.007799435236672},{"W":98.2,"sigma_norm":0.0512576381093499,"RA":561.15,"archetype":"","h_hr":1.0665930164388948,"h_bb":0.9872907089663534,"h_k":0.9496172324808304,"h_single":1.0405681415116133,"p_cl_K":1.0251986446621109,"p_cl_BB":0.926239634173138,"p_cl_BAB":1.034837104476418,"p_cl_HR":0.9961608386686706,"p_su_K":1.0305061385209693,"p_st_HR":0.9281904255728318,"c_K":1.0967247325650356,"c_BB":1.0009760453807408},{"W":102.25,"sigma_norm":0.0705240624084948,"RA":544.85,"archetype":"","h_hr":0.9595919221180084,"h_bb":0.9938913263537018,"h_k":0.9379702925137784,"h_single":1.0921872361792628,"p_cl_K":1.1033266450695842,"p_cl_BB":0.9440872097484404,"p_cl_BAB":0.9187537987813562,"p_cl_HR":0.9716237990666085,"p_su_K":1.1019957093927162,"p_st_HR":0.9317028451659694,"c_K":1.0965953992499191,"c_BB":0.992232514562982},{"W":103.1,"sigma_norm":0.0712896286075985,"RA":554.85,"archetype":"","h_hr":1.0617174527145128,"h_bb":0.9906272168583832,"h_k":0.911156196892586,"h_single":1.0838605078568246,"p_cl_K":1.0257566690209237,"p_cl_BB":0.9383965139628504,"p_cl_BAB":0.9630438746222004,"p_cl_HR":0.9927292717031364,"p_su_K":1.0095410883804132,"p_st_HR":0.8241662774719889,"c_K":1.0527112787064434,"c_BB":0.9500018883373322},{"W":101.75,"sigma_norm":0.0787936942744297,"RA":532.2,"archetype":"","h_hr":1.091010084464879,"h_bb":0.9852778622120596,"h_k":0.9103148472481798,"h_single":1.0417193601938854,"p_cl_K":1.0521715956450846,"p_cl_BB":0.9178315611655792,"p_cl_BAB":0.9269596906175174,"p_cl_HR":0.98870725126784,"p_su_K":1.017889865852233,"p_st_HR":0.8240735902828401,"c_K":1.099798082034413,"c_BB":0.9927819795437642},{"W":102.75,"sigma_norm":0.0758232596418914,"RA":534.25,"archetype":"","h_hr":1.0663961445796004,"h_bb":0.9852778622120596,"h_k":0.9077409177114352,"h_single":1.0417193601938854,"p_cl_K":1.0303761773935822,"p_cl_BB":0.931235860411142,"p_cl_BAB":0.9269596906175174,"p_cl_HR":0.98870725126784,"p_su_K":1.017853652739091,"p_st_HR":0.8254274518896939,"c_K":1.099798082034413,"c_BB":0.9526190847048824},{"W":107.55,"sigma_norm":0.0811208029713186,"RA":581.55,"archetype":"","h_hr":1.130993211437419,"h_bb":1.1467885510022489,"h_k":0.8984084205520934,"h_single":1.131702353522965,"p_cl_K":0.9983504907632064,"p_cl_BB":1.001877741205922,"p_cl_BAB":1.0545762700733683,"p_cl_HR":0.9985016380836208,"p_su_K":0.9577765402084878,"p_st_HR":1.014270063161807,"c_K":1.0867991943435542,"c_BB":1.009324187679978},{"W":103.0,"sigma_norm":0.0749324037775295,"RA":539.9,"archetype":"","h_hr":1.0663961445796004,"h_bb":0.9852778622120596,"h_k":0.9144718063288244,"h_single":1.0417193601938854,"p_cl_K":1.0417326891149246,"p_cl_BB":0.931235860411142,"p_cl_BAB":0.9269596906175174,"p_cl_HR":0.98870725126784,"p_su_K":1.017853652739091,"p_st_HR":0.8254274518896939,"c_K":1.093411988202743,"c_BB":0.9526190847048824},{"W":97.05,"sigma_norm":0.0492702754468083,"RA":575.2,"archetype":"","h_hr":1.04313020601566,"h_bb":0.9898612187046458,"h_k":1.050295275164788,"h_single":1.0838743716727,"p_cl_K":1.0556865990587383,"p_cl_BB":0.9462787099119272,"p_cl_BAB":0.9579320937934463,"p_cl_HR":0.9898364284935668,"p_su_K":1.010303274083386,"p_st_HR":0.9174087469251,"c_K":1.0529888259294182,"c_BB":1.0028136400318863},{"W":102.7,"sigma_norm":0.0644283838299187,"RA":580.3,"archetype":"","h_hr":1.119155553735608,"h_bb":0.986599680187827,"h_k":0.8960972381193588,"h_single":1.092725653103853,"p_cl_K":1.0609969473682574,"p_cl_BB":1.0019773377884482,"p_cl_BAB":1.009928380813765,"p_cl_HR":0.9927535150128408,"p_su_K":1.010303274083386,"p_st_HR":0.9174087469251,"c_K":1.0529888259294182,"c_BB":0.9507065467812486},{"W":100.95,"sigma_norm":0.0596733641570685,"RA":553.8,"archetype":"","h_hr":1.0819346357520367,"h_bb":0.9818081342324392,"h_k":0.90446063142886,"h_single":1.039265035208517,"p_cl_K":0.9964801636008336,"p_cl_BB":1.0722966503341782,"p_cl_BAB":0.9519112518351984,"p_cl_HR":1.0701180915228337,"p_su_K":1.0257058082736494,"p_st_HR":1.0126313393056243,"c_K":1.0980621163011464,"c_BB":0.954039202539048},{"W":97.15,"sigma_norm":0.0471095602118992,"RA":578.3,"archetype":"","h_hr":1.0433282081383732,"h_bb":0.9857854496648047,"h_k":0.9621701156918858,"h_single":1.08489455617743,"p_cl_K":1.0568791012426129,"p_cl_BB":1.0114124077323885,"p_cl_BAB":1.0501419327136745,"p_cl_HR":0.9985281288204316,"p_su_K":1.0093891661382857,"p_st_HR":0.9156853917418556,"c_K":1.0186662846775751,"c_BB":0.95013257311982},{"W":94.9,"sigma_norm":0.0459685173670495,"RA":564.4,"archetype":"","h_hr":0.9564663393566816,"h_bb":0.9740255040673116,"h_k":0.9620843677444072,"h_single":1.0320711599443393,"p_cl_K":1.0340840358403491,"p_cl_BB":1.0366916565940518,"p_cl_BAB":0.9599329540261604,"p_cl_HR":0.999908391453042,"p_su_K":0.9746118410216076,"p_st_HR":0.9236689024864756,"c_K":1.0984431156544106,"c_BB":1.006769692604438},{"W":103.3,"sigma_norm":0.0724756907263733,"RA":564.9,"archetype":"","h_hr":1.0457370545357194,"h_bb":1.023331199336741,"h_k":0.8999465966117688,"h_single":1.1292950014078196,"p_cl_K":1.06946117103709,"p_cl_BB":1.0325896407722828,"p_cl_BAB":0.9366909423312652,"p_cl_HR":1.017712518405092,"p_su_K":1.1155219534782963,"p_st_HR":1.007713291439326,"c_K":1.099986595198238,"c_BB":1.0076000090920068},{"W":94.25,"sigma_norm":0.0342730429716151,"RA":590.4,"archetype":"","h_hr":1.0677065909942238,"h_bb":0.9729545825308926,"h_k":1.0133212020725966,"h_single":1.0393379045505031,"p_cl_K":1.001058546188257,"p_cl_BB":0.9432127115242056,"p_cl_BAB":1.0254422016128426,"p_cl_HR":0.9792417357954658,"p_su_K":1.0164833132184077,"p_st_HR":1.0190113922630128,"c_K":1.043289759306465,"c_BB":0.9843836065052208},{"W":99.45,"sigma_norm":0.0513820153658928,"RA":587.9,"archetype":"","h_hr":1.043139442060718,"h_bb":0.9898740115487682,"h_k":0.8960972381193588,"h_single":1.0838743716727,"p_cl_K":1.03530227874777,"p_cl_BB":1.0019773377884482,"p_cl_BAB":1.0298629274019722,"p_cl_HR":0.9986083046550632,"p_su_K":1.010303274083386,"p_st_HR":0.9174087469251,"c_K":1.0529888259294182,"c_BB":1.0028136400318863},{"W":108.2,"sigma_norm":0.0834051632639149,"RA":537.7,"archetype":"","h_hr":1.0889643123379966,"h_bb":1.1377727876436166,"h_k":0.9002417963090488,"h_single":1.124839886992642,"p_cl_K":1.0419551972782952,"p_cl_BB":1.0004356232387617,"p_cl_BAB":1.0320890973016863,"p_cl_HR":0.9027894362758164,"p_su_K":1.027573809744439,"p_st_HR":0.9235740209114982,"c_K":1.0997947124584544,"c_BB":0.9526279984957848},{"W":101.4,"sigma_norm":0.0625682603960555,"RA":552.25,"archetype":"","h_hr":1.032232274115965,"h_bb":0.9858320345964148,"h_k":0.887166711215729,"h_single":1.0391183971874112,"p_cl_K":1.0258378661087857,"p_cl_BB":0.9315269934879334,"p_cl_BAB":0.9429213116856104,"p_cl_HR":0.993110772064729,"p_su_K":1.1100300497913818,"p_st_HR":0.912712840870074,"c_K":1.0245395471902654,"c_BB":0.95013257311982},{"W":103.15,"sigma_norm":0.0803153787734444,"RA":526.45,"archetype":"","h_hr":1.0617174527145128,"h_bb":0.946617596241832,"h_k":0.911156196892586,"h_single":1.0855103993805124,"p_cl_K":1.0252630712918152,"p_cl_BB":0.9358666013485822,"p_cl_BAB":0.9597002449556824,"p_cl_HR":0.992462662345718,"p_su_K":1.0960620883573893,"p_st_HR":0.8241662065913202,"c_K":1.0832308753047548,"c_BB":0.9548588611175812},{"W":104.2,"sigma_norm":0.0746122100330792,"RA":544.35,"archetype":"","h_hr":1.058370441125431,"h_bb":0.9852798602463084,"h_k":0.9077409177114352,"h_single":1.0417193601938854,"p_cl_K":1.0303761773935822,"p_cl_BB":0.931235860411142,"p_cl_BAB":0.9307204317804624,"p_cl_HR":0.9955230600394552,"p_su_K":1.017853652739091,"p_st_HR":0.8255233772858169,"c_K":1.096808936454254,"c_BB":0.9517919834139004},{"W":101.45,"sigma_norm":0.0647079446065189,"RA":557.5,"archetype":"","h_hr":1.1213908722665562,"h_bb":0.9869682256625372,"h_k":0.957802836876756,"h_single":1.0799926820901735,"p_cl_K":1.0706320904399187,"p_cl_BB":1.044052735250057,"p_cl_BAB":0.947651359000153,"p_cl_HR":1.0284077724989558,"p_su_K":1.0093891661382857,"p_st_HR":0.9156853917418556,"c_K":1.0869911600388946,"c_BB":0.9561944364316618},{"W":106.45,"sigma_norm":0.0820078889923703,"RA":529.15,"archetype":"balanced","h_hr":1.0584302541094257,"h_bb":0.9852778622120596,"h_k":0.907557013875604,"h_single":1.1172923678478075,"p_cl_K":1.0303761773935822,"p_cl_BB":0.931235860411142,"p_cl_BAB":0.9269596906175174,"p_cl_HR":0.98870725126784,"p_su_K":1.017853652739091,"p_st_HR":0.8235559809304887,"c_K":1.099798082034413,"c_BB":0.9526190847048824},{"W":97.75,"sigma_norm":0.0435817695653752,"RA":578.8,"archetype":"","h_hr":1.0665930164388948,"h_bb":0.9463763699649634,"h_k":0.9496977878759908,"h_single":1.0402611479876682,"p_cl_K":1.0590465334889905,"p_cl_BB":0.9992856251812944,"p_cl_BAB":1.034830393329483,"p_cl_HR":0.9986348216582438,"p_su_K":1.0305061385209693,"p_st_HR":0.9281904255728318,"c_K":1.0232514903198802,"c_BB":0.998924447040789}],"coefs":{"h_hr":22.30357284757172,"h_bb":16.171917072364245,"h_k":-33.67162590818383,"h_single":42.84194599772371,"p_cl_K":2.0624179692443034,"p_cl_BB":-7.896623267649047,"p_cl_BAB":-3.82195629895005,"p_cl_HR":-0.35697196125519803,"p_su_K":6.830595260673364,"p_st_HR":-11.890506005811817,"c_K":30.44330418567901,"c_BB":-12.457672756295034},"intercept":39.558092280589655,"W_baseline_sim":89.8,"W_actual":81.0,"W_pyth":90.06,"dims":["h_hr","h_bb","h_k","h_single","p_cl_K","p_cl_BB","p_cl_BAB","p_cl_HR","p_su_K","p_st_HR","c_K","c_BB"],"dim_meta":[{"id":"h_hr","group":"hitter","label":"타자 HR","desc":"팀 전체 홈런 multiplier","lo":0.9,"hi":1.15},{"id":"h_bb","group":"hitter","label":"타자 BB","desc":"팀 전체 볼넷 multiplier","lo":0.9,"hi":1.15},{"id":"h_k","group":"hitter","label":"타자 K","desc":"팀 전체 삼진 (낮을수록 좋음)","lo":0.85,"hi":1.1},{"id":"h_single","group":"hitter","label":"타자 단타","desc":"팀 전체 1루타 multiplier","lo":0.9,"hi":1.15},{"id":"p_cl_K","group":"pitcher","label":"Closer K%","desc":"마무리 삼진율","lo":0.9,"hi":1.15},{"id":"p_cl_BB","group":"pitcher","label":"Closer BB%","desc":"마무리 볼넷 (낮을수록)","lo":0.85,"hi":1.15},{"id":"p_cl_BAB","group":"pitcher","label":"Closer BABIP","desc":"마무리 BABIP (낮을수록)","lo":0.9,"hi":1.1},{"id":"p_cl_HR","group":"pitcher","label":"Closer HR%","desc":"마무리 피홈런 (낮을수록)","lo":0.7,"hi":1.15},{"id":"p_su_K","group":"pitcher","label":"Setup K%","desc":"셋업 삼진율","lo":0.9,"hi":1.15},{"id":"p_st_HR","group":"pitcher","label":"Starter HR%","desc":"선발 피홈런 (낮을수록)","lo":0.7,"hi":1.15},{"id":"c_K","group":"common","label":"팀 K% mult","desc":"모든 투수 K% 일괄","lo":0.95,"hi":1.1},{"id":"c_BB","group":"common","label":"팀 BB% mult","desc":"모든 투수 BB% 일괄","lo":0.95,"hi":1.1}]};
+const W_BASELINE = DATA.W_baseline_sim;   // 89.8
+const W_ACTUAL = DATA.W_actual;            // 81.0
+const W_PYTH = DATA.W_pyth;                // 90.06
+
+// 현재 σ 상태
+const sigma = {};
+DATA.dim_meta.forEach(d => sigma[d.id] = 1.0);
+
+// ========== UI 빌드 ==========
+function buildSliders() {
+  const groups = { hitter: 'hitter-sliders', pitcher: 'pitcher-sliders', common: 'common-sliders' };
+  DATA.dim_meta.forEach(d => {
+    const html = `
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-label">${d.label}</span>
+          <span class="slider-value" id="val-${d.id}">1.00×</span>
+        </div>
+        <input type="range" id="slider-${d.id}" min="${d.lo}" max="${d.hi}" step="0.01" value="1.00">
+        <div class="slider-desc">${d.desc}</div>
+      </div>
+    `;
+    document.getElementById(groups[d.group]).insertAdjacentHTML('beforeend', html);
+    document.getElementById('slider-' + d.id).addEventListener('input', e => {
+      sigma[d.id] = parseFloat(e.target.value);
+      update();
+    });
+  });
+}
+
+// ========== 계산 ==========
+function predictW(s) {
+  // baseline 보정 회귀: W = W_BASELINE + Σ coef_d × (σ_d - 1)
+  let dW = 0;
+  for (const dim in DATA.coefs) {
+    dW += DATA.coefs[dim] * (s[dim] - 1.0);
+  }
+  return W_BASELINE + dW;
+}
+
+function sigmaNorm(s) {
+  let sumSq = 0, n = 0;
+  for (const dim in s) {
+    sumSq += (s[dim] - 1.0) ** 2;
+    n++;
+  }
+  return Math.sqrt(sumSq / n);
+}
+
+function nearestPareto(s) {
+  let best = null, bestDist = Infinity;
+  DATA.pareto.forEach(p => {
+    let dist = 0;
+    DATA.dims.forEach(d => dist += (s[d] - p[d]) ** 2);
+    dist = Math.sqrt(dist);
+    if (dist < bestDist) { bestDist = dist; best = p; }
+  });
+  return { point: best, dist: bestDist };
+}
+
+// ========== UI 갱신 ==========
+function update() {
+  const W = predictW(sigma);
+  const sn = sigmaNorm(sigma);
+  const near = nearestPareto(sigma);
+
+  document.getElementById('W-display').textContent = W.toFixed(1);
+  document.getElementById('sigma-display').textContent = sn.toFixed(3);
+  document.getElementById('dW-actual').textContent = (W >= W_ACTUAL ? '+' : '') + (W - W_ACTUAL).toFixed(1);
+  document.getElementById('dW-base').textContent = (W >= W_BASELINE ? '+' : '') + (W - W_BASELINE).toFixed(1);
+
+  // W 색상
+  const wEl = document.getElementById('W-display');
+  wEl.className = 'result-value ' + (W >= W_BASELINE ? 'teal' : 'coral');
+
+  // 가장 가까운 Pareto
+  const archName = near.point.archetype || '(non-archetype)';
+  document.getElementById('nearest-arch').textContent = archName || '—';
+  document.getElementById('nearest-W').textContent = near.point.W.toFixed(1);
+  document.getElementById('nearest-sigma').textContent = near.point.sigma_norm.toFixed(3);
+  document.getElementById('nearest-dist').textContent = near.dist.toFixed(2);
+
+  // 슬라이더 값 라벨
+  DATA.dim_meta.forEach(d => {
+    const v = sigma[d.id];
+    const valEl = document.getElementById('val-' + d.id);
+    valEl.textContent = v.toFixed(2) + '×';
+    valEl.className = 'slider-value' + (v < 1.0 ? ' below' : '');
+    document.getElementById('slider-' + d.id).value = v;
+  });
+
+  drawPareto();
+  drawDriver();
+}
+
+// ========== Pareto 산점도 ==========
+function drawPareto() {
+  const c = document.getElementById('pareto-chart');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const pad = { t: 30, r: 24, b: 50, l: 60 };
+  const pw = W - pad.l - pad.r, ph = H - pad.t - pad.b;
+
+  // 범위
+  const xs = DATA.pareto.map(p => p.sigma_norm).concat([sigmaNorm(sigma), 0]);
+  const ys = DATA.pareto.map(p => p.W).concat([predictW(sigma), W_ACTUAL, W_BASELINE]);
+  const xMin = 0, xMax = Math.max(...xs) * 1.05;
+  const yMin = Math.min(...ys) - 2, yMax = Math.max(...ys) + 2;
+
+  // 외삽 경계 영역 (σ_norm > 0.10) — rangers-red 음영
+  const EXTRAP_THRESHOLD = 0.10;
+  if (xMax > EXTRAP_THRESHOLD) {
+    const xExtrap = pad.l + (EXTRAP_THRESHOLD - xMin) / (xMax - xMin) * pw;
+    ctx.fillStyle = 'rgba(179, 25, 34, 0.05)';
+    ctx.fillRect(xExtrap, pad.t, pad.l + pw - xExtrap, ph);
+    ctx.strokeStyle = 'rgba(179, 25, 34, 0.30)';
+    ctx.setLineDash([5, 4]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(xExtrap, pad.t); ctx.lineTo(xExtrap, pad.t + ph); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(179, 25, 34, 0.70)';
+    ctx.textAlign = 'left'; ctx.font = '10px sans-serif';
+    ctx.fillText('↑ 외삽 경계 (σ>0.10)', xExtrap + 6, pad.t + 12);
+  }
+
+  // 격자 (--grid-line)
+  ctx.strokeStyle = '#E9EDF3';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + ph * i / 4;
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + pw, y); ctx.stroke();
+  }
+
+  // 축 라벨 (--muted-foreground)
+  ctx.fillStyle = '#667085';
+  ctx.font = '11px sans-serif';
+  ctx.textAlign = 'right';
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + ph * i / 4;
+    const v = yMax - (yMax - yMin) * i / 4;
+    ctx.fillText(v.toFixed(0), pad.l - 8, y + 4);
+  }
+  ctx.textAlign = 'center';
+  for (let i = 0; i <= 4; i++) {
+    const x = pad.l + pw * i / 4;
+    const v = xMin + (xMax - xMin) * i / 4;
+    ctx.fillText(v.toFixed(2), x, pad.t + ph + 18);
+  }
+
+  // 기준선 — 실제 W=81 (rangers-red)
+  const yActual = pad.t + (1 - (W_ACTUAL - yMin) / (yMax - yMin)) * ph;
+  ctx.strokeStyle = 'rgba(179, 25, 34, 0.55)';
+  ctx.setLineDash([4, 4]); ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(pad.l, yActual); ctx.lineTo(pad.l + pw, yActual); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = 'rgba(179, 25, 34, 0.85)';
+  ctx.textAlign = 'left'; ctx.font = '10px sans-serif';
+  ctx.fillText('실제 81', pad.l + pw - 38, yActual - 4);
+
+  // 기준선 — 시뮬 baseline 89.8 (navy-soft)
+  const yBase = pad.t + (1 - (W_BASELINE - yMin) / (yMax - yMin)) * ph;
+  ctx.strokeStyle = 'rgba(36, 58, 94, 0.45)';
+  ctx.setLineDash([3, 3]); ctx.beginPath();
+  ctx.moveTo(pad.l, yBase); ctx.lineTo(pad.l + pw, yBase); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = 'rgba(36, 58, 94, 0.75)';
+  ctx.fillText('baseline 89.8', pad.l + pw - 75, yBase - 4);
+
+  // Pareto 점들 (라이트 팔레트)
+  // - 기본: neutral (회색)
+  // - aggressive: rangers-red
+  // - balanced: navy-soft
+  // - conservative: positive (green)
+  DATA.pareto.forEach(p => {
+    const x = pad.l + (p.sigma_norm - xMin) / (xMax - xMin) * pw;
+    const y = pad.t + (1 - (p.W - yMin) / (yMax - yMin)) * ph;
+    let color = 'rgba(184, 189, 199, 0.7)';
+    if (p.archetype === 'aggressive') color = 'rgba(179, 25, 34, 0.90)';
+    else if (p.archetype === 'balanced') color = 'rgba(36, 58, 94, 0.90)';
+    else if (p.archetype === 'conservative') color = 'rgba(47, 158, 101, 1)';
+    ctx.fillStyle = color;
+    ctx.beginPath(); ctx.arc(x, y, p.archetype ? 7 : 4, 0, Math.PI * 2); ctx.fill();
+    if (p.archetype) {
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  });
+
+  // 사용자 점 — rangers-red 별
+  const userSigma = sigmaNorm(sigma);
+  const userW = predictW(sigma);
+  const ux = pad.l + (userSigma - xMin) / (xMax - xMin) * pw;
+  const uy = pad.t + (1 - (userW - yMin) / (yMax - yMin)) * ph;
+  drawStar(ctx, ux, uy, 5, 11, 5, '#B31922');
+
+  // 축 제목 (--muted-foreground)
+  ctx.fillStyle = '#667085';
+  ctx.font = '12px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('σ_norm (정책 변경 비용)', pad.l + pw / 2, H - 12);
+  ctx.save();
+  ctx.translate(18, pad.t + ph / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('예상 시즌 W', 0, 0);
+  ctx.restore();
+}
+
+function drawStar(ctx, cx, cy, points, outerR, innerR, color) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.beginPath();
+  for (let i = 0; i < points * 2; i++) {
+    const r = i % 2 === 0 ? outerR : innerR;
+    const ang = -Math.PI / 2 + i * Math.PI / points;
+    if (i === 0) ctx.moveTo(Math.cos(ang) * r, Math.sin(ang) * r);
+    else ctx.lineTo(Math.cos(ang) * r, Math.sin(ang) * r);
+  }
+  ctx.closePath();
+  ctx.fillStyle = color;
+  ctx.shadowColor = color;
+  ctx.shadowBlur = 12;
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.restore();
+}
+
+// ========== Driver 분해 막대 ==========
+function drawDriver() {
+  const c = document.getElementById('driver-chart');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // 각 차원의 ΔW 기여
+  const contribs = DATA.dim_meta.map(d => ({
+    id: d.id,
+    label: d.label,
+    contrib: DATA.coefs[d.id] * (sigma[d.id] - 1.0),
+  })).sort((a, b) => b.contrib - a.contrib);
+
+  const pad = { t: 28, r: 90, b: 30, l: 110 };
+  const pw = W - pad.l - pad.r, ph = H - pad.t - pad.b;
+  const barH = ph / contribs.length * 0.75;
+
+  // x scale
+  const maxAbs = Math.max(0.1, ...contribs.map(c => Math.abs(c.contrib)));
+  const xZero = pad.l + pw * 0.5;
+
+  // 0선 (--border tone)
+  ctx.strokeStyle = '#C7CFDB';
+  ctx.beginPath(); ctx.moveTo(xZero, pad.t); ctx.lineTo(xZero, pad.t + ph); ctx.stroke();
+
+  // 막대 — 긍정(W↑) positive green, 부정(W↓) rangers-red
+  contribs.forEach((c_, i) => {
+    const y = pad.t + i * (ph / contribs.length) + (ph / contribs.length - barH) / 2;
+    const w = (c_.contrib / maxAbs) * (pw * 0.5);
+    ctx.fillStyle = c_.contrib >= 0 ? 'rgba(47, 158, 101, 0.78)' : 'rgba(179, 25, 34, 0.72)';
+    if (w >= 0) ctx.fillRect(xZero, y, w, barH);
+    else ctx.fillRect(xZero + w, y, -w, barH);
+
+    // 라벨 (foreground)
+    ctx.fillStyle = '#1B2435';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(c_.label, pad.l - 6, y + barH / 2 + 4);
+
+    // 값 — positive·negative 톤
+    ctx.textAlign = c_.contrib >= 0 ? 'left' : 'right';
+    ctx.fillStyle = c_.contrib >= 0 ? '#2F9E65' : '#B31922';
+    ctx.font = '11px sans-serif';
+    const sign = c_.contrib >= 0 ? '+' : '';
+    ctx.fillText(sign + c_.contrib.toFixed(2),
+      c_.contrib >= 0 ? xZero + w + 4 : xZero + w - 4,
+      y + barH / 2 + 4);
+  });
+
+  // 합계 (총 ΔW) — navy
+  const total = contribs.reduce((s, c_) => s + c_.contrib, 0);
+  ctx.fillStyle = '#0D1B33';
+  ctx.font = '600 13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('총 ΔW = ' + (total >= 0 ? '+' : '') + total.toFixed(2) + '승  (baseline 89.8 대비)',
+    W / 2, H - 8);
+}
+
+// ========== Archetype 적용 ==========
+function applyArchetype(name) {
+  const arch = DATA.pareto.find(p => p.archetype === name);
+  if (!arch) return;
+  DATA.dims.forEach(d => sigma[d] = arch[d]);
+  update();
+}
+
+function reset() {
+  DATA.dim_meta.forEach(d => sigma[d.id] = 1.0);
+  update();
+}
+
+// ========== 초기화 ==========
+buildSliders();
+update();
+</script>
+</body>
+</html>
