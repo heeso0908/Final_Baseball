@@ -605,7 +605,14 @@ _PDF_SECTION_ACCENT: dict[str, str] = {
 # ── PDF helpers ───────────────────────────────────────────────
 def _configure_pdf_font():
     # 우선순위: macOS → Windows → Linux(Streamlit Cloud) → fallback
-    preferred = [
+    # 배포 환경에서는 Matplotlib 폰트 캐시에 apt로 설치한 폰트가 안 잡히는 경우가 있어
+    # font name 매칭 전에 실제 파일 경로를 먼저 등록한다.
+    mpl.rcParams["pdf.use14corefonts"] = False
+    mpl.rcParams["pdf.fonttype"] = 42
+    mpl.rcParams["ps.fonttype"] = 42
+    mpl.rcParams["axes.unicode_minus"] = False
+
+    preferred_names = [
         "AppleGothic",          # macOS 기본
         "Apple SD Gothic Neo",  # macOS 대안
         "Malgun Gothic",        # Windows
@@ -615,28 +622,71 @@ def _configure_pdf_font():
         "Noto Sans KR",
         "DejaVu Sans",          # 최후 (한국어 깨짐)
     ]
-    available = {f.name for f in fm.fontManager.ttflist}
+
+    preferred_paths = [
+        "/usr/share/fonts/truetype/nanum/NanumGothic.ttf",
+        "/usr/share/fonts/truetype/nanum/NanumGothicBold.ttf",
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
+        "/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc",
+        "/usr/share/fonts/truetype/noto/NotoSansKR-Regular.otf",
+    ]
+
     chosen = None
-    for font in preferred:
-        if font in available:
-            mpl.rcParams["font.family"] = font
-            chosen = font
-            break
-    # 폰트 매칭 실패 시 fc-list로 시스템에서 찾아 등록 시도 (Streamlit Cloud 안전망)
-    if chosen is None or chosen == "DejaVu Sans":
-        import subprocess, os
+    chosen_family = None
+
+    for path in preferred_paths:
         try:
-            result = subprocess.run(["fc-list", ":lang=ko", "file"],
-                                     capture_output=True, text=True, timeout=5)
+            if Path(path).exists():
+                fm.fontManager.addfont(path)
+                chosen = fm.FontProperties(fname=path)
+                chosen_family = chosen.get_name()
+                break
+        except Exception:
+            continue
+
+    # 폰트 파일 직접 등록이 실패하면 font name으로 재시도
+    available = {f.name for f in fm.fontManager.ttflist}
+    if chosen_family is None:
+        for font in preferred_names:
+            if font in available:
+                chosen_family = font
+                chosen = fm.FontProperties(family=font)
+                break
+
+    # font name 매칭 실패 시 fc-list로 시스템에서 찾아 등록 시도 (Streamlit Cloud 안전망)
+    if chosen_family is None or chosen_family == "DejaVu Sans":
+        import subprocess
+        try:
+            result = subprocess.run(
+                ["fc-list", ":lang=ko", "file"],
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
             for path in (line.split(":")[0].strip() for line in result.stdout.splitlines() if line):
-                if path and os.path.exists(path):
-                    fm.fontManager.addfont(path)
-                    chosen = fm.FontProperties(fname=path).get_name()
-                    mpl.rcParams["font.family"] = chosen
-                    break
+                if path and Path(path).exists():
+                    try:
+                        fm.fontManager.addfont(path)
+                        chosen = fm.FontProperties(fname=path)
+                        chosen_family = chosen.get_name()
+                        break
+                    except Exception:
+                        continue
         except Exception:
             pass
-    mpl.rcParams["axes.unicode_minus"] = False
+
+    if chosen_family:
+        mpl.rcParams["font.family"] = "sans-serif"
+        mpl.rcParams["font.sans-serif"] = [
+            chosen_family,
+            *[font for font in preferred_names if font != chosen_family],
+        ]
+    else:
+        chosen = fm.FontProperties(family="DejaVu Sans")
+        mpl.rcParams["font.family"] = "DejaVu Sans"
+
+    return chosen
 
 
 def _rr(ax, x, y, w, h, r, color, edge="none", lw=0, alpha=1.0):
