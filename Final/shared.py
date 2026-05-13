@@ -28,9 +28,11 @@ TEX_LIGHT = "#F6F8FB"
 TEX_MUTED = "#64748B"
 
 # ── Paths ─────────────────────────────────────────────────────
-BASE_DIR = Path(__file__).parent
-RAW_DIR  = BASE_DIR / "data_raw"
-ASSETS   = BASE_DIR / "assets"
+BASE_DIR = Path(__file__).resolve().parent  # Final/streamlit/
+# 분석 라이브러리·데이터·자산은 부모(Final/)에서 공유
+PROJECT_ROOT = BASE_DIR.parent
+RAW_DIR  = PROJECT_ROOT / "data_raw"
+ASSETS   = PROJECT_ROOT / "assets"
 
 # ── Simulation config ─────────────────────────────────────────
 SIMULATION_OPTIONS = [
@@ -2372,7 +2374,8 @@ def build_team_report_pdf() -> bytes:
 
 @st.cache_data
 def load_data():
-    base = Path(__file__).parent / "data"
+    # 데이터는 Final/data/ (분석 라이브러리·노트북과 공유)
+    base = Path(__file__).resolve().parent.parent / "data"
     return {
         'pitcher_ag': pd.read_csv(base / "pitcher_stats_ag.csv", encoding="utf-8-sig"),
         'pitcher_mb': pd.read_csv(base / "pitcher_stats_mb.csv", encoding="utf-8-sig"),

@@ -17,8 +17,8 @@ def show():
     page_hero(
         "Comparison",
         "주요 투수 모션 분석",
-        "잔차 원인을 선수 단위로 좁히기 위해 선정한 5명 투수의 상황별 키네마틱 차이를 Cohen's d와 p-value 기준으로 비교합니다.<br>이 페이지는 Simulation 의사결정 후보를 해석할 때 코칭 가능 영역과 운영·보강 영역을 구분하는 근거로 사용합니다.",
-        [("Cohen's d", "white"), ("p-value", "white"), ("Interactive", "white")],
+        "잔차 원인을 선수 단위로 좁히기 위해 선정한 5명 투수의 상황별 키네마틱 차이를 <b>효과 크기</b>와 <b>유의 수준</b> 기준으로 비교합니다.<br>이 페이지는 Simulation 의사결정 후보를 해석할 때 코칭 가능 영역과 운영·보강 영역을 구분하는 근거로 사용합니다.",
+        [("효과 크기", "white"), ("유의 수준", "white"), ("Interactive", "white")],
     )
 
     df = data["pitcher_ag"].copy()
@@ -28,12 +28,24 @@ def show():
     glossary_box(
         "그래프 읽는 법",
         {
-            "Cohen's d": BASEBALL_TERMS["Cohen's d"],
-            "p-value": BASEBALL_TERMS["p-value"],
+            "효과 크기 (Cohen's d)": BASEBALL_TERMS["Cohen's d"],
+            "유의 수준 (p-value)": BASEBALL_TERMS["p-value"],
             "HSS @ FP": KINEMATIC_TERMS["HSS @ FP"],
             "HSS max": KINEMATIC_TERMS["HSS max"],
             "Trunk/Hip ratio": KINEMATIC_TERMS["Trunk/Hip ratio"],
         },
+    )
+
+    st.markdown(
+        """
+        <div style="background:#F8FAFC;border-left:4px solid #003278;padding:14px 18px;margin:8px 0 24px;border-radius:6px;font-size:13.5px;color:#1B2435;line-height:1.7;">
+            <b style="color:#003278;">해석 가이드 — 효과 크기·유의 수준이 크다고 '좋다'는 뜻이 아닙니다</b><br>
+            <b>효과 크기</b>(Cohen's d)와 <b>유의 수준</b>(p-value)은 두 상황(예: SO vs Walk, SV vs BS) 간 동작이 <b>얼마나 명확히 다른가</b>를 보여주는 <i>식별력</i> 지표입니다.<br><br>
+            <b>효과 크기 큼 + 유의 수준 낮음(p가 작음)</b> &nbsp;→&nbsp; 동작 차이 명확 &nbsp;→&nbsp; 결과 차이를 <b>키네마틱 메커니즘</b>으로 설명 가능 &nbsp;→&nbsp; <b>코칭·훈련</b>으로 접근할 영역<br>
+            <b>효과 크기 작음 / 유의 수준 높음(p가 큼)</b> &nbsp;→&nbsp; 동작은 비슷 &nbsp;→&nbsp; 결과 차이는 <b>외부 요인</b>(운·매치업·leverage)이 우세 &nbsp;→&nbsp; <b>운영·보강</b>(불펜 매치업·라인업)으로 접근할 영역
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
     def _sig_label(p_value: float) -> str:
@@ -51,14 +63,14 @@ def show():
 
     def _sig_group(p_value: float) -> str:
         if pd.isna(p_value):
-            return "No p-value"
+            return "데이터 부족"
         if p_value < 0.01:
-            return "Strong"
+            return "매우 명확 (p<0.01)"
         if p_value < 0.05:
-            return "Significant"
+            return "유의 (p<0.05)"
         if p_value < 0.10:
-            return "Marginal"
-        return "Not significant"
+            return "경계 (p<0.10)"
+        return "차이 미미 (n.s.)"
 
     def _hex_to_rgba(hex_color: str, alpha: float) -> str:
         hex_color = hex_color.lstrip("#")
@@ -72,7 +84,7 @@ def show():
     st.markdown(
         """
         <div class="glass-card" style="margin-bottom:20px;">
-            <div class="section-copy">투수별 Cohen&#39;s d와 p-value를 함께 보면서 어떤 동작 지표에서 차이가 크게 벌어지는지 확인합니다.</div>
+            <div class="section-copy">투수별 <b>효과 크기</b>와 <b>유의 수준</b>을 함께 보면서 어떤 동작 지표에서 차이가 크게 벌어지는지 확인합니다.</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -84,7 +96,7 @@ def show():
         with st.container():
             st.markdown(
                 '<div class="glass-card"><div class="chart-title">지표별 효과 크기</div>'
-                '<div class="chart-caption">선택한 지표에서 투수별 Cohen&#39;s d를 비교합니다. 점선은 |d|=0.8 기준입니다.</div></div>',
+                '<div class="chart-caption">선택한 지표에서 투수별 <b>효과 크기</b>(Cohen\'s d)를 비교합니다. 점선은 |d|=0.8(큰 차이 기준선)입니다.</div></div>',
                 unsafe_allow_html=True,
             )
             selected_metric = st.selectbox(
@@ -113,11 +125,11 @@ def show():
                 st.info("선택한 조건에 해당하는 지표 데이터가 없습니다.")
             else:
                 color_map = {
-                    "Strong": TEX_RED,
-                    "Significant": "#D04A52",
-                    "Marginal": "#F59F00",
-                    "Not significant": "#9AA4B2",
-                    "No p-value": "#CBD5E1",
+                    "매우 명확 (p<0.01)": TEX_RED,
+                    "유의 (p<0.05)": "#D04A52",
+                    "경계 (p<0.10)": "#F59F00",
+                    "차이 미미 (n.s.)": "#9AA4B2",
+                    "데이터 부족": "#CBD5E1",
                 }
                 metric_df["bar_text"] = metric_df["cohens_d"].map(lambda v: f"{v:+.2f}")
                 fig_effect = px.bar(
@@ -129,7 +141,7 @@ def show():
                     color_discrete_map=color_map,
                     text="bar_text",
                     custom_data=["abs_d", "u_p", "a_mean", "b_mean", "diff", "sig_label"],
-                    labels={"cohens_d": "Cohen's d", "player": "Pitcher", "sig_group": "Significance"},
+                    labels={"cohens_d": "효과 크기 (Cohen's d)", "player": "투수", "sig_group": "통계 명확성"},
                 )
                 fig_effect.update_traces(
                     textposition="inside",
@@ -139,14 +151,14 @@ def show():
                     marker_line_width=1.0,
                     hovertemplate=(
                         "<b>%{y}</b><br>"
-                        + f"Metric: {selected_metric}<br>"
-                        + "Cohen's d: %{x:+.3f}<br>"
+                        + f"지표: {selected_metric}<br>"
+                        + "효과 크기 (d): %{x:+.3f}<br>"
                         + "|d|: %{customdata[0]:.3f}<br>"
-                        + "p-value: %{customdata[1]:.4f}<br>"
-                        + "A mean: %{customdata[2]:.3f}<br>"
-                        + "B mean: %{customdata[3]:.3f}<br>"
-                        + "Diff: %{customdata[4]:+.3f}<br>"
-                        + "Significance: %{customdata[5]}<extra></extra>"
+                        + "유의 수준 (p): %{customdata[1]:.4f}<br>"
+                        + "A 평균: %{customdata[2]:.3f}<br>"
+                        + "B 평균: %{customdata[3]:.3f}<br>"
+                        + "차이: %{customdata[4]:+.3f}<br>"
+                        + "통계 명확성: %{customdata[5]}<extra></extra>"
                     ),
                 )
                 x_min = float(metric_df["cohens_d"].min())
@@ -159,7 +171,7 @@ def show():
                     height=318,
                     margin=dict(l=8, r=16, t=14, b=34),
                     xaxis=dict(
-                        title="Cohen's d",
+                        title="효과 크기 (Cohen's d)",
                         range=[x_min - pad, x_max + pad],
                         zeroline=False,
                         gridcolor="rgba(13,27,51,0.08)",
@@ -339,7 +351,12 @@ def show():
     st.markdown(
         """
         <div class="glass-card">
-            <div class="section-copy">모든 동작 지표를 한 표에 비교합니다. 색이 진할수록 차이가 크거나 통계적으로 의미 있는 결과입니다.</div>
+            <div class="section-copy">
+                모든 동작 지표를 한 표에 비교합니다.<br>
+                <b>진한 색</b> = 두 상황(SO/Walk, SV/BS) 간 동작이 <b>명확히 다름</b> → 결과 차이가 <b>동작 메커니즘으로 식별 가능</b> → <b>코칭·훈련으로 접근할 영역</b>.<br>
+                <b>연한 색 / 빈 칸</b> = 동작은 비슷함 → 결과 차이는 <b>운·매치업·leverage 등 외부 요인</b>의 영향이 더 큼 → <b>운영·보강(불펜 매치업·라인업)으로 접근할 영역</b>.<br>
+                <span style="color:#94A3B8;">※ 진한 색이 "좋다"는 뜻이 아니라, <b>어디서 결과 차이가 만들어지는가</b>를 보여주는 해석 기준입니다.</span>
+            </div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -371,7 +388,7 @@ def show():
             return "background-color: #FFE4B5"
         return ""
 
-    table_tab_1, table_tab_2 = st.tabs(["Cohen's d", "p-value"])
+    table_tab_1, table_tab_2 = st.tabs(["효과 크기 (Cohen's d)", "유의 수준 (p-value)"])
     with table_tab_1:
         st.dataframe(pivot_d.style.map(color_d).format("{:+.2f}", na_rep="—"), use_container_width=True)
         st.markdown(

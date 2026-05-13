@@ -31,7 +31,9 @@ from pydantic_ai.providers.google import GoogleProvider
 
 from agent import tools
 
-load_dotenv(Path(__file__).resolve().parent.parent / '.env')
+# .env는 워크스페이스 루트(Final_Baseball/)에 있음
+# Final/streamlit/agent/chatbot.py → ../../../ = Final_Baseball/
+load_dotenv(Path(__file__).resolve().parent.parent.parent.parent / '.env')
 
 _PROMPT_PATH = Path(__file__).parent / "system_prompt.md"
 

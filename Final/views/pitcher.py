@@ -90,8 +90,8 @@ def show_pitcher_page(pitcher_name, situation_a, situation_b,
         "HSS @ FP": KINEMATIC_TERMS["HSS @ FP"],
         "HSS max": KINEMATIC_TERMS["HSS max"],
         "Trunk/Hip ratio": KINEMATIC_TERMS["Trunk/Hip ratio"],
-        "Cohen's d": BASEBALL_TERMS["Cohen's d"],
-        "p-value": BASEBALL_TERMS["p-value"],
+        "효과 크기 (Cohen's d)": BASEBALL_TERMS["Cohen's d"],
+        "유의 수준 (p-value)": BASEBALL_TERMS["p-value"],
         "세이브(SV) / 블론 세이브(BS)": BASEBALL_TERMS["세이브(SV) / 블론 세이브(BS)"],
     })
 
@@ -157,7 +157,7 @@ def show_pitcher_page(pitcher_name, situation_a, situation_b,
     st.markdown("## 3. 핵심 키네마틱 지표")
     st.markdown(
         '<div class="glass-card">'
-        '<div class="section-copy">Cohen&#39;s d 절대값이 큰 순서로 상위 지표를 요약했습니다.</div></div>',
+        '<div class="section-copy"><b>효과 크기</b>(Cohen\'s d)의 절대값이 큰 순서로 상위 지표를 요약했습니다. — 값이 클수록 두 상황의 동작 차이가 큼.</div></div>',
         unsafe_allow_html=True
     )
     if key_findings:
@@ -186,12 +186,12 @@ def show_pitcher_page(pitcher_name, situation_a, situation_b,
     st.markdown("## 4. 통계 검정 결과")
     st.markdown(
         '<div class="glass-card">'
-        '<div class="section-copy">p-value가 낮고 효과 크기 |d|가 클수록 상황별 폼 차이가 뚜렷합니다.</div></div>',
+        '<div class="section-copy"><b>유의 수준</b>(p)이 낮고 <b>효과 크기</b>(|d|)가 클수록 상황별 폼 차이가 뚜렷합니다.</div></div>',
         unsafe_allow_html=True
     )
     if len(pitcher_df) > 0:
         display_df = pitcher_df[['label', 'a_mean', 'b_mean', 'diff', 'cohens_d', 'u_p', 't_p']].copy()
-        display_df.columns = ['지표', f'{label_a} 평균', f'{label_b} 평균', '차이', "Cohen's d", 'p (Mann-Whitney)', 'p (t-test)']
+        display_df.columns = ['지표', f'{label_a} 평균', f'{label_b} 평균', '차이', "효과 크기 (d)", '유의 수준 (Mann-Whitney p)', '유의 수준 (t-test p)']
         for col in display_df.columns[1:]:
             display_df[col] = pd.to_numeric(display_df[col], errors='coerce').round(3)
 
