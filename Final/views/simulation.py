@@ -6,7 +6,6 @@ from shared import (
     kpi_card, page_hero, section_badges, finding_box,
     get_simulation_result, get_scenario_snapshots,
     get_simulation_batters, get_simulation_defaults,
-    get_live_scenario_results,
     fmt_pct, fmt_num,
 )
 from agent.tools import list_precomputed_scenarios
@@ -258,28 +257,10 @@ def _render_decision_board(
 
     leaderboard = pd.DataFrame(list_precomputed_scenarios()["scenarios"])
 
-    # Live sim으로 NSGA + baseline 재계산 (캐시됨)
+    # 후보 보드는 페이지 초기 렌더링을 막지 않도록 저장된 후보값을 우선 사용한다.
+    # 현재 Baseline을 직접 실행한 경우에는 아래 baseline_override 블록에서 기준값만 동기화한다.
     baseline_W = 89.80
     nsga_keys = ['nsga_aggressive', 'nsga_balanced', 'nsga_conservative']
-    try:
-        live = get_live_scenario_results(str(RAW_DIR), n_sims=10)
-        if not leaderboard.empty:
-            baseline_W = live['baseline_W']
-            # baseline row
-            mask_base = leaderboard['key'] == 'manual_baseline'
-            if mask_base.any():
-                leaderboard.loc[mask_base, 'predicted_W'] = baseline_W
-                leaderboard.loc[mask_base, 'delta'] = 0.0
-            # NSGA-II archetype rows — 모두 동일한 baseline_W 기준으로 교체
-            for live_key in nsga_keys:
-                if live_key not in live:
-                    continue
-                mask = leaderboard['key'] == live_key
-                if mask.any():
-                    leaderboard.loc[mask, 'predicted_W'] = live[live_key]['predicted_W']
-                    leaderboard.loc[mask, 'delta'] = live[live_key]['delta']
-    except Exception:
-        pass
 
     # 사용자가 기준 시뮬레이션을 직접 돌린 경우 → 그 결과를 baseline으로 덮어쓰고 delta 재계산
     if baseline_override is not None:
@@ -447,10 +428,10 @@ def show():
     with run_col:
         simulation_runs = st.slider(
             "반복 실행 횟수",
-            min_value=100,
+            min_value=1,
             max_value=1000,
             value=int(st.session_state.get("sim_runs", DEFAULT_SIM_RUNS)),
-            step=100,
+            step=1,
             key="simulation_runs_slider",
         )
     selected_scenario = SCENARIO_KEYS.get(selected_scenario_label, selected_scenario_label)
@@ -476,6 +457,23 @@ def show():
         st.session_state["simulation_result"] = None
         st.session_state["sim_scenario"] = scenario_keys[0]
         st.session_state["sim_runs"] = DEFAULT_SIM_RUNS
+
+    if st.session_state.get("simulation_result") is None and RAW_DIR.exists():
+        initial_runs = 1
+        try:
+            with st.spinner("기준 시뮬레이션 불러오는 중..."):
+                st.session_state["simulation_result"] = get_simulation_result(
+                    str(RAW_DIR),
+                    scenario_keys[0],
+                    initial_runs,
+                    fast_mode=False,
+                )
+                st.session_state["sim_scenario"] = scenario_keys[0]
+                st.session_state["sim_runs"] = initial_runs
+                st.session_state["sim_custom_stats"] = None
+                st.session_state["sim_custom_boosts"] = None
+        except Exception as exc:
+            st.warning(f"기준 시뮬레이션 자동 로딩 실패: {type(exc).__name__}: {exc}")
 
     if run_click:
         if not RAW_DIR.exists():
@@ -577,12 +575,11 @@ def show():
                 unsafe_allow_html=True,
             )
 
-    # 기준 시뮬 대비 증감량 — get_live_scenario_results 캐시 재활용 (추가 시뮬 없음)
+    # 기준 시뮬 대비 증감량 — 저장된 기준값으로 즉시 계산해 아래 섹션 렌더링을 막지 않는다.
     cur_scenario = st.session_state.get("sim_scenario", "Baseline 2025")
     if cur_scenario != "Baseline 2025":
         try:
-            live_cache  = get_live_scenario_results(str(RAW_DIR), n_sims=10)
-            base_mean   = live_cache.get("baseline_W")
+            base_mean   = 89.80
             cur_mean    = summary.get("mean")
             cur_over81  = summary.get("over_81_5")
             if base_mean is not None and cur_mean is not None:
