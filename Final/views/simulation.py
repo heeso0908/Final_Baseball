@@ -41,8 +41,7 @@ def _default_hitter_multipliers(player: str) -> dict[str, float]:
 def _scenario_type_label(source: str) -> str:
     labels = {
         "수동": "Manual",
-        "Pareto": "Pareto",
-        "Phase 8": "Phase 8",
+        "NSGA-II": "NSGA-II",
         "현재 시뮬레이션": "현재 시뮬레이션",
     }
     return labels.get(str(source), str(source))
@@ -52,11 +51,9 @@ def _render_source_legend() -> None:
     st.markdown(
         "<div style='margin: 2px 0 36px; font-size:12px; color:#94A3B8; line-height:1.65;'>"
         "시나리오 구분 &nbsp;:&nbsp; Manual — 사람이 직접 정한 실행 시나리오 &nbsp;·&nbsp; "
-        "Pareto — 머신러닝 잔차 모델 6차원 Pareto 최적화 후보 &nbsp;·&nbsp; "
-        "Phase 8 — 12차원 NSGA-II 시뮬레이션 직접 평가 (현실 권장 zone σ≤10%)<br>"
+        "NSGA-II — 12차원 σ 다목적 최적화 (Pareto front 50점에서 archetype 3종 도출, 현실 분포 σ ±10~15%)<br>"
         "컬럼 설명 &nbsp;:&nbsp; 기준 대비 개선승수 — 모든 구분이 동일한 통합 Markov 시뮬레이션 기준으로 계산 &nbsp;·&nbsp; "
-        "예측 흔들림 — 낮을수록 여러 모델이 비슷하게 평가한 안정적인 후보 &nbsp;·&nbsp; "
-        "σ 비용 — Phase 8 전용, 낮을수록 현실적으로 실행하기 쉬운 정책 조합"
+        "σ 비용 — 낮을수록 현실적으로 실행하기 쉬운 정책 조합 (4-5개 차원 동시 보강의 비현실성은 σ_norm으로 표시)"
         "</div>",
         unsafe_allow_html=True,
     )
@@ -70,12 +67,9 @@ def _display_scenario_name(name: str) -> str:
 def _short_chart_label(name: str) -> str:
     text = _display_scenario_name(name)
     replacements = {
-        "Phase 8: 잔차 초과 달성 (σ=7.7%)": "P8\n잔차 초과",
-        "Phase 8: 잔차 만회 기준 (σ=8.1%)": "P8\n잔차 만회",
-        "Phase 8: 소폭 개선 (σ=6.0%)": "P8\n소폭 개선",
-        "공격적 (std=0.652)": "Pareto\n공격적",
-        "균형점 (std=0.205)": "Pareto\n균형점",
-        "보수적 (std=0.002)": "Pareto\n보수적",
+        "NSGA-II: 공격적 (Aggressive, σ=9.2%)": "NSGA\n공격적",
+        "NSGA-II: 균형 (Balanced, σ=8.2%)": "NSGA\n균형",
+        "NSGA-II: 보수적 (Conservative, σ=3.1%)": "NSGA\n보수적",
     }
     return replacements.get(text, text.replace(" ", "\n"))
 
@@ -256,7 +250,7 @@ def _render_decision_board(
         """
         <div class="glass-card">
             <div class="chart-title">시나리오 의사결정 후보</div>
-            <div class="chart-caption">수동 시나리오와 Pareto / Phase 8 후보를 같은 기준으로 비교합니다.</div>
+            <div class="chart-caption">수동 시나리오와 NSGA-II 다목적 최적화 후보를 같은 기준으로 비교합니다.</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -264,8 +258,9 @@ def _render_decision_board(
 
     leaderboard = pd.DataFrame(list_precomputed_scenarios()["scenarios"])
 
-    # Live sim으로 Phase 8 + baseline 재계산 (캐시됨)
-    baseline_W = 81.0
+    # Live sim으로 NSGA + baseline 재계산 (캐시됨)
+    baseline_W = 89.80
+    nsga_keys = ['nsga_aggressive', 'nsga_balanced', 'nsga_conservative']
     try:
         live = get_live_scenario_results(str(RAW_DIR), n_sims=10)
         if not leaderboard.empty:
@@ -275,9 +270,8 @@ def _render_decision_board(
             if mask_base.any():
                 leaderboard.loc[mask_base, 'predicted_W'] = baseline_W
                 leaderboard.loc[mask_base, 'delta'] = 0.0
-            # Phase 8 + Pareto rows — 모두 동일한 baseline_W 기준으로 교체
-            for live_key in ['phase8_max', 'phase8_recovery', 'phase8_safe',
-                             'pareto_aggressive', 'pareto_balanced', 'pareto_conservative']:
+            # NSGA-II archetype rows — 모두 동일한 baseline_W 기준으로 교체
+            for live_key in nsga_keys:
                 if live_key not in live:
                     continue
                 mask = leaderboard['key'] == live_key
@@ -294,8 +288,7 @@ def _render_decision_board(
         if mask_base.any():
             leaderboard.loc[mask_base, 'predicted_W'] = baseline_W
             leaderboard.loc[mask_base, 'delta'] = 0.0
-        for live_key in ['phase8_max', 'phase8_recovery', 'phase8_safe',
-                         'pareto_aggressive', 'pareto_balanced', 'pareto_conservative']:
+        for live_key in nsga_keys:
             mask = leaderboard['key'] == live_key
             if mask.any():
                 abs_W = float(leaderboard.loc[mask, 'predicted_W'].iloc[0])
@@ -376,8 +369,8 @@ def _render_decision_board(
                     "구분_설명:N",
                     title="구분",
                     scale=alt.Scale(
-                        domain=["현재 시뮬레이션", "Manual", "Pareto", "Phase 8"],
-                        range=[RANGERS_RED_SOFT, CHART_GREEN, CHART_GRAY, NAVY_SOFT],
+                        domain=["현재 시뮬레이션", "Manual", "NSGA-II"],
+                        range=[RANGERS_RED_SOFT, CHART_GREEN, NAVY_SOFT],
                     ),
                 ),
                 tooltip=[
@@ -415,7 +408,7 @@ def show():
         "Simulation",
         "2025 TEX 시즌 시뮬레이션",
         "2025 텍사스 레인저스의 실제 시즌을 기준으로 주요 전력 변수 변화가 승수에 미치는 영향을 재구성합니다.<br>"
-        "Baseline 2025를 기준값으로 고정하고, 수동 시나리오와 Pareto / Phase 8 후보를 같은 기준으로 비교합니다.",
+        "Baseline 2025를 기준값으로 고정하고, 수동 시나리오와 NSGA-II 최적화 후보를 같은 기준으로 비교합니다.",
         [("Monte Carlo", "white"), ("Pythagorean Model", "white"), ("Scenario Compare", "white")],
     )
 
@@ -515,7 +508,7 @@ def show():
     if result is None:
         finding_box(
             "아직 시뮬레이션을 실행하지 않았습니다.",
-            "상단에서 시나리오와 반복 횟수를 선택한 뒤 시뮬레이션 실행 버튼을 누르면 선택한 조건의 승수 분포와 월별 흐름이 계산됩니다.<br>아래에서는 Pareto / Phase 8 후보를 먼저 비교할 수 있습니다."
+            "상단에서 시나리오와 반복 횟수를 선택한 뒤 시뮬레이션 실행 버튼을 누르면 선택한 조건의 승수 분포와 월별 흐름이 계산됩니다.<br>아래에서는 NSGA-II 후보 archetype을 먼저 비교할 수 있습니다."
         )
         st.markdown(_HR, unsafe_allow_html=True)
         st.markdown("## 2. 후보 비교")

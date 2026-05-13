@@ -72,15 +72,11 @@ simulate_scenario = estimate_residual_scenario
 # ============================================================
 
 _SCENARIO_ROWS = [
-    # Phase 8: 12차원 σ NSGA-II 시뮬 직접 평가 결과 (현실 권장 zone: σ_norm ≤ 0.10)
-    {"key": "phase8_max", "source": "Phase 8", "label": "Phase 8: 잔차 초과 달성 (σ=7.7%)", "delta": 15.7, "predicted_W": 96.7, "sigma_norm": 0.077, "rank": 1, "adjustments_summary": "h_single:+13.6%, h_k:-8.0%, p_st_HR:-2.6%, c_K:+7.5%", "decision_note": "시뮬 직접 평가 (12차원 σ): 피타고리안 기대 승수 초과 달성. 타자 단타+K 감소 주도"},
-    {"key": "phase8_recovery", "source": "Phase 8", "label": "Phase 8: 잔차 만회 기준 (σ=8.1%)", "delta": 9.5, "predicted_W": 90.5, "sigma_norm": 0.081, "rank": 2, "adjustments_summary": "h_single:+18.1%, p_st_HR:-4.0%, c_K:+7.9%", "decision_note": "시뮬 직접 평가 (12차원 σ): 잔차 -9 만회 수준. 타자 단타 증가·선발 HR 감소 조합"},
-    {"key": "phase8_safe", "source": "Phase 8", "label": "Phase 8: 소폭 개선 (σ=6.0%)", "delta": 3.65, "predicted_W": 84.65, "sigma_norm": 0.060, "rank": 3, "adjustments_summary": "h_single:+13.6%, h_hr:+11.5%, p_st_HR:-2.4%", "decision_note": "시뮬 직접 평가 (12차원 σ): 최소 정책 변경으로 현실적 소폭 개선"},
-    # v5 머신러닝 Pareto (6차원 잔차 보정 모델)
-    {"key": "pareto_aggressive", "source": "Pareto", "label": "공격적 (std=0.652)", "delta": 4.889, "predicted_W": 85.9, "pred_std": 0.6524, "rank": 4, "adjustments_summary": "sv_pct:+0.107, ir_pct:+0.067, onerun_wp:+0.131, xi_wp:+0.220, HR9:-0.265, BB9:-0.582", "decision_note": "상한선 후보: 개선 가능성은 가장 크지만 불확실성 확인 필요"},
-    {"key": "pareto_balanced", "source": "Pareto", "label": "균형점 (std=0.205)", "delta": 3.720, "predicted_W": 84.7, "pred_std": 0.2047, "rank": 5, "adjustments_summary": "sv_pct:+0.032, ir_pct:+0.067, onerun_wp:+0.115, xi_wp:+0.220, HR9:-0.271, BB9:-0.562", "decision_note": "균형 후보: 개선 폭과 안정성의 기본 검토안"},
-    {"key": "pareto_conservative", "source": "Pareto", "label": "보수적 (std=0.002)", "delta": 2.919, "predicted_W": 83.9, "pred_std": 0.0019, "rank": 6, "adjustments_summary": "sv_pct:+0.045, ir_pct:+0.007, onerun_wp:+0.109, xi_wp:+0.176, HR9:-0.102, BB9:+0.099", "decision_note": "안정 후보: 모델 간 의견 차이가 작을 때 참고"},
-    {"key": "manual_baseline", "source": "수동", "label": "Baseline 2025", "delta": 0.000, "predicted_W": 81.0, "rank": 7, "decision_note": "baseline과 차이가 작아 우선순위 낮음"},
+    # NSGA-II v5: 12차원 σ 다목적 최적화 결과 (분포 안 σ ±10~15%, 2026-05-12)
+    {"key": "nsga_aggressive", "source": "NSGA-II", "label": "NSGA-II: 공격적 (Aggressive, σ=9.2%)", "delta": 19.30, "predicted_W": 109.10, "sigma_norm": 0.092, "rank": 1, "adjustments_summary": "p_st_HR:-16.8%, h_single:+12.8%, h_hr:+12.3%, p_su_K:+11.5%, c_K:+9.8%, h_k:-9.3%", "decision_note": "상한선 후보: 최대 잠재력 시나리오. 4-5개 차원 동시 보강 필요 → 실현 난도 높음"},
+    {"key": "nsga_balanced", "source": "NSGA-II", "label": "NSGA-II: 균형 (Balanced, σ=8.2%)", "delta": 16.65, "predicted_W": 106.45, "sigma_norm": 0.082, "rank": 2, "adjustments_summary": "p_st_HR:-17.6%, h_single:+11.7%, c_K:+10.0%, h_k:-9.2%, p_cl_BAB:-7.3%, p_cl_BB:-6.9%", "decision_note": "TOPSIS 추천: 잔차 -9 만회 + 추가 +8승. 동시 보강 4-5차원이 필요한 이상 시나리오"},
+    {"key": "nsga_conservative", "source": "NSGA-II", "label": "NSGA-II: 보수적 (Conservative, σ=3.1%)", "delta": 1.50, "predicted_W": 91.30, "sigma_norm": 0.031, "rank": 3, "adjustments_summary": "h_hr:+6.8%, h_k:+5.1%, h_single:+3.9%, p_cl_BB:+2.9%, p_cl_BAB:+2.5%, c_K:+2.2%", "decision_note": "최소 변경: noise 영역 (Δ +1.5승, baseline 표준편차 안). 실효성 약함 — '대대적 변화 없으면 효과 미미' 메시지"},
+    {"key": "manual_baseline", "source": "수동", "label": "Baseline 2025", "delta": 0.000, "predicted_W": 89.80, "rank": 4, "decision_note": "조정 없음. 시뮬 baseline (잔차 -0.2승, 시뮬 메커니즘이 잔차 거의 못 잡음)"},
 ]
 
 _SCENARIO_BY_KEY = {row["key"]: row for row in _SCENARIO_ROWS}
@@ -103,22 +99,40 @@ _OPTIMIZATION_ROWS = [
 _OPTIMIZATION_BY_KEY = {row["key"]: row for row in _OPTIMIZATION_ROWS}
 
 _SCENARIO_ALIASES = {
-    "aggressive": "pareto_aggressive",
-    "attack": "pareto_aggressive",
-    "pareto_aggressive": "pareto_aggressive",
-    "공격적": "pareto_aggressive",
-    "pareto 공격적": "pareto_aggressive",
-    "balanced": "pareto_balanced",
-    "balance": "pareto_balanced",
-    "topsis": "pareto_balanced",
-    "pareto_balanced": "pareto_balanced",
-    "균형": "pareto_balanced",
-    "균형점": "pareto_balanced",
-    "pareto 균형점": "pareto_balanced",
-    "conservative": "pareto_conservative",
-    "pareto_conservative": "pareto_conservative",
-    "보수적": "pareto_conservative",
-    "pareto 보수적": "pareto_conservative",
+    # NSGA-II v5 archetype (12차원 σ NSGA-II 다목적 최적화)
+    "aggressive": "nsga_aggressive",
+    "attack": "nsga_aggressive",
+    "nsga_aggressive": "nsga_aggressive",
+    "공격적": "nsga_aggressive",
+    "nsga 공격적": "nsga_aggressive",
+    "nsga-ii 공격적": "nsga_aggressive",
+    "balanced": "nsga_balanced",
+    "balance": "nsga_balanced",
+    "topsis": "nsga_balanced",
+    "nsga_balanced": "nsga_balanced",
+    "균형": "nsga_balanced",
+    "균형점": "nsga_balanced",
+    "nsga 균형": "nsga_balanced",
+    "nsga-ii 균형": "nsga_balanced",
+    "conservative": "nsga_conservative",
+    "nsga_conservative": "nsga_conservative",
+    "보수적": "nsga_conservative",
+    "nsga 보수적": "nsga_conservative",
+    "nsga-ii 보수적": "nsga_conservative",
+    # 하위 호환 (옛 Pareto/Phase 8 명칭 → NSGA-II로 매핑)
+    "pareto_aggressive": "nsga_aggressive",
+    "pareto 공격적": "nsga_aggressive",
+    "phase8_max": "nsga_aggressive",
+    "phase8 잔차 초과": "nsga_aggressive",
+    "pareto_balanced": "nsga_balanced",
+    "pareto 균형점": "nsga_balanced",
+    "phase8_recovery": "nsga_balanced",
+    "phase8 잔차 만회": "nsga_balanced",
+    "pareto_conservative": "nsga_conservative",
+    "pareto 보수적": "nsga_conservative",
+    "phase8_safe": "nsga_conservative",
+    "phase8 소폭": "nsga_conservative",
+    # 수동 시나리오
     "bullpen_sv70": "manual_bullpen_upgrade",
     "manual_bullpen_sv70": "manual_bullpen_upgrade",
     "manual_bullpen_upgrade": "manual_bullpen_upgrade",
@@ -139,21 +153,12 @@ _SCENARIO_ALIASES = {
     "manual_langford": "hitter_boost",
     "langford 도약": "hitter_boost",
     "랭포드 도약": "hitter_boost",
+    # 최적화 메서드 alias
     "nsga2": "nsga2_max",
     "nsga-ii": "nsga2_max",
     "pareto max": "nsga2_max",
     "pareto 최대": "nsga2_max",
     "nsga2_max": "nsga2_max",
-    # Phase 8 시뮬 12차원 σ
-    "phase8_max": "phase8_max",
-    "phase8 max": "phase8_max",
-    "phase8 잔차 초과": "phase8_max",
-    "phase8_recovery": "phase8_recovery",
-    "phase8 recovery": "phase8_recovery",
-    "phase8 잔차 만회": "phase8_recovery",
-    "phase8_safe": "phase8_safe",
-    "phase8 safe": "phase8_safe",
-    "phase8 소폭": "phase8_safe",
 }
 
 
@@ -189,14 +194,8 @@ def list_precomputed_scenarios() -> dict:
         scen = str(row.get("label", ""))
         src = str(row.get("source", ""))
         delta = float(row.get("delta", 0.0))
-        if src == "Phase 8":
-            return row.get("decision_note", "시뮬 12차원 σ 직접 평가 후보")
-        if src == "Pareto" and "공격적" in scen:
-            return "상한선 후보: 개선 가능성은 가장 크지만 불확실성 확인 필요"
-        if src == "Pareto" and "균형점" in scen:
-            return "균형 후보: 개선 폭과 안정성의 기본 비교점"
-        if src == "Pareto" and "보수적" in scen:
-            return "안정 후보: 모델 간 의견 차이가 작을 때 참고"
+        if src == "NSGA-II":
+            return row.get("decision_note", "NSGA-II 12차원 σ 다목적 최적화 후보")
         if src == "수동" and ("희망" in scen or "Hopeful" in scen):
             return "야구적으로 설명 가능한 현실적 개선 후보"
         if src == "수동" and ("비관" in scen or "부상" in scen):
@@ -217,17 +216,14 @@ def list_precomputed_scenarios() -> dict:
 
 
 def get_optimization_summary() -> dict:
-    """Notebook v5/Phase 8 optimization summary."""
-    pareto_rows = [dict(r) for r in _SCENARIO_ROWS if r["key"].startswith("pareto_")]
-    phase8_rows = [dict(r) for r in _SCENARIO_ROWS if r["key"].startswith("phase8_")]
+    """NSGA-II v5 optimization summary."""
+    nsga_rows = [dict(r) for r in _SCENARIO_ROWS if r["key"].startswith("nsga_")]
     return {
         "methods": [dict(r) for r in _OPTIMIZATION_ROWS],
-        "pareto_representatives": pareto_rows,
-        "phase8_representatives": phase8_rows,
+        "nsga_representatives": nsga_rows,
         "available_lookup_keys": [
             "nsga2_max",
-            "pareto_aggressive", "pareto_balanced", "pareto_conservative",
-            "phase8_max", "phase8_recovery", "phase8_safe",
+            "nsga_aggressive", "nsga_balanced", "nsga_conservative",
         ],
     }
 
