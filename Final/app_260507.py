@@ -69,10 +69,6 @@ import views.ai_agent as v_ai_agent
 import views.conclusions as v_conclusions
 
 _APP_DIR = Path(__file__).resolve().parent
-_V5_OUTPUT_FILES = {
-    "Pareto": _APP_DIR / "output" / "pareto_summary.csv",
-    "Decision Leaderboard": _APP_DIR / "output" / "scenario_decision_leaderboard.csv",
-}
 
 # ── 전역 CSS ────────────────────────────────────────────────────────
 st.markdown("""
@@ -1730,10 +1726,6 @@ with st.sidebar:
         _nav_btn("  Armstrong", "armstrong")
         _nav_btn("  Jackson",   "jackson")
     _nav_btn("  Methodology", "methodology")
-
-    _missing_v5_outputs = [name for name, path in _V5_OUTPUT_FILES.items() if not path.exists()]
-    if _missing_v5_outputs:
-        st.warning("v5 출력 파일 누락: " + ", ".join(_missing_v5_outputs))
 
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
     st.markdown('<span class="sidebar-nav-section">Output</span>', unsafe_allow_html=True)
