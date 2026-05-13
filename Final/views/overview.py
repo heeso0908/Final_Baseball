@@ -8,7 +8,7 @@ def show():
     page_hero(
         "Overview",
         "2025 TEX 잔차 분석 대시보드",
-        "이 대시보드는 2025 텍사스 레인저스가 통계적으로 기대되는 승수(90.1승)보다 9승이나 적은 81승에 그친 이유를 분석합니다.<br>"
+        "이 대시보드는 2025 텍사스 레인저스가 통계적으로 기대되는 승수(90.1승)보다 9.1승 적은 81승에 그친 이유를 분석합니다.<br>"
         "경기 운영·선수 상태·투구 동작을 단계적으로 살펴보고, 마지막으로 어떤 변화가 승수를 개선할 수 있는지 비교합니다.",
         [("Pythagorean Residual", "white"), ("Game & Player Analysis", "white"), ("Scenario Simulation", "white")],
     )
@@ -165,7 +165,7 @@ def show():
                 <li>1점차, 연장전, 세이브 상황</li>
                 <li>월별 득실과 일정 흐름</li>
             </ul>
-            <p style="color:#64748B; font-size:13px;">→ 9승 차이가 어디서 발생했는지 확인</p>
+            <p style="color:#64748B; font-size:13px;">→ -9.1승 잔차가 어디서 발생했는지 확인</p>
         </div>
         """, unsafe_allow_html=True)
     with col2:

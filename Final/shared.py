@@ -1219,7 +1219,7 @@ def _team_strength_lines() -> list[str]:
     lines.extend([f"- {item}" for item in weaknesses[:4]] or ["- 리그 최하위권 지표는 많지 않지만, 하이 레버리지 투수 운영에서 실제 승수 손실이 커졌습니다."])
     lines.append(
         "- 투수 지표(ERA) 기준으로는 강팀이지만, 블론 세이브 누적과 접전 승률 하락이 실제 승수를"
-        " 기대치보다 약 9승 끌어내렸습니다."
+        " 기대치보다 9.1승 끌어내렸습니다."
     )
     return lines
 
@@ -1525,7 +1525,7 @@ def _team_bullpen_lines() -> list[str]:
                 f"- 팀 전체: {sv}세이브 / {bs}블론 / 총 {total}기회 / 블론율 {bs_rate:.0f}% / 상황 ERA {era}"
             )
             lines.append(
-                f"  → BS {bs}회는 MLB 28위권 수준 — ERA 1위(실점 억제 최고)이면서도 잔차 -9승이 생긴"
+                f"  → BS {bs}회는 MLB 28위권 수준 — ERA 1위(실점 억제 최고)이면서도 잔차 -9.1승이 생긴"
                 f" 핵심 이유가 바로 세이브 상황 붕괴입니다."
             )
         except Exception:
@@ -1776,7 +1776,7 @@ def _team_pitching_staff_lines() -> list[str]:
     lines += [
         f"  → Jackson·Armstrong·Garcia 세 명이 세이브를 {total_sv}개 나눠 가졌습니다.",
         f"    단일 마무리가 정착하지 못한 상태에서 팀 전체 블론 {total_bs_team}회가 누적됐고,",
-        f"    '잡은 리드를 지키지 못하는' 패턴이 -9.06승 잔차의 가장 큰 구조적 원인입니다.",
+        f"    '잡은 리드를 지키지 못하는' 패턴이 -9.1승 잔차의 가장 큰 구조적 원인입니다.",
     ]
 
     return lines
@@ -2258,7 +2258,7 @@ def _legacy_build_player_report_pdf(player: str) -> bytes:
             )
     lines = [
         "Purpose",
-        "2025 Texas Rangers의 실제 81승과 피타고리안 기대 승수 90.06승 사이의 -9.06승 잔차를 설명하기 위한 선수별 보조 보고서입니다.",
+        "2025 Texas Rangers의 실제 81승과 피타고리안 기대 승수 90.1승 사이의 -9.1승 잔차를 설명하기 위한 선수별 보조 보고서입니다.",
         "이 문서는 Simulation 의사결정 후보를 해석할 때 코칭 가능 영역과 운영·보강 영역을 구분하는 근거로 사용합니다.",
         "",
         "Player Info",
@@ -2277,7 +2277,7 @@ def _legacy_build_player_report_pdf(player: str) -> bytes:
         finding.get("recommendation", "-"),
         "",
         "Interpretation Note",
-        "이 보고서는 모션 분석을 잔차 분석의 하위 근거로 사용합니다. 단일 선수의 폼만으로 -9.06승 전체를 설명하지 않고, 경기력·선수 운영·Simulation 의사결정 후보와 함께 해석해야 합니다.",
+        "이 보고서는 모션 분석을 잔차 분석의 하위 근거로 사용합니다. 단일 선수의 폼만으로 -9.1승 전체를 설명하지 않고, 경기력·선수 운영·Simulation 의사결정 후보와 함께 해석해야 합니다.",
     ]
     buffer = BytesIO()
     with PdfPages(buffer) as pdf:
@@ -2288,7 +2288,7 @@ def _legacy_build_player_report_pdf(player: str) -> bytes:
 def _legacy_build_team_report_pdf() -> bytes:
     lines = [
         "Purpose",
-        "2025 Texas Rangers는 실제 81승, 피타고리안 기대 승수 90.06승으로 -9.06승 잔차를 기록했습니다.",
+        "2025 Texas Rangers는 실제 81승, 피타고리안 기대 승수 90.1승으로 -9.1승 잔차를 기록했습니다.",
         "본 대시보드는 이 차이를 설명하기 위해 경기력 분석, 선수 분석, 하이 레버리지 부진 대표 케이스 동작 분석, 시뮬레이션 의사결정 후보 비교를 순서대로 연결합니다.",
         "",
         "Analysis Flow",
@@ -2306,7 +2306,7 @@ def _legacy_build_team_report_pdf() -> bytes:
     lines.extend([
         "",
         "Team Conclusion",
-        "하이 레버리지 부진 케이스 동작 분석은 9승 차이의 전체 원인이 아니라, 선수·운영 분석을 더 구체화하는 보조 근거입니다.",
+        "하이 레버리지 부진 케이스 동작 분석은 -9.1승 잔차의 전체 원인이 아니라, 선수·운영 분석을 더 구체화하는 보조 근거입니다.",
         "Webb처럼 코칭 가능한 폼 분기가 있는 선수와 Garcia처럼 모션 외 요인을 우선 검토해야 하는 선수를 분리하는 것이 핵심입니다.",
         "최종 판단은 시뮬레이션의 의사결정 후보 순위표를 중심으로, 승수 개선 폭과 예측 안정성, 선수별 전망, 하이 레버리지 부진 케이스 동작 분석 근거를 함께 종합해야 합니다.",
     ])
@@ -2325,7 +2325,7 @@ def build_player_report_pdf(player: str) -> bytes:
     lines = [
         "Purpose",
         "2025 Texas Rangers는 81승을 했습니다. 하지만 *득점·실점만 보면 90승*을 했어야 합니다 (피타고리안 기댓값).",
-        "이 9승의 차이를 *어디서 잃었는지* 알아내려고, 결정적 순간(연장전·1점차·만루 등)에서 부진했던 투수를 골라",
+        "이 -9.1승의 차이를 *어디서 잃었는지* 알아내려고, 결정적 순간(연장전·1점차·만루 등)에서 부진했던 투수를 골라",
         "성적·상황별 결과·3D 폼 분석을 합쳐 *코칭으로 풀 부분*과 *운영·배치로 풀 부분*을 구분합니다.",
         "",
         "Player Info",
@@ -2359,7 +2359,7 @@ def build_player_report_pdf(player: str) -> bytes:
         "",
         "Interpretation Note",
         "이 보고서는 모션 분석을 잔차 분석의 하위 근거로 사용합니다.",
-        "단일 선수의 폼만으로 -9.06승 전체를 설명하지 않고, 경기 운영·Simulation 의사결정 후보와 함께 해석해야 합니다.",
+        "단일 선수의 폼만으로 -9.1승 전체를 설명하지 않고, 경기 운영·Simulation 의사결정 후보와 함께 해석해야 합니다.",
         "- 코칭 가능 신호가 명확한 선수(Webb)와 운영·배치로 풀어야 할 선수(Garcia 등)를 분리하는 것이 핵심입니다.",
     ]
     buffer = BytesIO()
@@ -2372,13 +2372,13 @@ def build_player_report_pdf(player: str) -> bytes:
 def build_team_report_pdf() -> bytes:
     lines = [
         "Purpose",
-        "2025 Texas Rangers는 실제 81승, 피타고리안 기대 승수 90.06승으로 -9.06승의 잔차를 기록했습니다.",
+        "2025 Texas Rangers는 실제 81승, 피타고리안 기대 승수 90.1승으로 -9.1승의 잔차를 기록했습니다.",
         "팀 전체 리포트는 잔차 요약, 타격·수비 지표, 투수 지표 강약점,",
         "월별 성적 흐름, 주요 선수 결장 현황, 불펜 운영, 클러치·이닝 분석, 최종 결론을 한 흐름으로 정리합니다.",
         "",
         "Residual Summary",
-        "Actual Wins: 81.0  ·  피타고리안 Expected: 90.06  ·  Residual: -9.06 wins",
-        "- 득실점 기반 기대 승수보다 실제 승수가 약 9승 낮았습니다.",
+        "Actual Wins: 81.0  ·  피타고리안 Expected: 90.1  ·  Residual: -9.1 wins",
+        "- 득실점 기반 기대 승수보다 실제 승수가 9.1승 낮았습니다.",
         "- 이 차이는 전력 약세만이 아니라 접전 운영·세이브 실패·승패 타이밍의 누적 결과입니다.",
         "",
         "Batting Stats",
@@ -2436,7 +2436,7 @@ def build_team_report_pdf() -> bytes:
 
     lines += [
         "Team Conclusion",
-        f"ERA {_era_str}이면서 -9.06승 잔차 — 이것이 2025 Rangers의 핵심 모순입니다.",
+        f"ERA {_era_str}이면서 -9.1승 잔차 — 이것이 2025 Rangers의 핵심 모순입니다.",
         f"실점 억제는 리그 최고 수준이었으나, 블론 세이브(29회)가 이 이점을 승리로 전환하는 데 실패했습니다.",
         f"FIP {_fip_str}로 ERA-FIP 괴리가 있어 수비·운 보정 시 실질 구위는 ERA보다 낮게 재평가됩니다.",
         "타선 깊이 부재(Seager 이외 중심타선 없음)·불펜 핵심 인원 부상 이탈·9월 급락이 잔차를 구조적으로 누적시켰습니다.",

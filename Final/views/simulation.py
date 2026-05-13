@@ -21,6 +21,7 @@ NAVY_SOFT = "#243A5E"
 CHART_GRAY = "#B8BDC7"
 CHART_MUTED = "#667085"
 CHART_GREEN = "#2F9E65"
+QUICK_SIM_RUNS = DEFAULT_SIM_RUNS
 
 SCENARIO_LABELS = {
     "Baseline 2025": "기준 시뮬레이션 (조정 없음)",
@@ -428,10 +429,10 @@ def show():
     with run_col:
         simulation_runs = st.slider(
             "반복 실행 횟수",
-            min_value=1,
+            min_value=100,
             max_value=1000,
-            value=int(st.session_state.get("sim_runs", DEFAULT_SIM_RUNS)),
-            step=1,
+            value=int(st.session_state.get("sim_runs", QUICK_SIM_RUNS)),
+            step=100,
             key="simulation_runs_slider",
         )
     selected_scenario = SCENARIO_KEYS.get(selected_scenario_label, selected_scenario_label)
@@ -442,7 +443,7 @@ def show():
         <div style="font-size:14px; line-height:1.85; color:#334155; padding:10px 6px 24px;">
         통합 시뮬레이션 엔진(integrated_sim) 사용 중 — 타자 Markov(simulator.py) + 투수 Markov(markov_pitching.py) +
         Phase 6-7' 메커니즘(하이 레버리지 패널티, closer 타이밍, 시기별 불펜 풀) 반영<br>
-        설정한 반복 횟수만큼 실행되며 완료까지 수 분이 걸릴 수 있습니다.
+        빠른 대화형 엔진으로 실행됩니다. 반복 횟수가 높을수록 안정적이지만 시간이 더 걸립니다.
         </div>
         """, unsafe_allow_html=True)
 
@@ -456,20 +457,19 @@ def show():
     if "simulation_result" not in st.session_state:
         st.session_state["simulation_result"] = None
         st.session_state["sim_scenario"] = scenario_keys[0]
-        st.session_state["sim_runs"] = DEFAULT_SIM_RUNS
+        st.session_state["sim_runs"] = QUICK_SIM_RUNS
 
     if st.session_state.get("simulation_result") is None and RAW_DIR.exists():
-        initial_runs = 1
         try:
             with st.spinner("기준 시뮬레이션 불러오는 중..."):
                 st.session_state["simulation_result"] = get_simulation_result(
                     str(RAW_DIR),
                     scenario_keys[0],
-                    initial_runs,
-                    fast_mode=False,
+                    QUICK_SIM_RUNS,
+                    fast_mode=True,
                 )
                 st.session_state["sim_scenario"] = scenario_keys[0]
-                st.session_state["sim_runs"] = initial_runs
+                st.session_state["sim_runs"] = QUICK_SIM_RUNS
                 st.session_state["sim_custom_stats"] = None
                 st.session_state["sim_custom_boosts"] = None
         except Exception as exc:
@@ -487,7 +487,7 @@ def show():
                     simulation_runs,
                     custom_stats=custom_stats,
                     custom_boosts=custom_boosts,
-                    fast_mode=False,
+                    fast_mode=True,
                 )
                 st.session_state["sim_scenario"] = selected_scenario
                 st.session_state["sim_runs"] = simulation_runs
@@ -804,7 +804,7 @@ def show():
             try:
                 with st.spinner("Baseline 2025 데이터 로딩 중..."):
                     base_result = get_simulation_result(
-                        str(RAW_DIR), "Baseline 2025", sim_runs_cmp, fast_mode=False
+                        str(RAW_DIR), "Baseline 2025", sim_runs_cmp, fast_mode=True
                     )
             except Exception as exc:
                 st.warning(f"Baseline 데이터 로딩 실패: {exc}")
@@ -822,13 +822,40 @@ def show():
                     if b_base is None or b_cur is None or b_base.empty or b_cur.empty:
                         st.info("타자 데이터가 없습니다.")
                     else:
-                        b_base_labeled = b_base.copy(); b_base_labeled["시나리오"] = "Baseline 2025"
-                        b_cur_labeled  = b_cur.copy();  b_cur_labeled["시나리오"]  = cur_scenario
+                        b_base_labeled = b_base.copy()
+                        b_cur_labeled = b_cur.copy()
+                        hitter_rename = {
+                            "player": "선수",
+                            "pa": "PA/시즌",
+                            "ops": "OPS",
+                            "sim_on_base": "OBP",
+                            "sim_hr": "HR/시즌",
+                            "sim_k": "K Rate",
+                        }
+                        b_base_labeled = b_base_labeled.rename(columns=hitter_rename)
+                        b_cur_labeled = b_cur_labeled.rename(columns=hitter_rename)
+                        b_base_labeled["시나리오"] = "Baseline 2025"
+                        b_cur_labeled["시나리오"] = cur_scenario
                         combined = pd.concat([b_base_labeled, b_cur_labeled], ignore_index=True)
+                        if "선수" not in combined.columns or "OPS" not in combined.columns:
+                            st.info("비교에 필요한 타자 컬럼이 없습니다.")
+                            return
                         hitter_names = b_base_labeled["선수"].drop_duplicates().tolist()
                         default_idx = hitter_names.index("Wyatt Langford") if "Wyatt Langford" in hitter_names else 0
                         selected_hitter = st.selectbox("선수 선택", hitter_names, index=default_idx)
                         hitter_compare = combined[combined["선수"] == selected_hitter].copy()
+                        hitter_tooltips = [
+                            alt.Tooltip("시나리오:N", title="시나리오"),
+                            alt.Tooltip("OPS:Q", title="OPS", format=".3f"),
+                        ]
+                        for col, title, fmt in [
+                            ("AVG", "타율", ".3f"),
+                            ("OBP", "출루율", ".3f"),
+                            ("SLG", "장타율", ".3f"),
+                            ("HR/시즌", "홈런/시즌", ".1f"),
+                        ]:
+                            if col in hitter_compare.columns:
+                                hitter_tooltips.append(alt.Tooltip(f"{col}:Q", title=title, format=fmt))
                         compare_chart = (
                             alt.Chart(hitter_compare)
                             .mark_bar(cornerRadiusTopLeft=5, cornerRadiusTopRight=5)
@@ -843,19 +870,12 @@ def show():
                                     ),
                                     legend=None,
                                 ),
-                                tooltip=[
-                                    alt.Tooltip("시나리오:N",  title="시나리오"),
-                                    alt.Tooltip("OPS:Q",      title="OPS",    format=".3f"),
-                                    alt.Tooltip("AVG:Q",      title="타율",   format=".3f"),
-                                    alt.Tooltip("OBP:Q",      title="출루율", format=".3f"),
-                                    alt.Tooltip("SLG:Q",      title="장타율", format=".3f"),
-                                    alt.Tooltip("HR/시즌:Q",  title="홈런/시즌", format=".1f"),
-                                ],
+                                tooltip=hitter_tooltips,
                             )
                             .properties(height=300)
                         )
                         st.altair_chart(compare_chart, use_container_width=True)
-                        show_cols = ["시나리오", "PA/시즌", "AVG", "OBP", "SLG", "OPS", "HR/시즌", "BB/시즌", "K/시즌"]
+                        show_cols = ["시나리오", "선수", "PA/시즌", "AVG", "OBP", "SLG", "OPS", "HR/시즌", "BB/시즌", "K/시즌", "K Rate"]
                         show_cols = [c for c in show_cols if c in hitter_compare.columns]
                         st.dataframe(hitter_compare[show_cols], use_container_width=True, hide_index=True)
 
@@ -863,13 +883,40 @@ def show():
                     if p_base is None or p_cur is None or p_base.empty or p_cur.empty:
                         st.info("투수 데이터가 없습니다.")
                     else:
-                        p_base_labeled = p_base.copy(); p_base_labeled["시나리오"] = "Baseline 2025"
-                        p_cur_labeled  = p_cur.copy();  p_cur_labeled["시나리오"]  = cur_scenario
+                        p_base_labeled = p_base.copy()
+                        p_cur_labeled = p_cur.copy()
+                        pitcher_rename = {
+                            "player": "투수",
+                            "sim_era": "ERA",
+                            "sim_whip": "WHIP",
+                            "sim_k9": "K/9",
+                            "sim_ip": "IP/시즌",
+                        }
+                        p_base_labeled = p_base_labeled.rename(columns=pitcher_rename)
+                        p_cur_labeled = p_cur_labeled.rename(columns=pitcher_rename)
+                        p_base_labeled["시나리오"] = "Baseline 2025"
+                        p_cur_labeled["시나리오"] = cur_scenario
                         combined = pd.concat([p_base_labeled, p_cur_labeled], ignore_index=True)
+                        if "투수" not in combined.columns or "ERA" not in combined.columns:
+                            st.info("비교에 필요한 투수 컬럼이 없습니다.")
+                            return
                         pitcher_names = p_base_labeled["투수"].drop_duplicates().tolist()
                         default_idx = pitcher_names.index("Nathan Eovaldi") if "Nathan Eovaldi" in pitcher_names else 0
                         selected_pitcher = st.selectbox("투수 선택", pitcher_names, index=default_idx)
                         pitcher_compare = combined[combined["투수"] == selected_pitcher].copy()
+                        pitcher_tooltips = [
+                            alt.Tooltip("시나리오:N", title="시나리오"),
+                            alt.Tooltip("ERA:Q", title="ERA", format=".2f"),
+                        ]
+                        for col, title, fmt in [
+                            ("WHIP", "WHIP", ".2f"),
+                            ("K%", "K%", ".3f"),
+                            ("BB%", "BB%", ".3f"),
+                            ("K/9", "K/9", ".1f"),
+                            ("IP/시즌", "IP/시즌", ".1f"),
+                        ]:
+                            if col in pitcher_compare.columns:
+                                pitcher_tooltips.append(alt.Tooltip(f"{col}:Q", title=title, format=fmt))
                         compare_chart = (
                             alt.Chart(pitcher_compare)
                             .mark_bar(cornerRadiusTopLeft=5, cornerRadiusTopRight=5)
@@ -884,18 +931,11 @@ def show():
                                     ),
                                     legend=None,
                                 ),
-                                tooltip=[
-                                    alt.Tooltip("시나리오:N", title="시나리오"),
-                                    alt.Tooltip("ERA:Q",     title="ERA",  format=".2f"),
-                                    alt.Tooltip("WHIP:Q",    title="WHIP", format=".2f"),
-                                    alt.Tooltip("K%:Q",      title="K%",   format=".3f"),
-                                    alt.Tooltip("BB%:Q",     title="BB%",  format=".3f"),
-                                    alt.Tooltip("IP/시즌:Q", title="IP/시즌", format=".1f"),
-                                ],
+                                tooltip=pitcher_tooltips,
                             )
                             .properties(height=300)
                         )
                         st.altair_chart(compare_chart, use_container_width=True)
-                        show_cols = ["시나리오", "IP/시즌", "ERA", "WHIP", "K%", "BB%", "HR/시즌", "BB/시즌"]
+                        show_cols = ["시나리오", "투수", "IP/시즌", "ERA", "WHIP", "K%", "BB%", "K/9", "HR/시즌", "BB/시즌"]
                         show_cols = [c for c in show_cols if c in pitcher_compare.columns]
                         st.dataframe(pitcher_compare[show_cols], use_container_width=True, hide_index=True)

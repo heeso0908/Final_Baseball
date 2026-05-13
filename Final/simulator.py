@@ -3,6 +3,7 @@ from __future__ import annotations
 import bisect
 from dataclasses import dataclass
 import hashlib
+import json
 import pickle
 from pathlib import Path
 
@@ -23,7 +24,8 @@ except Exception:  # pragma: no cover
 SEASON = 2025
 TEAM_NAME = "Texas Rangers"
 TEAM_ABBR = "TEX"
-CACHE_VERSION = "sim-v8"
+CACHE_VERSION = "sim-v9"
+FAST_MODE_EXACT_SEASONS = 5
 
 SLOT_DEFS = [
     ("C", ["C"]),
@@ -448,7 +450,13 @@ def _advancement_cache_file(raw_dir: Path) -> Path:
     return cache_dir / f"advancement_{digest.hexdigest()[:16]}.pkl"
 
 
-def _simulation_cache_file(raw_dir: Path, scenario_name: str, n_sims: int) -> Path:
+def _simulation_cache_file(
+    raw_dir: Path,
+    scenario_name: str,
+    n_sims: int,
+    custom_stats: dict | None = None,
+    custom_boosts: dict | None = None,
+) -> Path:
     cache_dir, _ = _bundle_cache_paths(raw_dir)
     watched_files = [
         "batting_stats_2025_all.csv",
@@ -470,6 +478,8 @@ def _simulation_cache_file(raw_dir: Path, scenario_name: str, n_sims: int) -> Pa
     digest.update(_bundle_signature(raw_dir).encode("utf-8"))
     digest.update(scenario_name.encode("utf-8"))
     digest.update(str(n_sims).encode("utf-8"))
+    digest.update(json.dumps(custom_stats or {}, sort_keys=True).encode("utf-8"))
+    digest.update(json.dumps(custom_boosts or {}, sort_keys=True).encode("utf-8"))
     for name in watched_files:
         path = raw_dir / name
         stat = path.stat()
@@ -1086,6 +1096,17 @@ def _lineup_probs_as_dict(probs_tuple: tuple) -> dict[str, float]:
     return dict(zip(evts, weights))
 
 
+def _lineup_probs_as_tuple(probs: dict[str, float]) -> tuple[list[str], list[float]]:
+    """{event: prob} dict → 타석 루프에서 바로 쓰는 (events, cum_weights) 튜플."""
+    evts = list(probs.keys())
+    cum: list[float] = []
+    total = 0.0
+    for value in probs.values():
+        total += float(value)
+        cum.append(total)
+    return evts, cum
+
+
 def _build_player_projection_table(
     batting_pool: pd.DataFrame,
     sprint_map: dict[str, float],
@@ -1499,9 +1520,9 @@ def _simulate_schedule(
 
             adjusted_probs = []
             for probs in lineup_probs:
-                p1 = _scale_probs_for_park(probs, park)
+                p1 = _scale_probs_for_park(_lineup_probs_as_dict(probs), park)
                 p2 = _adjust_probs_for_pitcher(p1, **pitch_adj)
-                adjusted_probs.append(p2)
+                adjusted_probs.append(_lineup_probs_as_tuple(p2))
 
             starter = starters.iloc[int(np.random.choice(len(starters), p=weights))]
             park_factor = park.get("overall", 1.0)
@@ -1596,9 +1617,9 @@ def run_simulation(
 ) -> dict[str, object]:
     raw_path = Path(raw_dir)
 
-    use_cache = fast_mode and custom_stats is None and custom_boosts is None
+    use_cache = fast_mode
     if use_cache:
-        cache_file = _simulation_cache_file(raw_path, scenario_name, n_sims)
+        cache_file = _simulation_cache_file(raw_path, scenario_name, n_sims, custom_stats, custom_boosts)
         if cache_file.exists():
             try:
                 with cache_file.open("rb") as handle:
@@ -1642,6 +1663,7 @@ def run_simulation(
     schedule_context = _build_schedule_context(schedule_df, opponent_strength)
     series_context = _build_series_context(schedule_df, opponent_strength)
 
+    schedule_sims = min(n_sims, FAST_MODE_EXACT_SEASONS) if fast_mode else n_sims
     raw_distribution, monthly_summary, series_summary = _simulate_schedule(
         schedule_df=schedule_df,
         lineup_pool=lineup_pool,
@@ -1652,11 +1674,13 @@ def run_simulation(
         opponent_strength=opponent_strength,
         park_factors=park_factors,
         opponent_pitch_factors=opponent_pitch_factors,
-        n_sims=n_sims,
+        n_sims=schedule_sims,
     )
 
     residual_bonus = _predict_residual(bundle, effective_stats)
     calibration_offset = _calibration_offset(bundle)
+    if fast_mode and schedule_sims < n_sims:
+        raw_distribution = np.random.choice(raw_distribution, size=n_sims, replace=True)
     noise = np.random.normal(0.0, bundle.ensemble_cv_mae, size=n_sims)
     adjusted = np.clip(raw_distribution + residual_bonus + calibration_offset + noise, 55.0, 110.0)
     distribution = pd.DataFrame({"wins": adjusted.round(2)})
